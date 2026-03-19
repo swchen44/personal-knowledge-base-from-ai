@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [【外商秘密】努力十年還卡在同級別？揭露 Competency 三大模型](./Career/2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS.md) — 外商人資 Jasmin 揭露外商晉升的核心標準：Competency 三大模型（思維、行為、合作能力），以及為何台灣人常在外商受挫
 - [【Stakeholder #1】為什麼你做得越多，反而越容易被卡？](./Career/2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH.md) — HR Jasmin 揭露：努力錯方向比不努力更危險，真正的 Stakeholder 不是你的直屬主管
 - [gitagent — Git 原生 AI 代理人框架無關標準深度分析](./CodeAnalysis/2026-02-24-GITAGENT-GIT-NATIVE-AI-AGENT-STANDARD.md) — Git Repository 就是你的 Agent：框架無關、可版本控制、內建 FINRA 合規驗證的 AI 代理人定義標準
 - [GNAP — Git 原生代理人協議程式碼深度分析](./CodeAnalysis/2026-03-12-GNAP-GIT-NATIVE-AGENT-PROTOCOL.md) — 零基礎設施的多代理人協調協議：4 種 JSON 實體 + git = 完整 AI 代理人協作平台
