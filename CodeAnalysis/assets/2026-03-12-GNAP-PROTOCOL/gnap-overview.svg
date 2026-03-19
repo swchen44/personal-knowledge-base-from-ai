@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="git" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f97316"/>
+      <stop offset="100%" style="stop-color:#fb923c"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="540" fill="url(#bg)" rx="12"/>
+
+  <!-- Title -->
+  <text x="480" y="52" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700">GNAP</text>
+  <text x="480" y="78" text-anchor="middle" fill="#8b949e" font-size="14">Git-Native Agent Protocol</text>
+
+  <!-- Agent boxes -->
+  <!-- Agent A (Human) -->
+  <rect x="60" y="160" width="180" height="200" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="150" y="192" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600">Alice (Human)</text>
+  <text x="150" y="212" text-anchor="middle" fill="#8b949e" font-size="11">CEO</text>
+  <rect x="80" y="228" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="150" y="247" text-anchor="middle" fill="#c9d1d9" font-size="11">creates tasks</text>
+  <rect x="80" y="264" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="150" y="283" text-anchor="middle" fill="#c9d1d9" font-size="11">reviews work</text>
+  <rect x="80" y="300" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="150" y="319" text-anchor="middle" fill="#c9d1d9" font-size="11">sends directives</text>
+
+  <!-- Agent B (AI - OpenClaw) -->
+  <rect x="720" y="110" width="180" height="160" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="810" y="142" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600">Bot-1 (AI)</text>
+  <text x="810" y="162" text-anchor="middle" fill="#8b949e" font-size="11">OpenClaw</text>
+  <rect x="740" y="178" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="810" y="197" text-anchor="middle" fill="#c9d1d9" font-size="11">picks up tasks</text>
+  <rect x="740" y="214" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="810" y="233" text-anchor="middle" fill="#c9d1d9" font-size="11">records runs</text>
+
+  <!-- Agent C (AI - Claude) -->
+  <rect x="720" y="300" width="180" height="160" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="810" y="332" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600">Bot-2 (AI)</text>
+  <text x="810" y="352" text-anchor="middle" fill="#8b949e" font-size="11">Claude Code</text>
+  <rect x="740" y="368" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="810" y="387" text-anchor="middle" fill="#c9d1d9" font-size="11">picks up tasks</text>
+  <rect x="740" y="404" width="140" height="28" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="810" y="423" text-anchor="middle" fill="#c9d1d9" font-size="11">sends messages</text>
+
+  <!-- Central .gnap/ repo -->
+  <rect x="340" y="140" width="280" height="280" rx="16" fill="#0d1117" stroke="url(#git)" stroke-width="2" filter="url(#glow)"/>
+  <text x="480" y="172" text-anchor="middle" fill="url(#git)" font-size="17" font-weight="700">.gnap/</text>
+
+  <!-- Entity boxes inside -->
+  <rect x="362" y="192" width="120" height="40" rx="8" fill="#1c2128" stroke="#f97316" stroke-width="1"/>
+  <text x="422" y="217" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">agents.json</text>
+
+  <rect x="498" y="192" width="100" height="40" rx="8" fill="#1c2128" stroke="#3fb950" stroke-width="1"/>
+  <text x="548" y="217" text-anchor="middle" fill="#3fb950" font-size="13" font-weight="600">tasks/</text>
+
+  <rect x="362" y="248" width="100" height="40" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1"/>
+  <text x="412" y="273" text-anchor="middle" fill="#58a6ff" font-size="13" font-weight="600">runs/</text>
+
+  <rect x="478" y="248" width="120" height="40" rx="8" fill="#1c2128" stroke="#bc8cff" stroke-width="1"/>
+  <text x="538" y="273" text-anchor="middle" fill="#bc8cff" font-size="13" font-weight="600">messages/</text>
+
+  <!-- Version badge -->
+  <rect x="432" y="308" width="96" height="30" rx="6" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+  <text x="480" y="328" text-anchor="middle" fill="#8b949e" font-size="11">version: 4</text>
+
+  <!-- Task state flow -->
+  <text x="480" y="370" text-anchor="middle" fill="#8b949e" font-size="10">ready → in_progress → review → done</text>
+
+  <!-- Arrows: Alice → .gnap/ -->
+  <line x1="240" y1="240" x2="336" y2="220" stroke="#f97316" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="278" y="218" text-anchor="middle" fill="#f97316" font-size="10" font-weight="600">git push</text>
+
+  <!-- Arrows: .gnap/ → Bot-1 -->
+  <line x1="624" y1="200" x2="716" y2="195" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="670" y="188" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">git pull</text>
+
+  <!-- Arrows: Bot-1 → .gnap/ -->
+  <line x1="716" y1="230" x2="624" y2="255" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="670" y="254" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="600">git push</text>
+
+  <!-- Arrows: .gnap/ → Bot-2 -->
+  <line x1="624" y1="290" x2="716" y2="365" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="682" y="320" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">git pull</text>
+
+  <!-- Footer -->
+  <text x="480" y="480" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="700">No servers. No databases. Just git.</text>
+  <text x="480" y="504" text-anchor="middle" fill="#8b949e" font-size="13">github.com/farol-team/gnap</text>
+  <text x="480" y="524" text-anchor="middle" fill="#484f58" font-size="11">MIT License · Farol Labs</text>
+</svg>
