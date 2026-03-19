@@ -21,16 +21,16 @@ links:
 
 ## Summary
 
-Skills 1.0（2025 年 10 月）是靜態範本，你寫指令、Claude 照著做。Skills 2.0（2026 年 1 月）是一個**回饋循環**：自動建立 skill、自動測試、自動 A/B 比較、自動優化觸發描述。一位開發者透過兩次優化循環，把 skill 成功率從 67% 提升到 94%。
+技能 1.0（Skills 1.0，2025 年 10 月）是靜態範本（static template），你寫指令、Claude 照著做。技能 2.0（Skills 2.0，2026 年 1 月）是一個**回饋循環（feedback loop）**：自動建立技能（skill）、自動測試、自動 A/B 比較、自動優化觸發描述（trigger description）。一位開發者透過兩次優化循環（optimization cycle），把技能成功率（skill success rate）從 67% 提升到 94%。
 
 ## Key Insights
 
-- **Skills 2.0 的本質是回饋循環，不是工具** — Skill Creator 建立、Eval 測試、A/B 量化、Description 優化，四個環節形成自我改善系統
-- **描述（Description）決定 skill 能否被載入** — 描述不夠廣，再好的 skill 也不會被觸發；優化後觸發準確率可從 40% 提升到 95%+
-- **Fork 模式解決 context 污染問題** — 重型 skill 在獨立 subagent 執行，結果傳回主對話，主 context 保持乾淨
-- **兩種 skill 的壽命截然不同** — 能力提升型（Capability Uplift）隨模型進步而退休；工作流程型（Workflow）隨時間累積成競爭優勢
-- **測試方法決定成功率** — 不測試 45%、手動測試 67%、結構化 eval 89%、eval + A/B 94%
-- **Skill Creator 比手動快 12 倍** — 手動建立 30-60 分鐘，Skill Creator 2-5 分鐘，且品質更高
+- **技能 2.0（Skills 2.0）的本質是回饋循環（feedback loop），不是工具** — 技能建立器（Skill Creator）建立、評估（eval）測試、A/B 量化、描述優化（description optimization），四個環節形成自我改善系統
+- **描述（description）決定技能（skill）能否被載入** — 描述不夠廣，再好的技能（skill）也不會被觸發；優化後觸發準確率（trigger accuracy）可從 40% 提升到 95%+
+- **分叉模式（fork mode）解決情境污染（context pollution）問題** — 重型技能（skill）在獨立子代理（subagent）執行，結果傳回主對話，主情境（main context）保持乾淨
+- **兩種技能（skill）的壽命截然不同** — 能力提升型（Capability Uplift）隨模型進步而退休（retire）；工作流程型（Workflow）隨時間累積成競爭優勢
+- **測試方法決定成功率** — 不測試 45%、手動測試 67%、結構化評估（structured eval）89%、評估（eval）+ A/B 94%
+- **技能建立器（Skill Creator）比手動快 12 倍** — 手動建立 30-60 分鐘，技能建立器（Skill Creator）2-5 分鐘，且品質更高
 
 ## Details
 
@@ -38,136 +38,136 @@ Skills 1.0（2025 年 10 月）是靜態範本，你寫指令、Claude 照著做
 
 | 面向 | Skills 1.0 | Skills 2.0 |
 |------|-----------|-----------|
-| 建立方式 | 手動建立資料夾、寫 SKILL.md | Skill Creator 自動生成 |
-| 測試 | 手動試幾次 | 結構化 eval，自動跑測試案例 |
-| 改善 | 靠感覺 | A/B testing，數據量化 |
-| 觸發優化 | 無 | 自動測試描述準確率 |
-| 執行隔離 | 無（共用 context） | Fork 模式（獨立 subagent） |
-| 更新生效 | 重啟 Claude | 熱更新（即時生效） |
+| 建立方式 | 手動建立資料夾、寫 SKILL.md | 技能建立器（Skill Creator）自動生成 |
+| 測試 | 手動試幾次 | 結構化評估（structured eval），自動跑測試案例（test case） |
+| 改善 | 靠感覺 | A/B 測試（A/B testing），數據量化 |
+| 觸發優化 | 無 | 自動測試描述準確率（description accuracy） |
+| 執行隔離 | 無（共用情境（context）） | 分叉模式（fork mode）（獨立子代理（subagent）） |
+| 更新生效 | 重啟 Claude | 熱更新（hot reload）（即時生效） |
 
 ---
 
-### 功能 1：Skill Creator（描述即建立）
+### 功能 1：技能建立器（Skill Creator）（描述即建立）
 
-**使用方式**：用自然語言描述需求，Skill Creator 提問澄清後自動生成完整 skill。
+**使用方式**：用自然語言描述需求，技能建立器（Skill Creator）提問澄清後自動生成完整技能（skill）。
 
 **自動生成的內容**：
 - 完整資料夾結構
-- SKILL.md（含 frontmatter）
+- SKILL.md（含前置資訊（frontmatter））
 - 輔助腳本（Python、bash 等）
-- 範本與範例
-- 測試案例
+- 範本（template）與範例
+- 測試案例（test case）
 - README 文件
 
-**實際案例（SEO Audit Skill）**：
+**實際案例（SEO 審查技能（SEO Audit Skill））**：
 - 輸入：「Create a skill to audit website SEO」
-- 輸出：分析 meta tags、headers、行動裝置相容性、Schema 標記，生成建議報告
+- 輸出：分析元標籤（meta tags）、標頭（headers）、行動裝置相容性、結構化資料標記（Schema markup），生成建議報告
 - 建立時間：2 分鐘（vs 手動 45 分鐘）
 
 ---
 
-### 功能 2：結構化 Eval（自動化測試）
+### 功能 2：結構化評估（Structured Evals）（自動化測試）
 
-**解決的問題**：Skills 1.0 沒有系統性測試，只能靠感覺判斷 skill 好不好。
+**解決的問題**：技能 1.0（Skills 1.0）沒有系統性測試，只能靠感覺判斷技能（skill）好不好。
 
-**Eval 流程**：
-1. Skill Creator 根據 skill 目的自動生成測試案例
-2. 對每個測試案例執行 skill
+**評估（Eval）流程**：
+1. 技能建立器（Skill Creator）根據技能（skill）目的自動生成測試案例（test case）
+2. 對每個測試案例（test case）執行技能（skill）
 3. 比對輸出與預期結果
-4. 回報通過率、失敗原因
-5. 根據失敗模式提出優化建議
+4. 回報通過率（pass rate）、失敗原因
+5. 根據失敗模式（failure pattern）提出優化建議
 
-**案例：保險理賠分類 Skill**
+**案例：保險理賠分類技能（Insurance Claim Triage Skill）**
 - 初始成功率：67%
 - 優化後：94%
 - 改善幅度：+40%
 
 ---
 
-### 功能 3：A/B Testing（量化改善效果）
+### 功能 3：A/B 測試（A/B Testing）（量化改善效果）
 
-**設計**：同樣的任務，有無 skill 各跑 10 個測試案例，比較結果。
+**設計**：同樣的任務，有無技能（skill）各跑 10 個測試案例（test case），比較結果。
 
 **實測數據**：
 
 | 任務 | 無 Skill | 有 Skill | 改善 |
 |------|---------|---------|------|
-| SEO Audit | 34% | 87% | +156% |
-| 保險理賠分類 | 67% | 94% | +40% |
-| PDF 表單處理 | 23% | 89% | +287% |
+| SEO 審查（SEO Audit） | 34% | 87% | +156% |
+| 保險理賠分類（Insurance Triage） | 67% | 94% | +40% |
+| PDF 表單處理（PDF Forms） | 23% | 89% | +287% |
 | **平均** | | | **+161%** |
 
-**PDF 表單 Skill 詳細數據**：
+**PDF 表單技能（PDF Form Skill）詳細數據**：
 - 成功率：23% → 89%（+287%）
 - 處理時間：45 秒 → 12 秒（快 3.75 倍）
 
 ---
 
-### 功能 4：觸發描述優化
+### 功能 4：觸發描述優化（Trigger Description Optimization）
 
-**問題**：Skill 完美，但 Claude 從不載入它——因為描述不夠廣。
+**問題**：技能（skill）完美，但 Claude 從不載入它——因為描述（description）不夠廣。
 
 **優化前後對比**：
 
 ```
-❌ 差的描述：
+❌ 差的描述（description）：
 description: Analyzes surveys
 
-✅ 好的描述：
+✅ 好的描述（description）：
 description: Process customer feedback surveys, user satisfaction surveys,
 NPS forms, or response data from CSV/JSON/Excel. Generate sentiment analysis
 and summary reports. Use when user mentions surveys, feedback, responses,
 or satisfaction data.
 ```
 
-**觸發準確率**：差的描述 40%，好的描述 95%+
+**觸發準確率（Trigger Accuracy）**：差的描述 40%，好的描述 95%+
 
-**好描述的要素**：
-- 包含同義詞（surveys/feedback/responses）
-- 提及檔案格式（CSV/JSON/Excel）
-- 說明輸出（sentiment/summary）
+**好描述（description）的要素**：
+- 包含同義詞（synonyms）（surveys/feedback/responses）
+- 提及檔案格式（file formats）（CSV/JSON/Excel）
+- 說明輸出（output）（sentiment/summary）
 - 解釋何時應觸發
 
-**Anthropic 的測試結果**：對 6 個公開 skill 進行優化，5 個改善觸發準確率，平均提升 33%。
+**Anthropic 的測試結果**：對 6 個公開技能（skill）進行優化，5 個改善觸發準確率（trigger accuracy），平均提升 33%。
 
 ---
 
-### 功能 5：Fork Context 模式（隔離執行）
+### 功能 5：分叉情境模式（Fork Context Mode）（隔離執行）
 
-**三種 Context 模式**：
+**三種情境模式（Context Mode）**：
 
-**Inline（預設，Skills 1.0 行為）**
-- Skill 指令加入主對話 context
-- 問題：指令一直佔用 token，可能影響不相關的任務
+**內嵌模式（Inline Mode）**（預設，Skills 1.0 行為）
+- 技能（skill）指令加入主對話情境（context）
+- 問題：指令一直佔用詞元（token），可能影響不相關的任務
 
-**Fork（Skills 2.0 新增）**
+**分叉模式（Fork Mode）**（Skills 2.0 新增）
 ```yaml
 ---
 name: my-skill
 context: fork
 ---
 ```
-- 建立獨立 subagent 執行 skill
+- 建立獨立子代理（subagent）執行技能（skill）
 - 只有結果傳回主對話
-- 主 context 保持乾淨
+- 主情境（main context）保持乾淨
 
-**何時用 Fork 模式**：
-- Skill 指令超過 2000 tokens
+**何時用分叉模式（Fork Mode）**：
+- 技能（skill）指令超過 2000 詞元（token）
 - 需要處理大型文件
-- 不希望 skill 邏輯留在主對話
-- Skill 會被反覆呼叫
+- 不希望技能（skill）邏輯留在主對話
+- 技能（skill）會被反覆呼叫
 
-**Context 節省**：重型 skill 用 Fork 模式可節省約 20% 主 context。
+**情境（Context）節省**：重型技能（skill）用分叉模式（fork mode）可節省約 20% 主情境（main context）。
 
-**Manual invoke only（防止自動觸發）**：
+**僅手動呼叫（Manual Invoke Only）**（防止自動觸發）：
 ```yaml
 disable-model-invocation: true  # 使用者必須明確呼叫 /skill-name
 ```
-適用於：破壞性操作、部署腳本、財務交易。
+適用於：破壞性操作（destructive operation）、部署腳本（deployment script）、財務交易。
 
 ---
 
-### 功能 6：熱更新（不需重啟）
+### 功能 6：熱更新（Hot Reload）（不需重啟）
 
 | | Skills 1.0 | Skills 2.0 |
 |---|-----------|-----------|
@@ -177,45 +177,45 @@ disable-model-invocation: true  # 使用者必須明確呼叫 /skill-name
 
 ---
 
-### 功能 7：Frontmatter 整合 Hooks 與 Agent
+### 功能 7：前置資訊整合鉤子與代理（Frontmatter Hooks & Agent）
 
 ```yaml
 ---
 name: deploy-to-prod
 description: Deploy application to production
 hooks:
-  before: ./pre-deploy-checks.sh   # 執行前驗證
-  after: ./post-deploy-notify.sh   # 執行後通知
+  before: ./pre-deploy-checks.sh   # 執行前驗證（pre-execution validation）
+  after: ./post-deploy-notify.sh   # 執行後通知（post-execution notification）
 allowed-tools:
   - Bash(git*)
   - Bash(docker*)
 ---
 ```
 
-**自訂 Agent 模型**：
+**自訂代理（Agent）模型**：
 ```yaml
-agent: gpt-4-turbo  # 指定此 skill 使用的模型
+agent: gpt-4-turbo  # 指定此技能（skill）使用的模型（model）
 ```
 
 應用場景：
-- 成本優化（簡單 skill 用 Haiku）
-- 能力匹配（複雜推理用 Opus）
-- 跨模型效能比較
+- 成本優化（cost optimization）（簡單技能（skill）用 Haiku）
+- 能力匹配（capability matching）（複雜推理用 Opus）
+- 跨模型效能比較（cross-model performance comparison）
 
 ---
 
 ### 兩種 Skill 類型
 
 **能力提升型（Capability Uplift）**
-- 目的：填補模型能力缺口（暫時性）
+- 目的：填補模型（model）能力缺口（暫時性）
 - 例：PDF 表單處理、PowerPoint 生成、Excel 公式
-- 壽命：有限，模型進步後自然退休
-- 判斷退休時機：Benchmark 顯示基礎模型已通過 eval
+- 壽命：有限，模型（model）進步後自然退休（retire）
+- 判斷退休（retire）時機：基準測試（benchmark）顯示基礎模型（base model）已通過評估（eval）
 
 **工作流程型（Workflow/Preference）**
-- 目的：將特定流程自動化（永久性）
-- 例：品牌語調、NDA 審查、財務報告格式、Code Review 標準
-- 壽命：無限期，隨時間累積成組織知識
+- 目的：將特定流程（workflow）自動化（永久性）
+- 例：品牌語調（brand voice）、保密協議審查（NDA review）、財務報告格式、程式碼審查（code review）標準
+- 壽命：無限期，隨時間累積成組織知識（organizational knowledge）
 - 價值：隨使用增加而增長
 
 ---
@@ -224,17 +224,17 @@ agent: gpt-4-turbo  # 指定此 skill 使用的模型
 
 **Rakuten 財務團隊**：
 - 月度會計報告：8 小時 → 1 小時（節省 87.5%）
-- 額外效益：發現人工審閱漏掉的異常
+- 額外效益：發現人工審閱漏掉的異常值（anomaly）
 
 **Box 內容轉換**：
 - 將 Box 儲存的文件自動轉換成 PowerPoint、Excel、Word
 - 從幾小時縮短到幾分鐘
 
 **醫療生命科學（2026 年 2 月新 Skills）**：
-- FHIR Development Skill（醫療資料交換標準）
-- Prior Authorization Review（保險預授權審查）
-- Clinical Trial Protocol Draft（臨床試驗協議草稿）
-- 生物資訊學套件（scVI-tools、Nextflow）
+- FHIR 開發技能（FHIR Development Skill）（醫療資料交換標準）
+- 預授權審查（Prior Authorization Review）（保險預授權審查）
+- 臨床試驗協議草稿（Clinical Trial Protocol Draft）
+- 生物資訊學套件（Bioinformatics Bundle）（scVI-tools、Nextflow）
 
 ---
 
@@ -244,8 +244,8 @@ agent: gpt-4-turbo  # 指定此 skill 使用的模型
 |---------|-------|
 | 不測試 | 45% |
 | 手動測試（5 個案例） | 67% |
-| 結構化 eval（10+ 個案例） | 89% |
-| Eval + A/B 測試 | 94% |
+| 結構化評估（structured eval）（10+ 個案例） | 89% |
+| 評估（eval）+ A/B 測試（A/B testing） | 94% |
 
 ---
 
@@ -253,11 +253,11 @@ agent: gpt-4-turbo  # 指定此 skill 使用的模型
 
 | 工具 | 特點 | 限制 |
 |------|------|------|
-| **Prompts** | 一次性指令，每次重寫 | 無優化回饋，手動維護 |
-| **Projects（Claude.ai）** | 持久化 context | 所有指令始終載入，無結構化測試 |
-| **Custom GPTs（OpenAI）** | 獨立 bot | 平台鎖定，無版本控制 |
-| **MCP** | 連接外部工具/即時資料 | 整合導向，非工作流程導向 |
-| **Skills 2.0** | 模組化、可跨平台、有 eval | — |
+| **提示詞（Prompts）** | 一次性指令，每次重寫 | 無優化回饋（optimization feedback），手動維護 |
+| **專案（Projects）（Claude.ai）** | 持久化情境（persistent context） | 所有指令始終載入，無結構化測試 |
+| **自訂 GPT（Custom GPTs）（OpenAI）** | 獨立機器人（bot） | 平台鎖定（platform lock-in），無版本控制 |
+| **模型情境協議（MCP, Model Context Protocol）** | 連接外部工具（tool）/即時資料 | 整合導向，非工作流程（workflow）導向 |
+| **Skills 2.0** | 模組化、可跨平台、有評估（eval） | — |
 
 > [!note] MCP 與 Skills 2.0 是互補的
 > MCP：「這是來自 Slack 的即時資料」
@@ -269,15 +269,15 @@ agent: gpt-4-turbo  # 指定此 skill 使用的模型
 
 ```
 1. 更新到 Claude Code 2.1+
-2. 用 Skill Creator 描述工作流程（不要手動建立）
-3. 讓它自動生成 skill + 測試案例
-4. 執行結構化 eval
-5. 優化後 re-test
-6. 可選：跑 A/B test 量化效益
-7. 部署給團隊
+2. 用技能建立器（Skill Creator）描述工作流程（workflow）（不要手動建立）
+3. 讓它自動生成技能（skill）+ 測試案例（test case）
+4. 執行結構化評估（structured eval）
+5. 優化後重新測試（re-test）
+6. 可選：跑 A/B 測試（A/B testing）量化效益
+7. 部署（deploy）給團隊
 ```
 
-**版本控制 Skills**：
+**版本控制（Version Control）技能（Skills）**：
 ```bash
 cd ~/.claude/skills
 git init && git add . && git commit -m "Initial skills"
@@ -290,9 +290,9 @@ git push  # 分享給團隊
 
 ### 2026 年路線圖（已公告）
 
-- **簡化建立流程**：視覺化 skill 建立介面（無程式碼）、Skill 模板庫
-- **企業管理**：細粒度權限、使用分析、合規控制、審核流程
-- **Skill Marketplace**：社群提交、評分評論、品質驗證
+- **簡化建立流程**：視覺化技能建立介面（visual skill builder）（無程式碼）、技能模板庫（skill template library）
+- **企業管理（Enterprise Management）**：細粒度權限（granular permissions）、使用分析（usage analytics）、合規控制（compliance controls）、審核流程（approval workflow）
+- **技能市集（Skill Marketplace）**：社群提交（community submissions）、評分評論、品質驗證（quality verification）
 
 ## References
 
