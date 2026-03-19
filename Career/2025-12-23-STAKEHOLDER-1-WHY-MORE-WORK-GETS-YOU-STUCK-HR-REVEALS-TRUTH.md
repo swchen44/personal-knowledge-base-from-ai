@@ -1,7 +1,7 @@
 ---
 title: "【Stakeholder #1】為什麼你做得越多，反而越容易被卡？HR 揭露：你努力錯人了"
 date: 2025-12-23
-category: Videos
+category: Career
 tags:
   - "#career/workplace"
   - "#productivity/stakeholder"
