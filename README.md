@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [【Stakeholder #1】為什麼你做得越多，反而越容易被卡？](./Videos/2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH.md) — HR Jasmin 揭露：努力錯方向比不努力更危險，真正的 Stakeholder 不是你的直屬主管
 - [gitagent — Git 原生 AI 代理人框架無關標準深度分析](./CodeAnalysis/2026-02-24-GITAGENT-GIT-NATIVE-AI-AGENT-STANDARD.md) — Git Repository 就是你的 Agent：框架無關、可版本控制、內建 FINRA 合規驗證的 AI 代理人定義標準
 - [GNAP — Git 原生代理人協議程式碼深度分析](./CodeAnalysis/2026-03-12-GNAP-GIT-NATIVE-AGENT-PROTOCOL.md) — 零基礎設施的多代理人協調協議：4 種 JSON 實體 + git = 完整 AI 代理人協作平台
 - [Claude Skill 評估框架：3 個技能、一個下午、真實數據](./AI/2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA.md) — 用 skill-creator eval framework 系統測試 3 個生產 skill，揭露假陽性、序列錯誤與 Benchmark 量化結果
