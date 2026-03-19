@@ -2,6 +2,8 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [從源碼編譯 WezTerm macOS 聽寫分支，並解決中文字型顯示問題](./DevTools/2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX.md) — 自編譯 WezTerm feat/macos-dictation 分支、解決 CJK 亂碼與字寬異常、打包為 .app bundle
+
 - [西門子歌美颯 HR Head Jeffery 訪談](./Career/2023-07-04-SIEMENS-GAMESA-HR-HEAD-JEFFERY-INTERVIEW.md) — HR 職涯瓶頸、台灣離岸風電產業、政治敏感度與 MBA 留學決策
 - [【外商秘密】努力十年還卡在同級別？揭露 Competency 三大模型](./Career/2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS.md) — 外商人資 Jasmin 揭露外商晉升的核心標準：Competency 三大模型（思維、行為、合作能力），以及為何台灣人常在外商受挫
 - [【Stakeholder #1】為什麼你做得越多，反而越容易被卡？](./Career/2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH.md) — HR Jasmin 揭露：努力錯方向比不努力更危險，真正的 Stakeholder 不是你的直屬主管
