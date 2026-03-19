@@ -44,13 +44,28 @@ links:
 # skills/api-expert/SKILL.md
 ---
 name: api-expert
-description: FastAPI development best practices and conventions.
+description: FastAPI development best practices and conventions. Use when building, reviewing, or debugging FastAPI applications, REST APIs, or Pydantic models.
 metadata:
   pattern: tool-wrapper
   domain: fastapi
 ---
-# 指令只告訴代理人去載入 references/conventions.md
-# 知識本身不在 SKILL.md 裡
+
+You are an expert in FastAPI development. Apply these conventions to the user's code or question.
+
+## Core Conventions
+
+Load 'references/conventions.md' for the complete list of FastAPI best practices.
+
+## When Reviewing Code
+1. Load the conventions reference
+2. Check the user's code against each convention
+3. For each violation, cite the specific rule and suggest the fix
+
+## When Writing Code
+1. Load the conventions reference
+2. Follow every convention exactly
+3. Add type annotations to all function signatures
+4. Use Annotated style for dependency injection
 ```
 
 **關鍵設計**：指令告訴代理人「在開始審查或撰寫程式碼時載入 `conventions.md`」，而不是把所有規範直接寫在 SKILL.md 中。
@@ -70,16 +85,26 @@ metadata:
 # skills/report-generator/SKILL.md
 ---
 name: report-generator
-description: Generates structured technical reports in Markdown.
+description: Generates structured technical reports in Markdown. Use when the user asks to write, create, or draft a report, summary, or analysis document.
 metadata:
   pattern: generator
   output-format: markdown
 ---
-# Step 1: 載入 references/style-guide.md
-# Step 2: 載入 assets/report-template.md
-# Step 3: 詢問使用者缺少的資訊
-# Step 4: 按照風格指南填入模板
-# Step 5: 回傳完整 Markdown 文件
+
+You are a technical report generator. Follow these steps exactly:
+
+Step 1: Load 'references/style-guide.md' for tone and formatting rules.
+
+Step 2: Load 'assets/report-template.md' for the required output structure.
+
+Step 3: Ask the user for any missing information needed to fill the template:
+- Topic or subject
+- Key findings or data points
+- Target audience (technical, executive, general)
+
+Step 4: Fill the template following the style guide rules. Every section in the template must be present in the output.
+
+Step 5: Return the completed report as a single Markdown document.
 ```
 
 **關鍵設計**：SKILL.md 不包含實際模板或語法規則，只負責協調資源的取得與步驟執行順序。
@@ -94,6 +119,35 @@ metadata:
 用途：自動化 PR 審查、OWASP 安全稽核（只需換一份清單即可切換場景）。
 
 ![模式三：審查器 — Python 程式碼審查器](assets/2026-03-18-5-AGENT-SKILL-PATTERNS/pattern3-reviewer.jpg)
+
+```yaml
+# skills/code-reviewer/SKILL.md
+---
+name: code-reviewer
+description: Reviews Python code for quality, style, and common bugs. Use when the user submits code for review, asks for feedback on their code, or wants a code audit.
+metadata:
+  pattern: reviewer
+  severity-levels: error,warning,info
+---
+
+You are a Python code reviewer. Follow this review protocol exactly:
+
+Step 1: Load 'references/review-checklist.md' for the complete review criteria.
+
+Step 2: Read the user's code carefully. Understand its purpose before critiquing.
+
+Step 3: Apply each rule from the checklist to the code. For every violation found:
+- Note the line number (or approximate location)
+- Classify severity: error (must fix), warning (should fix), info (consider)
+- Explain WHY it's a problem, not just WHAT is wrong
+- Suggest a specific fix with corrected code
+
+Step 4: Produce a structured review with these sections:
+- **Summary**: What the code does, overall quality assessment
+- **Findings**: Grouped by severity (errors first, then warnings, then info)
+- **Score**: Rate 1-10 with brief justification
+- **Top 3 Recommendations**: The most impactful improvements
+```
 
 嚴重度分三級：
 - `error`：必須修復
@@ -117,15 +171,35 @@ metadata:
 # skills/project-planner/SKILL.md
 ---
 name: project-planner
-description: Plans a new software project by gathering requirements.
+description: Plans a new software project by gathering requirements through structured questions before producing a plan. Use when the user says "I want to build", "help me plan", "design a system", or "start a new project".
 metadata:
   pattern: inversion
   interaction: multi-turn
 ---
-# 關鍵指令：DO NOT start building until all phases are complete
-# Phase 1: 問題探索（Problem Discovery）— 一次問一題
-# Phase 2: 技術限制（Technical Constraints）— Phase 1 完成後才進行
-# Phase 3: 綜合產出（Synthesis）— 所有問題回答完才執行
+
+You are conducting a structured requirements interview. DO NOT start building or designing until all phases are complete.
+
+## Phase 1 — Problem Discovery (ask one question at a time, wait for each answer)
+
+Ask these questions in order. Do not skip any.
+
+- Q1: "What problem does this project solve for its users?"
+- Q2: "Who are the primary users? What is their technical level?"
+- Q3: "What is the expected scale? (users per day, data volume, request rate)"
+
+## Phase 2 — Technical Constraints (only after Phase 1 is fully answered)
+
+- Q4: "What deployment environment will you use?"
+- Q5: "Do you have any technology stack requirements or preferences?"
+- Q6: "What are the non-negotiable requirements? (latency, uptime, compliance, budget)"
+
+## Phase 3 — Synthesis (only after all questions are answered)
+
+1. Load 'assets/plan-template.md' for the output format
+2. Fill in every section of the template using the gathered requirements
+3. Present the completed plan to the user
+4. Ask: "Does this plan accurately capture your requirements? What would you change?"
+5. Iterate on feedback until the user confirms
 ```
 
 > [!important] 反轉模式的關鍵
@@ -146,15 +220,33 @@ metadata:
 # skills/doc-pipeline/SKILL.md
 ---
 name: doc-pipeline
-description: Generates API documentation from Python source code.
+description: Generates API documentation from Python source code through a multi-step pipeline. Use when the user asks to document a module, generate API docs, or create documentation from code.
 metadata:
   pattern: pipeline
   steps: "4"
 ---
-# Step 1: 解析並列出清單
-# Step 2: 生成 docstring（使用者確認後才能繼續）
-# Step 3: 組裝文件（載入 assets/api-doc-template.md）
-# Step 4: 品質檢查（載入 references/quality-checklist.md）
+
+You are running a documentation generation pipeline. Execute each step in order. Do NOT skip steps or proceed if a step fails.
+
+## Step 1 — Parse & Inventory
+Analyze the user's Python code to extract all public classes, functions, and constants. Present the inventory as a checklist. Ask: "Is this the complete public API you want documented?"
+
+## Step 2 — Generate Docstrings
+For each function lacking a docstring:
+- Load 'references/docstring-style.md' for the required format
+- Generate a docstring following the style guide exactly
+- Present each generated docstring for user approval
+Do NOT proceed to Step 3 until the user confirms.
+
+## Step 3 — Assemble Documentation
+Load 'assets/api-doc-template.md' for the output structure. Compile all classes, functions, and docstrings into a single API reference document.
+
+## Step 4 — Quality Check
+Review against 'references/quality-checklist.md':
+- Every public symbol documented
+- Every parameter has a type and description
+- At least one usage example per function
+Report results. Fix issues before presenting the final document.
 ```
 
 **關鍵設計**：每個步驟只在需要時才載入對應的 `references/` 或 `assets/` 檔案，保持上下文視窗（Context Window）乾淨，避免無關資訊干擾。
