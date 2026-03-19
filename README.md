@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [每位 ADK 開發者都應了解的 5 種代理人技能設計模式](./AI/2026-03-18-5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW.md) — Tool Wrapper、Generator、Reviewer、Inversion、Pipeline 五種模式，涵蓋代理人技能設計的完整工具箱
 - [Karpathy 的 AgentHub：建立你第一個 AI 代理人群集的實作指南](./AI/2026-03-17-KARPATHYS-AGENTHUB-A-PRACTICAL-GUIDE-TO-BUILDING-YOUR-FIRST-AI-AGENT-SWARM.md) — 代理人原生（agent-native）基礎設施：用 DAG + 訊息板取代 Git 分支與 PR，讓 AI 代理人無需人類審查即可非同步協作程式碼
 
 - [NemoClaw：NVIDIA 真正為 OpenClaw 用戶解決了什麼——以及沒解決的是什麼](./AI/2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT.md) — NVIDIA 發布的 OpenClaw 安全治理層評估：跨進程執行架構正確，但仍是 alpha 軟體
