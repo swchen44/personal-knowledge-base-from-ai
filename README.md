@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [claude-mem — Claude Code 跨 Session 持久記憶系統深度分析](./CodeAnalysis/2025-08-31-CLAUDE-MEM-CODE-ANALYSIS.md) — 38K ⭐ Claude Code 長期記憶插件架構深度分析：Hook 事件驅動、SQLite+Chroma 混合搜尋、漸進式揭露 MCP 工具
 - [二十分鐘從零搭建極簡版投研 Agent：Claude Code 完整教程](./AI/2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES.md) — Windows 環境下用 Claude Code 二十分鐘建立投研 Agent，含安裝、設定、個性化資料填充全流程
 - [從源碼編譯 WezTerm macOS 聽寫分支，並解決中文字型顯示問題](./DevTools/2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX.md) — 自編譯 WezTerm feat/macos-dictation 分支、解決 CJK 亂碼與字寬異常、打包為 .app bundle
 
