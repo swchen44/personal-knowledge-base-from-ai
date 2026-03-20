@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [ClawTeam — Agent 蜂群智能框架程式碼深度分析](./CodeAnalysis/2026-03-17-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md) — 零基礎設施 Multi-Agent 框架，CLI 驅動 Agent 蜂群自動協作
 - [CrewAI — 多代理人協作編排框架深度分析](./CodeAnalysis/2023-10-27-CREWAI-CODE-ANALYSIS.md) — 46K⭐ Python 多 Agent 框架：Crews（自主協作）+ Flows（事件驅動工作流）雙軌設計，完全獨立於 LangChain
 - [claude-code-scheduler — Claude Code 跨平台定時任務排程系統深度分析](./CodeAnalysis/2026-01-08-CLAUDE-CODE-SCHEDULER-CODE-ANALYSIS.md) — 485⭐ OS 原生排程器封裝（launchd/crontab/Task Scheduler），支援自然語言設定、Git Worktree 隔離、自主執行模式
 - [claude-mem — Claude Code 跨 Session 持久記憶系統深度分析](./CodeAnalysis/2025-08-31-CLAUDE-MEM-CODE-ANALYSIS.md) — 38K ⭐ Claude Code 長期記憶插件架構深度分析：Hook 事件驅動、SQLite+Chroma 混合搜尋、漸進式揭露 MCP 工具
