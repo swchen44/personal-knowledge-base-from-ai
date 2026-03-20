@@ -177,6 +177,78 @@ WezTerm.app/
 
 ---
 
+## 預編譯版本下載與安裝（給朋友用）
+
+> [!warning] 限制：僅支援 Apple Silicon Mac（M1/M2/M3/M4）
+> 這個預編譯版本是 **arm64 架構**，Intel Mac（2020 年以前）無法執行。
+
+### 下載
+
+前往 GitHub Release 下載最新版本：
+
+**[⬇️ 下載 WezTerm-macos-arm64.zip](https://github.com/swchen44/wezterm-macos-dictation/releases/latest)**
+
+原始碼分支：[Erog38/wezterm feat/macos-dictation](https://github.com/Erog38/wezterm/tree/feat/macos-dictation)
+
+### 安裝步驟
+
+**1. 解除 macOS Gatekeeper 封鎖（必要）**
+
+因為此版本沒有 Apple 開發者簽名，macOS 會擋住它。下載解壓縮後，**開啟前必須先執行：**
+
+```bash
+xattr -cr /Applications/WezTerm.app
+```
+
+**2. 安裝**
+
+```bash
+# 解壓縮後將 .app 拖入 Applications
+cp -R ~/Downloads/WezTerm.app /Applications/
+
+# 移除 Gatekeeper 封鎖
+xattr -cr /Applications/WezTerm.app
+```
+
+**3. 開啟**
+
+雙擊 `/Applications/WezTerm.app` 即可。
+
+### 中文顯示設定（可選但建議）
+
+建立 `~/.config/wezterm/wezterm.lua` 以正確顯示中文字符：
+
+```bash
+mkdir -p ~/.config/wezterm
+```
+
+```lua
+local wezterm = require 'wezterm'
+
+return {
+  font = wezterm.font_with_fallback {
+    'JetBrains Mono',
+    'Heiti TC',       -- macOS 內建繁體中文字體
+  },
+  unicode_version = 14,
+}
+```
+
+### 使用 macOS 聽寫功能
+
+WezTerm 視窗開啟後，按 **連按兩下 `Fn` 鍵**（或麥克風按鈕）啟動系統聽寫，即可語音輸入文字。
+
+### 已知限制
+
+| 限制 | 說明 |
+|------|------|
+| 僅支援 Apple Silicon | M1/M2/M3/M4 Mac，Intel Mac 不支援 |
+| 未經 Apple 簽名 | 需手動執行 `xattr -cr` 解除 Gatekeeper |
+| 社群分支，非官方版 | 基於 feat/macos-dictation，尚未合併至 WezTerm 主線 |
+| 聽寫功能限制 | 依賴 macOS 系統語言設定，需在系統設定中啟用聽寫 |
+
+---
+
 ## 我的心得（My Takeaways）
 
 - Rust 的 cargo build 過程非常自動化，不需要手動處理 C 依賴的 configure/make，但 **git submodule 仍是手動步驟**，容易被跳過
