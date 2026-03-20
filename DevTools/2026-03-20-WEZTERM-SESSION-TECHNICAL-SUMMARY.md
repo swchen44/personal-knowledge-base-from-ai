@@ -190,6 +190,7 @@ xattr -cr /Applications/WezTerm.app
 ## 分享給朋友（Distribution）
 
 - **Release 下載頁**：https://github.com/swchen44/wezterm-macos-dictation/releases/latest
+- **下載檔案**：`WezTerm-macos-arm64.dmg`（雙擊掛載，拖入 Applications）
 - **適用對象**：Apple Silicon Mac（M1/M2/M3/M4）
 - **不適用**：Intel Mac（2020 年以前）
 - **安裝前必做**：`xattr -cr /Applications/WezTerm.app`

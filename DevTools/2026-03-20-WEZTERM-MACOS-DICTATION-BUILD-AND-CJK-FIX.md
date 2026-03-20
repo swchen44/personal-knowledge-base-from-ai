@@ -186,7 +186,7 @@ WezTerm.app/
 
 前往 GitHub Release 下載最新版本：
 
-**[⬇️ 下載 WezTerm-macos-arm64.zip](https://github.com/swchen44/wezterm-macos-dictation/releases/latest)**
+**[⬇️ 下載 WezTerm-macos-arm64.dmg](https://github.com/swchen44/wezterm-macos-dictation/releases/latest)**
 
 原始碼分支：[Erog38/wezterm feat/macos-dictation](https://github.com/Erog38/wezterm/tree/feat/macos-dictation)
 
@@ -203,8 +203,9 @@ xattr -cr /Applications/WezTerm.app
 **2. 安裝**
 
 ```bash
-# 解壓縮後將 .app 拖入 Applications
-cp -R ~/Downloads/WezTerm.app /Applications/
+# 雙擊 DMG 掛載後，將 WezTerm.app 拖入 Applications
+# 或用指令：
+cp -R /Volumes/WezTerm/WezTerm.app /Applications/
 
 # 移除 Gatekeeper 封鎖
 xattr -cr /Applications/WezTerm.app
