@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [2 分鐘啟用 Claude Code LSP：你可能錯過的最重要升級](./DevTools/2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP.md) — 啟用 LSP 後程式碼導覽從 30-60 秒縮短至 50ms，包含完整安裝步驟與 CLAUDE.md 設定
 - [PSA：你的 Claude Code 外掛可能一直重複載入，正在耗盡上下文視窗](./DevTools/2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT.md) — 診斷與修復 Plugin/Skill 重複載入問題，可減少 50-60% 前置開銷
 - [Claude Memory Engine — Hooks + Markdown 記憶與學習系統](./CodeAnalysis/2026-03-07-CLAUDE-MEMORY-ENGINE.md) — Hook-driven 架構讓 Claude Code 自動儲存 session、偵測踩坑、跨裝置同步，零依賴
 - [WezTerm macOS 聽寫版本：完整工作階段技術摘要](./DevTools/2026-03-20-WEZTERM-SESSION-TECHNICAL-SUMMARY.md) — 踩坑紀錄、關鍵決策、錯誤修復速查表
