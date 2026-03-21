@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Memory Engine — Hooks + Markdown 記憶與學習系統](./CodeAnalysis/2026-03-07-CLAUDE-MEMORY-ENGINE.md) — Hook-driven 架構讓 Claude Code 自動儲存 session、偵測踩坑、跨裝置同步，零依賴
 - [WezTerm macOS 聽寫版本：完整工作階段技術摘要](./DevTools/2026-03-20-WEZTERM-SESSION-TECHNICAL-SUMMARY.md) — 踩坑紀錄、關鍵決策、錯誤修復速查表
 - [ClawTeam — Agent 蜂群智能框架程式碼深度分析](./CodeAnalysis/2026-03-17-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md) — 零基礎設施 Multi-Agent 框架，CLI 驅動 Agent 蜂群自動協作
 - [CrewAI — 多代理人協作編排框架深度分析](./CodeAnalysis/2023-10-27-CREWAI-CODE-ANALYSIS.md) — 46K⭐ Python 多 Agent 框架：Crews（自主協作）+ Flows（事件驅動工作流）雙軌設計，完全獨立於 LangChain
