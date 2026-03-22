@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [claude-code-hooks — 程式碼深度分析](./CodeAnalysis/2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS.md) — 零依賴 Node.js Hook 集合架構分析，含雙模組模式、Regex 安全等級設計與 262 個測試
 - [Claude Code 最被低估的功能：Hooks 完整指南](./DevTools/2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS.md) — 13 個 Hook 事件類型完整解說，含危險指令阻擋、機密保護、Slack 通知等實用範例
 - [2 分鐘啟用 Claude Code LSP：你可能錯過的最重要升級](./DevTools/2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP.md) — 啟用 LSP 後程式碼導覽從 30-60 秒縮短至 50ms，包含完整安裝步驟與 CLAUDE.md 設定
 - [PSA：你的 Claude Code 外掛可能一直重複載入，正在耗盡上下文視窗](./DevTools/2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT.md) — 診斷與修復 Plugin/Skill 重複載入問題，可減少 50-60% 前置開銷
