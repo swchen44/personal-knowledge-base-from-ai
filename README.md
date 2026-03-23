@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [讓 AI 自我進化！Self-Evolving Agent 怎麼做到的？](./AI/2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS.md) — Self-Evolving Agent 核心機制：五步進化循環、三大策略、評估邊界設計與安全風險
 - [代理人安全完整速查手冊 + AgentShield 分析](./Security/2026-03-16-THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY.md) — 攻擊向量、沙箱化、清洗、殺開關的完整防禦框架，整合 AgentShield 程式碼分析與創意延伸方向
 - [Claude Code 進階長文指南](./AI/2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE.md) — Token 經濟、記憶持久化、驗證循環與並行策略的進階實踐
 - [Claude Code 完整速查手冊](./AI/2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE.md) — 10個月日常使用後整理的 Skills、Hooks、Subagents、MCP、Plugins 完整指南
