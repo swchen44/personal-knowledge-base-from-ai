@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code 完整速查手冊](./AI/2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE.md) — 10個月日常使用後整理的 Skills、Hooks、Subagents、MCP、Plugins 完整指南
 - [構建 Claude Code 的經驗：我們如何使用 Skills（技能擴充）](./AI/2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS.md) — Anthropic 內部 9 大 Skills 分類與最佳實踐，含完整原文翻譯
 - [claude-code-hooks — 程式碼深度分析](./CodeAnalysis/2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS.md) — 零依賴 Node.js Hook 集合架構分析，含雙模組模式、Regex 安全等級設計與 262 個測試
 - [Claude Code 最被低估的功能：Hooks 完整指南](./DevTools/2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS.md) — 13 個 Hook 事件類型完整解說，含危險指令阻擋、機密保護、Slack 通知等實用範例
