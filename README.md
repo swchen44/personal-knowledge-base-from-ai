@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [代理人安全完整速查手冊 + AgentShield 分析](./Security/2026-03-16-THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY.md) — 攻擊向量、沙箱化、清洗、殺開關的完整防禦框架，整合 AgentShield 程式碼分析與創意延伸方向
 - [Claude Code 進階長文指南](./AI/2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE.md) — Token 經濟、記憶持久化、驗證循環與並行策略的進階實踐
 - [Claude Code 完整速查手冊](./AI/2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE.md) — 10個月日常使用後整理的 Skills、Hooks、Subagents、MCP、Plugins 完整指南
 - [構建 Claude Code 的經驗：我們如何使用 Skills（技能擴充）](./AI/2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS.md) — Anthropic 內部 9 大 Skills 分類與最佳實踐，含完整原文翻譯
