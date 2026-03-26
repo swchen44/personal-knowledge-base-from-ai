@@ -257,12 +257,13 @@ Step 3 - Synthesize（合成）
 ## 十、實用 Prompt 模板速查（Actionable Prompt Library）
 
 > [!tip] 使用說明
-> 以下 prompt 以英文呈現（供直接複製使用），每個 prompt 附中文說明其用途與最佳場景。
+> 每個 prompt 提供**英文版**（可直接貼入 ChatGPT / Claude 等工具）與**中文版**（適合中文 AI 工具或偏好中文指令的場景），並附中文說明用途與最佳場景。
 
 ---
 
 ### P-01：輸出契約（Output Contract）
 
+**英文版：**
 ```
 Return exactly these sections in this order:
 1. [SECTION_A] — max 100 words
@@ -272,17 +273,36 @@ Return exactly these sections in this order:
 Do not repeat the user's request. Do not add sections not listed above.
 ```
 
+**中文版：**
+```
+請按照以下順序，精確回傳這些區塊，不多也不少：
+1. [區塊A] — 最多 100 字
+2. [區塊B] — 以 JSON 格式呈現
+3. [區塊C] — 一句話結論
+
+不要重複使用者的問題。不要加入上方未列出的區塊。
+```
+
 **中文說明**：用於需要精確控制輸出格式的場景，例如撰寫報告、生成結構化資料。明確告訴模型「輸出什麼、多少量、什麼格式」，可大幅減少模型亂加東西的問題。
 
 ---
 
 ### P-02：預設執行策略（Default Follow-Through Policy）
 
+**英文版：**
 ```
 Follow-through policy:
 - Proceed without asking if the action is reversible and intent is clear.
 - Ask permission if the action is irreversible, has external side effects, or requires sensitive info I haven't provided.
 - After proceeding, state what you've done and what remains optional.
+```
+
+**中文版：**
+```
+執行策略如下：
+- 如果動作可以復原且意圖明確，直接執行，不需詢問確認。
+- 如果動作不可逆、有外部副作用，或需要我尚未提供的敏感資訊，才詢問確認。
+- 執行後，告訴我已完成什麼，以及哪些步驟是可選的。
 ```
 
 **中文說明**：適用於代理人（agent）場景，避免模型一直詢問確認而中斷工作流程，同時保留對高風險動作的把關。
@@ -291,6 +311,7 @@ Follow-through policy:
 
 ### P-03：工具持久性（Tool Persistence）
 
+**英文版：**
 ```
 Tool use policy:
 - Use tools whenever they materially improve correctness or completeness.
@@ -299,12 +320,22 @@ Tool use policy:
 - If results are empty or partial, retry with a different strategy.
 ```
 
+**中文版：**
+```
+工具使用策略：
+- 只要工具能實質提升正確性或完整性，就使用工具。
+- 如果繼續呼叫工具能改善結果，不要提前停止。
+- 持續呼叫工具，直到任務完成且驗證通過為止。
+- 如果結果為空或不完整，換一個策略重試。
+```
+
 **中文說明**：適用於代理人需要搜尋、查詢資料庫或執行多步驟工具鏈的場景，防止模型在工作未完成時就停下來。
 
 ---
 
 ### P-04：完整性契約（Completeness Contract）
 
+**英文版：**
 ```
 Completeness policy:
 - Treat this task as incomplete until ALL requested items are covered.
@@ -313,12 +344,22 @@ Completeness policy:
 - Mark any blocked items explicitly with the missing information noted.
 ```
 
+**中文版：**
+```
+完整性策略：
+- 在所有請求項目都完成之前，視此任務為未完成。
+- 維護一份內部待辦清單，追蹤所有應交付的項目。
+- 記錄哪些項目已處理完畢。
+- 對於受阻的項目，明確標記並說明缺少哪些資訊。
+```
+
 **中文說明**：適用於需要模型處理清單、批次資料或多份文件的場景，確保模型不會遺漏任何項目。
 
 ---
 
 ### P-05：驗證循環（Verification Loop）
 
+**英文版：**
 ```
 Before finalizing your answer:
 1. Verify it meets all stated requirements.
@@ -327,12 +368,22 @@ Before finalizing your answer:
 4. Confirm safety before actions with external effects.
 ```
 
+**中文版：**
+```
+在給出最終答案前，請先完成以下驗證：
+1. 確認答案符合所有明確的需求。
+2. 確認所有事實主張都有上下文或工具支撐。
+3. 確認格式符合請求的 schema。
+4. 對於有外部影響的動作，確認安全後再執行。
+```
+
 **中文說明**：適用於高精度需求場景，例如財務報告、法律文件、程式碼審查。讓模型在給出最終答案前自我檢核。
 
 ---
 
 ### P-06：研究三步驟法（Research Three-Pass）
 
+**英文版：**
 ```
 Research this topic using a three-pass approach:
 
@@ -343,12 +394,24 @@ Pass 3 - Synthesize: Resolve contradictions; write with inline citations.
 Stop when additional searching is unlikely to change conclusions.
 ```
 
+**中文版：**
+```
+請用三步驟法研究這個主題：
+
+第一步 - 規劃：列出 3-6 個需要回答的子問題。
+第二步 - 檢索：搜尋每個問題，並追蹤 1-2 個延伸線索。
+第三步 - 合成：解決矛盾之處，附上引用來源撰寫結論。
+
+當繼續搜尋不太可能改變結論時，停止搜尋。
+```
+
 **中文說明**：適用於需要深度調研的場景，例如技術評估、市場分析。讓模型系統性地規劃、搜尋並合成資訊，而非直接給出第一印象答案。
 
 ---
 
 ### P-07：程式碼任務持久性（Coding Task Persistence）
 
+**英文版：**
 ```
 Coding policy:
 - Persist until the task is fully handled end-to-end unless I explicitly pause you.
@@ -357,12 +420,22 @@ Coding policy:
 - Send a progress update (~1-2 sentences) roughly every 30 seconds of work.
 ```
 
+**中文版：**
+```
+程式碼任務策略：
+- 持續工作直到任務端到端完成，除非我明確叫你暫停。
+- 不要停在分析階段；把改動落實到實作和驗證。
+- 預設我想要程式碼改動，除非我明顯在規劃或腦力激盪。
+- 工作過程中每約 30 秒發送一次進度更新，1-2 句話即可。
+```
+
 **中文說明**：適用於請模型完成完整程式碼任務的場景，解決模型「說一堆但不動手寫」的問題，同時要求定期更新進度。
 
 ---
 
 ### P-08：結構化輸出合規（Structured Output Compliance）
 
+**英文版：**
 ```
 Output format: JSON only.
 Rules:
@@ -372,12 +445,23 @@ Rules:
 - If a field's value is unknown, use null — do not omit the field.
 ```
 
+**中文版：**
+```
+輸出格式：僅限 JSON。
+規則：
+- 只回傳合法的 JSON，前後不加任何說明文字。
+- 輸出前確認所有大括號和中括號都正確閉合。
+- 不要發明 schema 中沒有的欄位。
+- 如果某欄位的值未知，用 null，不要省略該欄位。
+```
+
 **中文說明**：適用於 API 串接或解析場景，確保模型輸出可直接被程式解析，不夾帶多餘文字。
 
 ---
 
 ### P-09：引用鎖定（Citation Locking）
 
+**英文版：**
 ```
 Citation policy:
 - Cite only sources retrieved in this session.
@@ -386,12 +470,22 @@ Citation policy:
 - Base all claims exclusively on the provided context or tool outputs.
 ```
 
+**中文版：**
+```
+引用策略：
+- 只引用本次對話中實際查詢到的來源。
+- 絕對不要偽造引用、URL 或引文片段。
+- 學術格式使用：[作者, 年份, 「標題」]；網頁格式使用：[來源名稱](URL)。
+- 所有主張必須完全基於提供的上下文或工具輸出。
+```
+
 **中文說明**：適用於研究報告、文獻回顧等需要可溯源引用的場景，防止模型「幻覺引用（hallucinated citations）」。
 
 ---
 
 ### P-10：進度更新規格（User Update Spec）
 
+**英文版：**
 ```
 Progress update rules:
 - Send updates only when starting a new major phase or when plans change.
@@ -401,17 +495,28 @@ Progress update rules:
 - Vary sentence structure to avoid repetition.
 ```
 
+**中文版：**
+```
+進度更新規則：
+- 只在開始新的重要階段，或計畫改變時，才發送更新。
+- 每次更新格式：1 句描述完成結果 + 1 句說明下一步。
+- 不要報告例行性的工具呼叫。
+- 更新訊息保持簡短；內部工作盡量詳盡。
+- 變換句子結構，避免重複。
+```
+
 **中文說明**：適用於長時程代理人任務，讓使用者了解進度但不被無用的更新淹沒。定義更新的時機與格式。
 
 ---
 
 ### P-11：小型模型結構指令（Small Model Structural Prompt）
 
+**英文版：**
 ```
 Execute the following steps in order. Complete each step fully before moving to the next.
 
 Step 1: [Action A] — output: [format]
-Step 2: [Action B] — output: [format]  
+Step 2: [Action B] — output: [format]
 Step 3: [Action C] — output: [format]
 
 If input is ambiguous at any step, use [default behavior / ask / abstain].
@@ -421,18 +526,43 @@ Input: [example input]
 Output: [example output]
 ```
 
+**中文版：**
+```
+請依照以下順序執行步驟，每個步驟完全完成後再進行下一步。
+
+步驟一：[動作 A] — 輸出格式：[格式]
+步驟二：[動作 B] — 輸出格式：[格式]
+步驟三：[動作 C] — 輸出格式：[格式]
+
+如果任何步驟的輸入有歧義，請採用以下處理方式：[預設行為 / 詢問使用者 / 跳過]。
+
+以下是預期執行流程的範例：
+輸入：[範例輸入]
+輸出：[範例輸出]
+```
+
 **中文說明**：專為 GPT-5.4-mini 或其他較小模型設計，透過明確的步驟編號和範例，降低小型模型的歧義處理問題。
 
 ---
 
 ### P-12：專業備忘錄模式（Professional Memo Mode）
 
+**英文版：**
 ```
 Write in polished, professional memo style:
 - Use exact names, dates, and entities when supported by records.
 - Prefer precise conclusions over generic hedging.
 - Tie uncertainty to specific missing facts or conflicting sources.
 - Synthesize across documents rather than summarizing each independently.
+```
+
+**中文版：**
+```
+請以正式、專業的備忘錄風格撰寫：
+- 有記錄支撐時，使用確切的姓名、日期和實體名稱。
+- 偏好精確的結論，避免模糊的保守措辭。
+- 將不確定性連結到具體缺少的事實或相互矛盾的來源。
+- 跨文件進行合成分析，而不是逐份文件獨立摘要。
 ```
 
 **中文說明**：適用於需要撰寫執行長摘要、法務備忘錄或高層報告的場景，讓模型輸出具有決策品質的文件，而非模糊的概括。
