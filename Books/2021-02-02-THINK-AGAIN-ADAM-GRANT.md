@@ -273,6 +273,109 @@ Grant 的解法——把職涯和技術選擇重新框架為「一系列的小�
 
 ---
 
+---
+
+## 九、官方視覺概念圖（Sketchnote）
+
+![Think Again 概念視覺圖——涵蓋心智彈性、個人/人際/集體重新思考、自信謙遜等核心主題](assets/2021-02-02-THINK-AGAIN/think-again-sketchnote.jpg)
+
+> 圖片來源：Adam Grant 官方網站（adamgrant.net）
+
+---
+
+## 十、官方討論指南（Discussion Guide）完整翻譯
+
+> [!info] 原始來源
+> 以下問題翻譯自 Adam Grant 官方發布的《Think Again》閱讀討論指南（Discussion Guide），共 30 題，分三大主題。原文為英文，以下為完整台灣繁體中文翻譯。
+
+### 個人重新思考（Individual Rethinking）
+
+1. 你最近正在重新思考的一個假設是什麼？
+
+2. 你最容易陷入哪種模式——傳教士、檢察官還是政客？你可以採取哪些步驟，讓自己更像科學家一樣思考？
+
+3. 重新思考到什麼程度算是過多？什麼情況下你應該信任直覺，什麼情況下你應該測試直覺？
+
+4. 你如何避免困在「愚蠢山頂（Mount Stupid）」？如果你要列一份「無知清單（ignorance list）」，記錄你不知道的事情，上面會有什麼？
+
+5. 你有沒有體驗過冒牌者思維（impostor thoughts）帶來的好處？你用什麼策略，在質疑自己的知識的同時，依然對自己保持信心？
+
+6. 你正在對未來做出哪些預測？你如何保持開放性，隨時準備重新思考那些預測？
+
+7. 你如何擁抱「被證明錯誤的喜悅（the joy of being wrong）」？
+
+8. 誰在你的「挑戰網絡（challenge network）」裡？你如何確保你最有洞察力的批評者，願意對你誠實地說出意見？
+
+9. 你從促進任務衝突（task conflict）而不引發關係衝突（relationship conflict）中學到了什麼？
+
+10. 如果你要重寫這本書，你會重新思考什麼？
+
+### 人際重新思考（Interpersonal Rethinking）
+
+11. 你最喜歡用什麼方式，在差異之間找到共同點？
+
+12. 在激烈的辯論中，你發現哪些問題有助於打開對方的思路？
+
+13. 你如何避免稀釋你的論點，讓自己專注在少數最強的論點上？
+
+14. 當有人說「我們各持己見就好（let's agree to disagree）」，你如何學著下次用不同的方式處理這種情況？
+
+15. 哪些刻板印象（stereotypes）是你成長過程中的一部分？如果你出生在不同的種族、在不同的國家長大，或生活在不同的世紀，你的觀點可能會有什麼不同？
+
+16. 有沒有某個你通常很難傾聽的人？如果你坐下來，純粹為了傾聽和理解他們的觀點，會發生什麼事？
+
+17. 在動機式訪談（motivational interviewing）中，你如何保持專注，引導對方走向他們的目標，而不是試圖推進你自己的議程？
+
+18. 在給出建議時，你如何強化對方的選擇自由（freedom of choice）？
+
+19. 有什麼話題陷入了二元偏見（binary bias），迫切需要被複雜化（complexified）？
+
+20. 在談論具有爭議的議題時，你如何擴展對話的情感範圍（emotional range）？
+
+### 集體重新思考（Collective Rethinking）
+
+21. 學校如何能更好地教導孩子重新思考？
+
+22. 你有破除迷思的家庭晚餐討論，或其他重新思考的家庭慣例嗎？
+
+23. 在職場上，你見過領導者和管理者做了什麼，來建立讓人們敢於重新思考的心理安全感（psychological safety）？
+
+24. 建立一個學習型文化（learning culture）而非績效型文化（performance culture），需要什麼條件？
+
+25. 我們應該重新思考哪些「最佳實踐（best practices）」？
+
+26. 哪些你曾經想成為的形象（images of who you wanted to be）讓你感到沉重？你如何放下它們？
+
+27. 你如何避免對一個失敗的行動方向不斷升級承諾（escalation of commitment）？
+
+28. 你有沒有試過「職涯健康檢查（career checkup）」或「關係健康檢查（relationship checkup）」？你對自己的目標和身份如何演變學到了什麼？
+
+29. 我們如何改變關於重新思考的文化敘事（cultural narrative）？你能想像這樣一個世界嗎：說「我不知道」被視為自信謙遜（confident humility）的標誌，而不是無知的表現；說「我錯了」被視為誠信的行為，而不是能力不足的承認？
+
+30. 你怎麼發音 mayonnaise（美乃滋）？
+
+> [!note] 關於第 30 題
+> 這是 Grant 刻意加入的一題「輕鬆問題」——提醒我們，並非所有事情都值得嚴肅地重新思考。知道什麼時候該認真，什麼時候可以輕鬆，本身也是一種智慧。
+
+---
+
+## 十一、官方測驗（Think Again Quiz）
+
+Adam Grant 在官方網站提供一份自我評估測驗，測量你目前的「重新思考能力（rethinking capacity）」。
+
+**測驗連結**：[adamgrant.net/quizzes/think-again-quiz/](https://adamgrant.net/quizzes/think-again-quiz/)
+
+測驗內容涵蓋：
+- 你對新資訊保持開放的程度
+- 你面對不確定性時的舒適度
+- 你在被反駁時的典型反應
+- 你對自己觀點的確信度管理
+
+> [!tip] 建議
+> 在讀完這本書後做一次測驗，記錄分數；三到六個月後再做一次，觀察自己是否有變化。
+
+---
+
 ## 相關連結（Related）
 
 - [[INTELLECTUAL-HUMILITY]] — 智識謙遜：重新思考的核心態度
@@ -286,3 +389,6 @@ Grant 的解法——把職涯和技術選擇重新框架為「一系列的小�
 - [Kobo 電子書](https://readnow.kobo.com/b302bf16-ec27-4e44-8ad8-6c0c00206013)
 - [Kobo 書籍頁面](https://www.kobo.com/tw/zh/ebook/586QChVQGjC3hlID1gwHkg)
 - [Adam Grant 官方網站](https://adamgrant.net/book/think-again/)
+- [官方討論指南 PDF](https://adamgrant.net/wp-content/uploads/2021/03/ThinkAgainDiscussionGuide.pdf)
+- [官方自我測驗](https://adamgrant.net/quizzes/think-again-quiz/)
+- [官方概念視覺圖（Sketchnote）](https://adamgrant.net/wp-content/uploads/2020/09/ThinkAgain-Sketchnote-504x720.jpg)
