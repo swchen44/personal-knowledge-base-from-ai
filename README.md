@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [《逆思維》（Think Again）— Adam Grant 完整書摘與洞察](./Books/2021-02-02-THINK-AGAIN-ADAM-GRANT.md) — Adam Grant 談重新思考的力量：四種思維模式、說服的反直覺法則、職涯小實驗框架
 - [OpenAI GPT-5.4 提示詞指南完整翻譯與重點整理](./AI/2026-03-26-OPENAI-GPT54-PROMPT-GUIDANCE-COMPLETE-GUIDE.md) — GPT-5.4 官方 Prompt Guidance 完整中文翻譯，含 12 個可直接套用的實用 prompt 模板
 - [給現在工程師的未來：軟體工程邁向多代理人（Multi-Agent）時代](./Career/2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE.md) — Steve Yegge 視角：吸血鬼效應、多代理人編排、以及工程師在 AI 時代的新身份
 - [讓 AI 自我進化！Self-Evolving Agent 怎麼做到的？](./AI/2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS.md) — Self-Evolving Agent 核心機制：五步進化循環、三大策略、評估邊界設計與安全風險
