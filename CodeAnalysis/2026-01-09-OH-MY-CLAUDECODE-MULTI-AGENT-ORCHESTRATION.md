@@ -503,6 +503,325 @@ omc wait --start
 
 ---
 
+## OMC CLI 深度解析（`omc` 指令完整分析）
+
+> [!important] 本節深度分析 `omc` CLI 工具的所有指令、設計動機，以及它解決了哪些「技能系統（Skills）無法獨力解決」的根本問題。
+
+### CLI 的核心定位：Claude Code 的「會話外控制器」
+
+OMC 由兩種元件組成，有一條根本的邊界線：
+
+```
+┌─────────────────────────────────┐   ┌──────────────────────────────────────┐
+│  Claude Code 會話內（In-session）│   │  Claude Code 會話外（Out-of-session）│
+│                                 │   │                                      │
+│  Skills（/oh-my-claudecode:xxx）│   │  omc CLI（bridge/cli.cjs）           │
+│  Hooks（scripts/*.mjs）         │   │                                      │
+│  Agents（agents/*.md）          │   │  ← 使用者在 shell 直接呼叫            │
+│  MCP Tools（mcp-server.cjs）    │   │  ← Claude Code 啟動前後執行          │
+│                                 │   │  ← 速率限制暫停時仍然存活            │
+│  受 Claude Code 程序生命週期限制  │   │  ← 可直接操控 tmux/git/外部 CLI     │
+└─────────────────────────────────┘   └──────────────────────────────────────┘
+```
+
+**CLI 存在的根本原因：有五類操作是 Skills/Hooks 物理上無法完成的。**
+
+---
+
+### 所有 `omc` 指令一覽
+
+```
+omc / omc launch [args...]       — 啟動 Claude Code（含 tmux 自動整合）
+omc interop                      — tmux 分割視窗：Claude Code (OMC) + Codex (OMX) 並排
+omc ask <claude|codex|gemini>    — 呼叫外部 AI 顧問，輸出儲存為 artifact
+omc config                       — 顯示/驗證 OMC 設定
+omc config-stop-callback <type>  — 設定 Stop hook 通知（Telegram/Discord/Slack/file）
+omc config-notify-profile        — 管理多組通知設定檔（Profile）
+omc wait [--start|--stop]        — 速率限制（Rate Limit）偵測與自動恢復精靈
+  omc wait status                  └ 詳細速率限制狀態
+  omc wait daemon <start|stop>     └ 背景自動恢復常駐程序（Daemon）
+  omc wait detect                  └ 掃描 tmux 中被鎖住的 Claude Code 工作階段
+omc teleport [ref]               — 從 GitHub Issue/PR/功能名稱建立 git worktree
+  omc teleport list                └ 列出現有 worktrees
+  omc teleport remove <path>       └ 刪除 worktree
+omc session search <query>       — 跨歷史工作階段搜尋 transcript
+omc doctor                       — 安裝問題診斷
+  omc doctor conflicts             └ 外掛衝突檢查
+omc hud                          — 渲染 HUD 狀態列（被 settings.json 的 statusLine 呼叫）
+omc mission-board                — 顯示當前工作區的任務看板快照
+omc team [N:agent "task"]        — 啟動 tmux CLI 工作者（codex/gemini/claude）
+  omc team status <name>           └ 檢查執行中的 Team 狀態
+  omc team shutdown <name>         └ 關閉 Team
+  omc team api <operation>         └ 低階 Team 狀態 API（send-message/list-tasks/...）
+omc autoresearch                 — 自主研究迴圈（Autonomous Research Loop）
+omc ralphthon                    — 駭客松（Hackathon）自動化生命週期
+omc setup                        — 同步所有元件（hooks/agents/skills）
+omc update                       — 檢查並安裝更新
+omc version / omc info           — 版本與系統資訊
+omc test-prompt <prompt>         — 測試提示詞（Prompt）如何被增強
+```
+
+---
+
+### 五大獨立存在的理由
+
+#### 理由一：Claude Code 暫停時需要持續運行的背景程序
+
+**問題**：Claude Code 觸碰 Rate Limit 時整個工作階段暫停，Skills/Hooks 全部停止。但使用者希望 Rate Limit 清除後**自動恢復**，不需要手動守候。
+
+**解法**：`omc wait` 是一個完全在 Claude Code 之外運行的獨立程序。
+
+```
+Claude Code 被速率限制暫停
+         │
+         ▼
+omc wait --start
+  ├─ 啟動背景 Daemon（每 60 秒輪詢 Rate Limit API）
+  ├─ 掃描 tmux 中被 "rate limited" 訊息鎖住的視窗
+  ├─ 當 Rate Limit 清除時，向 tmux 視窗發送 Enter 鍵恢復
+  └─ Daemon 狀態持久化到 ~/.claude/.omc-daemon-state.json
+
+─── 為什麼 Skill 無法取代？ ───────────────────────────────────────
+Skills 在 Claude Code 程序內執行。Claude Code 被 Rate Limit 暫停
+時，Skills 也無法執行。只有外部程序才能在 Claude Code 暫停期間
+繼續監控狀態並在適當時機自動重啟。
+────────────────────────────────────────────────────────────────────
+```
+
+#### 理由二：需要在 Claude Code **啟動前**注入環境變數
+
+**問題**：OMC 的通知功能（Telegram、Discord、OpenClaw）透過 Hook 在 `SessionStart`/`Stop` 時發出通知，這些 Hook 讀取 `OMC_TELEGRAM`、`OMC_DISCORD`、`OMC_OPENCLAW` 等環境變數。但環境變數必須在 Claude Code 啟動前就設定好。
+
+**解法**：`omc launch` 是 `claude` 指令的包裝器，在啟動 Claude Code 前設定好所有環境變數：
+
+```bash
+omc launch --notify false          # 設定 OMC_NOTIFY=0，再執行 claude
+omc launch --openclaw true         # 設定 OMC_OPENCLAW=1，再執行 claude
+omc --madmax                       # --madmax 等同 --dangerously-skip-permissions
+```
+
+```
+omc launch 的內部流程：
+  1. 解析 --notify / --openclaw / --telegram 等 flag
+  2. 設定對應環境變數（process.env.OMC_NOTIFY = "0"）
+  3. 偵測是否在 tmux 內
+     ├─ 在 tmux 內：直接執行 claude [...args]
+     └─ 在 tmux 外：自動建立 tmux session，在其中執行 claude，然後 attach
+  4. 執行完畢後 postLaunch（清理）
+
+─── 為什麼 Skill 無法取代？ ───────────────────────────────────────
+Claude Code 啟動後，環境變數已固定。必須在啟動前注入。
+────────────────────────────────────────────────────────────────────
+```
+
+#### 理由三：直接操控 tmux 視窗分割（Claude Code 沙盒限制）
+
+**問題**：`omc team N:codex "task"` 需要在 tmux 中開啟 N 個分割視窗，各自執行 `codex`/`gemini`/`claude` CLI 進程。Claude Code 內的 Bash tool 雖然能執行 shell 指令，但：
+- 直接 `tmux split-window` 在 Claude Code 的 Hook 中被主動**封鎖**（`WORKER_BLOCKED_TMUX_PATTERN`）
+- 這是安全設計：防止工作者自己生出更多工作者造成無限遞迴
+
+**解法**：`omc team` 是在 tmux 中直接運行的外部進程，不受 Claude Code 的工具沙盒限制：
+
+```
+使用者在 tmux 中執行：
+omc team 2:codex "review auth module"
+         │
+         ├─ 解析：N=2, agent-type=codex, task="review auth module"
+         ├─ 建立 Team 名稱（team-name = slugify(task)）
+         ├─ tmux split-window → 開 2 個新視窗，各執行：
+         │     codex --print --agent-prompt executor "review auth module"
+         ├─ 監控各視窗的輸出（tail tmux pane buffer）
+         ├─ omc team status auth-review → 讀取 .omc/state/team-state.json
+         └─ omc team shutdown auth-review → 向各 pane 發送退出指令
+
+─── 為什麼 Skill 無法取代？ ───────────────────────────────────────
+pre-tool-enforcer.mjs 明確封鎖了 Hook 腳本中的 tmux split-window。
+這是 OMC 自己的安全防護，防止代理人無限生成子代理人。
+外部 CLI 是唯一能做真正 tmux 操作的方式。
+────────────────────────────────────────────────────────────────────
+```
+
+#### 理由四：HUD 狀態列需要 Claude Code 外部的 Node.js 進程
+
+**問題**：Claude Code 的 `settings.json` 支援 `statusLine.command`，即每次渲染狀態列時執行一個外部指令並取得輸出文字。這個指令由 **Claude Code 程序呼叫**，並非在 Claude Code 內部執行。
+
+**解法**：`omc hud` 就是這個外部指令。
+
+```
+settings.json：
+{
+  "statusLine": {
+    "type": "command",
+    "command": "\"/path/to/node\" \"/home/user/.claude/hud/omc-hud.mjs\""
+  }
+}
+
+每次 Claude Code 渲染狀態列時：
+  → 執行 omc-hud.mjs（在 Claude Code 外部）
+  → 讀取 .omc/state/*.json（代理人狀態、token 用量）
+  → 輸出一行文字給 Claude Code 顯示
+
+─── 為什麼 Skill 無法取代？ ───────────────────────────────────────
+statusLine.command 本身就是設計為「外部命令」。
+Skills 是在 Claude Code 對話內執行的，無法輸出到狀態列。
+────────────────────────────────────────────────────────────────────
+```
+
+#### 理由五：跨會話、跨時間的狀態操作
+
+這類操作的特徵是「在一個 Claude Code 工作階段結束後、另一個開始前」使用：
+
+| 指令 | 使用時機 | 為什麼在 Claude Code 外？ |
+|------|---------|--------------------------|
+| `omc teleport '#42'` | 開始工作前，為 Issue #42 建立獨立 git worktree | 是啟動新工作階段的**前置準備** |
+| `omc session search "auth bug"` | 工作階段結束後，搜尋過去的對話記錄 | 搜尋歷史紀錄，不需要啟動 Claude |
+| `omc config-stop-callback telegram --enable` | 一次性設定，之後所有工作階段都生效 | 設定持久化設定檔，無需 Claude Code |
+| `omc doctor conflicts` | 安裝出問題時診斷 | Claude Code 可能根本無法正常啟動 |
+
+---
+
+### CLI 指令分組：按使用場景
+
+```
+A. Claude Code 啟動前（Pre-session）
+   omc launch            → 帶環境變數啟動 + tmux 自動建立
+   omc teleport '#42'    → 建立 issue/PR 的隔離 worktree
+   omc setup             → 同步安裝元件
+   omc update            → 更新到最新版
+
+B. Claude Code 執行中（In-session，從外部觀察）
+   omc hud               → 狀態列渲染（被 settings.json 呼叫）
+   omc mission-board     → 任務看板快照
+   omc team status       → 檢查 tmux CLI 工作者狀態
+   omc team shutdown     → 強制關閉工作者
+
+C. Claude Code 暫停時（Rate Limited）
+   omc wait              → 檢查速率限制狀態
+   omc wait --start      → 啟動自動恢復 Daemon
+   omc wait detect       → 掃描 tmux 中被鎖住的視窗
+
+D. Claude Code 結束後（Post-session）
+   omc session search    → 搜尋歷史 transcript
+   omc doctor            → 診斷問題
+
+E. 完全獨立使用（Standalone）
+   omc ask codex "task"  → 呼叫外部 AI 顧問，不需啟動 Claude
+   omc interop           → OMC + OMX 並排工作環境
+   omc ralphthon "task"  → 外部編排的駭客松自動化
+   omc autoresearch      → 自主研究迴圈（在 worktree 中）
+   omc config-stop-callback → 永久設定通知
+```
+
+---
+
+### `omc teleport` — git worktree 深度整合
+
+`teleport` 解決了一個具體痛點：開始做一個 GitHub Issue 時，需要手動 `git fetch`、`git checkout -b`、切換目錄，很繁瑣。
+
+```bash
+omc teleport '#42'
+# 做了什麼：
+# 1. 用 gh CLI 查詢 Issue #42 的標題："Fix auth token expiry"
+# 2. 建立分支名：fix/42-fix-auth-token-expiry
+# 3. git worktree add ~/Workspace/omc-worktrees/issue/myrepo-42 fix/42-fix-auth-token-expiry
+# 4. 輸出 worktree 路徑，使用者可直接 cd 進去開新的 Claude Code 工作階段
+
+omc teleport 'add-oauth'
+# 建立功能分支：feat/add-oauth
+# worktree 路徑：~/Workspace/omc-worktrees/feat/myrepo-add-oauth
+
+omc teleport list
+# 列出所有 ~/Workspace/omc-worktrees/ 下的 worktrees
+```
+
+> [!tip] 最佳實踐
+> `omc teleport` + `omc launch` 組合使用：
+> ```bash
+> omc teleport '#42' && cd ~/Workspace/omc-worktrees/issue/myrepo-42 && omc
+> ```
+> 一行指令：建立隔離環境 → 切入 → 啟動 Claude Code（自動附帶 tmux）
+
+---
+
+### `omc ralphthon` — 駭客松自動化生命週期
+
+這是 CLI 中最進階的指令，把「ralph 模式（持久執行）」提升為**全自主的駭客松循環**：
+
+```
+使用者執行：omc ralphthon "build a REST API for task management"
+                  │
+                  ▼ （需要在 tmux 中）
+┌──────────────────────────────────────────────────────────┐
+│  Phase 1: Deep Interview                                  │
+│  → 在 Leader tmux pane 執行 /deep-interview              │
+│  → 產生 .omc/ralphthon-prd.json                          │
+└──────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌──────────────────────────────────────────────────────────┐
+│  Phase 2: Execute Waves（每波 = 一輪 ralph 執行）          │
+│  → 外部 Orchestrator（omc 程序）監控 Claude Code 工作階段  │
+│  → 每波執行完畢後比對 PRD story 完成度                    │
+│  → 連續 3 波都乾淨（clean）才宣告完成                      │
+└──────────────────────────────────────────────────────────┘
+                  │
+                  ▼
+┌──────────────────────────────────────────────────────────┐
+│  Phase 3: Hardening（強化）                               │
+│  → 執行安全審查、測試補全、代碼簡化                       │
+└──────────────────────────────────────────────────────────┘
+```
+
+**與 ralph 模式的差異：**
+
+| | `ralph` (Skill) | `omc ralphthon` (CLI) |
+|--|--|--|
+| 執行環境 | Claude Code 工作階段內 | 外部 tmux 編排器 |
+| 持久性 | 同一個工作階段 | 跨多個 Claude Code 工作階段 |
+| 適用場景 | 單次任務確保完成 | 多小時/整天的自動化開發 |
+| tmux 需求 | 可選 | 必須 |
+
+---
+
+### `omc autoresearch` — 自主研究迴圈
+
+解決了一個特殊問題：AI 生成的程式碼有隨機性，如何系統性地「搜尋最佳實作方案」？
+
+```
+概念：每次嘗試都在隔離的 git worktree 中執行
+      → 透過評估器（evaluator）判斷結果好壞（keep/discard/reset）
+      → 保留好的結果，丟棄壞的，持續迭代
+
+使用方式：
+omc autoresearch --topic "optimize database query" \
+                 --eval "pytest tests/perf/" \
+                 --slug "db-query-opt"
+
+→ 每次迭代：建立新 worktree → 讓 Claude 嘗試優化 → 執行 pytest
+  keep：合併回主分支
+  discard：刪除 worktree，重試
+  reset：重置到基準狀態
+```
+
+---
+
+### 為什麼不能用其他方法取代 CLI？
+
+| CLI 指令 | 嘗試的替代方案 | 為什麼不可行 |
+|---------|--------------|------------|
+| `omc wait` 自動恢復 | 在 Claude Code 裡寫 Skill | Rate Limited 時 Skills 無法執行，需要外部常駐程序 |
+| `omc launch` 環境注入 | 手動設 export 再啟動 | 使用者每次都要記得設定，容易忘記；無法跨平台一致 |
+| `omc team N:codex` | `/team N:codex` Skill | Hooks 封鎖了 `tmux split-window`（安全設計防止遞迴） |
+| `omc hud` | 把 HUD 邏輯放在 Hook 裡 | `statusLine.command` 本身就需要外部進程，這是 Claude Code 的 API |
+| `omc teleport` | 在 Claude Code 裡執行 git | 這是啟動 Claude Code **之前**的準備動作，不需要啟動 Claude |
+| `omc session search` | Claude Code 自帶歷史 | 跨工作階段搜尋需要在無 Claude 的情況下快速查詢 |
+| `omc doctor` | 在 Claude Code 裡診斷 | Claude Code 可能根本無法正常啟動，診斷必須在外部 |
+
+> [!note] 核心洞察
+> OMC CLI 的本質是一個「**Claude Code 的衛星控制中心**」。它不是要取代 Claude Code，而是填補 Claude Code 程序生命週期邊界上的空隙：啟動前的環境準備、執行中的外部觀察、Rate Limit 時的自動恢復、結束後的狀態查詢。
+
+---
+
 ## 安裝與設定深度解析（Installation & Setup Deep Dive）
 
 > [!important] 本節深度分析四個安裝指令的完整運作機制與實際寫入的檔案清單。
