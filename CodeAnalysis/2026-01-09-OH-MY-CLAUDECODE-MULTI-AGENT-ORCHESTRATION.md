@@ -501,6 +501,312 @@ omc wait --start
 
 ---
 
+---
+
+## 安裝與設定深度解析（Installation & Setup Deep Dive）
+
+> [!important] 本節深度分析四個安裝指令的完整運作機制與實際寫入的檔案清單。
+
+### 指令一：`/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode`
+
+這是 Claude Code 原生的 Plugin Marketplace 系統指令。執行後：
+
+```
+Claude Code 讀取 .claude-plugin/marketplace.json
+         │
+         ▼
+git clone https://github.com/Yeachan-Heo/oh-my-claudecode
+  → 目標路徑：~/.claude/plugins/marketplaces/omc/
+         │
+         ▼
+登記到 ~/.claude/plugins/installed_marketplaces.json
+```
+
+**寫入的檔案：**
+```
+~/.claude/plugins/marketplaces/omc/
+├── .claude-plugin/
+│   ├── marketplace.json   ← 市集清單（name: "omc"）
+│   └── plugin.json        ← 外掛元資料（name: "oh-my-claudecode"）
+├── skills/                ← 全部技能（不立即啟用）
+├── agents/                ← 代理人定義
+├── hooks/hooks.json       ← Hook 事件設定
+├── scripts/               ← Hook 執行腳本
+├── bridge/                ← CLI & MCP server
+└── ... (完整 repo 內容)
+```
+
+`marketplace.json` 中宣告的 `"name": "omc"` 就是之後 `/plugin install oh-my-claudecode` 能找到此外掛的依據。
+
+---
+
+### 指令二：`/plugin install oh-my-claudecode`
+
+Claude Code 從已登記的市集中找到 `oh-my-claudecode` 外掛並執行安裝：
+
+```
+讀取 ~/.claude/plugins/marketplaces/omc/.claude-plugin/plugin.json
+         │
+         ▼
+複製外掛內容到版本化快取目錄：
+~/.claude/plugins/cache/omc/oh-my-claudecode/{version}/
+         │
+         ▼
+執行 Post-Install 腳本：scripts/plugin-setup.mjs
+         │
+         ├─ 建立 ~/.claude/hud/ 目錄
+         ├─ 安裝 ~/.claude/hud/omc-hud.mjs（HUD wrapper）
+         ├─ 修改 ~/.claude/settings.json：加入 statusLine
+         ├─ 儲存 node binary 路徑到 ~/.claude/.omc-config.json
+         ├─ 修補 hooks/hooks.json：將 `node` 替換為絕對路徑（解決 nvm/fnm 問題）
+         └─ 若 node_modules 缺失：執行 npm install --omit=dev --ignore-scripts
+         │
+         ▼
+登記到 ~/.claude/plugins/installed_plugins.json
+（記錄 installPath 指向 cache 目錄）
+```
+
+**Post-Install 後完整檔案清單：**
+
+```
+~/.claude/
+├── settings.json                          ← 新增 statusLine 設定
+│   {
+│     "statusLine": {
+│       "type": "command",
+│       "command": "\"/path/to/node\" \"/home/user/.claude/hud/omc-hud.mjs\""
+│     }
+│   }
+│
+├── hud/
+│   └── omc-hud.mjs                        ← HUD 狀態列 wrapper 腳本
+│
+├── .omc-config.json                        ← OMC 設定（nodeBinary 路徑）
+│
+└── plugins/
+    ├── marketplaces/omc/                   ← 步驟一 clone 的 repo（不變）
+    ├── cache/omc/oh-my-claudecode/
+    │   └── {version}/                      ← 實際啟用的外掛根目錄
+    │       ├── dist/                        ← 編譯後的 TypeScript（MCP tools 等）
+    │       ├── agents/                      ← 19 個代理人 Markdown
+    │       ├── skills/                      ← 30+ 個技能目錄
+    │       ├── hooks/hooks.json             ← 已修補絕對路徑的 Hook 設定
+    │       ├── scripts/                     ← keyword-detector.mjs 等 Hook 腳本
+    │       ├── bridge/                      ← cli.cjs、mcp-server.cjs、team-bridge.cjs
+    │       ├── .claude-plugin/              ← plugin.json、marketplace.json
+    │       ├── .mcp.json                    ← MCP server 設定（指向 bridge/mcp-server.cjs）
+    │       └── node_modules/                ← npm install --omit=dev 安裝的依賴
+    │
+    └── installed_plugins.json              ← 記錄 installPath
+```
+
+**`settings.json` 的 `statusLine` 的意義：**
+
+Claude Code 每次渲染狀態列時，會執行這個 Node.js 腳本，`omc-hud.mjs` 從外掛快取目錄讀取 `dist/hud/index.js` 並輸出 HUD 文字。這樣 HUD 就能即時反映代理人狀態。
+
+---
+
+### 指令三：`/setup`
+
+這是一個**路由器技能（Router Skill）**，讀取 `skills/setup/SKILL.md`：
+
+```
+/setup [argument]
+    │
+    ├─ 無參數 / --local / --global / --force
+    │     └─→ 呼叫 /oh-my-claudecode:omc-setup
+    │
+    ├─ doctor
+    │     └─→ 呼叫 /oh-my-claudecode:omc-doctor
+    │
+    └─ mcp
+          └─→ 呼叫 /oh-my-claudecode:mcp-setup
+```
+
+本身不做任何事，只負責分派。
+
+---
+
+### 指令四：`/omc-setup`（四階段安裝精靈）
+
+讀取 `skills/omc-setup/SKILL.md`，按序執行四個階段：
+
+#### 安裝精靈時序圖（Setup Wizard Sequence Diagram）
+
+```
+用戶              /omc-setup            scripts/           ~/.claude/
+  │                   │                    │                   │
+  │  /omc-setup       │                    │                   │
+  │──────────────────►│                    │                   │
+  │                   │                    │                   │
+  │                   │ 檢查 .omc-config.json (是否已設定？)   │
+  │                   │───────────────────────────────────────►│
+  │                   │◄── 未設定，繼續 ──────────────────────│
+  │                   │                    │                   │
+  │  ▼ Phase 1                             │                   │
+  │  詢問：Local 或 Global？               │                   │
+  │◄──────────────────│                    │                   │
+  │  回答：Global     │                    │                   │
+  │──────────────────►│                    │                   │
+  │                   │  setup-claude-md.sh global             │
+  │                   │───────────────────►│                   │
+  │                   │                    │ 備份舊 CLAUDE.md  │
+  │                   │                    │ 下載新版本         │
+  │                   │                    │───────────────────►│
+  │                   │                    │  寫入 ~/.claude/CLAUDE.md
+  │                   │                    │  寫入 .git/info/exclude
+  │                   │                    │◄──────────────────│
+  │                   │◄── 成功 ───────────│                   │
+  │                   │                    │                   │
+  │  ▼ Phase 2                             │                   │
+  │                   │  呼叫 hud skill    │                   │
+  │                   │──────────────────────────────────────► ~/.claude/hud/omc-hud.mjs
+  │                   │                    │   ~/.claude/settings.json (statusLine)
+  │                   │                    │                   │
+  │                   │  清除舊版快取      │                   │
+  │                   │  檢查 npm 最新版本 │                   │
+  │  詢問：預設執行模式？                  │                   │
+  │◄──────────────────│                    │                   │
+  │  回答：ultrawork  │                    │                   │
+  │──────────────────►│                    │                   │
+  │                   │ 寫入 .omc-config.json (defaultExecutionMode)
+  │                   │───────────────────────────────────────►│
+  │  詢問：安裝 omc CLI？                  │                   │
+  │◄──────────────────│                    │                   │
+  │  回答：Yes        │                    │                   │
+  │──────────────────►│  npm install -g oh-my-claude-sisyphus  │
+  │                   │───────────────────►│                   │
+  │                   │  /usr/local/bin/omc (或 ~/.npm/bin/omc)│
+  │                   │                    │                   │
+  │  ▼ Phase 3                             │                   │
+  │  詢問：設定 MCP servers？              │                   │
+  │◄──────────────────│                    │                   │
+  │  詢問：啟用 Agent Teams？              │                   │
+  │◄──────────────────│                    │                   │
+  │  回答：Yes        │                    │                   │
+  │──────────────────►│  jq 修改 settings.json                 │
+  │                   │───────────────────────────────────────►│
+  │                   │  CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1│
+  │                   │                    │                   │
+  │  ▼ Phase 4                             │                   │
+  │  顯示 Welcome 訊息                     │                   │
+  │◄──────────────────│                    │                   │
+  │                   │  寫入 .omc-config.json (setupCompleted)│
+  │                   │───────────────────────────────────────►│
+```
+
+#### 安裝後完整檔案清單（完整版）
+
+```
+~/.claude/
+│
+├── CLAUDE.md                              ← OMC 主要指令系統（含 <!-- OMC:START --> marker）
+│   (或 ./.claude/CLAUDE.md 若選 local)
+│
+├── settings.json                          ← 累積修改：
+│   {                                         - statusLine（Phase 1 plugin-setup）
+│     "statusLine": { ... },                  - CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS（Phase 3）
+│     "env": {
+│       "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+│     }
+│   }
+│
+├── hud/
+│   └── omc-hud.mjs                        ← HUD 狀態列 wrapper（Phase 2）
+│
+├── .omc-config.json                        ← OMC 設定檔（累積寫入）：
+│   {                                         - nodeBinary（plugin-setup）
+│     "nodeBinary": "/path/to/node",          - defaultExecutionMode（Phase 2）
+│     "defaultExecutionMode": "ultrawork",    - taskTool（Phase 2，若有 beads）
+│     "setupCompleted": "2026-...",           - setupCompleted（Phase 4）
+│     "setupVersion": "4.9.1"                 - setupVersion（Phase 4）
+│   }
+│
+└── plugins/
+    ├── marketplaces/omc/                   ← /plugin marketplace add 的產物
+    ├── cache/omc/oh-my-claudecode/
+    │   └── 4.9.1/                          ← 外掛根目錄（$CLAUDE_PLUGIN_ROOT）
+    │       ├── dist/                        ← 編譯後 JS（含 MCP tools、HUD engine）
+    │       ├── agents/*.md                  ← 19 個代理人定義
+    │       ├── skills/                      ← 30+ 技能（ralph、team、autopilot 等）
+    │       ├── hooks/hooks.json             ← 已修補絕對 node 路徑的 Hook 設定
+    │       ├── scripts/*.mjs               ← keyword-detector、skill-injector 等
+    │       ├── bridge/cli.cjs              ← `omc` CLI 入口
+    │       ├── bridge/mcp-server.cjs       ← MCP 工具伺服器
+    │       ├── bridge/team-bridge.cjs      ← tmux 工作者管理
+    │       ├── .mcp.json                    ← MCP server 設定
+    │       └── node_modules/               ← 依賴（commander、better-sqlite3、zod 等）
+    │
+    └── installed_plugins.json              ← 外掛登錄表
+
+# 若選擇安裝 omc CLI（Phase 2）
+$(npm root -g)/../bin/omc                   ← 全域 CLI 指令（oh-my-claude-sisyphus）
+```
+
+#### Phase 2：CLAUDE.md 的特殊處理
+
+`setup-claude-md.sh` 下載 CLAUDE.md 時有智慧合併邏輯：
+
+```bash
+# 1. 優先使用 bundled docs/CLAUDE.md（不需網路）
+# 2. 若不存在，curl 從 GitHub 下載
+# 3. 備份現有 CLAUDE.md → CLAUDE.md.backup.YYYY-MM-DD
+# 4. 合併：保留用戶自訂部分（<!-- OMC:START --> 到 <!-- OMC:END --> 以外的內容）
+# 5. 在 .git/info/exclude 加入 OMC 忽略規則（local 模式）
+```
+
+CLAUDE.md 內的 `<!-- OMC:START -->` 和 `<!-- OMC:END -->` 標記讓 OMC 可以精確更新自己的區段，同時保留用戶的自訂內容。
+
+---
+
+### 安裝流程全景圖（Complete Installation Flow）
+
+```
+/plugin marketplace add URL
+         │  git clone → ~/.claude/plugins/marketplaces/omc/
+         ▼
+/plugin install oh-my-claudecode
+         │  copy → ~/.claude/plugins/cache/omc/oh-my-claudecode/4.9.1/
+         │  run plugin-setup.mjs:
+         │    → ~/.claude/hud/omc-hud.mjs
+         │    → ~/.claude/settings.json (statusLine)
+         │    → ~/.claude/.omc-config.json (nodeBinary)
+         │    → hooks.json (patch node path)
+         │    → npm install --omit=dev
+         ▼
+/setup → /omc-setup
+    Phase 1:
+         │  setup-claude-md.sh global/local
+         │    → ~/.claude/CLAUDE.md（或 ./.claude/CLAUDE.md）
+         │    → .git/info/exclude（local 模式）
+    Phase 2:
+         │  hud skill → settings.json (statusLine 確認)
+         │  clear old cache versions
+         │  npm view latest version
+         │  ~/.claude/.omc-config.json (defaultExecutionMode)
+         │  npm install -g oh-my-claude-sisyphus → /usr/local/bin/omc
+         │  ~/.claude/.omc-config.json (taskTool)
+    Phase 3:
+         │  /omc-setup → mcp-setup（選用）
+         │  settings.json (CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
+    Phase 4:
+         │  ~/.claude/.omc-config.json (setupCompleted, setupVersion)
+         ▼
+Claude Code 重啟後生效：
+  - HUD 狀態列顯示代理人資訊
+  - UserPromptSubmit Hook 開始偵測關鍵字
+  - 所有 skills/ 技能可透過 /oh-my-claudecode:xxx 呼叫
+  - $CLAUDE_PLUGIN_ROOT 指向 cache/4.9.1/
+```
+
+> [!note] 執行時環境變數（Runtime Environment Variable）
+> Claude Code 在執行 Hook 腳本時，會自動設定 `CLAUDE_PLUGIN_ROOT` 指向外掛快取目錄（`~/.claude/plugins/cache/omc/oh-my-claudecode/{version}/`）。所有 `hooks.json` 中的 `"$CLAUDE_PLUGIN_ROOT"` 都是用這個環境變數解析路徑。
+
+> [!tip] 為什麼 `plugin-setup.mjs` 要 patch hooks.json 的 `node` 為絕對路徑？
+> 因為 Claude Code 執行 Hook 腳本時使用的 shell 環境可能沒有 `nvm`/`fnm` 注入的 PATH，所以 `node` 指令找不到。用 `process.execPath`（安裝時的 Node.js 絕對路徑）確保 Hook 腳本永遠找到正確的 Node.js。
+
+---
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS]] — OMC 深度依賴 Claude Code Hook 系統
