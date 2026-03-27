@@ -1126,6 +1126,540 @@ Claude Code 重啟後生效：
 
 ---
 
+---
+
+## src 原始碼深度解析（Source Code Architecture）
+
+> [!important] 本節解析 `src/` 下 31 個模組的功能、編譯方式、執行時間點，以及它們與 CLI 和外掛系統的完整關係。
+
+### src 模組全覽
+
+```
+src/                           (851 個 .ts 檔案)
+├── agents/                    ← 19 個代理人定義
+├── autoresearch/              ← 自主研究合約系統
+├── cli/                       ← CLI 命令實作
+├── commands/                  ← 指令展開系統（/omc-setup 等）
+├── config/                    ← 設定載入與合併
+├── constants/                 ← 常數定義
+├── features/                  ← 22 個功能模組
+├── hooks/                     ← 48 個 Hook 機制
+├── hud/                       ← 17 個 HUD 狀態列元件
+├── installer/                 ← 安裝器（postinstall 邏輯）
+├── interop/                   ← OMC + OMX 互通層
+├── lib/                       ← 15 個共用函式庫
+├── mcp/                       ← 11 個 MCP 相關模組
+├── notifications/             ← 19 個通知系統
+├── openclaw/                  ← OpenClaw 閘道整合
+├── planning/                  ← 規劃模組
+├── platform/                  ← 跨平台相容
+├── providers/                 ← 6 個 Git 提供者（GitHub/GitLab/Gitea）
+├── ralphthon/                 ← 7 個 Ralphthon 駭客松模組
+├── shared/                    ← 共用型別定義
+├── skills/                    ← 技能系統（Learner）
+├── team/                      ← 56 個 Team 協作模組
+├── tools/                     ← 20 個工具定義
+├── utils/                     ← 14 個工具函數
+├── verification/              ← 驗證系統
+└── index.ts                   ← 主要導出入口
+```
+
+---
+
+### TypeScript → 執行檔案：完整編譯流程
+
+OMC 使用「雙軌編譯策略」：
+
+```
+src/**/*.ts
+     │
+     ├─── [tsc]（TypeScript 官方編譯器）
+     │         → dist/（ES Module，供動態 import 使用）
+     │         → 保留 .d.ts 型別宣告、source map
+     │
+     └─── [esbuild]（Bundler，Scripts: npm run build）
+               ├─ build-cli.mjs           → bridge/cli.cjs（2.6 MB）
+               ├─ build-mcp-server.mjs    → bridge/mcp-server.cjs（870 KB）
+               ├─ build-skill-bridge.mjs  → dist/hooks/skill-bridge.cjs
+               ├─ build-team-server.mjs   → bridge/team-mcp.cjs（654 KB）
+               ├─ build-runtime-cli.mjs   → bridge/runtime-cli.cjs（213 KB）
+               └─ build-bridge-entry.mjs  → bridge/team-bridge.cjs（72 KB）
+```
+
+**為什麼要兩種編譯方式？**
+
+| 情境 | 編譯器 | 原因 |
+|------|-------|------|
+| CLI、MCP server（獨立執行檔） | esbuild | 需要單一自包含 .cjs 檔案，方便分發和執行 |
+| Hook 腳本動態載入 | esbuild（→ .cjs）| Hook 腳本用 `require()` 同步載入，需要 CommonJS |
+| SDK 函式庫導出 | tsc（→ ESM） | 支援 Tree-shaking，保留型別宣告 |
+| 內部模組互相引用 | tsc（→ ESM） | 支援動態 `import()` 和 Source Map 除錯 |
+
+---
+
+### 各模組詳細說明
+
+#### `src/hooks/`（Hook 橋接層）
+
+Hook 系統是 OMC 最核心的執行機制。每個 Claude Code 生命週期事件都對應到一個 TypeScript 模組。
+
+```
+src/hooks/
+├── bridge.ts                  ← 主橋接層（5,213 行！所有 Hook 事件的路由中心）
+├── bridge-normalize.ts        ← Hook 輸入正規化
+├── keyword-detector/          ← UserPromptSubmit：魔術關鍵字偵測
+├── ralph/                     ← Stop：Ralph 持久循環狀態管理
+├── learner/
+│   └── bridge.ts              ← 技能學習器（編譯為 dist/hooks/skill-bridge.cjs）
+├── permission-handler/        ← PermissionRequest：Bash 權限處理
+├── subagent-tracker/          ← SubagentStart/Stop：子代理追蹤與 Session Replay
+│   └── session-replay.ts      ← 記錄工具呼叫時間軸
+├── todo-continuation/         ← Stop：待辦事項未完成時阻止停止
+├── pre-compact/               ← PreCompact：壓縮前儲存狀態
+├── setup/                     ← SessionStart init：首次設定
+├── session-end/               ← SessionEnd：工作階段結束清理
+├── skill-state/               ← 技能啟用狀態管理
+├── omc-orchestrator/          ← PreToolUse/PostToolUse：工具執行追蹤
+├── mode-registry/             ← 執行模式（ralph/ultrawork）狀態登錄
+├── auto-slash-command/        ← 自動斜線指令偵測
+├── agent-usage-reminder/      ← 代理人使用提醒
+├── beads-context/             ← Beads 任務工具上下文注入
+├── background-notification/   ← 背景任務通知
+├── codebase-map.ts            ← 代碼庫結構映射
+├── comment-checker/           ← 程式碼註解品質檢查
+├── directory-readme-injector/ ← 目錄 README 自動注入
+├── empty-message-sanitizer/   ← 清理空訊息
+└── factcheck/                 ← 事實查核（選用）
+```
+
+**執行路徑：**
+
+```
+Claude Code 觸發 Hook 事件
+         │
+         ▼
+hooks/hooks.json 中的指令：
+  node "$CLAUDE_PLUGIN_ROOT"/scripts/run.cjs "$SCRIPT_PATH"
+         │
+         ▼
+scripts/run.cjs（輕量 resolver）
+  ├─ 解析 $CLAUDE_PLUGIN_ROOT
+  ├─ 找到最新版本快取目錄
+  └─ 動態 require 或 import 目標腳本
+         │
+         ▼
+scripts/keyword-detector.mjs（等各 .mjs）
+  ├─ require('dist/hooks/skill-bridge.cjs')  ← 熱路徑（同步載入）
+  └─ 執行業務邏輯，輸出 JSON → stdout → Claude Code
+```
+
+`bridge.ts` 是所有 Hook 邏輯的路由中心，根據 Hook 類型分派到對應子模組：
+
+```typescript
+// bridge.ts 核心路由（簡化）
+switch (hookType) {
+  case 'UserPromptSubmit': return handleKeywordDetection(input);
+  case 'PreToolUse':       return processOrchestratorPreTool(input);
+  case 'PostToolUse':      return processOrchestratorPostTool(input);
+  case 'SubagentStart':    return trackSubagentStart(input);
+  case 'SubagentStop':     return trackSubagentStop(input) + verifyDeliverables(input);
+  case 'Stop':             return contextGuardStop(input) + persistentMode(input);
+  case 'SessionEnd':       return sessionEnd(input);
+  // ...
+}
+```
+
+---
+
+#### `src/features/`（功能模組）
+
+22 個功能模組，各自解決獨立問題：
+
+```
+src/features/
+├── magic-keywords.ts          ← 魔術關鍵字處理器（createMagicKeywordProcessor）
+├── continuation-enforcement.ts← 強制完成 System Prompt 附加文字
+├── auto-update.ts             ← 自動更新檢查與安裝
+├── background-tasks.ts        ← 背景任務管理（shouldRunInBackground）
+├── delegation-enforcer.ts     ← 代理路由強制執行
+├── delegation-routing/        ← 智慧代理路由決策
+├── delegation-categories/     ← 代理類別定義
+├── model-routing/             ← Haiku/Sonnet/Opus 自動路由
+├── boulder-state/             ← Ralph PRD 計劃進度追蹤（.omc/state/boulder.json）
+├── context-injector/          ← 上下文自動注入系統（Context Collector）
+├── state-manager/             ← 全域狀態管理
+├── task-decomposer/           ← 任務自動拆解
+├── verification/              ← 任務完成驗證邏輯
+├── notepad-wisdom/            ← 記事本智慧（跨 Session 的筆記）
+├── builtin-skills/            ← 內建技能（不需外部 .md 檔）
+├── background-agent/          ← 背景代理執行
+├── rate-limit-wait/           ← 速率限制偵測與等待
+├── session-history-search/    ← Session 歷史搜尋（支援 omc session search）
+├── auto-update.ts             ← GitHub API 版本檢查
+└── index.ts                   ← 統一重新匯出
+```
+
+**boulder-state（計劃進度追蹤）** 是 ralph 模式的基礎：
+
+```
+.omc/state/boulder.json 儲存：
+  - PRD stories 列表
+  - 每個 story 的完成狀態
+  - 當前迭代次數
+  - 計劃名稱和路徑
+
+ralph 執行時每次迭代都讀寫這個檔案，確保跨 Session 持久化
+```
+
+**context-injector（上下文注入器）** 實現了「上下文即時注入」：
+
+```typescript
+// 任何模組都可以注冊上下文來源
+contextCollector.register({
+  type: 'project-memory',  // 來源類型
+  priority: 'high',        // 注入優先度
+  content: memory,         // 上下文內容
+});
+
+// Hook 觸發時自動注入到 Claude 的輸入中
+injectPendingContext(hookInput);
+```
+
+---
+
+#### `src/tools/`（工具定義）
+
+MCP 工具伺服器提供的所有工具，按類別分組：
+
+```
+src/tools/
+├── lsp/                       ← LSP（語言伺服器協議）工具（12 個）
+│   ├── client.ts              ← LSP 客戶端（連接 TypeScript/Python LSP）
+│   ├── servers.ts             ← 語言伺服器發現（tsserver、pylsp 等）
+│   ├── utils.ts               ← 符號搜尋、診斷格式化
+│   └── index.ts               ← 工具定義導出
+├── python-repl/               ← Python REPL 工具
+│   ├── bridge-manager.ts      ← Python 進程管理
+│   ├── socket-client.ts       ← Unix socket 通信
+│   ├── session-lock.ts        ← 工作階段鎖定（防衝突）
+│   └── tool.ts                ← MCP 工具定義
+├── ast-tools.ts               ← AST 語法樹搜尋（ast-grep）
+├── state-tools.ts             ← state_read/write/clear/list_active
+├── memory-tools.ts            ← project_memory_read/write/add_note
+├── notepad-tools.ts           ← notepad_read/write_priority/working
+├── skills-tools.ts            ← 技能清單/新增/搜尋
+├── shared-memory-tools.ts     ← 跨代理人共享記憶體
+├── session-history-tools.ts   ← 工作階段歷史搜尋工具
+├── deepinit-manifest.ts       ← deepinit 增量清單工具
+├── lsp-tools.ts               ← LSP 工具集整合
+└── types.ts                   ← 工具型別定義
+```
+
+**LSP 工具（12 個）完整列表：**
+
+| 工具名稱 | 功能 | 用途 |
+|---------|------|------|
+| `lsp_hover` | 取得符號型別資訊 | 理解程式碼 |
+| `lsp_goto_definition` | 跳轉定義 | 追蹤符號來源 |
+| `lsp_find_references` | 找出所有引用 | 影響分析 |
+| `lsp_diagnostics` | 單一檔案型別錯誤 | 代碼品質 |
+| `lsp_diagnostics_directory` | 整個專案型別檢查 | CI 驗證 |
+| `lsp_document_symbols` | 檔案符號大綱 | 快速理解結構 |
+| `lsp_workspace_symbols` | 跨專案符號搜尋 | 定位程式碼 |
+| `lsp_complete` | 自動補全建議 | 程式碼生成 |
+| `lsp_rename` | 符號重命名 | 安全重構 |
+| `lsp_format` | 格式化程式碼 | 代碼品質 |
+| `lsp_code_action` | 快速修復建議 | 自動修復 |
+| `lsp_servers` | 列出可用語言伺服器 | 環境診斷 |
+
+**Python REPL 工具** 使用 Unix socket 通信，讓代理人可以執行 Python 代碼並保持工作階段狀態（變數在多次呼叫間持久化）。
+
+---
+
+#### `src/mcp/`（MCP 工具伺服器）
+
+```
+src/mcp/
+├── omc-tools-server.ts        ← 主 MCP 工具伺服器（→ bridge/mcp-server.cjs）
+├── team-server.ts             ← Team 協作 MCP（→ bridge/team-mcp.cjs）
+├── standalone-server.ts       ← 獨立 MCP 伺服器（→ dist/mcp/）
+├── servers.ts                 ← MCP 伺服器工廠（exa、context7 整合）
+└── omc-tools.ts               ← 工具分組定義
+```
+
+**工具分組與禁用機制：**
+
+```
+環境變數 OMC_DISABLE_TOOLS=lsp,python
+                │
+                ▼
+omc-tools-server.ts 讀取後
+  跳過對應工具群組的初始化
+  LSP tools   → 不初始化 LSP client（節省記憶體）
+  Python tools → 不啟動 Python bridge 進程
+```
+
+`omc-tools-server.ts` 編譯後的 `bridge/mcp-server.cjs` 在 Claude Code 啟動時被 `.mcp.json` 自動載入：
+
+```json
+// .mcp.json
+{
+  "mcpServers": {
+    "t": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bridge/mcp-server.cjs"]
+    }
+  }
+}
+```
+
+這就是 Claude Code 中 `lsp_hover`、`ast_grep_search` 等工具可用的原因。
+
+---
+
+#### `src/hud/`（HUD 狀態列）
+
+```
+src/hud/
+├── index.ts                   ← HUD 入口（讀 stdin JSON → 輸出狀態列文字）
+├── state.ts                   ← HUD 狀態讀寫（.omc/state/hud.json）
+├── render.ts                  ← 狀態列渲染引擎
+├── usage-api.ts               ← Anthropic API 使用量統計
+├── transcript.ts              ← 對話記錄解析（.claude/projects/xxx/*.jsonl）
+├── omc-state.ts               ← 讀取 Ralph/Ultrawork/PRD 狀態
+├── mission-board.ts           ← 任務看板（多個 Team 的合併視圖）
+├── background-tasks.ts        ← 背景任務追蹤（HUD 層）
+├── custom-rate-provider.ts    ← 自訂速率顯示
+└── elements/                  ← 25 個 HUD UI 元件
+    ├── agent-dashboard.ts     ← 代理人儀表板
+    ├── rate-limit-indicator.ts← 速率限制指示器
+    ├── token-usage.ts         ← Token 用量顯示
+    ├── ralph-progress.ts      ← Ralph 進度條
+    └── ...
+```
+
+**HUD 的完整資料流：**
+
+```
+Claude Code 渲染狀態列（每幾秒一次）
+         │
+         ▼
+執行 settings.json 中的 statusLine.command：
+  node ~/.claude/hud/omc-hud.mjs
+         │
+         ▼
+omc-hud.mjs → 載入 dist/hud/index.js
+         │
+         ├─ 讀取 .omc/state/hud.json（代理人狀態）
+         ├─ 讀取 .omc/state/boulder.json（Ralph PRD 進度）
+         ├─ 讀取 .claude/projects/xxx/*.jsonl（Token 用量）
+         ├─ 可選：呼叫 Anthropic Usage API（速率限制資訊）
+         │
+         ▼
+render.ts → 組合各個 elements/
+         │
+         ▼
+stdout → 一行文字 → Claude Code 狀態列顯示
+```
+
+---
+
+#### `src/agents/`（代理人定義）
+
+```
+src/agents/
+├── definitions.ts             ← 所有代理人的彙總定義
+├── analyst.ts                 ← 需求分析代理（Opus）
+├── architect.ts               ← 架構設計代理（Opus）
+├── critic.ts                  ← 批評評審代理（Opus）
+├── debugger.ts                ← 除錯根因分析（Sonnet）
+├── designer.ts                ← UI/UX 設計（Sonnet）
+├── document-specialist.ts     ← 文件查詢（Sonnet）
+├── executor.ts                ← 程式碼實作（Sonnet）
+├── explore.ts                 ← 代碼庫探索（Haiku）
+├── planner.ts                 ← 任務規劃（Opus）
+├── qa-tester.ts               ← QA 測試（Sonnet，含 tmux）
+├── scientist.ts               ← 實驗與假設驗證（Sonnet）
+├── tracer.ts                  ← 代理人追蹤（Sonnet）
+├── writer.ts                  ← 文件撰寫（Haiku）
+├── prompt-helpers.ts          ← 提示工程輔助函式
+├── prompt-sections/           ← 可重用的提示片段
+├── templates/                 ← 代理人提示範本
+├── types.ts                   ← 代理人型別定義
+├── utils.ts                   ← 代理人工具函式
+└── index.ts                   ← 統一導出
+```
+
+**代理人的三層模型路由：**
+
+```typescript
+// src/agents/types.ts
+type AgentCategory = 'LOW' | 'MEDIUM' | 'HIGH';
+
+// LOW  → claude-haiku    (快速查詢、文件撰寫)
+// MEDIUM → claude-sonnet (標準實作、除錯)
+// HIGH → claude-opus     (架構、深度分析)
+
+// 自動路由邏輯：
+// 環境變數 > 代理人預設 > 任務複雜度推斷
+```
+
+**代理人定義的產生方式：** `definitions.ts` 從 `agents/*.md` 讀取 Markdown 提示，結合 TypeScript 型別定義，產生 Claude Agent SDK 需要的 `agents` 物件。
+
+---
+
+#### `src/config/`（設定系統）
+
+```
+src/config/
+├── loader.ts                  ← 設定載入、合併、驗證
+├── models.ts                  ← 模型層級（HIGH/MEDIUM/LOW）設定
+├── plan-output.ts             ← 計劃輸出路徑解析
+└── index.ts                   ← 統一導出
+```
+
+**設定優先層次（高到低）：**
+
+```
+1. 環境變數（OMC_MODEL_HIGH、OMC_DISABLE_TOOLS 等）
+2. .claude/omc.jsonc（專案設定）
+3. ~/.config/claude-omc/config.jsonc（使用者全域設定）
+4. 內建預設值
+```
+
+`loader.ts` 同時處理 CLAUDE.md 的精簡版本提取（`compactOmcStartupGuidance`），讓 Hook 腳本不需要讀取完整的 CLAUDE.md 就能取得關鍵設定。
+
+---
+
+#### `src/team/`（Team 協作系統，56 個模組）
+
+這是最大的模組群，實作了完整的多代理人 Team 協作：
+
+```
+src/team/
+├── bridge-entry.ts            ← Team tmux bridge（→ bridge/team-bridge.cjs）
+├── runtime-cli.ts             ← Team runtime CLI（→ bridge/runtime-cli.cjs）
+├── team-state/                ← Team 狀態機（SQLite or JSON）
+│   ├── sqlite-store.ts        ← SQLite 後端（高效能）
+│   └── json-store.ts         ← JSON 後端（回退）
+├── worker/                    ← Worker 代理人啟動邏輯
+│   ├── spawn-claude.ts        ← 啟動 Claude CLI worker
+│   ├── spawn-codex.ts         ← 啟動 Codex CLI worker
+│   └── spawn-gemini.ts        ← 啟動 Gemini CLI worker
+├── messaging/                 ← 代理人間通信（SendMessage）
+├── task-tracker/              ← 共享任務清單（TaskCreate/TaskList）
+├── heartbeat/                 ← Worker 存活偵測
+├── monitor/                   ← 整體 Team 監控
+└── mission-board/             ← 任務看板整合
+```
+
+**Team 的三種後端模式：**
+
+```
+omc team 3:claude "task"    → Claude CLI workers（tmux 視窗）
+omc team 2:codex "task"     → Codex CLI workers（tmux 視窗）
+/team 3:executor "task"     → Claude Code native Teams（CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1）
+```
+
+---
+
+#### `src/notifications/`（通知系統）
+
+```
+src/notifications/
+├── telegram.ts                ← Telegram Bot API
+├── discord.ts                 ← Discord Webhook / Bot
+├── slack.ts                   ← Slack Incoming Webhook
+├── file.ts                    ← 檔案輸出（Markdown/JSON）
+├── profile-manager.ts         ← 多設定檔管理
+└── tag-parser.ts              ← 標記解析（@alice、@here 等）
+```
+
+通知在 `Stop` Hook（`session-end.mjs`）中觸發，讀取 `~/.claude/.omc-config.json` 中的設定後發送。
+
+---
+
+### 完整「原始碼 → 編譯產物 → 執行時間點」映射表
+
+```
+src/                          編譯方式    產物                        執行時機
+─────────────────────────────────────────────────────────────────────────────
+index.ts                      tsc ESM     dist/index.js               CLI啟動/MCP載入
+agents/definitions.ts         tsc ESM     dist/agents/definitions.js  createOmcSession()
+config/loader.ts              tsc ESM     dist/config/loader.js       所有啟動時
+hooks/bridge.ts               tsc ESM     dist/hooks/bridge.js        Hook腳本動態import
+hooks/learner/bridge.ts       esbuild CJS dist/hooks/skill-bridge.cjs Hook腳本同步require
+hud/index.ts                  tsc ESM     dist/hud/index.js           statusLine指令
+tools/lsp-tools.ts            tsc ESM     dist/tools/lsp-tools.js     MCP工具呼叫
+tools/python-repl/            tsc ESM     dist/tools/python-repl/     MCP工具呼叫
+mcp/omc-tools-server.ts       esbuild CJS bridge/mcp-server.cjs       Claude Code啟動時（.mcp.json）
+mcp/team-server.ts            esbuild CJS bridge/team-mcp.cjs         omc team 啟動時
+team/bridge-entry.ts          esbuild CJS bridge/team-bridge.cjs      tmux worker 啟動時
+team/runtime-cli.ts           esbuild CJS bridge/runtime-cli.cjs      omc team runtime
+cli/index.ts                  esbuild CJS bridge/cli.cjs              $ omc 執行
+installer/index.ts            tsc ESM     dist/installer/index.js     npm install postinstall
+features/magic-keywords.ts    tsc ESM     dist/features/              createOmcSession()
+features/boulder-state/       tsc ESM     dist/features/boulder-state/ Hook執行時讀寫
+features/context-injector/    tsc ESM     dist/features/context-injector/ Hook執行時注入
+autoresearch/runtime.ts       tsc ESM     dist/autoresearch/           omc autoresearch
+ralphthon/*.ts                esbuild CJS bridge/cli.cjs內嵌           omc ralphthon
+```
+
+---
+
+### 資料流總覽：src 模組如何協同工作
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        執行層級與 src 模組對應                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+Layer 0：Claude Code 宿主
+  └─ 讀取 .mcp.json → 啟動 bridge/mcp-server.cjs（src/mcp/omc-tools-server.ts）
+  └─ 讀取 hooks/hooks.json → 在事件觸發時執行 scripts/*.mjs
+
+Layer 1：Hook 執行層（scripts/*.mjs）
+  └─ require('dist/hooks/skill-bridge.cjs')  ← src/hooks/learner/bridge.ts
+     └─ 技能觸發、關鍵字偵測、上下文注入
+  └─ import('dist/index.js')                 ← src/index.ts
+     └─ 完整功能存取（boulder state、project memory、context injector）
+
+Layer 2：MCP 工具層（bridge/mcp-server.cjs）
+  └─ lsp/client.ts      → lsp_hover、lsp_diagnostics 等 12 個工具
+  └─ ast-tools.ts       → ast_grep_search、ast_grep_replace
+  └─ python-repl/       → python_repl（保持 Session 變數）
+  └─ state-tools.ts     → state_read/write（持久化 Team 狀態）
+  └─ memory-tools.ts    → project_memory_*（跨 Session 記憶）
+  └─ notepad-tools.ts   → notepad_*（計劃筆記）
+
+Layer 3：HUD 渲染層（dist/hud/index.js）
+  └─ omc-state.ts       ← 讀取 ralph/ultrawork 狀態
+  └─ transcript.ts      ← 解析 .claude/projects/xxx/*.jsonl
+  └─ usage-api.ts       ← Anthropic API 用量
+  └─ render.ts          ← 組合 25 個 elements/ 輸出一行文字
+
+Layer 4：CLI 控制層（bridge/cli.cjs）
+  └─ cli/launch.ts      ← 環境注入 + tmux 啟動
+  └─ cli/wait.ts        ← 速率限制 Daemon
+  └─ cli/teleport.ts    ← git worktree 建立
+  └─ cli/team.ts        ← tmux worker 管理
+  └─ autoresearch/      ← keep/discard/reset 研究迴圈
+  └─ ralphthon/         ← 多 Session 駭客松編排
+
+Layer 5：狀態持久化
+  .omc/state/boulder.json     ← features/boulder-state/（Ralph PRD 進度）
+  .omc/state/hud.json         ← hud/state.ts（HUD 顯示狀態）
+  .omc/state/team-state.json  ← team/team-state/（Team 任務清單）
+  .omc/project-memory.json    ← tools/memory-tools.ts（專案記憶）
+  .omc/notepad.md             ← tools/notepad-tools.ts（計劃筆記）
+  ~/.claude/.omc-config.json  ← config/loader.ts（使用者偏好）
+```
+
+> [!note] 關鍵洞察
+> `src/` 的程式碼**從不直接執行**，它們都被編譯成 `dist/` 或 `bridge/` 後才被使用。真正的執行入口只有四個：`bridge/cli.cjs`（CLI）、`bridge/mcp-server.cjs`（MCP）、`scripts/*.mjs`（Hooks）、`dist/hud/index.js`（HUD）。其餘全部是被這四個入口按需動態載入的函式庫模組。
+
+---
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS]] — OMC 深度依賴 Claude Code Hook 系統
