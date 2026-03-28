@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [MacBook Air M5 本地 AI 編程實測：Local LLM 的真實極限在哪裡？](./AI/2026-03-18-LOCAL-AI-CODING-ON-MACBOOK-AIR-M5.md) — LM Studio + Qwen/DeepSeek + Kilo Code 三層模型策略，揭露本地 LLM Context Length 限制與 Vibe Coding 的現實邊界
 - [設計你的蘇格拉底式 AI 策略顧問：從提示工程到深度決策引擎](./AI/2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK.md) — 五大提問範疇、五種對話思維、雙向思辨循環，將 AI 從單向輸出器升級為策略診斷師
 - [Claude Code 配置層級完全指南：使用者層級與專案層級的管理策略](./DevTools/2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE.md) — 四層配置系統、Plugin 限制、個人與團隊場景分析、細部開關設定與第三方解決方案
 - [ClawTeam — AI 代理群智協調框架深度分析](./CodeAnalysis/2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md) — 框架無關多代理 CLI：tmux + 檔案系統即完整多代理協調基礎設施
