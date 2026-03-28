@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [ClawTeam — AI 代理群智協調框架深度分析](./CodeAnalysis/2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md) — 框架無關多代理 CLI：tmux + 檔案系統即完整多代理協調基礎設施
 - [oh-my-claudecode — Claude Code 多代理人編排系統深度分析](./CodeAnalysis/2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION.md) — 13K+ Stars 的 Claude Code 外掛，零學習曲線多代理人編排，深度分析 Skills/Hooks/Agents 架構與指令映射
 - [《逆思維》（Think Again）— Adam Grant 完整書摘與洞察](./Books/2021-02-02-THINK-AGAIN-ADAM-GRANT.md) — Adam Grant 談重新思考的力量：四種思維模式、說服的反直覺法則、職涯小實驗框架
 - [OpenAI GPT-5.4 提示詞指南完整翻譯與重點整理](./AI/2026-03-26-OPENAI-GPT54-PROMPT-GUIDANCE-COMPLETE-GUIDE.md) — GPT-5.4 官方 Prompt Guidance 完整中文翻譯，含 12 個可直接套用的實用 prompt 模板
