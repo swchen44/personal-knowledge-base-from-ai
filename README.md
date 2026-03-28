@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [設計你的蘇格拉底式 AI 策略顧問：從提示工程到深度決策引擎](./AI/2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK.md) — 五大提問範疇、五種對話思維、雙向思辨循環，將 AI 從單向輸出器升級為策略診斷師
 - [Claude Code 配置層級完全指南：使用者層級與專案層級的管理策略](./DevTools/2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE.md) — 四層配置系統、Plugin 限制、個人與團隊場景分析、細部開關設定與第三方解決方案
 - [ClawTeam — AI 代理群智協調框架深度分析](./CodeAnalysis/2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md) — 框架無關多代理 CLI：tmux + 檔案系統即完整多代理協調基礎設施
 - [oh-my-claudecode — Claude Code 多代理人編排系統深度分析](./CodeAnalysis/2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION.md) — 13K+ Stars 的 Claude Code 外掛，零學習曲線多代理人編排，深度分析 Skills/Hooks/Agents 架構與指令映射
