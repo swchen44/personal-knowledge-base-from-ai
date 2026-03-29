@@ -2,6 +2,8 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Connsys-Jarvis × OpenClaw：原生整合設計](./Design/2026-03-29-CONNSYS-JARVIS-OPENCLAW-NATIVE-PLUGIN-DESIGN.md) — TypeScript hooks 重寫、LanceDB 記憶遷移、sessions_spawn 多代理協調、4 個 Use Case 流程，附 OpenClaw vs ClawTeam 決策指南
+- [Connsys-Jarvis Stage 3 × ClawTeam：Expert Swarm 架構設計](./Design/2026-03-29-CONNSYS-JARVIS-STAGE3-CLAWTEAM-EXPERT-SWARM-DESIGN.md) — Gerrit 作為 Code Exchange Bus、Shared Reference Repo、Leader 用 framework-base-expert、4 個 Use Case 平行流程、2 個月 Roadmap
 - [AI 時代工程師的底牌：Michael Bolin（前 Meta E9）的職涯洞察](./Career/2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9.md) — AI 取代程式碼後，底層技術理解力才是工程師護城河；E9 晉升真相是技術布道與跨部門協調
 - [Connsys Jarvis × AgentHub 整合架構設計：四種工程工作流的多代理協調策略](./AI/2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN.md) — framework-agenthub-expert 設計、四種 Commit 類型（R/C/CI/D）、CI/CD 橋接、跨 Workspace Phase 4、4 階段 Roadmap
 - [AgentHub 深度解析：Karpathy 的 AI 代理原生協作基礎設施](./AI/2026-03-20-AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE.md) — DAG 取代 main branch、git bundle 非同步推送、多代理平行探索（Fan-Out/Ensemble/Tournament），綜合 GitHub 源碼 + 兩篇 Medium 實戰文章
