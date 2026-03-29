@@ -7,6 +7,22 @@
 
 ---
 
+## 目錄
+
+- [為什麼要結合 ClawTeam？](#為什麼要結合-clawteam)
+- [架構總覽](#架構總覽)
+- [兩種整合模式比較](#兩種整合模式比較)
+- [關鍵設計：Gerrit 作為 Code Exchange Bus](#關鍵設計gerrit-作為-code-exchange-bus)
+- [Workspace 設計：Shared Reference Repo](#workspace-設計shared-reference-repo)
+- [Leader 身份設計](#leader-身份設計)
+- [四個 Use Case 詳細流程](#四個-use-case-詳細流程)
+- [兩個月 Roadmap](#兩個月-roadmap)
+- [已知限制與風險](#已知限制與風險)
+- [名詞對照表](#名詞對照表)
+- [延伸閱讀](#延伸閱讀)
+
+---
+
 ## 為什麼要結合 ClawTeam？
 
 connsys-jarvis 的設計文件中，Stage 3 的願景是：

@@ -7,6 +7,34 @@
 
 ---
 
+## 目錄
+
+- [為什麼是 OpenClaw？](#為什麼是-openclaw)
+- [架構總覽](#架構總覽)
+- [三個核心設計決策](#三個核心設計決策)
+  - [決策一：原生 Plugin 路線（非 ACP 橋接）](#決策一原生-plugin-路線非-acp-橋接)
+  - [決策二：每個 Expert 是 OpenClaw 的一個 Agent](#決策二每個-expert-是-openclaw-的一個-agent)
+  - [決策三：Gerrit 仍是 Code Exchange Bus](#決策三gerrit-仍是-code-exchange-bus)
+- [OpenClaw Plugin 結構設計](#openclaw-plugin-結構設計)
+  - [connsys-jarvis Plugin 目錄結構](#connsys-jarvis-plugin-目錄結構)
+  - [openclaw.plugin.json](#openclaw-plugin-json)
+  - [Hooks 重寫：Shell → TypeScript](#hooks-重寫shell--typescript)
+- [記憶系統遷移：Git → LanceDB](#記憶系統遷移git--lancedb)
+  - [三階段遷移路線](#三階段遷移路線)
+  - [LanceDB 記憶架構](#lancedb-記憶架構)
+- [四個 Use Case 流程](#四個-use-case-流程)
+  - [UC1：CI/CD Error Fixing（多平台平行）](#uc1cicd-error-fixing多平台平行)
+  - [UC2：Debug（跨 domain 平行分析）](#uc2debug跨-domain-平行分析)
+  - [UC3：New Feature Design（跨 domain 協作）](#uc3new-feature-design跨-domain-協作)
+  - [UC4：Memory Slim（Sequential Pipeline）](#uc4memory-slimsequential-pipeline)
+- [安裝流程](#安裝流程)
+- [兩個月 Roadmap](#兩個月-roadmap)
+- [已知限制與風險](#已知限制與風險)
+- [附錄：OpenClaw vs ClawTeam 決策指南](#附錄openclaw-vs-clawteam-決策指南)
+- [延伸閱讀](#延伸閱讀)
+
+---
+
 ## 為什麼是 OpenClaw？
 
 connsys-jarvis 設計文件中，Phase 2 的目標是從 Claude Code 遷移到 OpenClaw：
