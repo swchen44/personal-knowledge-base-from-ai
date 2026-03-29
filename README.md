@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Connsys Jarvis × AgentHub 整合架構設計：四種工程工作流的多代理協調策略](./AI/2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN.md) — framework-agenthub-expert 設計、四種 Commit 類型（R/C/CI/D）、CI/CD 橋接、跨 Workspace Phase 4、4 階段 Roadmap
 - [AgentHub 深度解析：Karpathy 的 AI 代理原生協作基礎設施](./AI/2026-03-20-AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE.md) — DAG 取代 main branch、git bundle 非同步推送、多代理平行探索（Fan-Out/Ensemble/Tournament），綜合 GitHub 源碼 + 兩篇 Medium 實戰文章
 - [MacBook Air M5 本地 AI 編程實測：Local LLM 的真實極限在哪裡？](./AI/2026-03-18-LOCAL-AI-CODING-ON-MACBOOK-AIR-M5.md) — LM Studio + Qwen/DeepSeek + Kilo Code 三層模型策略，揭露本地 LLM Context Length 限制與 Vibe Coding 的現實邊界
 - [設計你的蘇格拉底式 AI 策略顧問：從提示工程到深度決策引擎](./AI/2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK.md) — 五大提問範疇、五種對話思維、雙向思辨循環，將 AI 從單向輸出器升級為策略診斷師
