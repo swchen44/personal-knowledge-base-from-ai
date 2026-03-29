@@ -58,6 +58,36 @@ Claude Memory Engine 是一套用 hooks + markdown 打造的 Claude Code 記憶�
 | `/backup` | `/備份` | 推送記憶到 GitHub |
 | `/recover` | `/想起來` | 從 GitHub 拉回所有記憶（換電腦或災難恢復） |
 
+### 以檔案為主角的視角（File-Centric View）
+
+> [!note] 換個角度看系統
+> 前面以 hook 為主角說明「誰做了什麼」。這個視角反過來，以**檔案**為主角，回答三個問題：誰寫它、什麼時候寫、誰讀它。
+
+| 檔案 | 誰寫它 | 什麼時候寫 | 誰讀它 |
+|------|--------|-----------|--------|
+| `sessions/*-session.md` | `session-end.js` | 對話正常結束時 | `session-start.js`（下次對話開頭） |
+| `sessions/*-compact.md` | `pre-compact.js` | Context 壓縮前（最可靠） | `session-start.js`（下次對話開頭） |
+| `sessions/*-checkpoint.md` | `mid-session-checkpoint.js` | 每 20 則訊息 | `session-start.js`（下次對話開頭） |
+| `sessions/project-index.md` | `session-end.js`、`pre-compact.js` | 每次存摘要時更新 | `/reflect` 指令 |
+| `sessions/reflect-*.md` | `/reflect` 指令 | 手動執行 `/reflect` 後 | `session-start.js`（計算幾天沒跑） |
+| `sessions/debug.log` | `shared-utils.js`（`debugLog`） | 每個 hook 執行時 | 人工查閱除錯用 |
+| `sessions/.checkpoint-state.json` | `mid-session-checkpoint.js` | 每則訊息發送時 | `mid-session-checkpoint.js`（讀計數器） |
+| `sessions/.handoff-read.json` | `session-start.js` | 偵測到新交接時 | `session-start.js`（避免重複顯示） |
+| `skills/learned/auto-pitfall-{date}.md` | `pre-compact.js` | 偵測到踩坑時（條件觸發） | `session-start.js`（3 天內的自動載入） |
+| `skills/learned/writing-review-list.md` | `/analyze` 指令 | 手動執行 `/analyze` 後 | `/correct` 指令（任務前複習） |
+| `memory/MEMORY.md` | `/save` 指令 | 手動 `/save` 後 | `memory-sync.js`（hash 比較）、`/reload` |
+| `memory/*.md`（topic files） | `/save` 指令 | 手動 `/save` 後 | `session-start.js`（Smart Context）、`/reload`、`memory-sync.js` |
+| `memory/todo-status.md` | `/todo` 指令 | 手動 `/todo` 更新後 | `session-start.js`（載入待辦摘要）、`/reload` |
+| `memory/handoff-{date}.md` | `/handoff` 指令 | 手動 `/handoff` 後 | `session-start.js`、`memory-sync.js`（交接偵測） |
+| `scripts/hooks/.memory-sync-state.json` | `memory-sync.js` | 每則訊息發送時 | `memory-sync.js`（比對上次 hash/mtime） |
+
+> [!tip] 最重要的三個檔案
+> - `sessions/*-compact.md`：最可靠的快照，pre-compact 寫、session-start 讀，是整個閉迴路的核心
+> - `memory/MEMORY.md`：記憶的索引中樞，被 memory-sync 即時監控
+> - `skills/learned/auto-pitfall-*.md`：自動學習的成果，session-start 每次都會掃描
+
+---
+
 ### Hooks 資料流完整分析
 
 > [!important] 這是理解整套系統的關鍵圖表。每個 hook 的資料流（Input → 讀什麼 → 寫什麼 → Output）。
@@ -164,6 +194,239 @@ Output → stdout：無
 
 Output → stdout：若偵測到其他 session 改了記憶，注入變更摘要
 ```
+
+### Hooks 系統架構圖（Architecture Diagram）
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     Claude Code Process                       │
+│                                                              │
+│  ┌──────────┐   ┌────────────┐   ┌──────────────────────┐   │
+│  │  Session  │   │   User     │   │     Tool Use         │   │
+│  │  Events   │   │  Prompt    │   │  (Bash / Write)      │   │
+│  └─────┬─────┘   └─────┬──────┘   └──────────┬───────────┘   │
+│        │               │                     │               │
+│  ┌─────▼─────┐   ┌─────▼──────┐   ┌──────────▼───────────┐   │
+│  │session-   │   │memory-sync │   │ pre-push-check.js    │   │
+│  │start.js   │   │.js         │   │ write-guard.js       │   │
+│  │session-   │   │mid-session-│   └──────────────────────┘   │
+│  │end.js     │   │checkpoint  │                              │
+│  │pre-compact│   │.js         │                              │
+│  │.js        │   └────────────┘                              │
+│  └─────┬─────┘                                               │
+└────────┼────────────────────────────────────────────────────-┘
+         │ Node.js child process (hooks run outside Claude)
+         ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     File System (~/.claude/)                  │
+│                                                              │
+│  sessions/         skills/learned/     projects/{proj}/      │
+│  ├─ *-session.md   ├─ auto-pitfall-*   ├─ MEMORY.md         │
+│  ├─ *-compact.md   └─ writing-review-  ├─ memory/           │
+│  ├─ *-checkpoint      list.md          │  ├─ *.md            │
+│  ├─ project-index                      │  ├─ todo-status.md  │
+│  ├─ reflect-*.md   scripts/hooks/      │  └─ handoff-*.md    │
+│  ├─ .checkpoint-   └─ .memory-sync-                         │
+│  │  state.json        state.json                            │
+│  └─ .handoff-                                               │
+│     read.json                                               │
+└──────────────────────────────────────────────────────────────┘
+         │
+         ▼ (session-start stdout → injected into Claude context)
+┌──────────────────────────────────────────────────────────────┐
+│                   Claude Context Window                       │
+│  [上次摘要] [踩坑警示] [待辦] [Smart Context] [交接內容]        │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### API 層級時序圖（API-Level Sequence Diagrams）
+
+#### 開新對話完整時序
+
+```
+ 用戶           Claude Code      session-start.js    File System
+  │                  │                  │                 │
+  │──開啟新對話──────►│                  │                 │
+  │                  │──SessionStart───►│                 │
+  │                  │                  │──讀 sessions/*──►│
+  │                  │                  │◄────────────────│
+  │                  │                  │──讀 memory/*.md──►│
+  │                  │                  │◄────────────────│
+  │                  │                  │──讀 auto-pitfall►│
+  │                  │                  │◄────────────────│
+  │                  │                  │──寫 .handoff-───►│
+  │                  │                  │   read.json     │
+  │                  │◄──stdout（摘要）──│                 │
+  │◄──context注入────│                  │                 │
+  │  （上次摘要+踩坑） │                  │                 │
+```
+
+#### 訊息發送時序（每則訊息）
+
+```
+ 用戶      Claude Code   memory-sync.js  mid-session-cp.js   File System
+  │             │               │               │                │
+  │──送出訊息──►│               │               │                │
+  │             │─UserPrompt───►│               │                │
+  │             │               │──讀 MEMORY.md─►│               │
+  │             │               │◄──────────────│               │
+  │             │               │──比較 hash────►│               │
+  │             │               │  （有變化才輸出）│               │
+  │             │               │──寫 .sync-────►│               │
+  │             │               │   state.json  │               │
+  │             │─UserPrompt───►│               │               │
+  │             │               │               │──讀 .checkpoint►│
+  │             │               │               │◄──────────────│
+  │             │               │               │──計數 +1───────►│
+  │             │               │               │（第 20 則才寫檔）│
+  │◄──Claude回應│               │               │                │
+```
+
+#### Context 壓縮時序
+
+```
+ Claude Code    pre-compact.js    shared-utils.js    File System
+     │                │                 │                │
+     │─PreCompact────►│                 │                │
+     │  （transcript） │                 │                │
+     │                │──parseTranscript►│               │
+     │                │                 │──讀 .jsonl────►│
+     │                │                 │◄──────────────│
+     │                │◄────────────────│               │
+     │                │──detectPitfalls─►│               │
+     │                │◄────────────────│               │
+     │                │──savePitfalls───►│               │
+     │                │                 │──寫 auto-──────►│
+     │                │                 │   pitfall-*.md │
+     │                │──寫 *-compact.md►│               │
+     │                │──updateIndex────►│               │
+     │                │                 │──寫 project────►│
+     │                │                 │   -index.md   │
+     │◄───────────────│                 │               │
+  （壓縮繼續執行）       │                 │               │
+```
+
+### 各 Hook 主要函式流程圖（Function Flowcharts）
+
+#### `session-start.js` 函式流程
+
+```
+main()
+  │
+  ├─► findPendingHandoffs()
+  │       │── 讀 memory/handoff-*.md
+  │       │── 讀 .handoff-read.json
+  │       └── 寫 .handoff-read.json（標記已讀）
+  │
+  ├─► findLatestSession()
+  │       └── 掃描 sessions/*.md，取 7 天內最新
+  │
+  ├─► loadSmartContext()
+  │       └── 比對 CWD 與 PROJECT_CONTEXT，載入對應記憶
+  │
+  ├─► loadTodoSummary()
+  │       └── 讀 memory/todo-status.md，統計未完成項目
+  │
+  ├─► findRecentMemoryChanges()
+  │       └── 掃描 memory/*.md，篩選 24h 內修改的
+  │
+  ├─► findRecentPitfalls()
+  │       └── 掃描 skills/learned/auto-pitfall-*.md，取 3 天內最新
+  │
+  ├─► checkRecurringPitfalls()
+  │       └── 統計各 pitfall type 跨天出現次數，≥3 次就警告
+  │
+  ├─► checkReflectReminder()
+  │       └── 掃描 sessions/reflect-*.md，>7 天沒跑就提醒
+  │
+  └─► stdout.write（拼接所有輸出，注入 Claude context）
+```
+
+#### `pre-compact.js` 函式流程
+
+```
+main(inputData)
+  │
+  ├─► JSON.parse(inputData)
+  │       └── 取得 trigger, transcript_path, session_id, cwd
+  │
+  ├─► parseTranscript(transcriptPath)  ← shared-utils
+  │       │── 讀 .jsonl
+  │       │── 解析 userMessages（過濾系統注入）
+  │       │── 解析 toolsUsed
+  │       │── 解析 filesModified
+  │       └── 解析 toolCalls（含 hasError flag）
+  │
+  ├─► detectProjectTag(userMessages, cwd, filesModified)
+  │       └── 從 projectPatterns / CWD / 訊息 推斷專案名
+  │
+  ├─► 寫 sessions/{date}-{id}-compact.md
+  │
+  ├─► updateProjectIndex(...)  ← shared-utils
+  │       └── 讀寫 sessions/project-index.md
+  │
+  ├─► detectPitfalls(parsed)  ← shared-utils
+  │       │── retry 訊號（同工具同目標 ≥5 次）
+  │       │── error-then-fix 訊號
+  │       └── user-correction 訊號（訊息含「不對/wrong」等）
+  │
+  ├─► savePitfalls(pitfalls)  ← shared-utils（若 pitfalls > 0）
+  │       └── 寫 skills/learned/auto-pitfall-{date}.md
+  │
+  └─► autoBackup()  ← shared-utils
+          └── 執行 memory-backup.sh（若存在）
+```
+
+#### `memory-sync.js` 函式流程
+
+```
+main()
+  │
+  ├─► getProjectMemoryDir()
+  │       └── 從 CWD 計算 project slug → 找 memory/ 目錄
+  │
+  ├─► 讀 memory/MEMORY.md
+  │       └── 計算 hash（base64 前 32 字元）
+  │
+  ├─► loadState() → 讀 .memory-sync-state.json
+  │
+  ├─► 比較 hash
+  │       │── 相同 → 跳過
+  │       └── 不同 →
+  │               ├─ getChangedLines（找新增行）
+  │               ├─ 掃描 memory/*.md mtime
+  │               ├─ saveState() → 寫 .memory-sync-state.json
+  │               └─ stdout.write（注入變更摘要）
+  │
+  └─► checkHandoffs(memDir, state)
+          │── 掃描 memory/handoff-*.md
+          │── 比對 known_handoffs
+          └── 若有新交接 → stdout.write（注入交接內容）
+```
+
+#### `mid-session-checkpoint.js` 函式流程
+
+```
+main(inputData)
+  │
+  ├─► JSON.parse → 取得 session_id, prompt
+  │
+  ├─► loadState() → 讀 .checkpoint-state.json
+  │
+  ├─► 累積 messages[]
+  │
+  ├─► 計算 messagesSinceCheckpoint
+  │       │── < 20 → 只更新計數，saveState()
+  │       └── ≥ 20 → saveCheckpoint()
+  │                     │── miniAnalyze(messages)
+  │                     │       │── ACTION_MAP 統計動作詞
+  │                     │       └── PROJECT_KEYWORDS 統計專案名
+  │                     └── 寫 sessions/{date}-{id}-checkpoint.md
+  │
+  └─► 清理 >3 天的舊 session 計數記錄
+```
+
+---
 
 ### 指令讀寫對照（Commands Read/Write Map）
 
