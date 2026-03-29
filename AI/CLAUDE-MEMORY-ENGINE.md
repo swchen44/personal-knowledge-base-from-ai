@@ -63,23 +63,23 @@ Claude Memory Engine 是一套用 hooks + markdown 打造的 Claude Code 記憶�
 > [!note] 換個角度看系統
 > 前面以 hook 為主角說明「誰做了什麼」。這個視角反過來，以**檔案**為主角，回答三個問題：誰寫它、什麼時候寫、誰讀它。
 
-| 檔案 | 誰寫它 | 什麼時候寫 | 誰讀它 | 什麼時候讀 |
-|------|--------|-----------|--------|-----------|
-| `sessions/*-session.md` | `session-end.js` | 對話正常結束時 | `session-start.js` | 下次開新對話時（自動） |
-| `sessions/*-compact.md` | `pre-compact.js` | Context 壓縮前 | `session-start.js` | 下次開新對話時（自動） |
-| `sessions/*-checkpoint.md` | `mid-session-checkpoint.js` | 每 20 則訊息 | `session-start.js` | 下次開新對話時（自動） |
-| `sessions/project-index.md` | `session-end.js`、`pre-compact.js` | 每次存摘要時更新 | `/reflect` 指令 | 手動執行 `/reflect` 時 |
-| `sessions/reflect-*.md` | `/reflect` 指令 | 手動執行 `/reflect` 後 | `session-start.js` | 每次開新對話時（用於計算幾天沒跑） |
-| `sessions/debug.log` | `shared-utils.js`（`debugLog`） | 每個 hook 執行時 | 人工查閱 | 除錯時手動查看 |
-| `sessions/.checkpoint-state.json` | `mid-session-checkpoint.js` | 每則訊息發送時 | `mid-session-checkpoint.js` | 每則訊息發送時（讀計數器） |
-| `sessions/.handoff-read.json` | `session-start.js` | 偵測到新交接時 | `session-start.js` | 每次開新對話時（避免重複顯示同一交接） |
-| `skills/learned/auto-pitfall-{date}.md` | `pre-compact.js` | 偵測到踩坑時（條件觸發） | `session-start.js` | 每次開新對話時（3 天內的自動載入） |
-| `skills/learned/writing-review-list.md` | `/analyze` 指令 | 手動執行 `/analyze` 後 | `/correct` 指令 | 手動執行 `/correct` 時，或任務開始前複習 |
-| `memory/MEMORY.md` | `/save` 指令 | 手動 `/save` 後 | `memory-sync.js`、`/reload` | 每則訊息（hash 比較）、手動 `/reload` 時 |
-| `memory/*.md`（topic files） | `/save` 指令 | 手動 `/save` 後 | `session-start.js`、`/reload`、`memory-sync.js` | 開新對話（Smart Context）、手動 `/reload`、每則訊息（mtime 偵測） |
-| `memory/todo-status.md` | `/todo` 指令 | 手動 `/todo` 更新後 | `session-start.js`、`/reload` | 開新對話時（統計未完成項目）、手動 `/reload` 時 |
-| `memory/handoff-{date}.md` | `/handoff` 指令 | 手動 `/handoff` 後 | `session-start.js`、`memory-sync.js` | 下次開新對話時 & 每則訊息（新交接偵測） |
-| `scripts/hooks/.memory-sync-state.json` | `memory-sync.js` | 每則訊息發送時 | `memory-sync.js` | 每則訊息發送時（比對上次 hash/mtime） |
+| 檔案 | 內容與用途 | 誰寫它 | 什麼時候寫 | 誰讀它 | 什麼時候讀 |
+|------|----------|--------|-----------|--------|-----------|
+| `sessions/*-session.md` | 對話結束後的摘要快照：主要請求、使用工具、修改檔案。用途：讓下次對話知道上次做了什麼 | `session-end.js` | 對話正常結束時 | `session-start.js` | 下次開新對話時（自動） |
+| `sessions/*-compact.md` | Context 壓縮前保存的完整快照，比 session 摘要更詳盡。用途：確保壓縮後仍能還原重要上下文 | `pre-compact.js` | Context 壓縮前 | `session-start.js` | 下次開新對話時（自動） |
+| `sessions/*-checkpoint.md` | 長對話中途自動保存的進度快照，每 20 則觸發。用途：防止長對話脈絡因壓縮而遺失 | `mid-session-checkpoint.js` | 每 20 則訊息 | `session-start.js` | 下次開新對話時（自動） |
+| `sessions/project-index.md` | 各專案所有 session 的列表索引（日期、標題）。用途：讓 `/reflect` 快速了解跨 session 的活動歷史 | `session-end.js`、`pre-compact.js` | 每次存摘要時更新 | `/reflect` 指令 | 手動執行 `/reflect` 時 |
+| `sessions/reflect-*.md` | 手動 `/reflect` 後生成的學習反思筆記。用途：讓 session-start 計算距上次反思的天數，適時提醒 | `/reflect` 指令 | 手動執行 `/reflect` 後 | `session-start.js` | 每次開新對話時（用於計算幾天沒跑） |
+| `sessions/debug.log` | 每個 hook 執行時的 debug 輸出（時間戳、動作、錯誤）。用途：除錯時追查 hook 是否正確執行 | `shared-utils.js`（`debugLog`） | 每個 hook 執行時 | 人工查閱 | 除錯時手動查看 |
+| `sessions/.checkpoint-state.json` | 目前訊息計數器狀態（已發送幾則訊息）。用途：讓 mid-session-checkpoint 判斷是否達到存檔門檻 | `mid-session-checkpoint.js` | 每則訊息發送時 | `mid-session-checkpoint.js` | 每則訊息發送時（讀計數器） |
+| `sessions/.handoff-read.json` | 已讀交接檔案的 ID 清單。用途：避免同一交接在多次對話中重複彈出提示 | `session-start.js` | 偵測到新交接時 | `session-start.js` | 每次開新對話時（避免重複顯示同一交接） |
+| `skills/learned/auto-pitfall-{date}.md` | 本次對話中偵測到的踩坑模式（如工具重試 ≥5 次、使用者糾正）。用途：session-start 自動載入警示，避免下次重蹈覆轍 | `pre-compact.js` | 偵測到踩坑時（條件觸發） | `session-start.js` | 每次開新對話時（3 天內的自動載入） |
+| `skills/learned/writing-review-list.md` | 使用者親自改正過的錯誤合集（翻錯題本）。用途：任務開始前複習，避免再犯同類錯誤 | `/analyze` 指令 | 手動執行 `/analyze` 後 | `/correct` 指令 | 手動執行 `/correct` 時，或任務開始前複習 |
+| `memory/MEMORY.md` | 所有記憶 topic files 的索引目錄（hub），每行一條指標。用途：被 memory-sync 每則訊息 hash 比對，決定是否重注入 | `/save` 指令 | 手動 `/save` 後 | `memory-sync.js`、`/reload` | 每則訊息（hash 比較）、手動 `/reload` 時 |
+| `memory/*.md`（topic files） | 主題式記憶內容：用戶偏好、專案細節、回饋、參考資源等（spokes）。用途：Smart Context 依相關性自動選擇注入 | `/save` 指令 | 手動 `/save` 後 | `session-start.js`、`/reload`、`memory-sync.js` | 開新對話（Smart Context）、手動 `/reload`、每則訊息（mtime 偵測） |
+| `memory/todo-status.md` | 跨 session 的待辦事項清單（未完成 / 已完成）。用途：對話開頭自動顯示未完成項目，不讓任務遺忘 | `/todo` 指令 | 手動 `/todo` 更新後 | `session-start.js`、`/reload` | 開新對話時（統計未完成項目）、手動 `/reload` 時 |
+| `memory/handoff-{date}.md` | 明確要交棒給下個 session 的任務說明與背景。用途：下次對話自動偵測並顯示，確保任務連續性 | `/handoff` 指令 | 手動 `/handoff` 後 | `session-start.js`、`memory-sync.js` | 下次開新對話時 & 每則訊息（新交接偵測） |
+| `scripts/hooks/.memory-sync-state.json` | 上次同步時各記憶檔的 hash 與 mtime 快照。用途：每則訊息快速比對，只在有變更時才重注入記憶 | `memory-sync.js` | 每則訊息發送時 | `memory-sync.js` | 每則訊息發送時（比對上次 hash/mtime） |
 
 > [!tip] 最重要的三個檔案
 > - `sessions/*-compact.md`：最可靠的快照，pre-compact 寫、session-start 讀，是整個閉迴路的核心
