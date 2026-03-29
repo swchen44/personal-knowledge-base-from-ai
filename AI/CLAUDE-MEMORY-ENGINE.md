@@ -63,23 +63,23 @@ Claude Memory Engine 是一套用 hooks + markdown 打造的 Claude Code 記憶�
 > [!note] 換個角度看系統
 > 前面以 hook 為主角說明「誰做了什麼」。這個視角反過來，以**檔案**為主角，回答三個問題：誰寫它、什麼時候寫、誰讀它。
 
-| 檔案 | 誰寫它 | 什麼時候寫 | 誰讀它 |
-|------|--------|-----------|--------|
-| `sessions/*-session.md` | `session-end.js` | 對話正常結束時 | `session-start.js`（下次對話開頭） |
-| `sessions/*-compact.md` | `pre-compact.js` | Context 壓縮前（最可靠） | `session-start.js`（下次對話開頭） |
-| `sessions/*-checkpoint.md` | `mid-session-checkpoint.js` | 每 20 則訊息 | `session-start.js`（下次對話開頭） |
-| `sessions/project-index.md` | `session-end.js`、`pre-compact.js` | 每次存摘要時更新 | `/reflect` 指令 |
-| `sessions/reflect-*.md` | `/reflect` 指令 | 手動執行 `/reflect` 後 | `session-start.js`（計算幾天沒跑） |
-| `sessions/debug.log` | `shared-utils.js`（`debugLog`） | 每個 hook 執行時 | 人工查閱除錯用 |
-| `sessions/.checkpoint-state.json` | `mid-session-checkpoint.js` | 每則訊息發送時 | `mid-session-checkpoint.js`（讀計數器） |
-| `sessions/.handoff-read.json` | `session-start.js` | 偵測到新交接時 | `session-start.js`（避免重複顯示） |
-| `skills/learned/auto-pitfall-{date}.md` | `pre-compact.js` | 偵測到踩坑時（條件觸發） | `session-start.js`（3 天內的自動載入） |
-| `skills/learned/writing-review-list.md` | `/analyze` 指令 | 手動執行 `/analyze` 後 | `/correct` 指令（任務前複習） |
-| `memory/MEMORY.md` | `/save` 指令 | 手動 `/save` 後 | `memory-sync.js`（hash 比較）、`/reload` |
-| `memory/*.md`（topic files） | `/save` 指令 | 手動 `/save` 後 | `session-start.js`（Smart Context）、`/reload`、`memory-sync.js` |
-| `memory/todo-status.md` | `/todo` 指令 | 手動 `/todo` 更新後 | `session-start.js`（載入待辦摘要）、`/reload` |
-| `memory/handoff-{date}.md` | `/handoff` 指令 | 手動 `/handoff` 後 | `session-start.js`、`memory-sync.js`（交接偵測） |
-| `scripts/hooks/.memory-sync-state.json` | `memory-sync.js` | 每則訊息發送時 | `memory-sync.js`（比對上次 hash/mtime） |
+| 檔案 | 誰寫它 | 什麼時候寫 | 誰讀它 | 什麼時候讀 |
+|------|--------|-----------|--------|-----------|
+| `sessions/*-session.md` | `session-end.js` | 對話正常結束時 | `session-start.js` | 下次開新對話時（自動） |
+| `sessions/*-compact.md` | `pre-compact.js` | Context 壓縮前 | `session-start.js` | 下次開新對話時（自動） |
+| `sessions/*-checkpoint.md` | `mid-session-checkpoint.js` | 每 20 則訊息 | `session-start.js` | 下次開新對話時（自動） |
+| `sessions/project-index.md` | `session-end.js`、`pre-compact.js` | 每次存摘要時更新 | `/reflect` 指令 | 手動執行 `/reflect` 時 |
+| `sessions/reflect-*.md` | `/reflect` 指令 | 手動執行 `/reflect` 後 | `session-start.js` | 每次開新對話時（用於計算幾天沒跑） |
+| `sessions/debug.log` | `shared-utils.js`（`debugLog`） | 每個 hook 執行時 | 人工查閱 | 除錯時手動查看 |
+| `sessions/.checkpoint-state.json` | `mid-session-checkpoint.js` | 每則訊息發送時 | `mid-session-checkpoint.js` | 每則訊息發送時（讀計數器） |
+| `sessions/.handoff-read.json` | `session-start.js` | 偵測到新交接時 | `session-start.js` | 每次開新對話時（避免重複顯示同一交接） |
+| `skills/learned/auto-pitfall-{date}.md` | `pre-compact.js` | 偵測到踩坑時（條件觸發） | `session-start.js` | 每次開新對話時（3 天內的自動載入） |
+| `skills/learned/writing-review-list.md` | `/analyze` 指令 | 手動執行 `/analyze` 後 | `/correct` 指令 | 手動執行 `/correct` 時，或任務開始前複習 |
+| `memory/MEMORY.md` | `/save` 指令 | 手動 `/save` 後 | `memory-sync.js`、`/reload` | 每則訊息（hash 比較）、手動 `/reload` 時 |
+| `memory/*.md`（topic files） | `/save` 指令 | 手動 `/save` 後 | `session-start.js`、`/reload`、`memory-sync.js` | 開新對話（Smart Context）、手動 `/reload`、每則訊息（mtime 偵測） |
+| `memory/todo-status.md` | `/todo` 指令 | 手動 `/todo` 更新後 | `session-start.js`、`/reload` | 開新對話時（統計未完成項目）、手動 `/reload` 時 |
+| `memory/handoff-{date}.md` | `/handoff` 指令 | 手動 `/handoff` 後 | `session-start.js`、`memory-sync.js` | 下次開新對話時 & 每則訊息（新交接偵測） |
+| `scripts/hooks/.memory-sync-state.json` | `memory-sync.js` | 每則訊息發送時 | `memory-sync.js` | 每則訊息發送時（比對上次 hash/mtime） |
 
 > [!tip] 最重要的三個檔案
 > - `sessions/*-compact.md`：最可靠的快照，pre-compact 寫、session-start 讀，是整個閉迴路的核心
