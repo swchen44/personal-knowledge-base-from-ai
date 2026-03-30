@@ -198,6 +198,49 @@ Output → stdout：無
 Output → stdout：若偵測到其他 session 改了記憶，注入變更摘要
 ```
 
+#### `pre-push-check.js` — PreToolUse[Bash]
+
+**觸發：** Claude 執行任何 Bash 指令前（`settings.json` 設定 `matcher: "Bash"`）
+**Input：** stdin JSON（`tool_name: "Bash"`, `tool_input.command`：即將執行的指令字串）
+
+```
+讀取：
+  stdin → 解析 tool_input.command
+  git diff --cached --name-only（execSync，僅在偵測到 git push 時才執行）
+
+寫入：
+  無（不修改任何檔案）
+
+Output → stdout：
+  若 command 含 git push       → 輸出 push 前提醒 + staged 敏感檔案警告
+  若 command 含 --force / -f  → 輸出 force push 警告
+  否則                         → 無輸出（透明放行）
+
+Exit：永遠 process.exit(0)，不阻擋操作
+```
+
+#### `write-guard.js` — PreToolUse[Write]
+
+**觸發：** Claude 使用 Write 工具寫入任何檔案前（`settings.json` 設定 `matcher: "Write"`）
+**Input：** stdin JSON（`tool_name: "Write"`, `tool_input.file_path`：即將寫入的絕對路徑）
+
+```
+讀取：
+  stdin → 解析 tool_input.file_path
+
+寫入：
+  無（不修改任何檔案）
+
+Output → stdout：
+  若路徑匹配 PROTECTED_PATTERNS（.env, credentials, .secret, password）
+    且不在 ALLOWED_PATHS 白名單 → 輸出敏感檔案提醒 + 原因說明
+  若路徑匹配 WARN_PATTERNS（README.md, CHANGELOG.md, TODO.md）
+    → 輸出「Is this needed?」提醒
+  否則 → 無輸出（透明放行）
+
+Exit：永遠 process.exit(0)，不阻擋操作
+```
+
 ### Hooks 系統架構圖（Architecture Diagram）
 
 ```
@@ -427,6 +470,124 @@ main(inputData)
   │                     └── 寫 sessions/{date}-{id}-checkpoint.md
   │
   └─► 清理 >3 天的舊 session 計數記錄
+```
+
+#### `pre-push-check.js` 函式流程
+
+```
+時序圖：
+
+ Claude Code      pre-push-check.js      git（execSync）
+      │                   │                    │
+      │─PreToolUse(Bash)──►│                    │
+      │ command="git push" │                    │
+      │                   │ [/git\s+push/ 匹配？]
+      │                   │──git diff --cached──►│
+      │                   │◄──（staged 檔名列表）─│
+      │                   │ [掃描敏感模式]        │
+      │◄── stdout（提醒） ─│                    │
+      │                   │ process.exit(0)      │
+      │ [繼續執行 git push]│                    │
+
+若 command 為其他 Bash 指令：
+      │─PreToolUse(Bash)──►│
+      │                   │ [不匹配 git push]
+      │                   │ process.exit(0)  ← 無輸出，透明放行
+      │ [繼續執行]         │
+```
+
+```
+流程圖：
+
+main(stdin)
+  │
+  ├─► JSON.parse(stdin) → 取得 command
+  │
+  ├─► /git\s+push/ 匹配？
+  │     │
+  │     ├─ YES ─►
+  │     │   stdout.write("About to push! 請確認：...")
+  │     │   execSync('git diff --cached --name-only')
+  │     │   │
+  │     │   └─► 掃描 sensitivePatterns（.env, credentials, .secret, password, .pem, .key）
+  │     │           │
+  │     │           ├─ 發現敏感檔案 ──► stdout.write("[WARNING] Sensitive files: ...")
+  │     │           └─ 無敏感檔案 ──► 繼續
+  │     │
+  │     └─ NO ──► skip
+  │
+  ├─► /git push.*--force|git push -f/ 匹配？
+  │     ├─ YES ──► stdout.write("[WARNING] Force push detected!")
+  │     └─ NO ───► skip
+  │
+  └─► process.exit(0)  ← 永遠允許，不阻擋操作
+```
+
+#### `write-guard.js` 函式流程
+
+```
+時序圖：
+
+ Claude Code       write-guard.js
+      │                  │
+      │─PreToolUse(Write)─►│
+      │ file_path="/path/to/.env"
+      │                  │ basename() → ".env"
+      │                  │ 比對 ALLOWED_PATHS（白名單）→ 不在白名單
+      │                  │ 掃描 PROTECTED_PATTERNS → ".env" 匹配
+      │◄── stdout（敏感檔案提醒）──│
+      │                  │ 繼續掃描 WARN_PATTERNS → 不匹配
+      │                  │ process.exit(0)
+      │ [繼續執行 Write]  │
+
+若寫入路徑為 README.md：
+      │─PreToolUse(Write)─►│
+      │                  │ 掃描 PROTECTED_PATTERNS → 不匹配
+      │                  │ 掃描 WARN_PATTERNS → README.md 匹配
+      │◄── stdout（"Is this needed?"）──│
+      │                  │ process.exit(0)
+      │ [繼續執行 Write]  │
+
+若寫入路徑無特殊標記（一般 .md 或 .js）：
+      │─PreToolUse(Write)─►│
+      │                  │ 所有 pattern 都不匹配
+      │                  │ process.exit(0)  ← 無輸出，透明放行
+      │ [繼續執行 Write]  │
+```
+
+```
+流程圖：
+
+main(stdin)
+  │
+  ├─► JSON.parse(stdin) → 取得 file_path
+  │
+  ├─► basename(file_path) → filename
+  │   normalize path（統一 / 分隔符）
+  │
+  ├─► 比對 ALLOWED_PATHS 白名單（~/.cloudflare/ 等）
+  │     └─ 在白名單 ──► 跳過所有檢查，直接 exit(0)
+  │
+  ├─► 掃描 PROTECTED_PATTERNS（4 個）：
+  │   .env$ / credentials / .secret / password
+  │     │
+  │     ├─ 匹配 AND 不在白名單
+  │     │   └─► stdout.write("Writing {file} — {reason}")
+  │     └─ 不匹配 ──► skip
+  │
+  ├─► 掃描 WARN_PATTERNS（3 個）：
+  │   README.md / CHANGELOG.md / TODO.md
+  │     │
+  │     ├─ 匹配 ──► stdout.write("Creating {file} -- Is this needed?")
+  │     └─ 不匹配 ──► skip
+  │
+  └─► process.exit(0)  ← 永遠允許，不阻擋操作
+
+[重要設計原則]
+  兩個 hook 都是純 advisory（告知性）：
+  - 輸出訊息讓 Claude 知道風險
+  - 但從不 process.exit(1) 阻擋操作
+  - 決定要不要繼續，由 Claude 判斷
 ```
 
 ---
