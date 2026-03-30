@@ -63,23 +63,26 @@ Claude Memory Engine 是一套用 hooks + markdown 打造的 Claude Code 記憶�
 > [!note] 換個角度看系統
 > 前面以 hook 為主角說明「誰做了什麼」。這個視角反過來，以**檔案**為主角，回答三個問題：誰寫它、什麼時候寫、誰讀它。
 
-| 檔案 | 內容與用途 | 誰寫它 | 什麼時候寫 | 誰讀它 | 什麼時候讀 |
+> [!note] 標記說明
+> 表格中 JS 檔案欄位會以 `← 【Hook 名稱】` 標記「誰 call 這個 JS」。Hook 由 Claude Code 平台根據 `settings.json` 設定自動觸發；slash command 則是 Claude 在對話中直接執行（非 hook）。
+
+| 檔案 | 內容與用途 | 誰寫它（+ 觸發來源） | 什麼時候寫 | 誰讀它（+ 觸發來源） | 什麼時候讀 |
 |------|----------|--------|-----------|--------|-----------|
-| `sessions/*-session.md` | 對話結束後的摘要快照：主要請求、使用工具、修改檔案。用途：讓下次對話知道上次做了什麼 | `session-end.js` | 對話正常結束時 | `session-start.js` | 下次開新對話時（自動） |
-| `sessions/*-compact.md` | Context 壓縮前保存的完整快照，比 session 摘要更詳盡。用途：確保壓縮後仍能還原重要上下文 | `pre-compact.js` | Context 壓縮前 | `session-start.js` | 下次開新對話時（自動） |
-| `sessions/*-checkpoint.md` | 長對話中途自動保存的進度快照，每 20 則觸發。用途：防止長對話脈絡因壓縮而遺失 | `mid-session-checkpoint.js` | 每 20 則訊息 | `session-start.js` | 下次開新對話時（自動） |
-| `sessions/project-index.md` | 各專案所有 session 的列表索引（日期、標題）。用途：讓 `/reflect` 快速了解跨 session 的活動歷史 | `session-end.js`、`pre-compact.js` | 每次存摘要時更新 | `/reflect` 指令 | 手動執行 `/reflect` 時 |
-| `sessions/reflect-*.md` | 手動 `/reflect` 後生成的學習反思筆記。用途：讓 session-start 計算距上次反思的天數，適時提醒 | `/reflect` 指令 | 手動執行 `/reflect` 後 | `session-start.js` | 每次開新對話時（用於計算幾天沒跑） |
-| `sessions/debug.log` | 每個 hook 執行時的 debug 輸出（時間戳、動作、錯誤）。用途：除錯時追查 hook 是否正確執行 | `shared-utils.js`（`debugLog`） | 每個 hook 執行時 | 人工查閱 | 除錯時手動查看 |
-| `sessions/.checkpoint-state.json` | 目前訊息計數器狀態（已發送幾則訊息）。用途：讓 mid-session-checkpoint 判斷是否達到存檔門檻 | `mid-session-checkpoint.js` | 每則訊息發送時 | `mid-session-checkpoint.js` | 每則訊息發送時（讀計數器） |
-| `sessions/.handoff-read.json` | 已讀交接檔案的 ID 清單。用途：避免同一交接在多次對話中重複彈出提示 | `session-start.js` | 偵測到新交接時 | `session-start.js` | 每次開新對話時（避免重複顯示同一交接） |
-| `skills/learned/auto-pitfall-{date}.md` | 本次對話中偵測到的踩坑模式（如工具重試 ≥5 次、使用者糾正）。用途：session-start 自動載入警示，避免下次重蹈覆轍 | `pre-compact.js` | 偵測到踩坑時（條件觸發） | `session-start.js` | 每次開新對話時（3 天內的自動載入） |
-| `skills/learned/writing-review-list.md` | 使用者親自改正過的錯誤合集（翻錯題本）。用途：任務開始前複習，避免再犯同類錯誤 | `/analyze` 指令 | 手動執行 `/analyze` 後 | `/correct` 指令 | 手動執行 `/correct` 時，或任務開始前複習 |
-| `memory/MEMORY.md` | 所有記憶 topic files 的索引目錄（hub），每行一條指標。用途：被 memory-sync 每則訊息 hash 比對，決定是否重注入 | `/save` 指令 | 手動 `/save` 後 | `memory-sync.js`、`/reload` | 每則訊息（hash 比較）、手動 `/reload` 時 |
-| `memory/*.md`（topic files） | 主題式記憶內容：用戶偏好、專案細節、回饋、參考資源等（spokes）。用途：Smart Context 依相關性自動選擇注入 | `/save` 指令 | 手動 `/save` 後 | `session-start.js`、`/reload`、`memory-sync.js` | 開新對話（Smart Context）、手動 `/reload`、每則訊息（mtime 偵測） |
-| `memory/todo-status.md` | 跨 session 的待辦事項清單（未完成 / 已完成）。用途：對話開頭自動顯示未完成項目，不讓任務遺忘 | `/todo` 指令 | 手動 `/todo` 更新後 | `session-start.js`、`/reload` | 開新對話時（統計未完成項目）、手動 `/reload` 時 |
-| `memory/handoff-{date}.md` | 明確要交棒給下個 session 的任務說明與背景。用途：下次對話自動偵測並顯示，確保任務連續性 | `/handoff` 指令 | 手動 `/handoff` 後 | `session-start.js`、`memory-sync.js` | 下次開新對話時 & 每則訊息（新交接偵測） |
-| `scripts/hooks/.memory-sync-state.json` | 上次同步時各記憶檔的 hash 與 mtime 快照。用途：每則訊息快速比對，只在有變更時才重注入記憶 | `memory-sync.js` | 每則訊息發送時 | `memory-sync.js` | 每則訊息發送時（比對上次 hash/mtime） |
+| `sessions/*-session.md` | 對話結束後的摘要快照：主要請求、使用工具、修改檔案。用途：讓下次對話知道上次做了什麼 | `session-end.js` ← **【SessionEnd hook】** | 對話正常結束時 | `session-start.js` ← **【SessionStart hook】** | 下次開新對話時（自動） |
+| `sessions/*-compact.md` | Context 壓縮前保存的完整快照，比 session 摘要更詳盡。用途：確保壓縮後仍能還原重要上下文 | `pre-compact.js` ← **【PreCompact hook】** | Context 壓縮前 | `session-start.js` ← **【SessionStart hook】** | 下次開新對話時（自動） |
+| `sessions/*-checkpoint.md` | 長對話中途自動保存的進度快照，每 20 則觸發。用途：防止長對話脈絡因壓縮而遺失 | `mid-session-checkpoint.js` ← **【UserPromptSubmit hook】** | 每 20 則訊息 | `session-start.js` ← **【SessionStart hook】** | 下次開新對話時（自動） |
+| `sessions/project-index.md` | 各專案所有 session 的列表索引（日期、標題）。用途：讓 `/reflect` 快速了解跨 session 的活動歷史 | `session-end.js` ← **【SessionEnd】**、`pre-compact.js` ← **【PreCompact】** | 每次存摘要時更新 | `/reflect` 指令（slash command，Claude 在對話中執行） | 手動執行 `/reflect` 時 |
+| `sessions/reflect-*.md` | 手動 `/reflect` 後生成的學習反思筆記。用途：讓 session-start 計算距上次反思的天數，適時提醒 | `/reflect` 指令（slash command） | 手動執行 `/reflect` 後 | `session-start.js` ← **【SessionStart hook】** | 每次開新對話時（用於計算幾天沒跑） |
+| `sessions/debug.log` | 每個 hook 執行時的 debug 輸出（時間戳、動作、錯誤）。用途：除錯時追查 hook 是否正確執行 | `shared-utils.js`（`debugLog`）← **【被所有 hook 腳本 `require()` 呼叫，非直接 hook 觸發】** | 每個 hook 執行時 | 人工查閱 | 除錯時手動查看 |
+| `sessions/.checkpoint-state.json` | 目前訊息計數器狀態（已發送幾則訊息）。用途：讓 mid-session-checkpoint 判斷是否達到存檔門檻 | `mid-session-checkpoint.js` ← **【UserPromptSubmit hook】** | 每則訊息發送時 | `mid-session-checkpoint.js` ← **【UserPromptSubmit hook】** | 每則訊息發送時（讀計數器） |
+| `sessions/.handoff-read.json` | 已讀交接檔案的 ID 清單。用途：避免同一交接在多次對話中重複彈出提示 | `session-start.js` ← **【SessionStart hook】** | 偵測到新交接時 | `session-start.js` ← **【SessionStart hook】** | 每次開新對話時（避免重複顯示同一交接） |
+| `skills/learned/auto-pitfall-{date}.md` | 本次對話中偵測到的踩坑模式（如工具重試 ≥5 次、使用者糾正）。用途：session-start 自動載入警示，避免下次重蹈覆轍 | `pre-compact.js` ← **【PreCompact hook】** | 偵測到踩坑時（條件觸發） | `session-start.js` ← **【SessionStart hook】** | 每次開新對話時（3 天內的自動載入） |
+| `skills/learned/writing-review-list.md` | 使用者親自改正過的錯誤合集（翻錯題本）。用途：任務開始前複習，避免再犯同類錯誤 | `/analyze` 指令（slash command） | 手動執行 `/analyze` 後 | `/correct` 指令（slash command） | 手動執行 `/correct` 時，或任務開始前複習 |
+| `memory/MEMORY.md` | 所有記憶 topic files 的索引目錄（hub），每行一條指標。用途：被 memory-sync 每則訊息 hash 比對，決定是否重注入 | `/save` 指令（slash command） | 手動 `/save` 後 | `memory-sync.js` ← **【UserPromptSubmit hook】**、`/reload`（slash command） | 每則訊息（hash 比較）、手動 `/reload` 時 |
+| `memory/*.md`（topic files） | 主題式記憶內容：用戶偏好、專案細節、回饋、參考資源等（spokes）。用途：Smart Context 依相關性自動選擇注入 | `/save` 指令（slash command） | 手動 `/save` 後 | `session-start.js` ← **【SessionStart hook】**、`/reload`（slash command）、`memory-sync.js` ← **【UserPromptSubmit hook】** | 開新對話（Smart Context）、手動 `/reload`、每則訊息（mtime 偵測） |
+| `memory/todo-status.md` | 跨 session 的待辦事項清單（未完成 / 已完成）。用途：對話開頭自動顯示未完成項目，不讓任務遺忘 | `/todo` 指令（slash command） | 手動 `/todo` 更新後 | `session-start.js` ← **【SessionStart hook】**、`/reload`（slash command） | 開新對話時（統計未完成項目）、手動 `/reload` 時 |
+| `memory/handoff-{date}.md` | 明確要交棒給下個 session 的任務說明與背景。用途：下次對話自動偵測並顯示，確保任務連續性 | `/handoff` 指令（slash command） | 手動 `/handoff` 後 | `session-start.js` ← **【SessionStart hook】**、`memory-sync.js` ← **【UserPromptSubmit hook】** | 下次開新對話時 & 每則訊息（新交接偵測） |
+| `scripts/hooks/.memory-sync-state.json` | 上次同步時各記憶檔的 hash 與 mtime 快照。用途：每則訊息快速比對，只在有變更時才重注入記憶 | `memory-sync.js` ← **【UserPromptSubmit hook】** | 每則訊息發送時 | `memory-sync.js` ← **【UserPromptSubmit hook】** | 每則訊息發送時（比對上次 hash/mtime） |
 
 > [!tip] 最重要的三個檔案
 > - `sessions/*-compact.md`：最可靠的快照，pre-compact 寫、session-start 讀，是整個閉迴路的核心
@@ -442,6 +445,358 @@ main(inputData)
 | `/handoff` | `memory/*.md` | `memory/handoff-{date}.md` |
 | `/todo` | `memory/todo-status.md` | `memory/todo-status.md` |
 | `/recover` | GitHub（`gh api GET`） | `memory/*.md`、`MEMORY.md`（本機） |
+
+---
+
+### 手動指令讀寫詳解（Slash Commands — Read/Write Detail）
+
+> [!note] Slash Command vs Hook 的差異
+> Slash commands（`/save`、`/reflect` 等）是 Claude 在**對話內**直接執行的邏輯，不會觸發 hooks，也不走 `settings.json`。Hook 才是由 Claude Code 平台根據事件自動呼叫 Node.js 腳本。
+
+#### `/save` — 存記憶
+
+**讀：** `memory/*.md`（查重複）、`memory/MEMORY.md`（確認索引）
+**寫：** `memory/{topic}.md`（新增 or 更新）、`memory/MEMORY.md`（更新索引）
+
+```
+時序圖：
+
+ 用戶              Claude（對話中）          File System
+  │                      │                       │
+  │── /save "內容" ──────►│                       │
+  │                      │──讀 memory/*.md ──────►│
+  │                      │◄──（所有 topic 檔）────│
+  │                      │──讀 MEMORY.md ─────────►│
+  │                      │◄──（索引）─────────────│
+  │                      │                       │
+  │                      │ [查重複，決定寫哪個 topic]
+  │                      │                       │
+  │                      │──寫 memory/{topic}.md ─►│
+  │                      │──寫 MEMORY.md ──────────►│
+  │◄── "已儲存到 {file}" ─│                       │
+```
+
+```
+流程圖：
+
+用戶輸入 /save "要記的內容"
+  │
+  ▼
+掃描 memory/*.md
+  │
+  ├─ 找到相關 topic 檔 ──► 更新該檔案的對應段落
+  │                              │
+  └─ 找不到匹配主題 ──────► 建立新的 memory/{topic}.md
+                                  │
+                                  ▼
+                         更新 memory/MEMORY.md 索引
+                                  │
+                                  ▼
+                    回報：已存到 {filename}, section {section}
+```
+
+---
+
+#### `/reflect` — 反思
+
+**讀：** `sessions/project-index.md`、`sessions/*-session.md`、`sessions/*-compact.md`、`memory/*.md`、`skills/learned/writing-review-list.md`
+**寫：** `memory/*.md`（精簡過時條目）、`sessions/reflect-{date}.md`
+
+```
+時序圖：
+
+ 用戶              Claude（對話中）          File System
+  │                      │                       │
+  │── /reflect ──────────►│                       │
+  │                      │──讀 sessions/project-index.md ──►│
+  │                      │◄──（7 天內的 session 列表）───────│
+  │                      │──讀 sessions/*-session.md ───────►│
+  │                      │◄──（對話摘要）────────────────────│
+  │                      │──讀 sessions/*-compact.md ───────►│
+  │                      │◄──（壓縮前快照）──────────────────│
+  │                      │──讀 memory/*.md ──────────────────►│
+  │                      │◄──（現有記憶）────────────────────│
+  │                      │──讀 writing-review-list.md ───────►│
+  │                      │◄──（錯題本）──────────────────────│
+  │                      │                       │
+  │                      │ [分析：找重複錯誤、過時記憶]
+  │                      │                       │
+  │                      │──寫 memory/*.md（精簡）──────────►│
+  │                      │──寫 sessions/reflect-{date}.md ──►│
+  │◄── 反思報告 ─────────│                       │
+```
+
+```
+流程圖：
+
+用戶輸入 /reflect
+  │
+  ▼
+讀 sessions/project-index.md → 取最近 7 天的 session 列表
+  │
+  ▼
+逐一讀入 *-session.md、*-compact.md
+  │
+  ▼
+讀 memory/*.md（找過時 or 重複的條目）
+  │
+  ▼
+讀 writing-review-list.md（找跨天重複的錯誤）
+  │
+  ▼
+分析三件事：
+  ├─ 錯誤重複 ≥3 次 ──► 升級為 CLAUDE.md or memory 永久規則
+  ├─ 記憶條目已過時 ──► 更新 or 刪除 memory/*.md 對應段落
+  └─ 新洞察值得保存 ──► 新增到 memory/*.md
+  │
+  ▼
+寫 sessions/reflect-{date}.md（反思結論存檔）
+  │
+  ▼
+輸出：反思摘要 + 已升級的規則清單
+```
+
+---
+
+#### `/analyze` — 分析
+
+**讀：** 當前對話的 context（Claude 直接看到的內容，不需讀檔）
+**寫：** `skills/learned/writing-review-list.md`
+
+```
+時序圖：
+
+ 用戶（修改完 AI 輸出後）  Claude（對話中）          File System
+  │                            │                       │
+  │── /analyze ────────────────►│                       │
+  │                            │ [從 context 中找「用戶修改了哪些 AI 輸出」]
+  │                            │ [比對：AI 原始版 vs 用戶修改版]
+  │                            │ [提取錯誤模式]
+  │                            │                       │
+  │                            │──寫 writing-review-list.md ─────────►│
+  │◄── "已加入錯題本：{錯誤類型}" │                       │
+```
+
+```
+流程圖：
+
+用戶輸入 /analyze（剛改完 AI 輸出）
+  │
+  ▼
+掃描當前對話 context：
+  ├─ 找出 AI 生成的內容片段
+  └─ 找出用戶修改後的版本
+  │
+  ▼
+比對差異，提取錯誤模式（格式？用詞？邏輯？）
+  │
+  ▼
+讀 writing-review-list.md
+  │
+  ├─ 已有同類錯誤 ──► 更新計數或補充細節
+  └─ 新的錯誤 ──────► 新增條目
+  │
+  ▼
+寫 skills/learned/writing-review-list.md
+  │
+  ▼
+輸出：「已加入錯題本：{錯誤類型} — {說明}」
+```
+
+---
+
+#### `/correct` — 訂正
+
+**讀：** `skills/learned/writing-review-list.md`
+**寫：** 無（純讀取複習，不修改檔案）
+
+```
+時序圖：
+
+ 用戶              Claude（對話中）          File System
+  │                      │                       │
+  │── /correct ──────────►│                       │
+  │                      │──讀 writing-review-list.md ─────►│
+  │                      │◄──（所有錯誤條目）─────────────────│
+  │                      │                       │
+  │                      │ [閱讀並記入短期記憶，本次對話全程避免]
+  │                      │                       │
+  │◄── 錯題本摘要（本次要注意的 N 個重點）──────│               │
+```
+
+```
+流程圖：
+
+用戶輸入 /correct（任務開始前）
+  │
+  ▼
+讀 skills/learned/writing-review-list.md
+  │
+  ▼
+篩選最近 or 高頻錯誤（依優先順序排列）
+  │
+  ▼
+輸出：「本次任務前複習 — 要避免的 {N} 個錯誤」
+  │
+  ▼
+Claude 在本次對話全程記住這些規則（無寫入動作）
+```
+
+---
+
+#### `/handoff` — 交接
+
+**讀：** `memory/*.md`（整理當前工作背景）
+**寫：** `memory/handoff-{date}.md`
+
+```
+時序圖：
+
+ 用戶（要切換視窗）  Claude（對話中）          File System
+  │                      │                       │
+  │── /handoff ──────────►│                       │
+  │                      │──讀 memory/*.md ────────►│
+  │                      │◄──（當前 project 記憶）──│
+  │                      │                       │
+  │                      │ [整合：任務 + 背景 + 下一步]
+  │                      │                       │
+  │                      │──寫 memory/handoff-{date}.md ──►│
+  │◄── "交接檔已建立" ────│                       │
+
+（下次開新對話）
+  session-start.js ← 【SessionStart hook 自動觸發】
+  讀 memory/handoff-{date}.md → 注入交接內容到 context
+```
+
+```
+流程圖：
+
+用戶輸入 /handoff
+  │
+  ▼
+讀 memory/*.md（當前工作背景與規則）
+  │
+  ▼
+組合交接文件：
+  ├─ 當前任務狀態（做到哪、卡在哪）
+  ├─ 關鍵背景資訊
+  ├─ 下一步建議
+  └─ 接手者需注意事項
+  │
+  ▼
+寫 memory/handoff-{date}.md
+  │
+  ▼
+[下次對話] session-start.js（SessionStart hook）偵測到新交接
+  └─► 自動注入交接內容到 Claude context
+```
+
+---
+
+#### `/backup` — 備份
+
+**讀：** `memory/*.md`（本機）
+**寫：** GitHub `projects/{local-path}/memory/*.md`（遠端）
+
+```
+時序圖：
+
+ 用戶  Claude（對話中）   File System（本機）    GitHub API
+  │         │                   │                   │
+  │─/backup►│                   │                   │
+  │         │──掃描 memory/*.md─►│                   │
+  │         │◄──（檔案列表）──────│                   │
+  │         │                   │                   │
+  │         │ [對每個檔案]        │                   │
+  │         │──GET: 取得遠端 SHA ─────────────────────►│
+  │         │◄──（SHA + 遠端內容）──────────────────────│
+  │         │                   │                   │
+  │         │ [比較：有變更才推]  │                   │
+  │         │──PUT: 推送 content + SHA ───────────────►│
+  │         │◄──（commit SHA）────────────────────────│
+  │◄─ 備份報告（N 個更新）─│                   │
+```
+
+```
+流程圖：
+
+用戶輸入 /backup
+  │
+  ▼
+掃描本機 memory/*.md 列表
+  │
+  ▼
+對每個檔案（序列執行）：
+  │
+  ├─ GET gh api → 取 GitHub SHA
+  │
+  ├─ 內容相同 ──────────► 跳過
+  │
+  └─ 內容有差異 ──────────►
+       PUT gh api（content + SHA）
+       │
+       ├─ 成功 ──► 記錄「已更新」
+       └─ 失敗 ──► 報錯，最多重試 3 次
+  │
+  ▼
+輸出：備份完成，{N} 個已更新 / {M} 個無變更
+
+[路徑規範]
+  本機：~/.claude/projects/-Users-{name}-{proj}/memory/foo.md
+  遠端：projects/-Users-{name}-{proj}/memory/foo.md
+```
+
+---
+
+#### `/recover` — 想起來
+
+**讀：** GitHub `projects/{local-path}/memory/*.md`（遠端）
+**寫：** `memory/*.md`、`memory/MEMORY.md`（本機）
+
+```
+時序圖：
+
+ 用戶（換電腦 / 記憶損毀）  Claude（對話中）    GitHub API      本機 File System
+  │                           │                   │                  │
+  │── /recover ───────────────►│                   │                  │
+  │                           │──GET: 列出遠端所有 .md ─────────────►│
+  │                           │◄──（檔案清單）──────────────────────│
+  │                           │                   │                  │
+  │                           │ [對每個檔案]        │                  │
+  │                           │──GET: 下載 Base64 content ──────────►│
+  │                           │◄──（內容）──────────────────────────│
+  │                           │                   │                  │
+  │                           │──寫 memory/{topic}.md ──────────────────────►│
+  │                           │──寫 memory/MEMORY.md ───────────────────────►│
+  │◄── "已還原 N 個記憶檔案" ──│                   │                  │
+```
+
+```
+流程圖：
+
+用戶輸入 /recover（換電腦 or 本機記憶損毀）
+  │
+  ▼
+GET gh api → 列出 GitHub 上 projects/{path}/memory/ 的所有 .md 檔
+  │
+  ▼
+對每個遠端檔案：
+  GET gh api → 下載 Base64 content → decode
+  │
+  ├─ 本機已存在且相同 ──► 跳過
+  └─ 不存在 or 有差異 ──► 寫入本機 memory/{filename}.md
+  │
+  ▼
+重建 memory/MEMORY.md 索引
+  │
+  ▼
+輸出：「已還原 {N} 個記憶檔案：{列表}」
+  │
+  ▼
+建議：執行 /reload 把記憶載入本次對話
+```
+
+---
 
 ### 系統架構圖（System Architecture）
 
