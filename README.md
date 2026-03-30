@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Multi-Repo 管理利器：repo 工具原理剖析 + Git Worktree 進階實戰](./DevTools/2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE.md) — 本地實驗揭露 repo 三層 symlink 儲存架構，以及在 repo-managed 專案上疊加 git worktree 實現並行開發的完整指南
 - [Connsys-Jarvis × OpenClaw：原生整合設計](./Design/2026-03-29-CONNSYS-JARVIS-OPENCLAW-NATIVE-PLUGIN-DESIGN.md) — TypeScript hooks 重寫、LanceDB 記憶遷移、sessions_spawn 多代理協調、4 個 Use Case 流程，附 OpenClaw vs ClawTeam 決策指南
 - [Connsys-Jarvis Stage 3 × ClawTeam：Expert Swarm 架構設計](./Design/2026-03-29-CONNSYS-JARVIS-STAGE3-CLAWTEAM-EXPERT-SWARM-DESIGN.md) — Gerrit 作為 Code Exchange Bus、Shared Reference Repo、Leader 用 framework-base-expert、4 個 Use Case 平行流程、2 個月 Roadmap
 - [AI 時代工程師的底牌：Michael Bolin（前 Meta E9）的職涯洞察](./Career/2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9.md) — AI 取代程式碼後，底層技術理解力才是工程師護城河；E9 晉升真相是技術布道與跨部門協調
