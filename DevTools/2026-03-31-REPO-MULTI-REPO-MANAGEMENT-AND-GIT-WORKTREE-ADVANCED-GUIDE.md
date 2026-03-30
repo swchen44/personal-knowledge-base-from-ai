@@ -1,5 +1,5 @@
 ---
-title: "Multi-Repo 管理利器：repo 工具原理剖析 + Git Worktree 進階實戰"
+title: "Multi-Repo 管理利器：repo 工具原理剖析 + Git Worktree 進階實戰（含原生 --worktree 模式）"
 date: 2026-03-31
 category: DevTools
 tags:
@@ -490,6 +490,205 @@ lab/workspace/（repo sync 管理的工作區）
 
 ---
 
+## 第三部分：`repo init --worktree` 原生模式深度實驗
+
+### 背景：為什麼 repo 要原生支援 worktree？
+
+`repo` 從 **v2.4（2019 年）** 開始提供 `--worktree` 旗標。官方文件的說明很簡短，但背後有兩個真實動機：
+
+1. **Windows 相容性**：舊的 symlink 架構在 Windows 上需要管理員權限。改用 git worktree 的 gitdir 指標檔格式後，Windows 用戶無需 Admin 帳戶即可執行 `repo sync`
+2. **m/ pseudo-ref 衝突**：當多個 manifest 路徑指向同一個 repo（如 ChromiumOS 的場景），舊模式的 `refs/remotes/m/` 會互相覆蓋。新模式改用 `refs/worktree/m/`，每個 worktree 有獨立命名空間
+
+---
+
+### 建立原生 worktree 模式 workspace
+
+只需在 `repo init` 加上 `--worktree` 旗標：
+
+```bash
+mkdir workspace-wt && cd workspace-wt
+repo init -u file:///path/to/manifest.git -b main --worktree --no-clone-bundle
+# 警告：warning: --worktree is experimental!
+
+repo sync --no-clone-bundle
+```
+
+---
+
+### 底層架構：兩種模式的完整對比
+
+**symlink 模式（預設）vs `--worktree` 模式**，透過實驗直接觀察：
+
+```bash
+# symlink 模式：.git 是符號連結
+$ ls -la workspace/apps/project-a/.git
+lrwxr-xr-x  1 user staff  39 .git -> ../../.repo/projects/apps/project-a.git
+
+# --worktree 模式：.git 是純文字指標檔
+$ ls -la workspace-wt/apps/project-a/.git
+-rw-r--r--  1 user staff  64 .git
+
+$ cat workspace-wt/apps/project-a/.git
+gitdir: ../../.repo/worktrees/project-a.git/worktrees/project-a
+```
+
+**.repo/ 目錄結構的差異：**
+
+| 目錄 | symlink 模式 | `--worktree` 模式 |
+|------|------------|-----------------|
+| `.repo/projects/` | ✅ 存在（per-checkout git dir） | ❌ 不存在 |
+| `.repo/project-objects/` | ✅ 存在（共享 object store） | ❌ 不存在 |
+| `.repo/worktrees/` | ❌ 不存在 | ✅ 存在（每個 project 一個 bare git dir） |
+
+---
+
+### `--worktree` 模式的完整架構鏈
+
+```
+lab/server/（bare repos）
+└── project-a.git    ← 遠端
+
+workspace-wt/（--worktree 模式）
+├── .repo/
+│   └── worktrees/
+│       └── project-a.git/          ← 主 git dir（類 bare repo）
+│           ├── HEAD                 ← detached HEAD（沒有直接 checkout）
+│           ├── objects/             ← git objects 存這裡（無需 symlink！）
+│           ├── refs/
+│           │   └── remotes/m/main  ← 舊式 pseudo-ref（此模式改用 worktree ref）
+│           └── worktrees/
+│               └── project-a/      ← apps/project-a 的 worktree metadata
+│                   ├── HEAD         ← 此 worktree 的 branch（feature/xxx）
+│                   ├── index        ← 此 worktree 的暫存區
+│                   ├── commondir    ← "../.."，回指 project-a.git/
+│                   ├── gitdir       ← 回指 apps/project-a/.git
+│                   ├── locked       ← "added with --lock"，防止意外 remove
+│                   └── refs/worktree/m/main  ← 新式 pseudo-ref（worktree 獨立）
+│
+└── apps/project-a/                  ← 工作目錄
+    └── .git                         ← 純文字指標檔（非 symlink！）
+        內容：gitdir: ../../.repo/worktrees/project-a.git/worktrees/project-a
+```
+
+---
+
+### `git worktree list` 的輸出解讀
+
+在 `--worktree` 模式下，`git worktree list` 顯示**三個層次**：
+
+```bash
+$ cd workspace-wt/apps/project-a && git worktree list
+
+/path/workspace-wt/.repo/worktrees/project-a.git     376b8e3 (detached HEAD)
+../../../../../apps/project-a                        4c87a81 [feature/wt-experiment] locked
+/path/workspace-wt/extra-checkouts/project-a-hotfix  f2b1384 [hotfix/wt-bug]
+```
+
+| 行 | 說明 |
+|----|------|
+| 第一行（detached HEAD） | 主 git dir，類似 bare repo，不直接 checkout 任何 branch |
+| 第二行（locked） | `apps/project-a` 是 repo 管理的主工作目錄，`locked` 防止被 `git worktree remove` 誤刪 |
+| 第三行（無 locked） | 手動 `git worktree add` 建立的額外工作目錄，可自由刪除 |
+
+> [!important] `locked` 的意義
+> repo 在建立工作目錄 worktree 時會寫入 `worktrees/{name}/locked` 檔案，內容為 `added with --lock`。這讓 `git worktree remove` 無法直接刪除 repo 管理的工作目錄，避免使用者意外破壞 workspace。
+
+---
+
+### `refs/worktree/m/main`：解決 pseudo-ref 衝突
+
+這是 `--worktree` 模式最精妙的設計之一。
+
+**舊 symlink 模式的問題**：`m/main` 存在 `refs/remotes/m/main`，這是共享 refs 目錄的一部分。若同一個 repo 在 manifest 裡出現兩個不同路徑（在 ChromiumOS 這種大型 manifests 很常見），兩個路徑的 `m/main` 會互相覆蓋。
+
+**新 worktree 模式的解法**：`m/main` 改存在 `refs/worktree/m/main`（per-worktree 的命名空間），每個工作目錄有自己獨立的 pseudo-ref，永遠不會衝突：
+
+```bash
+# worktree 模式的 pseudo-ref 路徑
+$ cat .repo/worktrees/project-a.git/worktrees/project-a/refs/worktree/m/main
+ref: refs/remotes/origin/main
+```
+
+---
+
+### 實戰：多 worktree 並行開發協同流程
+
+以下完整示範在 `--worktree` 模式下，feature 開發 + hotfix 並行的實際操作：
+
+```bash
+cd workspace-wt
+
+# 步驟 1：用 repo start 開 feature branch（主工作目錄）
+repo start feature/new-auth project-a
+# 此時 apps/project-a 切到 feature/new-auth
+
+# 步驟 2：新增 hotfix worktree（不中斷 feature 開發）
+cd apps/project-a
+git branch hotfix/login-crash
+git worktree add ../../extra-checkouts/project-a-hotfix hotfix/login-crash
+
+# 步驟 3：在各自目錄並行工作
+# 終端機 1（feature 開發）
+cd workspace-wt/apps/project-a
+echo "new auth logic" > auth.py
+git add auth.py && git commit -m "feat: add OAuth2 support"
+
+# 終端機 2（hotfix）
+cd workspace-wt/extra-checkouts/project-a-hotfix
+echo "fix null pointer" > crash_fix.py
+git add crash_fix.py && git commit -m "fix: null pointer in login flow"
+
+# 步驟 4：驗證兩個 branch 各自獨立，objects 共享
+git cat-file -t <hotfix-commit-hash>   # 從 feature 目錄可以查 hotfix 的 commit
+# → commit（objects 共享，互相可見）
+
+# 步驟 5：hotfix 完成，清理 worktree
+cd workspace-wt/apps/project-a
+git worktree remove ../../extra-checkouts/project-a-hotfix
+git branch -d hotfix/login-crash
+```
+
+> [!warning] `repo sync` 後的注意事項
+> 在 `--worktree` 模式下，`repo sync` 同樣**不影響**手動建立的額外 worktree（`extra-checkouts/` 裡的目錄）。sync 只更新 `.repo/worktrees/project-a.git/` 裡的 objects 和 refs，已建立的 worktree 需要手動 `git rebase` 或 `git merge` 來追上最新版本。
+
+---
+
+### `repositoryFormatVersion = 1` + `worktreeConfig = true`
+
+在 `--worktree` 模式下，`.repo/worktrees/{name}.git/config` 多了兩個關鍵設定：
+
+```ini
+[core]
+    repositoryFormatVersion = 1  ← git worktree 正式格式版本號
+
+[extensions]
+    worktreeConfig = true        ← 允許每個 worktree 有獨立的 config
+```
+
+`worktreeConfig = true` 意味著可以在 `worktrees/{name}/config.worktree` 放置 per-worktree 設定（如不同的 user.email、不同的 hook 設定）。這在 symlink 模式下是做不到的。
+
+---
+
+### 兩種模式選型指南
+
+| 面向 | symlink 模式（預設） | `--worktree` 模式 |
+|------|---------------------|-----------------|
+| Windows 支援 | ❌ 需要 Admin 權限 | ✅ 完全支援 |
+| macOS/Linux | ✅ 完全支援 | ✅ 完全支援 |
+| Object 共享 | ✅ 透過 `project-objects/` symlink | ✅ 透過 git 原生 objects 目錄 |
+| per-worktree config | ❌ 不支援 | ✅ `worktreeConfig = true` |
+| pseudo-ref 衝突 | ⚠️ 同一 repo 多路徑時有問題 | ✅ `refs/worktree/` 獨立命名空間 |
+| 成熟度 | ✅ 預設模式，生產環境成熟 | ⚠️ 官方標注 experimental |
+| `.git` 型態 | symlink（目錄連結） | gitdir 指標檔（純文字） |
+
+> [!tip] 何時選用 `--worktree` 模式
+> - 需要在 **Windows** 開發 Multi-repo 專案
+> - 使用的 manifest 中**同一個 repo 有多個 path 映射**（避免 pseudo-ref 衝突）
+> - 想用 **per-worktree config** 設定不同的 git 身份（如：公司/開源分離）
+> - 對 IDE 相容性有疑慮（gitdir 指標檔比 symlink 更標準）
+
+---
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 > 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
@@ -542,6 +741,10 @@ lab/workspace/（repo sync 管理的工作區）
 
 4. **本地 bare repo 是最好的實驗工具**：不需要 GitHub、不需要 server，`file://` 協定 + bare repo 就能模擬完整的 push/fetch 流程
 
+5. **`--worktree` 模式讓 repo 不再依賴 symlink**：`.git` 從 symlink 變成純文字 gitdir 指標檔，和原生 `git worktree add` 完全一致，這是架構演進的方向，也解決了 Windows 相容性問題
+
+6. **`refs/worktree/` 命名空間是精妙的設計**：每個 worktree 有獨立的 pseudo-ref 空間，解決了 manifest 多路徑同 repo 時 `m/` ref 衝突的問題，這種「per-worktree refs」的思路可以借鑒到其他工具設計
+
 ---
 
 ## 相關連結（Related）
@@ -553,5 +756,6 @@ lab/workspace/（repo sync 管理的工作區）
 ## References
 
 - [Google repo tool 官方文件](https://gerrit.googlesource.com/git-repo)
+- [Repo internal filesystem layout](https://gerrit.googlesource.com/git-repo/+/master/docs/internal-fs-layout.md)
 - [git-worktree 官方手冊](https://git-scm.com/docs/git-worktree)
-- 本地實驗環境：`~/lab/`（repo 2.62 + git 2.39.5 on macOS 24.3.0）
+- 本地實驗環境：`~/lab/`、`~/lab/workspace-wt/`（repo 2.62 + git 2.39.5 on macOS 24.3.0）
