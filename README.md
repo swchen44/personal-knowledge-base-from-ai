@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [斯坦福研究：22歲就業暴跌20%！750個CFO承認：今年AI裁員是去年9倍](./Career/2026-03-30-STANFORD-STUDY-22YO-EMPLOYMENT-DROPS-20PCT-750-CFOS-AI-LAYOFFS-9X.md) — AI時代學歷重新定價：標準化執行工作塌方、判斷力與動手能力升值
 - [Boris Cherny：13 個你不知道的 Claude Code 隱藏功能](./AI/2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES.md) — Claude Code 創始人親揭 mobile app、/teleport、/loop、hooks、/batch、--bare、worktrees 等 13 個高頻隱藏功能
 - [Claude Code Worktree × repo Multi-Repo 並行開發完全指南](./DevTools/2026-03-31-CLAUDE-CODE-WORKTREE-X-REPO-MULTI-REPO-PARALLEL-DEVELOPMENT.md) — 三層 worktree 巢狀架構實驗、WorktreeCreate/WorktreeRemove hooks 客製化、tmux 多 Agent 並行操作最佳實踐
 - [Multi-Repo 管理利器：repo 工具原理剖析 + Git Worktree 進階實戰](./DevTools/2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE.md) — 本地實驗揭露 repo 三層 symlink 儲存架構，以及在 repo-managed 專案上疊加 git worktree 實現並行開發的完整指南
