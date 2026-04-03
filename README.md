@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Karpathy 的 AI 精神錯亂：Agent 編程革命、自動研究、大模型物種分化](./AI/2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION.md) — Token 焦慮、鋸齒狀能力、OpenClaw 家庭自動化、Auto Research @ home
 - [三大 AI 編程框架深度拆解：Superpowers、GSD、gstack](./AI/2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK.md) — 過程/環境/視角三維約束比較、gstack 五層治理體系、構建階段缺陷與 Auto Research 循環模式
 - [Harness Engineering 完全解析：從 Prompt 到 Context 再到 Harness 的 AI 工程演進](./AI/2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE.md) — 三次範式轉移、六層架構、Anthropic/OpenAI 實踐案例，附官方文章連結
 - [OpenCLI — 把任何網站變成 CLI 的 AI 原生工具（程式碼分析）](./CodeAnalysis/2026-03-14-OPENCLI-CODE-ANALYSIS.md) — 深度解析 Browser Bridge 架構、CDP 控制 Electron App、AI Agent 瀏覽器自動化設計
