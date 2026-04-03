@@ -649,6 +649,154 @@ cli({
 });
 ```
 
+## `operate` 實戰指南（Operate Practical Guide）
+
+> [!important] 核心觀念
+> 你不需要事先知道參數是什麼——`state` 就是你的眼睛，每次操作後重新 `state` 一次就能看到新的元素索引。整個流程就是：**探索 → 互動 → 擷取**。
+
+### 從零開始控制一個網站：三步流程
+
+```bash
+# 步驟 0：確保環境正常（只需跑一次）
+opencli doctor
+
+# 步驟 1：打開網站 + 看 DOM 結構
+opencli operate open https://目標網站.com && opencli operate state
+```
+
+`state` 回傳結構化 DOM，每個可互動元素都有 `[N]` 索引號碼：
+```
+[1] a "首頁"
+[2] input "搜尋..."
+[3] button "登入"
+[4] div "文章標題一"
+[5] div "文章標題二"
+```
+
+```bash
+# 步驟 2：用索引互動
+opencli operate type 2 "AI agent" && opencli operate click 3   # 在搜尋框輸入 → 按按鈕
+opencli operate state                                           # 看結果頁面的新索引
+
+# 步驟 3：擷取資料
+opencli operate eval "JSON.stringify([...document.querySelectorAll('.result')].map(e => e.textContent))"
+```
+
+### 進階技巧：用 `network` 發現隱藏 API
+
+> [!tip] 最重要的實戰技巧
+> 大多數網站背後都有 JSON API，比抓 DOM 穩定得多。先用 `network` 探索 API，再決定用 API 還是 DOM 擷取。
+
+```bash
+opencli operate open https://目標網站.com
+opencli operate state                        # 觸發頁面載入
+opencli operate network                      # 查看攔截到的 API 請求
+opencli operate network --detail 0           # 看第 0 筆請求的完整 response body
+```
+
+如果發現了 API，就能直接用 `eval + fetch()` 呼叫，不需要慢慢點 DOM。
+
+### 完整指令速查表
+
+| 類型 | 指令 | 說明 |
+|------|------|------|
+| **導航** | `open <url>` | 打開網頁 |
+| | `back` | 上一頁 |
+| | `scroll down/up` | 捲動（可加 `--amount 1000`） |
+| **探索** | `state` | 看 DOM 結構（**最重要的指令，免費即時**） |
+| | `network` | 看攔截到的 API 請求 |
+| | `network --detail N` | 看第 N 筆請求的完整內容 |
+| | `screenshot [path.png]` | 截圖（**昂貴，僅用戶明確要求時才用**） |
+| **互動** | `click <N>` | 點擊索引 N 的元素 |
+| | `type <N> "text"` | 在索引 N 輸入文字 |
+| | `select <N> "option"` | 下拉選單選擇 |
+| | `keys "Enter"` | 按鍵（Enter/Escape/Tab/Control+a） |
+| **讀取** | `get title` | 頁面標題 |
+| | `get url` | 當前 URL |
+| | `get text <N>` | 元素文字內容 |
+| | `get value <N>` | 輸入框的值（用於驗證輸入） |
+| | `get html --selector "h1"` | 特定元素 HTML |
+| | `get attributes <N>` | 元素屬性 |
+| | `eval "JS程式碼"` | 執行 JS 擷取資料（**唯讀，禁止用於點擊/導航**） |
+| **等待** | `wait selector ".loaded"` | 等元素出現 |
+| | `wait text "成功"` | 等文字出現 |
+| | `wait time 3` | 等 3 秒 |
+| **固化** | `init site/cmd` | 生成 Adapter 骨架到 `~/.opencli/clis/` |
+| | `verify site/cmd` | 測試 Adapter 是否正常 |
+| | `close` | 關閉自動化視窗 |
+
+### 操作原則
+
+1. **每次操作後都 `state`**——不要猜索引，看到才操作
+2. **指令可用 `&&` 串接**——`type 3 "hello" && type 4 "world" && click 7` 一次送出，減少延遲
+3. **`eval` 只用於讀取**——點擊和輸入一律用 `click`/`type`，因為 `eval` 不會觸發滾動和 CDP 點擊管線
+4. **先探索 API 再決定策略**——`network` 找到 JSON API 後，直接用 `fetch()` 比 DOM scraping 穩定十倍
+5. **別名**：`opencli op` = `opencli operate`
+
+### 完整工作流範例：從探索到固化
+
+```bash
+# 1. 探索網站
+opencli operate open https://news.ycombinator.com
+opencli operate state
+
+# 2. 發現 API
+opencli operate network
+opencli operate network --detail 0
+
+# 3. 用 eval 驗證資料擷取
+opencli operate eval "JSON.stringify([...document.querySelectorAll('.titleline a')].slice(0,5).map(a => ({title: a.textContent, url: a.href})))"
+
+# 4. 固化為 CLI Adapter
+opencli operate init hn/top              # 生成骨架 → ~/.opencli/clis/hn/top.ts
+# （編輯檔案，填入 func 邏輯）
+opencli operate verify hn/top            # 測試
+
+# 5. 之後一行搞定
+opencli hn top --limit 5 --format json
+```
+
+### 疑難排解
+
+| 問題 | 解法 |
+|------|------|
+| "Browser not connected" | `opencli doctor` 診斷 |
+| "attach failed: chrome-extension://" | 暫時停用 1Password 等擴充套件 |
+| 找不到元素 | `opencli operate scroll down && opencli operate state`（可能在畫面外） |
+| 操作後索引失效 | 頁面變化後必須重新 `state` 取得新索引 |
+
+---
+
+## 替代方案比較（Alternative Approaches）
+
+> [!info] 不一定需要 OpenCLI
+> 如果你的環境已有其他瀏覽器控制工具，可以根據需求選擇最適合的方案。
+
+### OpenCLI operate vs claude-in-chrome（MCP）vs Playwright
+
+| 比較維度 | OpenCLI operate | claude-in-chrome MCP | Playwright / Puppeteer |
+|---------|----------------|---------------------|----------------------|
+| **安裝** | 需裝 npm + Chrome Extension | Chrome Extension（可能已裝） | npm/pip 安裝 |
+| **操控方式** | CLI 指令 | MCP 工具直接在對話中呼叫 | 程式碼（Node.js/Python） |
+| **登入 Session** | 重用 Chrome cookies | 重用 Chrome 當前分頁 | 需手動匯入 cookies |
+| **AI Agent 整合** | 透過 skill + AGENT.md | 原生整合 Claude Code | 需自行封裝 |
+| **反偵測** | 內建 stealth.ts | 無（用真實 Chrome） | 需額外安裝 stealth plugin |
+| **可固化為 CLI** | ✅ `init` → Adapter | ❌ | ❌（需自行封裝） |
+| **API 探索** | ✅ `network` 指令 | ✅ `read_network_requests` | ✅ request interception |
+| **Headless CI** | ❌（Browser Bridge 需 GUI） | ❌（需 Chrome GUI） | ✅ headless 模式 |
+| **LLM Token 成本** | 零（runtime 無 LLM 呼叫） | 零 | 零 |
+
+### 選擇建議
+
+> [!tip] 快速決策指南
+
+- **只想在當前對話快速控制瀏覽器讀資料** → 用 **claude-in-chrome**（已安裝，零設定）
+- **想把操作固化成可重複執行的 CLI 命令**（每天自動抓資料、CI 排程） → 用 **OpenCLI**
+- **需要 headless 環境 / CI/CD** → 用 **Playwright**
+- **需要控制 Electron App**（Cursor、ChatGPT、Notion） → 用 **OpenCLI CDP Direct Mode**
+
+---
+
 ## 我的心得（My Takeaways）
 
 這個 repo 回答了用戶問的問題：**「如果要控制瀏覽器某些網站有 CLI 功能，要怎麼做？」**
@@ -659,7 +807,11 @@ OpenCLI 給了一個非常完整的答案：
 2. **把網站變成 CLI 命令**：寫一個 TypeScript Adapter（繼承 `cli()` 函式），放到 `~/.opencli/clis/` 就自動生效
 3. **安全地重用登入 Session**：不用管密碼，用 `strategy: Strategy.COOKIE` 讓 OpenCLI 透過 Browser Bridge 借用 Chrome 的 cookies
 
-這個「Daemon 做橋接」的架構設計值得借鑑：把長連線（WebSocket）和短連線（HTTP）的職責分開——CLI 只需要做 HTTP POST，複雜的狀態管理交給 Daemon。這讓 CLI 本身非常簡單，但功能卻不受限制。
+實戰上的關鍵心得：**先用 `network` 探索 API，再決定用 API 還是 DOM**——這個順序能省下大量的維護成本。DOM scraping 會因為網站改版而壞掉，但 API 通常更穩定。
+
+「Daemon 做橋接」的架構設計值得借鑑：把長連線（WebSocket）和短連線（HTTP）的職責分開——CLI 只需要做 HTTP POST，複雜的狀態管理交給 Daemon。這讓 CLI 本身非常簡單，但功能卻不受限制。
+
+如果只是臨時性的瀏覽器操作，claude-in-chrome MCP 工具已經夠用；OpenCLI 的真正價值在於「固化」——把一次性操作變成可重複、可分享的 CLI 命令。
 
 ---
 
