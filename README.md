@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [OpenCLI — 把任何網站變成 CLI 的 AI 原生工具（程式碼分析）](./CodeAnalysis/2026-03-14-OPENCLI-CODE-ANALYSIS.md) — 深度解析 Browser Bridge 架構、CDP 控制 Electron App、AI Agent 瀏覽器自動化設計
 - [Claude Code 原始碼洩漏！11 個隱藏秘密完整解析](./DevTools/2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS.md) — 從 51 萬行洩漏原始碼解析 Agent 循環、三層記憶、五級壓縮、反蒸餾等核心設計
 - [斯坦福研究：22歲就業暴跌20%！750個CFO承認：今年AI裁員是去年9倍](./Career/2026-03-30-STANFORD-STUDY-22YO-EMPLOYMENT-DROPS-20PCT-750-CFOS-AI-LAYOFFS-9X.md) — AI時代學歷重新定價：標準化執行工作塌方、判斷力與動手能力升值
 - [Boris Cherny：13 個你不知道的 Claude Code 隱藏功能](./AI/2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES.md) — Claude Code 創始人親揭 mobile app、/teleport、/loop、hooks、/batch、--bare、worktrees 等 13 個高頻隱藏功能
