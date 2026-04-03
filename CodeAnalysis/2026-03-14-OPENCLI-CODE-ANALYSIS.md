@@ -397,8 +397,256 @@ opencli operate open https://example.com && opencli operate state
 opencli operate click 3
 opencli operate type 5 "hello"
 
-# 7. 開發自訂 Adapter（寫到 ~/.opencli/clis/ 即自動載入）
-# 參考 src/clis/twitter/trending.ts 的格式
+# 7. 開發自訂 Adapter（見下方完整教學）
+```
+
+## 自訂 Adapter 開發教學（Custom Adapter Development Guide）
+
+> [!important] 核心概念
+> 所有自訂 Adapter 放到 `~/.opencli/clis/` 目錄，OpenCLI 啟動時由 `src/discovery.ts` 自動掃描並載入——不需要修改任何設定檔。
+
+### 目錄結構
+
+```
+~/.opencli/clis/
+  └── mysite/               ← 以網站名命名的資料夾
+       ├── search.ts         ← TypeScript adapter（需要瀏覽器互動）
+       ├── trending.yaml     ← YAML adapter（純 API 抓取）
+       └── detail.ts
+```
+
+使用時：`opencli mysite search "關鍵字"` / `opencli mysite trending`
+
+### 方法一：TypeScript Adapter（需要瀏覽器互動時使用）
+
+適用場景：需要登入的網站、DOM 操作、多步驟流程、複雜資料擷取。
+
+```typescript
+import { cli, Strategy } from '../../registry.js';
+import { AuthRequiredError, EmptyResultError, CommandExecutionError } from '../../errors.js';
+
+cli({
+  site: 'mysite',                    // 網站識別名
+  name: 'search',                    // 子命令名 → opencli mysite search
+  description: 'Search MySite',
+  domain: 'www.mysite.com',
+  strategy: Strategy.COOKIE,         // PUBLIC | COOKIE | HEADER
+  args: [
+    { name: 'query', required: true, help: 'Search query' },  // 位置參數
+    { name: 'limit', type: 'int', default: 10, help: 'Max results' },  // 命名參數
+  ],
+  columns: ['title', 'url', 'date'], // 輸出欄位定義
+
+  func: async (page, kwargs) => {
+    const { query, limit = 10 } = kwargs;
+
+    // 導航到目標頁面（自動注入 stealth 反偵測 + 等待 DOM 穩定）
+    await page.goto('https://www.mysite.com');
+
+    // 在頁面 context 中執行 JS（借用已登入的 cookie）
+    const data = await page.evaluate(`
+      (async () => {
+        const res = await fetch('/api/search?q=${encodeURIComponent(String(query))}', {
+          credentials: 'include'
+        });
+        return (await res.json()).results;
+      })()
+    `);
+
+    // 錯誤處理：使用內建 Error 類別
+    if (!Array.isArray(data)) throw new CommandExecutionError('MySite returned unexpected response');
+    if (!data.length) throw new EmptyResultError('mysite search', 'Try a different keyword');
+
+    // 回傳格式化資料（對應 columns 欄位）
+    return data.slice(0, Number(limit)).map((item: any) => ({
+      title: item.title,
+      url: item.url,
+      date: item.created_at,
+    }));
+  },
+});
+```
+
+#### `page` 物件 API 參考
+
+| 方法 | 說明 | 範例 |
+|------|------|------|
+| `page.goto(url)` | 導航到頁面 | `await page.goto('https://x.com')` |
+| `page.evaluate(js)` | 在頁面 context 執行 JS | `await page.evaluate('document.title')` |
+| `page.click(selector)` | 點擊元素 | `await page.click('.submit-btn')` |
+| `page.type(selector, text)` | 輸入文字 | `await page.type('#search', 'hello')` |
+| `page.waitForSelector(sel)` | 等待元素出現 | `await page.waitForSelector('.results')` |
+| `page.wait(seconds)` | 等待指定秒數 | `await page.wait(3)` |
+| `page.cookies()` | 取得當前頁面 cookies | 驗證登入狀態 |
+
+#### Strategy 選擇指南
+
+| Strategy | 常數 | 適用場景 | 範例網站 |
+|----------|------|---------|---------|
+| Public | `Strategy.PUBLIC` | 公開 API，無需登入 | HackerNews、arXiv、BBC |
+| Cookie | `Strategy.COOKIE` | 需要登入的網站 | Bilibili、Zhihu、Twitter |
+| Header | `Strategy.HEADER` | 需要 API Key | 第三方付費 API |
+
+#### 錯誤處理最佳實踐
+
+> [!warning] 請用內建 Error 類別，不要用原生 `Error`
+> 內建類別會讓 CLI 輸出統一的錯誤提示，包含修復建議。
+
+```typescript
+import {
+  AuthRequiredError,       // 未登入 → 提示使用者去 Chrome 登入
+  EmptyResultError,        // 結果為空 → 提示換關鍵字
+  CommandExecutionError,   // API 異常 → 顯示技術錯誤
+  TimeoutError,            // 超時
+  ArgumentError,           // 參數無效
+} from '../../errors.js';
+
+// 範例：檢查登入狀態
+const ct0 = await page.evaluate(`(() => {
+  return document.cookie.split(';').find(c => c.trim().startsWith('ct0='));
+})()`);
+if (!ct0) throw new AuthRequiredError('x.com', 'Not logged into x.com (no ct0 cookie)');
+```
+
+### 方法二：YAML Adapter（純 API 抓取，不需瀏覽器）
+
+適用場景：網站有公開 API、簡單的 HTTP fetch + 資料轉換，不需要瀏覽器。
+
+```yaml
+site: mysite
+name: trending
+description: Get trending posts from MySite
+domain: www.mysite.com
+strategy: public           # public | cookie | header
+browser: false             # true 則需要 Browser Bridge
+
+args:
+  limit:
+    type: int
+    default: 20
+    description: Number of items
+
+pipeline:                  # 宣告式資料處理管線
+  - fetch:
+      url: https://api.mysite.com/trending
+
+  - map:                   # 轉換每筆資料
+      rank: ${{ index + 1 }}
+      title: ${{ item.title }}
+      url: ${{ item.url }}
+      score: ${{ item.score }}
+
+  - filter: ${{ item.score > 100 }}    # 過濾（選用）
+
+  - limit: ${{ args.limit }}            # 截斷筆數
+
+columns: [rank, title, score, url]
+```
+
+#### Pipeline 步驟參考
+
+| 步驟 | 用途 | 語法 |
+|------|------|------|
+| `fetch` | HTTP 請求取資料 | `url:` + 可選 `headers:` |
+| `map` | 轉換每筆資料 | `${{ item.xxx }}`、`${{ index }}` |
+| `filter` | 條件過濾 | `${{ item.score > 100 }}` |
+| `limit` | 截斷筆數 | `${{ args.limit }}` |
+| `download` | 下載媒體檔案 | `url:` + `dir:` + `filename:` |
+
+#### 模板表達式
+
+| 表達式 | 說明 |
+|--------|------|
+| `${{ args.limit }}` | CLI 參數值 |
+| `${{ item.title }}` | 當前資料項的欄位 |
+| `${{ index }}` | 當前索引（從 0 開始） |
+| `${{ item.x \| sanitize }}` | Pipe 過濾器 |
+
+> [!tip] 何時用 YAML vs TypeScript？
+> YAML 表達式開始像寫程式（多行 JS、巢狀判斷）→ 改用 TypeScript。
+> 經驗法則：`fetch → map → limit` 三步以內的場景用 YAML 最合適。
+
+### 方法三：AI 自動生成 Adapter
+
+```bash
+# 1. AI 自動探索網站的 API 結構（分析 XHR/fetch 請求）
+opencli explore https://example.com --site mysite
+
+# 2. 根據探索結果自動生成 adapter 程式碼
+opencli synthesize mysite
+
+# 3. 一步到位：explore → synthesize → register
+opencli generate https://example.com --goal "trending"
+```
+
+### 測試與驗證
+
+```bash
+# 確認 adapter 已被自動發現
+opencli list | grep mysite
+
+# 執行測試
+opencli mysite search "rust" --limit 5
+opencli mysite trending --format json    # 切換輸出格式
+opencli mysite trending --format csv     # CSV 格式
+
+# 搭配其他工具使用（pipe-friendly）
+opencli mysite trending --format json | jq '.[0]'
+```
+
+### 實際範例：Twitter Trending Adapter（摘自原始碼）
+
+> [!example] `src/clis/twitter/trending.ts` 的核心邏輯
+
+```typescript
+cli({
+  site: 'twitter',
+  name: 'trending',
+  description: 'Twitter/X trending topics',
+  domain: 'x.com',
+  strategy: Strategy.COOKIE,
+  browser: true,
+  args: [
+    { name: 'limit', type: 'int', default: 20, help: 'Number of trends to show' },
+  ],
+  columns: ['rank', 'topic', 'tweets', 'category'],
+  func: async (page, kwargs) => {
+    const limit = kwargs.limit || 20;
+
+    // 導航到 Twitter Trending 頁面
+    await page.goto('https://x.com/explore/tabs/trending');
+    await page.wait(3);
+
+    // 驗證登入：檢查 ct0 cookie 是否存在
+    const ct0 = await page.evaluate(`(() => {
+      return document.cookie.split(';').map(c=>c.trim())
+        .find(c=>c.startsWith('ct0='))?.split('=')[1] || null;
+    })()`);
+    if (!ct0) throw new AuthRequiredError('x.com', 'Not logged into x.com (no ct0 cookie)');
+
+    // 從 DOM 擷取 trending topics
+    await page.wait(2);
+    const trends = await page.evaluate(`(() => {
+      const items = [];
+      const cells = document.querySelectorAll('[data-testid="trend"]');
+      cells.forEach((cell) => {
+        const text = cell.textContent || '';
+        if (text.includes('Promoted')) return;  // 跳過廣告
+        const container = cell.querySelector(':scope > div');
+        if (!container) return;
+        const divs = container.children;
+        if (divs.length < 2) return;
+        const topic = divs[1].textContent.trim();
+        if (!topic) return;
+        // ... 擷取排名、分類、推文數
+        items.push({ rank, topic, tweets, category });
+      });
+      return items;
+    })()`);
+
+    return trends.slice(0, limit);
+  },
+});
 ```
 
 ## 我的心得（My Takeaways）
