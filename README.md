@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [AI 協作系統三層式架構：Agents/Skills/Standards](./AI/2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS.md) — 從 prompt 工程升級到流程工程的 AI 協作系統設計
 - [LLM Wiki — Karpathy 的個人知識庫建構模式](./Productivity/2026-04-02-KARPATHY-LLM-WIKI-PATTERN.md) — 從 RAG 到複利知識庫的典範轉移：LLM 維護三層架構（Sources/Wiki/Schema），Memex 願景終於實現
 - [AI 漏洞發現與 Vulnpocalypse — Nicholas Carlini 談用 Claude 做漏洞研究](./Security/2026-03-25-AI-BUG-FINDING-VULNPOCALYPSE.md) — Anthropic 500 個 0-day、Firefox 122 個 crash、Linux 22 年老 bug；方法極其樸素：claude code + bash loop
 - [寫你的第一個簡單 AI Agent — 五個核心原則](./AI/2026-03-26-WRITING-YOUR-FIRST-SIMPLE-AI-AGENT.md) — Cisco 入門指南：身份/邊界/Observe-Reflect-Act/驗證/誠實，附 200 字 Document Summarizer 範本
