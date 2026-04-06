@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [六萬星就等於安全嗎？gstack 遙測爭議與治理滯後的省思](./Security/2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY.md) — Claude Code Skill 工具包的遙測風波、Admin Key 繞過 RLS 漏洞、AI 開發工具信任門檻省思
 - [駕馭 Claude 的智慧 — 建構平衡智能、延遲與成本的應用程式](./AI/2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE.md) — Anthropic 官方三大核心模式：用 Claude 懂的工具、問「我能停止做什麼」、謹慎設定邊界
 - [從零建立 Claude Code Agent 的 10 步框架](./AI/2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK.md) — 不用 LangChain，只靠 Markdown 檔案 + YAML frontmatter 的生產環境 Agent 實戰
 - [Karpathy 的 AI 精神錯亂：Agent 編程革命、自動研究、大模型物種分化](./AI/2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION.md) — Token 焦慮、鋸齒狀能力、OpenClaw 家庭自動化、Auto Research @ home
