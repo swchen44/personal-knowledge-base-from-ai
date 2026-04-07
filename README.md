@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code 記憶系統深度解析](./CodeAnalysis/2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM.md) — 拆解六層記憶架構、Sonnet 動態召回、AutoDream 四階段重塑與 forked sub-agent 提取機制
 - [gstack AI Agent Eval 架構與 KPI 設計](./CodeAnalysis/2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE.md) — 三層測試金字塔 + planted bug ground truth + LLM-as-judge 三軸評分，可直接搬到 AI Agent 專案的 KPI 框架
 - [gstack Telemetry 架構分析](./CodeAnalysis/2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE.md) — 三層隱私 + cursor-based 同步 + per-session pending marker 的觀測子系統解析
 - [AI 協作系統三層式架構：Agents/Skills/Standards](./AI/2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS.md) — 從 prompt 工程升級到流程工程的 AI 協作系統設計
