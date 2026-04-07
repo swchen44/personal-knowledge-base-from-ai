@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [gstack AI Agent Eval 架構與 KPI 設計](./CodeAnalysis/2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE.md) — 三層測試金字塔 + planted bug ground truth + LLM-as-judge 三軸評分，可直接搬到 AI Agent 專案的 KPI 框架
 - [gstack Telemetry 架構分析](./CodeAnalysis/2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE.md) — 三層隱私 + cursor-based 同步 + per-session pending marker 的觀測子系統解析
 - [AI 協作系統三層式架構：Agents/Skills/Standards](./AI/2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS.md) — 從 prompt 工程升級到流程工程的 AI 協作系統設計
 - [LLM Wiki — Karpathy 的個人知識庫建構模式](./Productivity/2026-04-02-KARPATHY-LLM-WIKI-PATTERN.md) — 從 RAG 到複利知識庫的典範轉移：LLM 維護三層架構（Sources/Wiki/Schema），Memex 願景終於實現
