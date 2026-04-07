@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code Team Memory 深度解析](./CodeAnalysis/2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE.md) — Server API、分類規則、feature flag 啟用方式與 Team/Enterprise 方案限制
 - [gstack 設計哲學與多 Agent 整合架構](./CodeAnalysis/2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION.md) — Prompt-as-bridge、HostConfig pattern、real-dir-symlink hack 與跨 8 個 AI agent 的整合方法論
 - [Claude Code 記憶系統深度解析](./CodeAnalysis/2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM.md) — 拆解六層記憶架構、Sonnet 動態召回、AutoDream 四階段重塑與 forked sub-agent 提取機制
 - [gstack AI Agent Eval 架構與 KPI 設計](./CodeAnalysis/2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE.md) — 三層測試金字塔 + planted bug ground truth + LLM-as-judge 三軸評分，可直接搬到 AI Agent 專案的 KPI 框架
