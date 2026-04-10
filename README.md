@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [AI 視頻提示詞萬能公式：六大維度科學生成法](./AI/2026-04-04-AI-VIDEO-PROMPT-FORMULA-SIX-DIMENSIONS.md) — 700 天 AI 視頻經驗總結：主體→動作→客體邊界→鏡頭→光影→節奏六維度框架，從「抽卡」變「導演」
 - [Anthropic 已交付五層 Harness 中的三層——另外兩層是你的責任](./AI/2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS.md) — 五層 Harness 堆疊模型（Constraint/Context/Execution/Verification/Lifecycle），平台擁有 L2/L3/L5，開發者負責 L1 約束層與 L4 驗證層
 - [Harness Engineering：在代理人優先的世界中善用 Codex](./AI/2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD.md) — OpenAI 官方原文：零手寫程式碼、百萬行代理人產出、架構不變量與代理人可讀性設計
 - [做 AI Agent 最痛苦的事：看了很多教程還是做不對（三個月踩坑復盤）](./AI/2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY.md) — Plan-and-Execute 誤解、Skill 取代冗餘 Sub-Agent、Restatement 機制與 KV Cache 考量，架構迭代三輪後的真實心得
