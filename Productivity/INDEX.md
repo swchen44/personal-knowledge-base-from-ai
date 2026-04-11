@@ -1,15 +1,6 @@
-# ⚡ Productivity — Index
+# Productivity Index
 
-Notes on workflows, personal systems, productivity tools, and getting things done.
-
-## Notes
-
-| File | Description | Tags |
-
-## Topics Covered
-
-- Personal Knowledge Management (PKM)
-- Task Management Systems (GTD, PARA)
-- Note-taking & Second Brain
-- Automation & Scripts
-- Time Management
+| 筆記 | 摘要 | 日期 |
+|------|------|------|
+| [[2026-04-02-KARPATHY-LLM-WIKI-PATTERN]] | LLM Wiki — Karpathy 的個人知識庫建構模式 | 2026-04-02 |
+| [[OBSIDIAN-POWER-TIPS]] | Obsidian Power Tips — Building a Better Knowledge Graph | 2026-03-16 |
