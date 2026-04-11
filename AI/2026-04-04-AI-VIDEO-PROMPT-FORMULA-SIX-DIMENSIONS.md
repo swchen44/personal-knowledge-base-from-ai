@@ -134,6 +134,7 @@ links:
 - [[2026-03-26-OPENAI-GPT54-PROMPT-GUIDANCE-COMPLETE-GUIDE]] — OpenAI 官方提示詞指南，同樣強調精確與結構化
 - [[AI-VIDEO-GENERATION]] — AI 視頻生成的通用技術框架
 - [[AI-PROMPT-ENGINEERING]] — 提示工程（Prompt Engineering）的基礎概念與最佳實踐
+- [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 多 AI 角色分工需要精確的提示詞設計，與本文結構化提示詞方法論相通
 
 ---
 

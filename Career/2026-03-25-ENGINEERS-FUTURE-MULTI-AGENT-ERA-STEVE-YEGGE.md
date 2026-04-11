@@ -265,6 +265,7 @@ Yegge 大膽預測：未來的開發介面將是完全基於對話（conversatio
 - [[VIBE-CODING]] — Vibe Coding 的工作方法論與最佳實踐
 - [[ENGINEER-CAREER-IN-AI-ERA]] — AI 時代工程師職涯規劃的整體框架
 - [[STEVE-YEGGE-EXECUTION-IN-KINGDOM-OF-NOUNS]] — Yegge 的經典文章《名詞王國的執行》
+- [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 多 AI 角色分工在一人公司中的具體實踐案例
 
 ## References
 

@@ -170,6 +170,7 @@ AgentHub 最重要的貢獻不在程式碼本身，而在**概念框架**：當�
 - [[MULTI-AGENT-COORDINATION]] — 多代理人協調模式與現有工具比較
 - [[GIT-BUNDLE-PROTOCOL]] — git bundle 傳輸機制，代理人協作的基礎
 - [[KARPATHY-AUTORESEARCH]] — AgentHub 的原始應用場景：自主 ML 實驗
+- [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — Karpathy 知識庫 + Obsidian 在一人公司中的實戰運用
 
 ## References
 

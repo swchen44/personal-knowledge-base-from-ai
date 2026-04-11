@@ -192,6 +192,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]] — OpenAI 官方原文，本文多次引用的 L1 約束層實踐案例
 - [[AI-AGENT-ARCHITECTURE]] — 代理人架構設計的通用框架，可與本文的五層模型對照
 - [[CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code Skill 機制，屬於 L2 上下文層的漸進式揭露（Progressive Disclosure）實踐
+- [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 「知識庫憲法」與「編譯後健檢」概念，對應本文的約束層與驗證層
 
 ---
 

@@ -209,6 +209,7 @@ Karpathy 的「AI 精神錯亂」其實是一種認知狀態的描述：**可能
 - [[AUTORESEARCH-PARADIGM]] — 自動研究的完整方法論與工具鏈
 - [[JAGGED-INTELLIGENCE]] — 鋸齒狀能力分布的深入分析與應對策略
 - [[OPEN-SOURCE-VS-CLOSED-AI]] — 開源與閉源 AI 的競爭格局
+- [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — Karpathy 知識庫理論在一人公司創業中的實踐應用
 
 ## References
 
