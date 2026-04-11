@@ -353,7 +353,7 @@ npx skills add <source>  → parseSource() → git clone / 直接讀取 → disc
 
 | | GitHub | Gerrit (SSH/HTTPS) | 本地路徑 |
 |---|---|---|---|
-| 指令範例 | `npx skills add vercel-labs/agent-browser` | `npx skills add ssh://gerrit:29418/repo` | `npx skills add /path/to/repo` |
+| 指令範例 | `npx skills add vercel-labs/agent-browser` | `npx skills add ssh://gerrit:29418/repo` 或 `npx skills add https://gerrit.company.com/a/repo` | `npx skills add /path/to/repo` |
 | `parseSource` type | `"github"` | `"git"` | `"local"` |
 | 取得方式 | GitHub Blob API（快）或 git clone | `git clone --depth 1` 到 `/tmp/` | 直接讀取本地目錄 |
 | lock 中 `skillFolderHash` | ✅ GitHub tree SHA | ❌ 空字串 | ❌ 空字串 |
@@ -441,7 +441,7 @@ addSkillToLock("agent-browser", {
 cleanupTempDir(/tmp/skills-abc123/)
 ```
 
-#### 案例 2：從 Gerrit 安裝 Skill
+#### 案例 2：從 Gerrit 安裝 Skill（SSH）
 
 ```
 用戶：npx skills add ssh://gerrit.example.com:29418/connsys-jarvis -g -y
@@ -478,6 +478,45 @@ addSkillToLock("wifi-bora-build-flow", {
   skillFolderHash: ""  ← ⚠️ 空字串！無法用 GitHub API 取 hash
 })
 ```
+
+#### 案例 2b：從 Gerrit 安裝 Skill（HTTP）
+
+```
+用戶：npx skills add https://gerrit.company.com/a/connsys-jarvis -g -y
+  │
+  ▼
+cli.mjs:parseSource("https://gerrit.company.com/a/connsys-jarvis")
+  │  hostname 不是 github.com / gitlab.com
+  │  URL 不以 .git 結尾，不匹配 Git URL 模式
+  │  → type: "well-known"（嘗試透過 HTTP 直接抓取 SKILL.md）
+  │  ⚠️ well-known 模式會嘗試從 URL 直接 fetch，但 Gerrit HTTP 端點
+  │     回傳的是 Git 頁面，不是 SKILL.md → 可能失敗
+  │
+  │  ✅ 解決方案：URL 結尾加 .git 強制走 Git clone 路徑
+  │
+  ▼
+用戶（修正）：npx skills add https://gerrit.company.com/a/connsys-jarvis.git -g -y
+  │
+  ▼
+cli.mjs:parseSource("https://gerrit.company.com/a/connsys-jarvis.git")
+  │  匹配 /^https?:\/\/.+\.git(?:$|[/?])/i → looksLikeGitSource() = true
+  │  → type: "git", url: "https://gerrit.company.com/a/connsys-jarvis.git"
+  │
+  ▼
+cloneRepo("https://gerrit.company.com/a/connsys-jarvis.git")
+  │  git clone --depth 1 → /tmp/skills-abc456/
+  │  ⚠️ 若 Gerrit 需要認證，需先設定 git credential 或在 URL 中帶 token：
+  │     https://<user>:<http-password>@gerrit.company.com/a/connsys-jarvis.git
+  │
+  ▼
+（後續流程與 SSH 案例相同：discoverSkills → installSkillForAgent → addSkillToLock）
+```
+
+> [!important] Gerrit HTTP 注意事項
+> - Gerrit 的 HTTP clone URL 通常帶 `/a/` 前綴（authenticated）：`https://gerrit.company.com/a/repo-name.git`
+> - **URL 必須以 `.git` 結尾**，否則 `parseSource` 會誤判為 `well-known` 類型而失敗
+> - HTTP 認證方式：在 Gerrit 個人設定中產生 HTTP Password，透過 `git credential` 或 URL 內嵌傳入
+> - SSH 不需要額外處理（只要 SSH key 已配置），**HTTP 則需注意 `.git` 後綴和認證**
 
 #### 案例 5：檢查更新（`npx skills check`）
 
@@ -564,25 +603,46 @@ connsys-jarvis/                          ← 根目錄（無 SKILL.md）
 
 ### 指令範例與結果
 
-#### Gerrit Server 安裝
+#### Gerrit Server 安裝（SSH）
 
 ```bash
 # 安裝全部 18 個 skill（全域）
-npx skills add ssh://gerrit.mediatek.com:29418/connsys-jarvis -g -y
+npx skills add ssh://gerrit.company.com:29418/connsys-jarvis -g -y
 
 # 只安裝 wifi-bora 相關（用 --skill 過濾名稱）
-npx skills add ssh://gerrit.mediatek.com:29418/connsys-jarvis \
+npx skills add ssh://gerrit.company.com:29418/connsys-jarvis \
   --skill wifi-bora-build-flow --skill wifi-bora-arch-knowhow -g
 
 # 先預覽有哪些 skill（不安裝）
-npx skills add ssh://gerrit.mediatek.com:29418/connsys-jarvis --list
+npx skills add ssh://gerrit.company.com:29418/connsys-jarvis --list
+```
+
+#### Gerrit Server 安裝（HTTP）
+
+```bash
+# ⚠️ URL 必須以 .git 結尾，否則會被誤判為 well-known 類型
+# 安裝全部 18 個 skill（全域）
+npx skills add https://gerrit.company.com/a/connsys-jarvis.git -g -y
+
+# 只安裝特定 skill
+npx skills add https://gerrit.company.com/a/connsys-jarvis.git \
+  --skill wifi-bora-build-flow -g
+
+# 若 Gerrit 需要認證（HTTP Password），可在 URL 中帶入
+npx skills add https://user:httpPasswd@gerrit.company.com/a/connsys-jarvis.git -g -y
+
+# 先預覽有哪些 skill（不安裝）
+npx skills add https://gerrit.company.com/a/connsys-jarvis.git --list
 ```
 
 #### 本地路徑安裝
 
 ```bash
-# 先 clone 到本地
-git clone ssh://gerrit.mediatek.com:29418/connsys-jarvis \
+# 先 clone 到本地（SSH 或 HTTP 皆可）
+git clone ssh://gerrit.company.com:29418/connsys-jarvis \
+  /Users/swchen.tw/git/connsys-jarvis
+# 或
+git clone https://gerrit.company.com/a/connsys-jarvis.git \
   /Users/swchen.tw/git/connsys-jarvis
 
 # 安裝全部
@@ -613,8 +673,11 @@ npx skills add /Users/swchen.tw/git/connsys-jarvis/wifi-bora/wifi-bora-base-expe
 npx skills check          # 檢查哪些有新版
 npx skills update         # 一鍵更新全部
 
-# Gerrit 來源：手動重新安裝 = 更新
-npx skills add ssh://gerrit.mediatek.com:29418/connsys-jarvis -g -y
+# Gerrit 來源：手動重新安裝 = 更新（SSH）
+npx skills add ssh://gerrit.company.com:29418/connsys-jarvis -g -y
+
+# Gerrit 來源：手動重新安裝 = 更新（HTTP，URL 必須帶 .git）
+npx skills add https://gerrit.company.com/a/connsys-jarvis.git -g -y
 
 # 本地路徑來源：先 pull，再重裝
 cd /Users/swchen.tw/git/connsys-jarvis && git pull
@@ -691,13 +754,16 @@ npm install -g agent-browser
 # 2. 安裝 skill 到 Claude Code（GitHub 來源）
 npx skills add vercel-labs/agent-browser --skill agent-browser -g
 
-# 3. 安裝 skill 到 Claude Code（Gerrit 來源）
+# 3. 安裝 skill 到 Claude Code（Gerrit SSH）
 npx skills add ssh://your-gerrit:29418/your-repo -g -y
 
-# 4. 安裝 skill 到 Claude Code（本地路徑）
+# 4. 安裝 skill 到 Claude Code（Gerrit HTTP，URL 須帶 .git）
+npx skills add https://gerrit.company.com/a/your-repo.git -g -y
+
+# 5. 安裝 skill 到 Claude Code（本地路徑）
 npx skills add /path/to/cloned/repo -g -y
 
-# 5. 驗證安裝
+# 6. 驗證安裝
 npx skills list -g
 ls -la ~/.claude/skills/
 ```
