@@ -598,7 +598,7 @@ Write in polished, professional memo style:
 - [[AGENTIC-WORKFLOW]] — 代理人工作流程設計原則
 - [[REASONING-EFFORT-TUNING]] — `reasoning_effort` 參數詳解
 - [[OPENAI-GPT-MODELS]] — GPT 系列模型能力比較
-- [[ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 談多代理人時代的工程師角色
+- [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 談多代理人時代的工程師角色
 - [[2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK]] — 蘇格拉底式五維追問框架，與本文結構化提示詞設計的另一種提問導向實踐
 
 ## References

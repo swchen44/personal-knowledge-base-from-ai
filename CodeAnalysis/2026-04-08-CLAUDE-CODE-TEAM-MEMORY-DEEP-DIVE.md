@@ -14,7 +14,7 @@ source_type: code
 author: "Anthropic (decompiled / reverse-engineered)"
 status: notes
 links:
-  - "[[CLAUDE-CODE-MEMORY-SYSTEM]]"
+  - "[[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]]"
   - "[[CLAUDE-MEMORY-ENGINE]]"
   - "[[FORKED-SUBAGENT-PATTERN]]"
 github_stars: 0
@@ -33,7 +33,7 @@ github_language: "TypeScript"
 
 ## 關鍵洞察（Key Insights）
 
-- **Team Memory Server = `https://api.anthropic.com`**，這是 Anthropic 官方 API 伺服器，並非某個隱藏的內部服務 — 參見 [[CLAUDE-CODE-MEMORY-SYSTEM]]
+- **Team Memory Server = `https://api.anthropic.com`**，這是 Anthropic 官方 API 伺服器，並非某個隱藏的內部服務 — 參見 [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]]
 - **「Anthropic Org」≠ Anthropic 公司**，而是任何購買 claude.ai Team/Enterprise 方案的公司組織
 - **分類決策由 extraction sub-agent 在 query 結束後自動判斷**，依據是各記憶類型的 `<scope>` 指示，人工不需介入
 - **`feature('TEAMMEM')` 是 build-time 靜態開關**，反編譯版全部關閉，需手動修改 polyfill 才能本地啟用
@@ -231,7 +231,7 @@ Team Memory 的設計揭示了一個重要的 **「共享知識 vs 個人偏好�
 
 ## 相關連結（Related）
 
-- [[CLAUDE-CODE-MEMORY-SYSTEM]] — 完整六層記憶架構概覽，本筆記是其 team memory 子章節的深化
+- [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — 完整六層記憶架構概覽，本筆記是其 team memory 子章節的深化
 - [[CLAUDE-MEMORY-ENGINE]] — 個人記憶引擎設計，與 team memory 的私有側設計呼應
 - [[FORKED-SUBAGENT-PATTERN]] — extraction sub-agent 用來寫 team memory 的背後技術
 

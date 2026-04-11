@@ -13,12 +13,12 @@ source_type: article
 author: "swchen"
 status: notes
 links:
-  - "[[REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]]"
+  - "[[2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]]"
   - "[[GIT-INTERNALS]]"
-  - "[[CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]]"
+  - "[[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]]"
 ---
 
-> **前置閱讀**：本文是 [[REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] 的續集，建議先閱讀了解 `repo` 的三層儲存架構與 git worktree 原理。
+> **前置閱讀**：本文是 [[2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] 的續集，建議先閱讀了解 `repo` 的三層儲存架構與 git worktree 原理。
 
 ## 摘要（Summary）
 
@@ -522,8 +522,8 @@ git push origin hotfix-login-crash-merge
 
 ## 相關連結（Related）
 
-- [[REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] — 本文的前篇，repo 三層架構與 git worktree 原理
-- [[CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Claude Code Hooks 完整指南，含 WorktreeCreate 詳解
+- [[2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] — 本文的前篇，repo 三層架構與 git worktree 原理
+- [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Claude Code Hooks 完整指南，含 WorktreeCreate 詳解
 - [[GIT-INTERNALS]] — git objects、refs、worktree 底層機制
 
 ## References

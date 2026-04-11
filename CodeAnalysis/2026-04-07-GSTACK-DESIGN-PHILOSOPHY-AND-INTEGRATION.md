@@ -13,8 +13,8 @@ source_type: code
 author: "garrytan"
 status: notes
 links:
-  - "[[GSTACK-TELEMETRY-ARCHITECTURE]]"
-  - "[[GSTACK-AI-AGENT-EVAL-ARCHITECTURE]]"
+  - "[[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]]"
+  - "[[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]]"
   - "[[CLAUDE-CODE-SKILL-MODEL]]"
 github_stars: unknown
 github_language: TypeScript+Bash+Markdown
@@ -642,8 +642,8 @@ ls -la ~/.claude/skills/qa/
 
 ## 相關連結（Related）
 
-- [[GSTACK-TELEMETRY-ARCHITECTURE]] — 觀測子系統的設計（同一個 repo 的另一面）
-- [[GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — E2E 測試與 KPI 設計
+- [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 觀測子系統的設計（同一個 repo 的另一面）
+- [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — E2E 測試與 KPI 設計
 - [[CLAUDE-CODE-SKILL-MODEL]] — Claude Code skill discovery 機制
 - [[PROMPT-AS-CODE-PHILOSOPHY]] — 把 prompt 當程式碼版本控管
 - [[OPENCLAW-ACP-PROTOCOL]] — Agent Communication Protocol

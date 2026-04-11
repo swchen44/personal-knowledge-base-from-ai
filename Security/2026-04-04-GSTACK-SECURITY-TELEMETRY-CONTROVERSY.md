@@ -12,9 +12,9 @@ source_type: article
 author: "tznthou"
 status: notes
 links:
-  - "[[THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]]"
-  - "[[HARNESS-ENGINEERING-COMPLETE-GUIDE]]"
-  - "[[THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]]"
+  - "[[2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]]"
+  - "[[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]]"
+  - "[[2026-03-16-THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]]"
 ---
 
 ## 摘要（Summary）
@@ -25,7 +25,7 @@ gstack 是 Y Combinator 總裁 Garry Tan 開源的 Claude Code Skill 工具包�
 
 - **星數衡量的是關注度，不是安全性** — 六萬星不代表有很多人真的翻過程式碼
 - **不是「蒐集了什麼」的問題，而是「你沒問過我」的問題** — 核心爭議是預設值與知情同意（Informed Consent）
-- **AI 開發工具的信任門檻比一般套件更高** — 它們跑在開發環境裡，能讀你的工作階段、專案、工作模式 — 參見 [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]]
+- **AI 開發工具的信任門檻比一般套件更高** — 它們跑在開發環境裡，能讀你的工作階段、專案、工作模式 — 參見 [[2026-03-16-THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]]
 - **產業尚未建立成熟的遙測治理標準（Telemetry Governance）**：什麼該蒐集、怎麼告知、`off` 到底該多 `off`，都還沒共識
 
 ## 詳細內容（Details）
@@ -132,9 +132,9 @@ gstack 是 Y Combinator 總裁 Garry Tan 開源的 Claude Code Skill 工具包�
 
 ## 相關連結（Related）
 
-- [[THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — gstack 作為三大 AI 編程框架之一，本文揭露了其治理層面的問題
-- [[HARNESS-ENGINEERING-COMPLETE-GUIDE]] — gstack 是 Harness Engineering 的代表作之一，但安全性是 Harness 設計常被忽略的一環
-- [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]] — 代理人工具安全的通用防禦框架
+- [[2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — gstack 作為三大 AI 編程框架之一，本文揭露了其治理層面的問題
+- [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — gstack 是 Harness Engineering 的代表作之一，但安全性是 Harness 設計常被忽略的一環
+- [[2026-03-16-THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]] — 代理人工具安全的通用防禦框架
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析，本文爭議的技術細節在此
 - [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — gstack 測試架構的程式碼分析，另一面向的設計品質
 

@@ -13,9 +13,9 @@ author: "Andrej Karpathy"
 status: notes
 date_uncertain: true
 links:
-  - "[[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]]"
-  - "[[HARNESSING-CLAUDES-INTELLIGENCE]]"
-  - "[[KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]]"
+  - "[[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]]"
+  - "[[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]]"
+  - "[[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]]"
 ---
 
 ## 摘要（Summary）
@@ -243,9 +243,9 @@ LLM 讀取來源
 
 ## 相關連結（Related）
 
-- [[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — Claude Code Agent 的實作層面，與本文的 Schema（CLAUDE.md）概念直接對應
-- [[HARNESSING-CLAUDES-INTELLIGENCE]] — Anthropic 的「讓 Claude 管理自己的 context」哲學，與本文「LLM 擁有 wiki 層」呼應
-- [[KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的其他核心觀點（Token 焦慮、自動研究），這份 Gist 是他實踐的一部分
+- [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — Claude Code Agent 的實作層面，與本文的 Schema（CLAUDE.md）概念直接對應
+- [[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]] — Anthropic 的「讓 Claude 管理自己的 context」哲學，與本文「LLM 擁有 wiki 層」呼應
+- [[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的其他核心觀點（Token 焦慮、自動研究），這份 Gist 是他實踐的一部分
 - [[ARTICLE-TO-PERSONAL-KB-SKILL]] — 我自己的 skill 實作，需要根據本文啟示升級為「ingest + 更新交叉參考」
 - [[MEMEX-VANNEVAR-BUSH]] — Vannevar Bush 1945 年的 Memex 願景原始論文
 - [[OBSIDIAN-AS-IDE]] — Obsidian 作為知識庫 IDE 的使用模式

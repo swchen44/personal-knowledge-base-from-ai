@@ -14,7 +14,7 @@ status: notes
 links:
   - "[[CLAUDE-CODE-SETUP]]"
   - "[[AI-AGENT-DESIGN]]"
-  - "[[CLAUDE-MEM-CODE-ANALYSIS]]"
+  - "[[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]]"
 github_stars: 485
 github_language: TypeScript
 ---
@@ -23,7 +23,7 @@ github_language: TypeScript
 
 `claude-code-scheduler` 是一個 Claude Code 插件，讓使用者用自然語言（natural language）設定定時任務（scheduled tasks），底層對接作業系統的原生排程器（native schedulers）——macOS 用 launchd、Linux 用 crontab、Windows 用 Task Scheduler。排程到時後，插件自動執行 `claude -p "你的指令"`，讓 Claude 在無人值守的情況下完成程式碼審查、安全掃描、定時摘要等重複性工作。
 
-這個插件正是本知識庫教程中 Nico 的投研 Agent 實現「每日定時財經日報」的技術核心，參見 [[BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]]。
+這個插件正是本知識庫教程中 Nico 的投研 Agent 實現「每日定時財經日報」的技術核心，參見 [[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]]。
 
 ## Why — 為什麼存在？
 
@@ -325,11 +325,11 @@ export async function createWorktree(params: CreateWorktreeParams): Promise<Work
 - **策略模式（Strategy Pattern）的教科書應用**：`BaseScheduler` + 三個平台實作，是非常乾淨的跨平台 CLI 工具架構範本
 - **Zod Schema 即是文件**：`ScheduledTaskSchema` 和 `ExecutionConfigSchema` 同時作為型別定義、執行時驗證和 API 文件，一份程式碼三用
 - **Git Worktree 隔離是自主 AI 任務的安全底線**：讓 AI 在隔離分支做變更，人類 review PR 後才合入，這個模式值得在所有自主 AI 執行任務時採用
-- 與 [[CLAUDE-MEM-CODE-ANALYSIS]] 配合使用：claude-mem 提供跨 session 記憶，claude-code-scheduler 提供定時觸發，兩者組合構成完整的自主 Agent 框架
+- 與 [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] 配合使用：claude-mem 提供跨 session 記憶，claude-code-scheduler 提供定時觸發，兩者組合構成完整的自主 Agent 框架
 
 ## 相關連結（Related）
 
-- [[CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 持久記憶系統，兩者常搭配使用構成完整 Agent
+- [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 持久記憶系統，兩者常搭配使用構成完整 Agent
 - [[CLAUDE-CODE-SETUP]] — Claude Code 安裝設定（含此插件安裝步驟）
 - [[AI-AGENT-DESIGN]] — Agent 設計原則，定時任務是 Agent 自主化的核心能力之一
 

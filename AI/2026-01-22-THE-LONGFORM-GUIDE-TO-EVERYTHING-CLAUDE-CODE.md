@@ -13,7 +13,7 @@ source_type: article
 author: "cogsec (@affaanmustafa)"
 status: notes
 links:
-  - "[[THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
+  - "[[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
   - "[[CLAUDE-HOOKS-SYSTEM]]"
   - "[[MCP-OVERVIEW]]"
 ---
@@ -24,7 +24,7 @@ links:
 
 ## 關鍵洞察（Key Insights）
 
-- 上下文腐敗（context rot）是最大敵人——透過策略性壓縮（strategic compact）和會話日誌（session logs）可跨天延續工作 — 參見 [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]
+- 上下文腐敗（context rot）是最大敵人——透過策略性壓縮（strategic compact）和會話日誌（session logs）可跨天延續工作 — 參見 [[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]
 - `--system-prompt` CLI 旗標（flag）比 `@file` 引用有更高的指令層級（instruction hierarchy），適合嚴格行為規則
 - Haiku + Opus 的組合比 Haiku + Sonnet 更具成本效益（5x vs 1.67x 價差）
 - `mgrep` 比 grep/ripgrep 平均節省約 50% 的 token 用量
@@ -395,7 +395,7 @@ git worktree add ../feature-branch feature-branch
 
 ## 相關連結（Related）
 
-- [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 本篇的前置必讀：基礎設定（Skills、Hooks、Subagents、MCPs）
+- [[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 本篇的前置必讀：基礎設定（Skills、Hooks、Subagents、MCPs）
 - [[CLAUDE-HOOKS-SYSTEM]] — PreCompact、SessionComplete、SessionStart 鉤子的深入設定
 - [[MCP-OVERVIEW]] — MCP vs CLI 技能的取捨分析
 - [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 記憶插件的程式碼分析，與本文記憶持久化章節直接相關

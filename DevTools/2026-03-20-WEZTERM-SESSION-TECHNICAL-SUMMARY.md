@@ -11,7 +11,7 @@ source_type: article
 author: "swchen"
 status: complete
 links:
-  - "[[WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]]"
+  - "[[2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]]"
   - "[[RUST-BUILD-TOOLCHAIN]]"
   - "[[MACOS-FONT-RENDERING]]"
 ---
@@ -210,7 +210,7 @@ xattr -cr /Applications/WezTerm.app
 
 ## 相關連結（Related）
 
-- [[WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]] — 完整編譯與設定流程文章
+- [[2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]] — 完整編譯與設定流程文章
 - [[RUST-BUILD-TOOLCHAIN]] — Rust 編譯工具鏈設定
 - [[MACOS-FONT-RENDERING]] — macOS 字體渲染與 CoreText 機制
 

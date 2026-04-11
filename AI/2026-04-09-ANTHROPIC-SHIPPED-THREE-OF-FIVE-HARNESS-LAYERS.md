@@ -191,7 +191,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 的六層架構解析（中文影片），與本文的五層模型互為補充
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]] — OpenAI 官方原文，本文多次引用的 L1 約束層實踐案例
 - [[AI-AGENT-ARCHITECTURE]] — 代理人架構設計的通用框架，可與本文的五層模型對照
-- [[CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code Skill 機制，屬於 L2 上下文層的漸進式揭露（Progressive Disclosure）實踐
+- [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code Skill 機制，屬於 L2 上下文層的漸進式揭露（Progressive Disclosure）實踐
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 「知識庫憲法」與「編譯後健檢」概念，對應本文的約束層與驗證層
 - [[2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT]] — NemoClaw 的跨進程策略執行，是 L1 約束層在企業安全場景的實際案例
 

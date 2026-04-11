@@ -14,8 +14,8 @@ author: "CrewAI Inc. (Joao Moura)"
 status: notes
 links:
   - "[[AI-AGENT-DESIGN]]"
-  - "[[CLAUDE-MEM-CODE-ANALYSIS]]"
-  - "[[BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]]"
+  - "[[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]]"
+  - "[[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]]"
 github_stars: 46627
 github_language: Python
 ---
@@ -338,8 +338,8 @@ uv run python src/my_research_flow/main.py
 ## 相關連結（Related）
 
 - [[AI-AGENT-DESIGN]] — 多代理人系統的設計原則，CrewAI 是最佳實踐範例
-- [[CLAUDE-MEM-CODE-ANALYSIS]] — Claude Code 的持久記憶插件，與 CrewAI 的 Memory 系統概念互補
-- [[BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]] — 用 Claude Code 建立 Agent 的實務教程，可對比 CrewAI 的架構選擇
+- [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — Claude Code 的持久記憶插件，與 CrewAI 的 Memory 系統概念互補
+- [[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]] — 用 Claude Code 建立 Agent 的實務教程，可對比 CrewAI 的架構選擇
 
 ## References
 

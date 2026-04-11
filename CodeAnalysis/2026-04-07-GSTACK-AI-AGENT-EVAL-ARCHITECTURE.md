@@ -13,7 +13,7 @@ source_type: code
 author: "garrytan"
 status: notes
 links:
-  - "[[GSTACK-TELEMETRY-ARCHITECTURE]]"
+  - "[[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]]"
   - "[[LLM-AS-JUDGE-PATTERNS]]"
   - "[[AI-AGENT-KPI-FRAMEWORK]]"
 github_stars: unknown
@@ -556,7 +556,7 @@ bun run eval:select
 
 ## 相關連結（Related）
 
-- [[GSTACK-TELEMETRY-ARCHITECTURE]] — 同 repo 的 telemetry 設計，KPI 落地的另一面
+- [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 同 repo 的 telemetry 設計，KPI 落地的另一面
 - [[LLM-AS-JUDGE-PATTERNS]] — LLM 評 LLM 的常見 pattern 與陷阱
 - [[AI-AGENT-KPI-FRAMEWORK]] — 從本文萃取的 KPI 表格（待寫）
 - [[EVAL-DRIVEN-DEVELOPMENT]] — 把 eval 當 TDD 的工作流

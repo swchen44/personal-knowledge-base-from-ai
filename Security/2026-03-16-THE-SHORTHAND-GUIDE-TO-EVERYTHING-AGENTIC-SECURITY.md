@@ -13,8 +13,8 @@ source_type: article
 author: "cogsec (@affaanmustafa)"
 status: notes
 links:
-  - "[[THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
-  - "[[THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
+  - "[[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
+  - "[[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
   - "[[MCP-OVERVIEW]]"
 github_stars: 191
 github_language: TypeScript
@@ -650,8 +650,8 @@ export function evaluatePolicy(
 
 ## 相關連結（Related）
 
-- [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：基礎設定指南
-- [[THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：進階技巧指南
+- [[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：基礎設定指南
+- [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：進階技巧指南
 - [[MCP-OVERVIEW]] — MCP 安全風險的深入理解與本文攻擊向量分析的連結
 - [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — gstack 遙測爭議案例，體現 AI 開發工具信任門檻高於一般套件的論點
 - [[2026-03-25-AI-BUG-FINDING-VULNPOCALYPSE]] — AI 漏洞研究實戰，展示代理人在安全領域的攻防兩面性

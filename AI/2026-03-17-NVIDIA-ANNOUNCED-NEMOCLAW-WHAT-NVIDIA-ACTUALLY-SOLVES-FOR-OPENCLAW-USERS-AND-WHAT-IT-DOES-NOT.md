@@ -15,7 +15,7 @@ status: notes
 links:
   - "[[OPENCLAW-SECURITY-HARDENING]]"
   - "[[AI-AGENT-GOVERNANCE]]"
-  - "[[2026-03-07-CLAUDE-CODE-141-AGENTS-SETUP]]"
+  - "[[CLAUDE-CODE-141-AGENTS-SETUP]]"
 ---
 
 作者在手動設定 OpenClaw 安全防護長達數月後，對 NVIDIA 在 GTC 發布的 NemoClaw 進行評估。文章直接指出：NemoClaw 在架構上做了正確的選擇，但仍是 alpha 軟體，且有幾個根本問題它解決不了。
@@ -144,7 +144,7 @@ Jensen Huang 把 OpenClaw 比作 Linux、Kubernetes、HTTP——不是技術，�
 
 - [[OPENCLAW-SECURITY-HARDENING]] — 作者提到的 17 項手動安全設定清單的出處
 - [[AI-AGENT-GOVERNANCE]] — 企業 AI 代理人治理（governance）框架的更廣討論
-- [[2026-03-07-CLAUDE-CODE-141-AGENTS-SETUP]] — Claude Code 多代理人（multi-agent）設定的對應筆記
+- [[CLAUDE-CODE-141-AGENTS-SETUP]] — Claude Code 多代理人（multi-agent）設定的對應筆記
 
 ## References
 

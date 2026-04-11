@@ -15,7 +15,7 @@ status: notes
 links:
   - "[[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]]"
   - "[[AI-AGENT-ARCHITECTURE]]"
-  - "[[CLAUDE-CODE-SKILLS-DOCUMENTATION]]"
+  - "[[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]]"
 ---
 
 ## 摘要（Summary）
@@ -122,7 +122,7 @@ Codex 最終達成了端到端的功能開發能力：
 ## 相關連結（Related）
 
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 同一概念的中文影片深度解析，涵蓋 Harness 六層架構
-- [[CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code 的 Skill 機制，類似 Harness 中的結構化代理人能力
+- [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code 的 Skill 機制，類似 Harness 中的結構化代理人能力
 - [[AI-AGENT-ARCHITECTURE]] — 代理人架構設計的通用框架
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發踩坑實錄，以真實案例驗證 Harness 設計中「結構化代理能力」的必要性
 

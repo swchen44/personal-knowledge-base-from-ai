@@ -11,8 +11,8 @@ source_type: article
 author: "Yuri Kramarz（Cisco Blogs）"
 status: notes
 links:
-  - "[[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]]"
-  - "[[HARNESSING-CLAUDES-INTELLIGENCE]]"
+  - "[[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]]"
+  - "[[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]]"
   - "[[REACT-AGENT-PATTERN]]"
 ---
 
@@ -142,7 +142,7 @@ LIMITATIONS                     → 5. 誠實（Honesty）
 
 1. **「寫下不做什麼」的力量**：我以前寫 prompt 時幾乎都只寫「做什麼」，這篇讓我意識到「不做什麼」的清單才是防止幻覺和範圍蔓延的關鍵
 2. **Observe → Reflect → Act 的通用性**：這不只是 AI Agent 的框架，也是**人類思考的框架**。可以直接套用在日常對話的 prompt 中，強迫 Claude 先觀察再推理
-3. **入門者的 200 字範本**：對比 [[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] 的 10 步複雜框架，這個 5 原則範本是「**寫第一個 Agent 該從哪裡開始**」的最佳起點
+3. **入門者的 200 字範本**：對比 [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] 的 10 步複雜框架，這個 5 原則範本是「**寫第一個 Agent 該從哪裡開始**」的最佳起點
 
 這篇和前面兩篇文章（Karpathy 影片、Anthropic Harness 哲學、Rezvani 10 步框架）形成完整的學習曲線：**入門（這篇）→ 實作（10 步框架）→ 哲學（Anthropic）→ 前沿（Karpathy）**。
 
@@ -182,8 +182,8 @@ LIMITATIONS                     → 5. 誠實（Honesty）
 
 ## 相關連結（Related）
 
-- [[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 進階版：從 5 原則擴展到 10 步工具導向框架
-- [[HARNESSING-CLAUDES-INTELLIGENCE]] — 哲學層：Anthropic 對「什麼時候該減少結構」的觀點，與本文的「增加結構」形成辯證
+- [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 進階版：從 5 原則擴展到 10 步工具導向框架
+- [[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]] — 哲學層：Anthropic 對「什麼時候該減少結構」的觀點，與本文的「增加結構」形成辯證
 - [[REACT-AGENT-PATTERN]] — ReAct（Reasoning + Acting）模式，與本文的 Observe-Reflect-Act 高度相關
 - [[PROMPT-ENGINEERING-PRINCIPLES]] — 提示工程基本原則
 - [[AGENT-BOUNDARIES-DESIGN]] — Agent 邊界設計專題

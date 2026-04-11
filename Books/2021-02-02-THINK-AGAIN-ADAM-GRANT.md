@@ -15,7 +15,7 @@ links:
   - "[[INTELLECTUAL-HUMILITY]]"
   - "[[COGNITIVE-BIAS]]"
   - "[[GROWTH-MINDSET]]"
-  - "[[ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]]"
+  - "[[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]]"
 ---
 
 ## 摘要（Summary）
@@ -237,7 +237,7 @@ Grant 描述了「心理安全感（Psychological Safety）」在學習環境中
 
 ## 八、對工程師與技術人的特別啟示
 
-結合今日 AI 快速發展的背景（參見 [[ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]]），本書對技術人員有幾個直接的應用：
+結合今日 AI 快速發展的背景（參見 [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]]），本書對技術人員有幾個直接的應用：
 
 > [!tip] 技術人員的逆思維實踐
 
@@ -381,7 +381,7 @@ Adam Grant 在官方網站提供一份自我評估測驗，測量你目前的「
 - [[INTELLECTUAL-HUMILITY]] — 智識謙遜：重新思考的核心態度
 - [[COGNITIVE-BIAS]] — 認知偏誤完整列表，包含確認偏誤和逆火效應
 - [[GROWTH-MINDSET]] — Carol Dweck 的成長型思維，與本書的「重新學習（unlearning）」概念互補
-- [[ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 談技術典範轉移，與本書「不讓過去選擇綁架未來」的主題相呼應
+- [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 談技術典範轉移，與本書「不讓過去選擇綁架未來」的主題相呼應
 - [[MOTIVATIONAL-INTERVIEWING]] — 動機式訪談的完整技術手冊
 
 ## References

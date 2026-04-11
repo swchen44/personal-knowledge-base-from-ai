@@ -16,9 +16,9 @@ duration: "14:34"
 transcript_method: youtube-transcript-api
 status: notes
 links:
-  - "[[THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
-  - "[[BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]]"
-  - "[[CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]]"
+  - "[[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]]"
+  - "[[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]]"
+  - "[[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]]"
 ---
 
 ## 摘要（Summary）
@@ -176,9 +176,9 @@ Kilo Code Profiles（多模型混合配置）
 
 ## 相關連結（Related）
 
-- [[THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 對比閉源模型（Claude）的進階使用策略，理解為何閉源模型仍是嚴肅工作的選擇
-- [[BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]] — 從提示工程到實際 Agent 部署，理解完整 AI 編程工作流
-- [[CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — Kilo Code Profile 混合策略的延伸：如何在不同工具中管理多模型配置
+- [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 對比閉源模型（Claude）的進階使用策略，理解為何閉源模型仍是嚴肅工作的選擇
+- [[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]] — 從提示工程到實際 Agent 部署，理解完整 AI 編程工作流
+- [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — Kilo Code Profile 混合策略的延伸：如何在不同工具中管理多模型配置
 
 ## References
 

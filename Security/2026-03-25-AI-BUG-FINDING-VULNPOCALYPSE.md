@@ -16,9 +16,9 @@ duration: "~60 min"
 transcript_method: defuddle
 recorded_date: 2026-03-19
 links:
-  - "[[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]]"
-  - "[[HARNESSING-CLAUDES-INTELLIGENCE]]"
-  - "[[KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]]"
+  - "[[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]]"
+  - "[[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]]"
+  - "[[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]]"
 ---
 
 ## 摘要（Summary）
@@ -195,7 +195,7 @@ LLM：
 
 這篇訪談最震撼的不是數據（500 個 0-day），而是**方法的極度樸素**。我一直以為 AI 找漏洞需要精心設計的 harness，但 Carlini 直接告訴我們：**不需要**。就是 `claude code --dangerously-skip-permissions` + bash loop + 一個 30 行 prompt。這對「AI 應用開發」的方法論有根本性啟示：
 
-1. **Harness 是死重**：呼應 [[HARNESSING-CLAUDES-INTELLIGENCE]] 的核心論點——每一個你為「保護模型」加的機制，在下一代模型都可能變成阻礙
+1. **Harness 是死重**：呼應 [[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]] 的核心論點——每一個你為「保護模型」加的機制，在下一代模型都可能變成阻礙
 2. **Model 寫 Agent**：Carlini 連自己的 prompt 都是 Claude 寫的。這是真正的 **Recursive AI Development**
 3. **最恐怖的威脅不是 0-day 而是「存量」**：網路上大量未更新的服務，未來可能被自動化掃描工具大規模利用。這對個人和小團隊的防禦有迫切影響——**現在就要把所有 internet-facing service 更新到最新版本**
 4. **Bitter Lesson 的殘酷**：Carlini 在 2024 末寫的嚴格 harness，2026 年重跑變成限制。這個時間尺度（約 15 個月）是任何「AI 工具開發者」都需要內化的——**寫工具的時候不要過度優化**
@@ -237,9 +237,9 @@ LLM：
 
 ## 相關連結（Related）
 
-- [[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 本身的架構，理解為什麼 `--dangerously-skip-permissions` 模式如此有效
-- [[HARNESSING-CLAUDES-INTELLIGENCE]] — Anthropic 官方對「harness 是過時假設的墳場」的哲學論述，與 Carlini 的實戰經驗互相印證
-- [[KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的「Token 焦慮」與 Carlini 的「讓 agent 跑遍每個檔案」是同一現象的不同表達
+- [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 本身的架構，理解為什麼 `--dangerously-skip-permissions` 模式如此有效
+- [[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]] — Anthropic 官方對「harness 是過時假設的墳場」的哲學論述，與 Carlini 的實戰經驗互相印證
+- [[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的「Token 焦慮」與 Carlini 的「讓 agent 跑遍每個檔案」是同一現象的不同表達
 - [[BITTER-LESSON-RICH-SUTTON]] — Rich Sutton 的原始 Bitter Lesson 論文
 - [[ANTHROPIC-RED-ZERO-DAYS]] — Anthropic Red 發表的 500 bugs 原始部落格
 - [[OSS-FUZZ-HISTORY]] — Google OSS-Fuzz 專案的歷史與成就

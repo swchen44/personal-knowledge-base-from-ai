@@ -13,9 +13,9 @@ source_type: article
 author: "swchen44"
 status: notes
 links:
-  - "[[AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE]]"
-  - "[[OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]]"
-  - "[[CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]]"
+  - "[[2026-03-20-AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE]]"
+  - "[[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]]"
+  - "[[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]]"
 ---
 
 ## 摘要（Summary）
@@ -787,9 +787,9 @@ gen4m workspace 的 hub-session-start.sh 在新 debug session 啟動時：
 
 ## 相關連結（Related）
 
-- [[AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE]] — AgentHub 技術基礎：DAG、git bundle、message board 完整分析
-- [[OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — Claude Code multi-agent 架構，tmux fan-out 的先行案例
-- [[CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — Expert 安裝層次：framework-agenthub-expert 的 scope 決策依據
+- [[2026-03-20-AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE]] — AgentHub 技術基礎：DAG、git bundle、message board 完整分析
+- [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — Claude Code multi-agent 架構，tmux fan-out 的先行案例
+- [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — Expert 安裝層次：framework-agenthub-expert 的 scope 決策依據
 - [[GITAGENT-FRAMEWORK-ANALYSIS]] — gitagent 開放標準，用 Git repo 定義 Agent 並透過 adapter 匯出，可作為 Jarvis Expert 的可攜式定義格式
 
 ---

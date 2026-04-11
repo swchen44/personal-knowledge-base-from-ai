@@ -13,8 +13,8 @@ author: "Lance Martin（Anthropic Claude Platform 技術人員）"
 status: notes
 date_uncertain: true
 links:
-  - "[[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]]"
-  - "[[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]]"
+  - "[[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]]"
+  - "[[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]]"
   - "[[CONTEXT-ENGINEERING]]"
 ---
 
@@ -173,7 +173,7 @@ Claude 不知道應用的安全邊界或 UX 介面。Bash 工具給 Claude 廣�
 3. **Opus 4.6 比 Sonnet 4.5 在長時程任務的 84% vs 43%**——這個差距極大，說明模型能力對結構性任務的影響遠超預期。花錢升級 Opus 做複雜 Agent 任務是合理的
 4. **「我能停止做什麼？」應該是每次模型升級後的常駐問題**——這跟我自己的工作流程很吻合：每次 Claude 變強，應該主動測試哪些老技巧可以丟掉
 
-這篇文章跟 [[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] 形成有趣對比——後者是「用 Markdown 組裝 Agent」的實作層，這篇是「為什麼組裝要這樣做」的哲學層。兩篇互補閱讀收穫更大。
+這篇文章跟 [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] 形成有趣對比——後者是「用 Markdown 組裝 Agent」的實作層，這篇是「為什麼組裝要這樣做」的哲學層。兩篇互補閱讀收穫更大。
 
 ---
 
@@ -211,10 +211,10 @@ Claude 不知道應用的安全邊界或 UX 介面。Bash 工具給 Claude 廣�
 
 ## 相關連結（Related）
 
-- [[BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 實作層的 Markdown Agent 組裝方法，與本文的哲學層形成互補
-- [[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 原始碼中的 Agent 循環、記憶系統、工具設計，驗證本文主張的實作
+- [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 實作層的 Markdown Agent 組裝方法，與本文的哲學層形成互補
+- [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 原始碼中的 Agent 循環、記憶系統、工具設計，驗證本文主張的實作
 - [[CONTEXT-ENGINEERING]] — Attention Budget、Progressive Disclosure 等概念的系統化方法論
-- [[KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的「Agent 用不好是人的問題」與本文「harness 是死重」觀點呼應
+- [[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的「Agent 用不好是人的問題」與本文「harness 是死重」觀點呼應
 - [[AGENT-HARNESS-DESIGN]] — Anthropic 另一篇關於長時程任務 Agent 設計的文章
 - [[2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK]] — 蘇格拉底式提問框架，與本文「減少結構、讓 AI 自主思辨」的哲學形成互補視角
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — Claude Code 記憶系統的原始碼分析，驗證本文「Claude 已內建記憶」的主張

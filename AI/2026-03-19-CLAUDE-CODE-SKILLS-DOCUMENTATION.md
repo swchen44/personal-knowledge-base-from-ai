@@ -14,7 +14,7 @@ status: notes
 links:
   - "[[SKILL-MD-SPECIFICATION]]"
   - "[[AGENT-SKILL-PATTERNS]]"
-  - "[[CLAUDE-SKILL-EVAL-FRAMEWORK]]"
+  - "[[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]]"
 ---
 
 ## 摘要（Summary）
@@ -569,7 +569,7 @@ if __name__ == '__main__':
 
 - [[SKILL-MD-SPECIFICATION]] — SKILL.md 格式規格完整參考
 - [[AGENT-SKILL-PATTERNS]] — 5 種代理人技能設計模式（Tool Wrapper、Generator、Reviewer、Inversion、Pipeline）
-- [[CLAUDE-SKILL-EVAL-FRAMEWORK]] — 如何用 skill-creator 評估和迭代改善 skill
+- [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 如何用 skill-creator 評估和迭代改善 skill
 - [[CLAUDE-CODE-SUBAGENTS]] — Claude Code subagents 架構，與 `context: fork` 搭配使用
 - [[2026-03-07-CLAUDE-SKILLS-2.0-THE-SELF-IMPROVING-AI-CAPABILITIES-THAT-ACTUALLY-WORK]] — Skills 2.0 的回饋循環與自我改善機制，是本文 skill 系統的進階實踐
 - [[2026-04-11-AGENT-BROWSER-SKILL-SYSTEM-DEEP-DIVE]] — Agent Browser 的 Skill 系統程式碼分析，展示 npx skills CLI 如何管理外部 skill

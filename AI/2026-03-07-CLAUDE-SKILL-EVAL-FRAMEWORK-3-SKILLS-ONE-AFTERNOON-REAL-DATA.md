@@ -11,7 +11,7 @@ source_type: article
 author: "Reza Rezvani"
 status: notes
 links:
-  - "[[CLAUDE-SKILL-EVAL-FRAMEWORK]]"
+  - "[[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]]"
   - "[[SKILL-MD-SPECIFICATION]]"
   - "[[AGENT-SKILL-PATTERNS]]"
 ---
@@ -24,7 +24,7 @@ links:
 
 ## 關鍵洞察（Key Insights）
 
-- **假陽性（false positive）比漏報（miss）更危險** — 一個把乾淨程式碼標記為問題的 skill，會訓練開發者完全忽略它的輸出。參見 [[CLAUDE-SKILL-EVAL-FRAMEWORK]]
+- **假陽性（false positive）比漏報（miss）更危險** — 一個把乾淨程式碼標記為問題的 skill，會訓練開發者完全忽略它的輸出。參見 [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]]
 - **序列錯誤（sequence error）在輸出審查中是不可見的** — 只有評估的完整執行記錄（eval transcript）才能揭露步驟順序問題
 - **Benchmark 模式量化 skill 的投資回報** — 多消耗 40% token，但減少 70% 人工修正，數據驅動決策
 - **描述優化（description optimization）將觸發精準度從 ~70% 提升至 ~90%** — 在 skill 穩定後才執行，不要在仍在修改 skill 時就優化
@@ -163,10 +163,10 @@ Benchmark 模式的量化角度（40% token vs 70% 修正減少）也很實用�
 
 ## 相關連結（Related）
 
-- [[CLAUDE-SKILL-EVAL-FRAMEWORK]] — skill-creator 評估框架的詳細說明與四項核心能力
+- [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — skill-creator 評估框架的詳細說明與四項核心能力
 - [[SKILL-MD-SPECIFICATION]] — SKILL.md 格式規格，30+ 工具共同採用的標準
 - [[AGENT-SKILL-PATTERNS]] — 5 種代理人技能設計模式（Tool Wrapper、Generator、Reviewer、Inversion、Pipeline）
-- [[5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — Google Cloud Tech 發布的 ADK 設計模式文章，與本文的 skill 分類框架互補
+- [[2026-03-18-5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — Google Cloud Tech 發布的 ADK 設計模式文章，與本文的 skill 分類框架互補
 - [[2026-03-07-CLAUDE-SKILLS-2.0-THE-SELF-IMPROVING-AI-CAPABILITIES-THAT-ACTUALLY-WORK]] — Skills 2.0 的回饋循環機制，將本文的 eval 框架嵌入自動化優化流程
 - [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — gstack 的三層測試金字塔程式碼分析，另一套 AI Agent 評估實作
 
