@@ -1111,6 +1111,8 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 - [[OBSIDIAN-POWER-TIPS]] — Obsidian 知識圖譜技巧，可整合 Memory Engine 的日記輸出
 - [[GITHUB-BACKUP-STRATEGY]] — 跨裝置同步的 GitHub repo 設定策略
 - [[AI-CONTEXT-WINDOW]] — Context 壓縮問題是這套工具存在的根本原因
+- [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 的程式碼深度分析，同為 Claude Code 記憶插件但以不同方式解決相同問題
+- [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — 同一專案 Claude Memory Engine 的另一份程式碼分析，從 hooks + markdown 架構切入
 
 ---
 

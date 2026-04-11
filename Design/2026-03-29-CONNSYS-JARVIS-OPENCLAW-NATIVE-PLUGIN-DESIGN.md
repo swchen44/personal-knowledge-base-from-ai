@@ -1,3 +1,20 @@
+---
+title: "Connsys-Jarvis × OpenClaw：原生整合設計"
+date: 2026-03-29
+category: Design
+tags:
+  - "#ai/agent"
+  - "#tools/openclaw"
+  - "#connsys-jarvis"
+source: "內部設計文件"
+source_type: article
+author: "Shaowei Chen"
+status: notes
+links:
+  - "[[2026-03-29-CONNSYS-JARVIS-STAGE3-CLAWTEAM-EXPERT-SWARM-DESIGN]]"
+  - "[[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]]"
+---
+
 # Connsys-Jarvis × OpenClaw：原生整合設計
 
 **文件版本**：v1.0

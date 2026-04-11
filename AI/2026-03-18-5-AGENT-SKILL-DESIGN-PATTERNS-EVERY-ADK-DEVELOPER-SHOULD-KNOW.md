@@ -292,6 +292,8 @@ ADK 的 `SkillToolset` 和漸進式揭露（progressive disclosure）機制，�
 - [[ADK-AGENT-DEVELOPMENT-KIT]] — Google Agent Development Kit 入門與架構
 - [[SKILL-MD-SPECIFICATION]] — SKILL.md 格式規格，30+ 工具共同採用的標準
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 中 skill 的實際應用案例
+- [[2026-04-11-AGENT-BROWSER-SKILL-SYSTEM-DEEP-DIVE]] — Agent Browser 的 Skill 系統程式碼分析，展示 Rust CLI 與 npx skills 的雙軌 skill 載入架構
+- [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — 薄路由厚能力的三層式架構，將本文的 5 種設計模式放入組織級 Agent/Skill/Standard 框架
 
 ## References
 

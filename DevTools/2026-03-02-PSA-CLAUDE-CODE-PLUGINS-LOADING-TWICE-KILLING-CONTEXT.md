@@ -157,6 +157,7 @@ find ~/.claude/skills/ -type l -lname "*/plugins/*" -delete 2>/dev/null
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 技能系統架構與設計
 - [[MCP-CONTEXT-MANAGEMENT]] — MCP 工具上下文管理策略
 - [[CONTEXT-COMPACTION]] — 上下文壓縮（Context Compaction）機制與觸發條件
+- [[2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP]] — 同為 Claude Code 效能優化，LSP 啟用與外掛管理是兩個互補的最佳化方向
 
 ## References
 

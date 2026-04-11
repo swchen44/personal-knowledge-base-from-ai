@@ -12,7 +12,8 @@ source_type: tool
 author: "kepano"
 status: complete
 links:
-  - "[[ADD-ARTICLE-SOP]]"
+  - "[[CLAUDE-MEMORY-ENGINE]]"
+  - "[[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]]"
 ---
 
 ## Summary
@@ -259,3 +260,4 @@ Create `.canvas` files for visual mind maps and concept diagrams that link to yo
 
 - [[ADD-ARTICLE-SOP]]
 - [[YOUTUBE-KNOWLEDGE-GRAPH]]
+- [[2026-04-02-KARPATHY-LLM-WIKI-PATTERN]] — Karpathy 用 Obsidian + LLM Agent 建構個人知識庫的模式，與本文的知識圖譜技巧互補

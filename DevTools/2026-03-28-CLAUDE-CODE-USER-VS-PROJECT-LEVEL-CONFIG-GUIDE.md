@@ -446,6 +446,8 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 - [[CLAUDE-CODE-MCP-SETUP]] — MCP Server 的安裝與設定方式詳解
 - [[CLAUDE-CODE-HOOKS-PATTERNS]] — Hooks 的實際使用模式與範例
 - [[DEVTOOLS-TEAM-WORKFLOW]] — 開發團隊工具鏈的整體配置策略
+- [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] — settings.json 中 enabledPlugins 設定與外掛重複載入問題的實戰診斷
+- [[2026-03-31-CLAUDE-CODE-WORKTREE-X-REPO-MULTI-REPO-PARALLEL-DEVELOPMENT]] — Worktree 模式下的專案層級配置隔離策略
 
 ## References
 

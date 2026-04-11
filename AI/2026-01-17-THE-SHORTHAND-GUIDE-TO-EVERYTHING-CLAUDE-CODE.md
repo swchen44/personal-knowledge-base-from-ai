@@ -488,6 +488,8 @@ disabledMcpServers: [
 - [[CLAUDE-MEMORY-ENGINE]] — Claude 的記憶系統架構與 CLAUDE.md 設計
 - [[MCP-OVERVIEW]] — MCP 協定原理與伺服器設定最佳實踐
 - [[CLAUDE-HOOKS-SYSTEM]] — 鉤子系統深入探討與實際設定範例
+- [[2026-01-08-CLAUDE-CODE-SCHEDULER-CODE-ANALYSIS]] — 速查手冊中提到的 scheduler 插件的程式碼深度分析
+- [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Claude Code 創始人 Boris Cherny 分享的 13 個隱藏功能，補充本速查手冊未涵蓋的進階用法
 
 ## References
 

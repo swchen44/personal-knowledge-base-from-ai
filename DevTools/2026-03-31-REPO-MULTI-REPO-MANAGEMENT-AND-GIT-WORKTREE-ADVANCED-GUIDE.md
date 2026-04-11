@@ -752,6 +752,7 @@ git branch -d hotfix/login-crash
 - [[GIT-INTERNALS]] — git 底層物件模型（commits、trees、blobs）的詳細說明
 - [[MONOREPO-VS-MULTI-REPO]] — monorepo 與 multi-repo 的架構選型討論
 - [[ANDROID-BUILD-SYSTEM]] — AOSP 的 repo 使用實踐，以及 `repo upload` 與 Gerrit 的整合
+- [[2026-03-31-CLAUDE-CODE-WORKTREE-X-REPO-MULTI-REPO-PARALLEL-DEVELOPMENT]] — 本文的續集，將 repo + git worktree 與 Claude Code --worktree 結合的並行開發實戰
 
 ## References
 

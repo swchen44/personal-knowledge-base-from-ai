@@ -234,6 +234,11 @@ hooks:
 - [[CLAUDE-CODE-ARCHITECTURE]] — Claude Code 的內部架構，驗證本文框架的技術可行性
 - [[CONTEXT-ENGINEERING]] — 上下文工程（Context Engineering）的系統性方法
 - [[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 原始碼洩漏中的 Agent 循環、記憶系統設計，與本文框架高度互補
+- [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — oh-my-claudecode 的程式碼分析，展示另一種多代理人編排實作
+- [[2026-03-14-OPENCLI-CODE-ANALYSIS]] — OpenCLI 的程式碼分析，可作為 Agent 工具整合的參考架構
+- [[2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS]] — 自我進化代理人的評估函數與記憶系統設計，為本文框架提供自動化迭代的進階方向
+- [[2026-03-26-WRITING-YOUR-FIRST-SIMPLE-AI-AGENT]] — 入門版的 5 原則 Agent 建構指南，與本文 10 步框架形成由淺入深的學習路徑
+- [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發三個月踩坑復盤，揭示教科書式架構到有效架構的真實演化過程
 
 ## References
 

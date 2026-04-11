@@ -232,6 +232,8 @@ claude --add-dir /path/to/repo-B
 - [[CLAUDE-CODE-HOOKS]] — Hooks 機制深入探討
 - [[CLAUDE-CODE-GIT-WORKTREES]] — Git Worktrees 並行工作實務
 - [[CLAUDE-CODE-SDK]] — SDK 非互動式使用與 --bare 旗標
+- [[2026-01-08-CLAUDE-CODE-SCHEDULER-CODE-ANALYSIS]] — Boris 提到的排程功能，此為 scheduler 插件的程式碼深度分析
+- [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — Boris 提到的團隊記憶功能，此為 Team Memory 的原始碼深度分析
 
 ---
 

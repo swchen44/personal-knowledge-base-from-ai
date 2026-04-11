@@ -107,6 +107,8 @@ HR 在人才盤點（Talent Review）會議中常見的場景——真正有影�
 - [[CAREER-STRATEGY]] — 職涯策略整體框架
 - [[WORKPLACE-POLITICS]] — 職場政治與影響力的正確理解
 - [[KPI-ALIGNMENT]] — 對齊 KPI 以確保努力方向正確
+- [[2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS]] — 同作者 HR Jasmin 揭露外商 Competency 職能模型，補充「為什麼努力錯人」的制度面原因
+- [[2023-07-04-SIEMENS-GAMESA-HR-HEAD-JEFFERY-INTERVIEW]] — 同頻道 HR Jasmin 訪談，高階 HR 談政治敏感度與利害關係人的重要性
 
 ## References
 

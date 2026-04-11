@@ -3,27 +3,18 @@ title: "gitagent — A Framework-Agnostic, Git-Native Standard for AI Agents"
 date: 2026-03-15
 category: AI
 tags:
-  - ai-agents
-    - gitagent
-      - open-standard
-        - git-native
-          - claude-code
-            - framework-agnostic
-              - adapter-pattern
-                - skills
-                  - knowledge-base
-                    - obsidian
-                      - progressive-disclosure
-                        - context-window
-                        source: "https://github.com/open-gitagent/gitagent"
-                        source_type: tool
-                        author: "open-gitagent"
-                        status: complete
-                        links:
-                          - "[[AI-AGENT-FRAMEWORKS-COMPARISON]]"
-                            - "[[CLAUDE-CODE-WORKFLOW]]"
-                              - "[[CONTEXT-WINDOW-OPTIMIZATION]]"
-                              ---
+  - "#ai/agent"
+  - "#tools/git"
+  - "#ai/framework"
+source: "https://github.com/open-gitagent/gitagent"
+source_type: tool
+author: "open-gitagent"
+status: complete
+links:
+  - "[[AI-AGENT-FRAMEWORKS-COMPARISON]]"
+  - "[[CLAUDE-CODE-WORKFLOW]]"
+  - "[[CONTEXT-WINDOW-OPTIMIZATION]]"
+---
 
                               ## Summary
 
@@ -111,3 +102,4 @@ tags:
                               - [[CLAUDE-CODE-WORKFLOW]]
                               - [[CONTEXT-WINDOW-OPTIMIZATION]]
                               - [[OBSIDIAN-KNOWLEDGE-MANAGEMENT]]
+                              - [[2026-02-24-GITAGENT-GIT-NATIVE-AI-AGENT-STANDARD]] — gitagent 同一專案的深度程式碼分析（繁中版），含 CLI、adapter、合規功能細節

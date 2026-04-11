@@ -260,6 +260,10 @@ Claude Code 等待輸入（權限提示、閒置提示）時推送 Slack 通知�
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 技能（Skill）系統，與 Hooks 互補的自動化機制
 - [[CLAUDE-CODE-PERFORMANCE]] — Claude Code 效能優化，含 Plugin 重複載入問題
 - [[AI-AGENT-SAFETY]] — AI 代理（Agent）安全控制模式
+- [[2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP]] — 同作者 Karan Bansal 的另一篇 Claude Code 功能指南，LSP 與 Hooks 互補提升開發體驗
+- [[SUPERPOWERS-OBRA]] — Superpowers 框架的技能自動觸發機制依賴 Hooks 系統
+- [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — claude-code-hooks 開源集合的程式碼分析，提供可直接使用的 hook 腳本
+- [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — Claude Memory Engine 以 hooks 實現記憶系統的程式碼分析
 
 ## References
 

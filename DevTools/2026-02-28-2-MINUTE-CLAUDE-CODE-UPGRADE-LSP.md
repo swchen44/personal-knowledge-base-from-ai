@@ -213,6 +213,7 @@ LSP 設定立即執行。關鍵操作清單：
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 技能系統，LSP 外掛亦屬其中
 - [[LANGUAGE-SERVER-PROTOCOL]] — LSP 的設計原理與 M×N → M+N 的架構優勢
 - [[CLAUDE-CODE-PERFORMANCE]] — Claude Code 效能優化，含 Plugin 重複載入問題
+- [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] — 外掛重複載入問題的診斷與修復，與 LSP 同為 Claude Code 效能提升的關鍵步驟
 
 ## References
 

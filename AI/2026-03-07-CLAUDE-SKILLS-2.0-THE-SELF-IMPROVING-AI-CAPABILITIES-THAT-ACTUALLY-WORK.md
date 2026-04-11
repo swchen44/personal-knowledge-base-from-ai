@@ -294,6 +294,12 @@ git push  # 分享給團隊
 - **企業管理（Enterprise Management）**：細粒度權限（granular permissions）、使用分析（usage analytics）、合規控制（compliance controls）、審核流程（approval workflow）
 - **技能市集（Skill Marketplace）**：社群提交（community submissions）、評分評論、品質驗證（quality verification）
 
+## 相關連結（Related）
+
+- [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 同日期發布的 Skill Eval 實戰文章
+- [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — Claude Memory Engine 的程式碼分析，記憶系統是 Skills 2.0 自我改善的基礎
+- [[2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS]] — 自我進化代理人的核心機制，與 Skills 2.0 的自動建立、測試、優化循環理念相通
+
 ## References
 
 - [原文](https://medium.com/@reliabledataengineering/claude-skills-2-0-the-self-improving-ai-capabilities-that-actually-work-dc3525eb391b)

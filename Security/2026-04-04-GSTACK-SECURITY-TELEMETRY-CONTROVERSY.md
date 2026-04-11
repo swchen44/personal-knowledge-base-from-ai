@@ -135,6 +135,8 @@ gstack 是 Y Combinator 總裁 Garry Tan 開源的 Claude Code Skill 工具包�
 - [[THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — gstack 作為三大 AI 編程框架之一，本文揭露了其治理層面的問題
 - [[HARNESS-ENGINEERING-COMPLETE-GUIDE]] — gstack 是 Harness Engineering 的代表作之一，但安全性是 Harness 設計常被忽略的一環
 - [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-AGENTIC-SECURITY]] — 代理人工具安全的通用防禦框架
+- [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析，本文爭議的技術細節在此
+- [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — gstack 測試架構的程式碼分析，另一面向的設計品質
 
 ---
 

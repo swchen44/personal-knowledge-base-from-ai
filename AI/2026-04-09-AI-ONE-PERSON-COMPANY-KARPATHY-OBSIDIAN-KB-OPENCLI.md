@@ -146,6 +146,8 @@ links:
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — 五層 Harness 模型中的約束層與驗證層概念，與「知識庫憲法」和「健檢機制」相通
 - [[2026-04-04-AI-VIDEO-PROMPT-FORMULA-SIX-DIMENSIONS]] — AI 視頻提示詞的六維度方法論，同樣強調結構化輸入的重要性
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — 多 Agent 時代工程師角色轉變，與一人公司的多 AI 分工模式互為印證
+- [[2026-04-02-KARPATHY-LLM-WIKI-PATTERN]] — Karpathy 的 LLM Wiki 模式原始設計文件，本影片中知識庫架構的理論基礎
+- [[2026-03-14-OPENCLI-CODE-ANALYSIS]] — 影片中提到的 OpenCLI 工具的程式碼深度分析
 
 ---
 

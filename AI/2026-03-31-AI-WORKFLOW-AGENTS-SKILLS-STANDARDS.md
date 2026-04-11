@@ -163,6 +163,10 @@ AI 最大的風險不是做不到，而是每次做法都不一樣。Standards �
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 也是從 prompt 工程升級到流程工程的同類思路
 - [[2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — 各框架對 skill/agent 分層的不同取法
 - [[CLAUDE-SKILL-SYSTEM]] — Claude Code 的 skill 系統正是此架構的實作範例
+- [[2026-02-24-GITAGENT-GIT-NATIVE-AI-AGENT-STANDARD]] — gitagent 以 Git repo 定義 Agent 的標準，是 Standards 層的具體實現
+- [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — gstack 把方法論編成 prompt-as-code 的設計哲學，與三層架構高度吻合
+- [[2026-03-12-GNAP-GIT-NATIVE-AGENT-PROTOCOL]] — GNAP 以 Git 為唯一協調基礎的多代理人協議，Standards 層的協議級實現
+- [[GITAGENT-FRAMEWORK-ANALYSIS]] — gitagent 的 adapter 模式程式碼分析，展示如何將同一 Agent 定義匯出到多個框架，呼應本文的 Standards 層可攜性
 
 ## References
 

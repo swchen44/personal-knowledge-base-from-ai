@@ -208,6 +208,11 @@ gstack 推薦用 Conductor 做並行開發（作者同時跑 10–15 個任務�
 - [[HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 本影片討論的三個框架正是 Harness Engineering 的具體實踐
 - [[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 內部的上下文壓縮與多代理機制，與 GSD 的設計思路相關
 - [[CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — 另一個多代理協作框架，可對比 gstack 的角色治理方式
+- [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — gstack 遙測爭議的深度分析，揭露治理跟不上成長的風險
+- [[SUPERPOWERS-OBRA]] — Superpowers 框架的完整拆解，含可組合技能與子代理人審查模式的設計細節
+- [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — gstack 三層測試金字塔的程式碼分析，量化驗證 AI Agent 品質的方法
+- [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — gstack prompt-as-code 設計哲學的程式碼分析
+- [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析
 
 ---
 

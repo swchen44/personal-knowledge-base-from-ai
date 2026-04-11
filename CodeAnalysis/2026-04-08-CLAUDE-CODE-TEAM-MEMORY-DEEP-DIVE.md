@@ -17,6 +17,8 @@ links:
   - "[[CLAUDE-CODE-MEMORY-SYSTEM]]"
   - "[[CLAUDE-MEMORY-ENGINE]]"
   - "[[FORKED-SUBAGENT-PATTERN]]"
+github_stars: 0
+github_language: "TypeScript"
 ---
 
 ## 摘要（Summary）

@@ -301,6 +301,11 @@ Anthropic 內部員工用 Claude Code 向開源專案提交程式碼時，會自
 - [[CONTEXT-ENGINEERING]] — 上下文工程（Context Engineering）最佳實踐
 - [[PROMPT-CACHE-OPTIMIZATION]] — 提示詞快取（Prompt Cache）優化技巧
 - [[FAIL-CLOSED-DESIGN]] — Fail-closed 設計哲學在系統架構中的應用
+- [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] — 外掛重複載入導致上下文浪費，與原始碼中的技能注入機制直接相關
+- [[2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP]] — LSP 工具是原始碼中隱藏的實驗性功能之一
+- [[2026-03-25-AI-BUG-FINDING-VULNPOCALYPSE]] — 使用 Claude Code `--dangerously-skip-permissions` 模式進行漏洞研究的實戰案例
+- [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — 基於同份洩漏原始碼，深入拆解記憶系統的十大設計細節
+- [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — 基於同份洩漏原始碼，深入分析 Team Memory Server 與 REST API
 
 ## References
 

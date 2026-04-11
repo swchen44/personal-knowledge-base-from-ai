@@ -171,6 +171,9 @@ AgentHub 最重要的貢獻不在程式碼本身，而在**概念框架**：當�
 - [[GIT-BUNDLE-PROTOCOL]] — git bundle 傳輸機制，代理人協作的基礎
 - [[KARPATHY-AUTORESEARCH]] — AgentHub 的原始應用場景：自主 ML 實驗
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — Karpathy 知識庫 + Obsidian 在一人公司中的實戰運用
+- [[2023-10-27-CREWAI-CODE-ANALYSIS]] — CrewAI 多代理人框架的程式碼分析，對比 AgentHub 的協作模式
+- [[2026-02-24-GITAGENT-GIT-NATIVE-AI-AGENT-STANDARD]] — gitagent 同樣以 Git 為核心的 Agent 標準，與 AgentHub 的 git-native 理念相通
+- [[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]] — AgentHub 實戰應用：Jarvis Expert 如何整合 DAG 協作處理韌體工程的四種工作流
 
 ## References
 

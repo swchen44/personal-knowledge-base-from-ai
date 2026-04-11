@@ -210,6 +210,8 @@ Karpathy 的「AI 精神錯亂」其實是一種認知狀態的描述：**可能
 - [[JAGGED-INTELLIGENCE]] — 鋸齒狀能力分布的深入分析與應對策略
 - [[OPEN-SOURCE-VS-CLOSED-AI]] — 開源與閉源 AI 的競爭格局
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — Karpathy 知識庫理論在一人公司創業中的實踐應用
+- [[2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS]] — 自我進化代理人的核心機制拆解，與 Karpathy Autoresearch 的進化循環直接相關
+- [[2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam 蜂群自組織架構的程式碼分析，Karpathy 描述的 Agent Swarm 的具體實作
 
 ## References
 

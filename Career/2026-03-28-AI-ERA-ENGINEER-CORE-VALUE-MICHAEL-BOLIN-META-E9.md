@@ -133,6 +133,8 @@ LLM 本質是機率模型，存在「幻覺（hallucination）」問題——生
 - [[CLAUDE-CODE]] — Claude Code 就是 Codex 後繼概念的延伸，AI 取代命令列重複工作
 - [[AI-AGENT]] — Chickenfoot 的 Web 自動化理念是現代 AI Agent 的前身
 - [[ENGINEERING-CAREER-LADDER]] — Staff+ 工程師的晉升路徑與能力轉型
+- [[2026-03-30-STANFORD-STUDY-22YO-EMPLOYMENT-DROPS-20PCT-750-CFOS-AI-LAYOFFS-9X]] — 斯坦福研究數據佐證 AI 對初階工程師就業的衝擊，與本文「底層理解力是護城河」的觀點互補
+- [[2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS]] — 外商 Competency 模型中的思維能力與合作能力，對應本文 E8+ 晉升需要的系統思維
 
 ---
 

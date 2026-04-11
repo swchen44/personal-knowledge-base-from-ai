@@ -167,6 +167,8 @@ Benchmark 模式的量化角度（40% token vs 70% 修正減少）也很實用�
 - [[SKILL-MD-SPECIFICATION]] — SKILL.md 格式規格，30+ 工具共同採用的標準
 - [[AGENT-SKILL-PATTERNS]] — 5 種代理人技能設計模式（Tool Wrapper、Generator、Reviewer、Inversion、Pipeline）
 - [[5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — Google Cloud Tech 發布的 ADK 設計模式文章，與本文的 skill 分類框架互補
+- [[2026-03-07-CLAUDE-SKILLS-2.0-THE-SELF-IMPROVING-AI-CAPABILITIES-THAT-ACTUALLY-WORK]] — Skills 2.0 的回饋循環機制，將本文的 eval 框架嵌入自動化優化流程
+- [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — gstack 的三層測試金字塔程式碼分析，另一套 AI Agent 評估實作
 
 ## References
 

@@ -197,6 +197,10 @@ Harness Engineering → 建立持續監控與糾偏機制
 - [[CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 的內部架構正是 Harness Engineering 的具體實現
 - [[OPENCLI-CODE-ANALYSIS]] — 另一個 CLI Agent 的架構分析，可對比 Harness 設計差異
 - [[AI-AGENT-ARCHITECTURE]] — Agent 架構設計的通用原則
+- [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — gstack 的設計哲學程式碼分析，Harness Engineering 的代表性實作
+- [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析，Harness 設計中常被忽略的可觀測性面向
+- [[2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT]] — NemoClaw 的跨進程安全治理層，是 Harness 約束層在企業環境的具體實踐
+- [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — 從 Prompt 工程升級到流程工程的三層式架構，與 Harness Engineering 的系統化思維相通
 
 ---
 

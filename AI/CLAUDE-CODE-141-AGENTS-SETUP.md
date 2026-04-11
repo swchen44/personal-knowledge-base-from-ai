@@ -108,3 +108,5 @@ Each team lives in .claude/teams/<color>-team.yaml with:
 - [[CLAUDE-CODE-HOOKS]] — the underlying hook mechanism that powers all agent triggers and handoffs
 - [[AI-AGENT-MEMORY]] — broader research on AI memory architectures; vector DB vs markdown tradeoffs
 - [[OBSIDIAN-POWER-TIPS]] — knowledge management systems that parallel the .claude/decisions.md shared context pattern
+- [[2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT]] — NemoClaw 的跨進程安全治理層，為多代理人系統提供進程外的安全約束機制
+- [[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]] — Jarvis 多代理協調架構，將本文的 domain team 概念實作為 Expert 角色分工

@@ -164,6 +164,8 @@ Jeffery 提到曾有過 **7 個月的待業期**，這段經歷是深刻的警�
 - [[HR-BUSINESS-PARTNER]] — 影片深度解析 HR BP 角色在外商三隻腳架構中的定位
 - [[TAIWAN-OFFSHORE-WIND]] — 台灣離岸風電產業全景，政策時間軸與主要廠商
 - [[CAREER-BOTTLENECK]] — 中斷職涯出國留學的決策框架與風險評估
+- [[2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH]] — 同頻道 HR Jasmin 談利害關係人管理，與 Jeffery 談的政治敏感度互為印證
+- [[2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS]] — 同頻道 HR Jasmin 揭露外商 Competency 模型，補充本文中「越高階越看商業思維」的評估框架
 
 ---
 

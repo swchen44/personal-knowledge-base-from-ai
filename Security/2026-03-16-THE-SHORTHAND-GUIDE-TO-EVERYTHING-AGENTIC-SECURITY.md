@@ -653,6 +653,9 @@ export function evaluatePolicy(
 - [[THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：基礎設定指南
 - [[THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：進階技巧指南
 - [[MCP-OVERVIEW]] — MCP 安全風險的深入理解與本文攻擊向量分析的連結
+- [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — gstack 遙測爭議案例，體現 AI 開發工具信任門檻高於一般套件的論點
+- [[2026-03-25-AI-BUG-FINDING-VULNPOCALYPSE]] — AI 漏洞研究實戰，展示代理人在安全領域的攻防兩面性
+- [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — claude-code-hooks 的程式碼分析，含安全防護 hook 的實作細節
 
 ## References
 

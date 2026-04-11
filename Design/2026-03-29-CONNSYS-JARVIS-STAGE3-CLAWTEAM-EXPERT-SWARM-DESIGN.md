@@ -1,3 +1,20 @@
+---
+title: "Connsys-Jarvis Stage 3 × ClawTeam：Expert Swarm 架構設計"
+date: 2026-03-29
+category: Design
+tags:
+  - "#ai/agent"
+  - "#tools/clawteam"
+  - "#connsys-jarvis"
+source: "內部設計文件"
+source_type: article
+author: "Shaowei Chen"
+status: notes
+links:
+  - "[[2026-03-29-CONNSYS-JARVIS-OPENCLAW-NATIVE-PLUGIN-DESIGN]]"
+  - "[[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]]"
+---
+
 # Connsys-Jarvis Stage 3 × ClawTeam：Expert Swarm 架構設計
 
 **文件版本**：v1.0
@@ -616,3 +633,6 @@ framework-clawteam-spawn-flow SKILL.md 內容摘要：
 - connsys-jarvis agents-design.md §11（Expert 狀態機與交接流程）
 - connsys-jarvis agents-requirements.md §1.5（三階段演進願景）
 - [Harness Engineering — Martin Fowler Blog](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html)
+- [[2026-03-17-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam v1 的程式碼分析，本設計文件基於此架構演進
+- [[2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam v2 的程式碼分析，含 worktree 隔離與 JSON 通訊細節
+- [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — oh-my-claudecode 多代理人編排系統，另一種可整合的 Agent 協作框架

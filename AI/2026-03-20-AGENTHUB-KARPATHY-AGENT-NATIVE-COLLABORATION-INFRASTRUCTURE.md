@@ -480,6 +480,10 @@ AgentHub 最深刻的貢獻不是程式碼，而是**提出了一個業界一直
 - [[OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — Claude Code 的 Skills/Hooks/Agents 架構，可作為 AgentHub 的「代理指令層」
 - [[LOCAL-AI-CODING-ON-MACBOOK-AIR-M5]] — 本地 LLM 的 Context Length 限制，影響能在 AgentHub worktree 中有效工作的代理規模
 - [[CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — 理解 Claude Code 代理的設定管理，為 AgentHub 代理設計指令時的背景知識
+- [[2026-03-12-GNAP-GIT-NATIVE-AGENT-PROTOCOL]] — GNAP 也用 Git 做多代理人協調，與 AgentHub 的 DAG 模式可互補
+- [[2026-03-17-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam 蜂群架構的程式碼分析，另一種 Agent 自組織模式
+- [[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]] — Connsys Jarvis 與 AgentHub 的整合設計，將本文的 DAG 協作機制落地到韌體工程工作流
+- [[GITAGENT-FRAMEWORK-ANALYSIS]] — gitagent 開放標準的程式碼分析，同為 Git-native Agent 框架，用 adapter 模式匯出到多個平台
 
 ---
 

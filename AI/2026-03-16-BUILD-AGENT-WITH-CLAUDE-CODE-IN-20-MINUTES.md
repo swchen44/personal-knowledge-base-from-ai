@@ -296,6 +296,10 @@ ANTHROPIC_API_KEY=你的API_Key
 - [[CLAUDE-CODE-SETUP]] — Claude Code 安裝設定的詳細指南
 - [[AI-AGENT-DESIGN]] — Agent 的設計原則與架構模式
 - [[PERSONAL-KNOWLEDGE-BASE]] — 個人知識庫建立方法論，是 Agent 個性化的基礎
+- [[2026-01-08-CLAUDE-CODE-SCHEDULER-CODE-ANALYSIS]] — 教程中使用的排程插件 claude-code-scheduler 的程式碼深度分析
+- [[2023-10-27-CREWAI-CODE-ANALYSIS]] — CrewAI 多代理人框架的程式碼分析，可作為進階 Agent 編排的選項
+- [[2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK]] — 蘇格拉底式 AI 策略顧問框架，展示 Agent 系統指令設計的另一種深度思辨取向
+- [[2026-03-26-WRITING-YOUR-FIRST-SIMPLE-AI-AGENT]] — Cisco 的 5 原則入門指南，與本文 20 分鐘實作教程形成互補的初學者資源
 
 ## References
 

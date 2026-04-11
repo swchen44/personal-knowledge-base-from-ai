@@ -153,6 +153,9 @@ links:
 - [[FOREIGN-COMPANY-CAREER-GUIDE]] — 外商職場全攻略，進一步了解外商文化差異
 - [[PERFORMANCE-REVIEW-EVIDENCE]] — 如何在績效考核時提供有力的 Evidence
 - [[COMMUNICATION-SKILLS-WORK]] — 職場溝通技巧：Why / What / So What 框架的應用
+- [[2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH]] — 同作者 HR Jasmin 談利害關係人管理，從「為誰而做」角度補充 Competency 實踐
+- [[2023-07-04-SIEMENS-GAMESA-HR-HEAD-JEFFERY-INTERVIEW]] — 同頻道訪談，資深 HR 談外商晉升瓶頸與政治敏感度的必備能力
+- [[2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9]] — AI 時代工程師的能力轉型，E8 以上晉升從技術力轉為系統思維與帶人能力
 
 ---
 
