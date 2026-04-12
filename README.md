@@ -4,7 +4,7 @@
 ## 📌 Recent Notes
 - [Claude Code 監控實戰：OpenTelemetry 設定、生產堆疊與團隊數據揭示的 8 個關鍵指標](./DevTools/2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA.md) — 七人團隊部署 OpenTelemetry 監控 Claude Code，揭示快取效率差異與採用率落差
 - [AI 一人公司實戰：Karpathy 知識庫架構、多模型角色分工與 OpenCLI 自動化信息採集](./AI/2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI.md) — 一人公司四步閉環、多 AI 擬人化角色分工（GPT/Claude/Grok/Doubao）、知識庫「憲法」與編譯健檢機制、OpenCLI 自動採集
-- [Agent Browser Skill 系統深度分析 — 安裝、搜尋、更新機制與 Gerrit Server 相容性](./CodeAnalysis/2026-04-11-AGENT-BROWSER-SKILL-SYSTEM-DEEP-DIVE.md) — 拆解 npx skills CLI 的 parseSource/discoverSkills/installSkillForAgent 三階段流程，比較 GitHub/Gerrit/本地路徑的安裝差異與更新限制
+- [npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性](./CodeAnalysis/2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE.md) — 拆解 npx skills CLI 的 parseSource/discoverSkills/installSkillForAgent 三階段流程，比較 GitHub/Gerrit/本地路徑的安裝差異與更新限制
 - [AI 視頻提示詞萬能公式：六大維度科學生成法](./AI/2026-04-04-AI-VIDEO-PROMPT-FORMULA-SIX-DIMENSIONS.md) — 700 天 AI 視頻經驗總結：主體→動作→客體邊界→鏡頭→光影→節奏六維度框架，從「抽卡」變「導演」
 - [Anthropic 已交付五層 Harness 中的三層——另外兩層是你的責任](./AI/2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS.md) — 五層 Harness 堆疊模型（Constraint/Context/Execution/Verification/Lifecycle），平台擁有 L2/L3/L5，開發者負責 L1 約束層與 L4 驗證層
 - [Harness Engineering：在代理人優先的世界中善用 Codex](./AI/2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD.md) — OpenAI 官方原文：零手寫程式碼、百萬行代理人產出、架構不變量與代理人可讀性設計

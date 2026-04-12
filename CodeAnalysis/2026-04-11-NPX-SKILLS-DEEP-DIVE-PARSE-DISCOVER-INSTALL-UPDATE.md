@@ -1,5 +1,5 @@
 ---
-title: "Agent Browser Skill 系統深度分析 — 安裝、搜尋、更新機制與 Gerrit Server 相容性"
+title: "npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性"
 date: 2026-04-11
 category: CodeAnalysis
 tags:

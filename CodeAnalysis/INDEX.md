@@ -2,7 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
-| [[2026-04-11-AGENT-BROWSER-SKILL-SYSTEM-DEEP-DIVE]] | Agent Browser Skill 系統深度分析 — 安裝、搜尋、更新機制與 Gerrit Server 相容性 | 2026-04-11 |
+| [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] | npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性 | 2026-04-11 |
 | [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] | Claude Code Team Memory 深度解析 — Server、REST API、分類規則與啟用方式 | 2026-04-08 |
 | [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] | gstack 程式碼架構分析 — Telemetry 是怎麼做到的 | 2026-04-07 |
 | [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] | gstack 設計哲學與多 Agent 整合架構 — Plugin、Symlink、Headless 全解 | 2026-04-07 |
