@@ -272,6 +272,7 @@ Claude Code 等待輸入（權限提示、閒置提示）時推送 Slack 通知�
 - [[SUPERPOWERS-OBRA]] — Superpowers 框架的技能自動觸發機制依賴 Hooks 系統
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — claude-code-hooks 開源集合的程式碼分析，提供可直接使用的 hook 腳本
 - [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — Claude Memory Engine 以 hooks 實現記憶系統的程式碼分析
+- [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — Hooks 搭配 OpenTelemetry 事件可實現監控→自動響應的閉環
 
 ## References
 

@@ -438,6 +438,7 @@ rm -f ~/.gstack/analytics/.last-sync-time
 - [[CLAUDE-SKILL-ARCHITECTURE]] — gstack 的 skill 為何是獨立 process
 - [[SUPABASE-EDGE-FUNCTIONS]] — Deno edge function 的部署模型
 - [[OUTBOX-PATTERN]] — append-only log + cursor 是 outbox pattern 的最簡實作
+- [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — Claude Code 用 OpenTelemetry + Prometheus 實現團隊級遙測監控，與 gstack 的 Supabase 方案形成對比
 
 ---
 

@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code 監控實戰：OpenTelemetry 設定、生產堆疊與團隊數據揭示的 8 個關鍵指標](./DevTools/2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA.md) — 七人團隊部署 OpenTelemetry 監控 Claude Code，揭示快取效率差異與採用率落差
 - [AI 一人公司實戰：Karpathy 知識庫架構、多模型角色分工與 OpenCLI 自動化信息採集](./AI/2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI.md) — 一人公司四步閉環、多 AI 擬人化角色分工（GPT/Claude/Grok/Doubao）、知識庫「憲法」與編譯健檢機制、OpenCLI 自動採集
 - [Agent Browser Skill 系統深度分析 — 安裝、搜尋、更新機制與 Gerrit Server 相容性](./CodeAnalysis/2026-04-11-AGENT-BROWSER-SKILL-SYSTEM-DEEP-DIVE.md) — 拆解 npx skills CLI 的 parseSource/discoverSkills/installSkillForAgent 三階段流程，比較 GitHub/Gerrit/本地路徑的安裝差異與更新限制
 - [AI 視頻提示詞萬能公式：六大維度科學生成法](./AI/2026-04-04-AI-VIDEO-PROMPT-FORMULA-SIX-DIMENSIONS.md) — 700 天 AI 視頻經驗總結：主體→動作→客體邊界→鏡頭→光影→節奏六維度框架，從「抽卡」變「導演」
