@@ -1103,6 +1103,14 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 - **指令全部有中英文版：** `/save` = `/存記憶`，`/backup` = `/備份`，用哪個都行
 - **每週一次 `/reflect`：** 不做的話錯題本只是累積，不會升級成永久知識
 
+## 待補充（Open Questions）
+
+- `session-end` hook 無法保證觸發（需視窗正常關閉）——在強制關閉或系統崩潰的情境下，`pre-compact` 作為安全網的觸發率實際有多高？有無量測數據或已知失效場景？（建議搜尋：`Claude Code hooks session-end reliability pre-compact fallback`）
+- 踩坑偵測的三個訊號（retry ≥5 次、error-then-fix、user-correction）是否有誤報（False Positive）問題？例如合理的重試（網路不穩定）是否會被誤判為踩坑？（建議搜尋：`agent pitfall detection false positive retry signal`）
+- `memory-sync.js` 每則訊息都做 hash 比對，在記憶檔案很多（100+ topic files）時，這個即時掃描的效能影響有多大？是否有批次處理或差分更新的優化空間？（建議搜尋：`Claude Code memory sync performance optimization hash comparison`）
+- Student Loop（學生循環）與向量資料庫（Vector DB）記憶方案的適用邊界在哪？對於需要語意檢索（semantic search）而非精確比對的記憶場景，markdown 方案的局限性是什麼？（建議搜尋：`AI agent memory markdown vs vector database semantic retrieval`）
+- 多人協作場景中，這套以個人為單位的記憶系統如何與團隊共享知識整合？多個工程師用同一個 repo 時會有哪些衝突或競態問題？（建議搜尋：`Claude Code memory multi-user team shared knowledge conflict`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS]] — 這套系統的底層機制，hooks 的原理和設定方式

@@ -286,6 +286,15 @@ ADK 的 `SkillToolset` 和漸進式揭露（progressive disclosure）機制，�
 
 對於目前在用的 [[AGENT-SKILL-PATTERNS]]，最有啟發的是「模式四：反轉（Inversion）」，強制先問問題的機制可以大幅減少代理人「想當然爾」的錯誤輸出。`DO NOT start building until all phases are complete` 這個指令模式值得在複雜 skill 中廣泛應用。
 
+## 待補充（Open Questions）
+
+- 文章聲稱 30+ 個代理人工具都採用相同的 `SKILL.md` 格式，但這個「統一」是自然收斂還是有標準化組織推動？是否有正式的 SKILL.md 規格文件或 RFC？（建議搜尋：`SKILL.md specification standard RFC agent tools convergence`）
+- 反轉模式（Inversion）的多輪問答在使用者輸入不完整或模糊時，代理人應如何處理？有無迴退（fallback）邏輯設計建議？（建議搜尋：`inversion pattern multi-turn agent incomplete input fallback`）
+- 管線（Pipeline）模式的「DO NOT skip steps」指令在實際測試中有多可靠？Claude 在壓力下（如上下文接近上限）是否仍會跳步？（建議搜尋：`LLM pipeline skip step instruction following reliability context limit`）
+- 這 5 種模式是否有已知的互斥場景？例如，某些任務若強行套入 Pipeline 模式反而降低品質的案例？（建議搜尋：`agent skill design pattern antipattern misapplication`）
+- 文章的 ADK 程式碼範例是針對 Google ADK，若要移植到 Claude Code 的 Skill 系統，兩者在 frontmatter 格式或執行機制上有哪些主要差異？（建議搜尋：`Google ADK skill format Claude Code skill migration difference`）
+- `references/` 和 `assets/` 的漸進式揭露（Progressive Disclosure）機制，代理人選擇何時讀取哪個文件的判斷標準是什麼？是靠指令引導還是模型自主判斷？（建議搜尋：`progressive disclosure agent file loading trigger mechanism`）
+
 ## 相關連結（Related）
 
 - [[AGENT-SKILL-PATTERNS]] — 代理人技能設計模式總覽與比較

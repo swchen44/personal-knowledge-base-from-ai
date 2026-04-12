@@ -393,6 +393,15 @@ git worktree add ../feature-branch feature-branch
 
 第三個重要收穫是**可複用模式的複利效應**：建立技能、子代理人、規劃模式的投資不會隨模型升級而過時，反而在每次改進時得到更大回報。
 
+## 待補充（Open Questions）
+
+- `--system-prompt` CLI 旗標的指令層級更高，但在實際衝突場景（例如 `CLAUDE.md` 與 `--system-prompt` 指令矛盾）中，哪一方優先？有無官方說明或可重現的測試？（建議搜尋：`Claude Code system prompt instruction hierarchy conflict`）
+- 文章提到 MCP 惰性載入（lazy loading）已改善記憶體管理，但具體的實作機制為何？惰性載入在何種條件下會被觸發而佔用上下文？（建議搜尋：`Claude Code MCP lazy loading implementation`）
+- 迭代式擷取模式（最多 3 個循環）的 3 次上限是如何決定的？在更複雜的任務中，3 次是否足夠，或有更動態的終止條件設計？（建議搜尋：`multi-agent iterative retrieval loop termination condition`）
+- `pass@k` 與 `pass^k` 的選擇標準文章雖有說明，但在混合任務（部分需要一致性、部分只需可用）的評估集中，兩種指標如何加權組合？（建議搜尋：`LLM eval pass@k pass^k composite scoring`）
+- 系統提示瘦身（system-prompt-patches）如何影響 Claude 的安全性與對齊行為？Anthropic 對此有無官方立場？（建議搜尋：`Claude Code system prompt patches safety alignment impact`）
+- 「可複用模式的複利效應」假設模型升級後工作流程仍然有效，但若新模型的工具介面或 API 有 breaking change，遷移成本如何估算？（建議搜尋：`Claude Code skills migration cost model upgrade breaking changes`）
+
 ## 相關連結（Related）
 
 - [[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 本篇的前置必讀：基礎設定（Skills、Hooks、Subagents、MCPs）

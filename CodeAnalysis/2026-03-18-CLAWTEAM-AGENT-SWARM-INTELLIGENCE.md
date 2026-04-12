@@ -484,6 +484,15 @@ clawteam board attach my-team
 
 ---
 
+## 待補充（Open Questions）
+
+- ClawTeam 的 JSON 檔案訊息匯流排在真實網路（多台機器、雲端執行環境）下要如何橫向擴展？ZeroMQ P2P 模式的成熟度與容錯能力是否足夠生產環境使用？（建議搜尋：`clawteam p2p zeromq distributed multi-machine`）
+- Leader Agent 本身若崩潰，Worker 任務狀態與 Inbox 是否能自動恢復？`~/.clawteam/` 的容錯設計有無 WAL 或 journal 機制？（建議搜尋：`clawteam crash recovery fault tolerance`）
+- 協調提示（Coordination Prompt）注入會消耗多少 context window？當 Worker 代理同時持有大量 SKILL.md 與 ClawTeam 協調指令時，context budget 如何分配？（建議搜尋：`clawteam context window budget skill injection`）
+- Worker 之間只能透過 Leader 傳遞訊息，有沒有方式讓 Worker 直接點對點協作？目前 inbox 的 broadcast 功能是否足以支援 Peer-to-Peer 協作模式？（建議搜尋：`clawteam worker-to-worker direct communication`）
+- ClawTeam 如何處理「任務完成品質不佳」的情況？Leader 目前是否有重試（retry）或任務回退（rollback）機制？（建議搜尋：`clawteam task retry rollback quality check`）
+- git worktree 的 merge 策略若多個 Worker 修改了同一支檔案，衝突解決由誰負責？`workspace merge` 指令的內部邏輯是什麼？（建議搜尋：`clawteam workspace merge conflict resolution`）
+
 ## 相關連結（Related）
 
 - [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — 同樣解決 Claude Code 多代理問題，但方向相反：OMC 是增強單一 Claude 的能力，ClawTeam 是協調多個獨立代理

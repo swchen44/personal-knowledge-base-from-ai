@@ -259,6 +259,15 @@ WezTerm 視窗開啟後，按 **連按兩下 `Fn` 鍵**（或麥克風按鈕）�
 
 ---
 
+## 待補充（Open Questions）
+
+- `feat/macos-dictation` 分支何時會被合併到 WezTerm 主線？目前 Erog38 的 PR 狀態如何，維護者的態度是什麼？（建議搜尋：`wezterm feat/macos-dictation PR status`）
+- `nsstring_to_str` 的 UTF-16 vs UTF-8 長度 bug 是否已在上游修復？如果未修復，透過字體 fallback 解決「平時顯示」亂碼後，IME/聽寫輸入時中文截斷問題是否仍存在？（建議搜尋：`wezterm nsstring_to_str UTF-16 bug fix`）
+- 除了 `Heiti TC`，還有哪些 macOS 內建字體可作為 CJK fallback？`PingFang TC` 與 `Heiti TC` 在 WezTerm 中的渲染品質有何差異？（建議搜尋：`wezterm CJK font fallback PingFang Heiti`）
+- 如果要製作支援 Intel Mac（x86_64）的 Universal Binary，需要在哪種機器上 build？是否可以用 cross-compilation 或 GitHub Actions 完成？（建議搜尋：`rust cargo lipo universal binary arm64 x86_64 macOS`）
+- WezTerm 的 IMKit 整合（`NSTextInputClient`）與其他終端機（如 Ghostty、Alacritty）相比，CJK 輸入法支援的完整度如何？（建議搜尋：`terminal IMKit NSTextInputClient CJK macOS comparison`）
+- macOS Gatekeeper 的 `xattr -cr` 解除方式在 macOS Sequoia 及以後版本是否仍然有效？是否有更安全的替代方案（如 ad-hoc code signing）？（建議搜尋：`macOS Gatekeeper xattr cr alternative ad-hoc signing`）
+
 ## 相關連結（Related）
 
 - [[WEZTERM-CONFIG]] — WezTerm 進階設定參考

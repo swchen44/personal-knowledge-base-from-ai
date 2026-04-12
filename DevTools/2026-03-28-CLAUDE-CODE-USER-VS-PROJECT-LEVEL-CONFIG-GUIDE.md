@@ -441,6 +441,15 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 
 不要試圖用 Plugin 做到專案層級的事，也不要把專案特有的領域邏輯放進個人 Plugin。兩者定位清晰，混用才會帶來管理困境。
 
+## 待補充（Open Questions）
+
+- 四層配置系統中，Array 類型的「deep merge」行為在哪些欄位有效？所有 Array 欄位都合併，還是只有特定欄位（如 `hooks`、`mcpServers`）才合併？（建議搜尋：`Claude Code settings deep merge array policy`）
+- Plugin 的「全域生效、不能按專案停用」是否為官方已知的設計缺陷，並已排入 roadmap？有無 issue 或 RFC 可追蹤進度？（建議搜尋：`Claude Code plugin per-project disable roadmap issue`）
+- `Managed Settings`（組織強制）的部署方式是什麼？IT 管理員需要透過 MDM、企業登入策略，還是有其他機制部署 `~/.claude/managed-settings.json`？（建議搜尋：`Claude Code managed settings enterprise deployment MDM`）
+- `direnv` 與 Claude Code 結合的「偽按目錄開關 Plugin」方式在實作上是否已有人驗證可行？有沒有已知的邊界情況（如 tmux session 繼承環境變數）會導致這個方法失效？（建議搜尋：`direnv Claude Code plugin per-project toggle workaround`）
+- Hooks 的 `disabled: true` 欄位在哪個版本的 Claude Code 開始支援？`settings.local.json` 的 `"Stop": []` 覆蓋能確實停用所有繼承自 project settings 的 hooks 嗎？（建議搜尋：`Claude Code hooks disabled field settings.local override`）
+- Skills 的 `disabled: true` frontmatter 欄位是否已是正式支援的功能，還是文件中提到的「部分版本支援」？官方文件對此有何說明？（建議搜尋：`Claude Code skill disabled frontmatter official support`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-MCP-SETUP]] — MCP Server 的安裝與設定方式詳解

@@ -209,6 +209,15 @@ Claude 不知道應用的安全邊界或 UX 介面。Bash 工具給 Claude 廣�
    - **混合方案**：關鍵路徑用宣告式工具（安全、可稽核），非關鍵路徑用 code execution（效率、靈活）。Claude Code 的 auto-mode 就是這個思路
    - **其他框架**：LangGraph 的 state machine 模式對複雜有狀態的工作流更合適；本文的模式更適合探索性、無固定流程的任務
 
+## 待補充（Open Questions）
+
+- 文章提到 Sonnet 4.5 的「context 焦慮」問題已在 Opus 4.5 消失，但這種行為消失的機制為何？是訓練數據的改變、RLHF 調整，還是架構差異？這個行為在未來模型中是否可能再度出現？（建議搜尋：`Claude context anxiety behavior change training RLHF Sonnet Opus`）
+- BrowseComp 評測的設計細節為何？它測的是什麼維度的「代理人搜尋能力」？這個評測對真實生產環境（如程式碼 debug、文件生成）的預測效度（Predictive Validity）有多高？（建議搜尋：`BrowseComp benchmark design validity agentic search evaluation`）
+- 「讓 Claude 寫程式碼決定工具輸出的過濾邏輯」意味著每次都要執行動態程式碼，在不同的沙盒環境（如容器、AWS Lambda）中，這個模式的延遲和安全隔離如何配置？（建議搜尋：`Claude code execution sandboxing latency security container`）
+- 「靜態在前動態在後」的快取原則，在 multi-turn 對話中如何管理 `<system-reminder>` 的插入位置？若 system-reminder 頻繁更新，是否會破壞整個快取前綴的有效性？（建議搜尋：`Claude API cache prefix system reminder multi-turn`）
+- Compaction 和 Memory Folder 兩種記憶機制，Anthropic 是否有建議的使用場景分界？在同一個長時程任務中，何時用 Compaction（摘要歷史），何時用 Memory Folder（主動寫入）？（建議搜尋：`Claude compaction memory folder long-running task strategy`）
+- 文章說「本文分享的經驗也需要頻繁重新檢視」——Anthropic 有沒有公開的版本紀錄（changelog）說明哪些建議因為模型升級而已被廢棄？如何追蹤這些快速過時的 best practice？（建議搜尋：`Anthropic Claude best practices deprecation changelog model upgrade`）
+
 ## 相關連結（Related）
 
 - [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 實作層的 Markdown Agent 組裝方法，與本文的哲學層形成互補

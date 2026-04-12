@@ -124,6 +124,15 @@ gemini extensions install https://github.com/obra/superpowers
 
 ---
 
+## 待補充（Open Questions）
+
+- Superpowers 的「自動觸發」機制具體依賴什麼底層機制實現？是透過 Claude Code 的 Hooks 系統、CLAUDE.md 的 skills 載入，還是其他機制？不同工具（Cursor、Codex、Gemini CLI）的觸發方式是否一致？（建議搜尋：`Superpowers obra skill auto-trigger mechanism hooks`）
+- `writing-skills` 元技能要求「先寫失敗的測試情境，再寫技能」，但針對行為性技能（而非程式碼），測試情境的「失敗」如何客觀判定？有沒有具體的評估指標或測試框架？（建議搜尋：`Superpowers skill TDD testing failing scenario evaluation`）
+- `subagent-driven-development` 的「兩階段審查」中，第一階段「規格合規」的評審是由另一個 AI subagent 執行還是人工？AI 審查的 false negative 率有多高？（建議搜尋：`Superpowers subagent code review spec compliance accuracy`）
+- 技能的 `description` 欄位有 1024 字元限制，如果觸發條件需要更複雜的描述（如多種不同情境），有沒有官方建議的設計模式（如拆分多個技能還是使用包含語法）？（建議搜尋：`Superpowers skill description character limit complex trigger`）
+- Superpowers 上架官方 Plugin Marketplace 後，版本更新機制是什麼？若 obra 更新了核心技能邏輯，用戶是自動獲取最新版還是需要手動重新安裝？（建議搜尋：`Claude Code plugin marketplace version update auto update`）
+- 「最少 3 個組合壓力才能測試紀律型技能」這個結論是基於什麼實驗或觀察得出的？有沒有其他可以有效壓測 AI 技能紀律的方法？（建議搜尋：`AI agent skill discipline testing pressure combined stimuli`）
+
 ## 相關連結 (Related)
 
 - [[CLAUDE-CODE-141-AGENTS-SETUP]] — 互補：141 個代理人的 10 色團隊架構；Superpowers 的子代理人審查模式可整合進去

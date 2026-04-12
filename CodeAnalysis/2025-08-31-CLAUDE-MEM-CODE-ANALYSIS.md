@@ -314,6 +314,14 @@ open http://localhost:37777
 - **記憶系統的本質挑戰**：什麼該記、什麼不該記（`<private>` 標籤）、記了如何有效檢索，這些問題 claude-mem 的 Mode 系統給出了一個可實踐的答案：用結構化的觀察類型（Observation Types）來分類記憶
 - 此插件即是本知識庫筆記工作流中「長期記憶插件」的提供者，參見 [[CLAUDE-CODE-SETUP]]
 
+## 待補充（Open Questions）
+
+- claude-mem 使用 Chroma 作為向量資料庫進行語義搜尋，但 Chroma 需要本地安裝 Python 環境。在沒有 Python 的純 Node.js 開發環境中，是否有替代的向量搜尋方案（如 sqlite-vec 或 pgvector）？（建議搜尋：`sqlite-vec nodejs vector search alternative chromadb`）
+- ContextBuilder 從 SQLite 與 Chroma 組裝出的「壓縮 Markdown」注入到 session 開頭，這個壓縮格式的品質如何評估？是否有方法測量注入後 Claude 的記憶準確率（recall accuracy）？（建議搜尋：`LLM context injection quality evaluation memory recall`）
+- claude-mem 的 AGPL-3.0 授權對企業內部工具的使用限制具體是什麼？若公司內部自用（不對外發布）是否仍需要開源修改部分？（建議搜尋：`AGPL-3.0 license internal use commercial implications`）
+- Worker Service 以單一 HTTP Port（37777）為中心，若多個 Claude Code 工作視窗同時執行（multi-session）會發生什麼？是否有 session 隔離機制？（建議搜尋：`claude-mem multi-session support worker service port conflict`）
+- 記憶壓縮率宣稱 ~53%（v10.6.1），這個壓縮是由哪個 Claude 模型執行的？壓縮過程本身的 API 費用是否顯著？（建議搜尋：`claude-mem summarization cost API tokens compression model`）
+
 ## 相關連結（Related）
 
 - [[AI-AGENT-DESIGN]] — Agent 的記憶系統設計原則

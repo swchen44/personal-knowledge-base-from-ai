@@ -174,6 +174,15 @@ Kilo Code Profiles（多模型混合配置）
 
 ---
 
+## 待補充（Open Questions）
+
+- 除了 Context Length 和速度，本地 LLM 在安全性和隱私合規上是否有尚未量化的優勢？企業資安法規（如 GDPR、HIPAA）對本地 vs 雲端模型的要求有何具體差異？（建議搜尋：`local LLM enterprise data privacy compliance`）
+- Kilo Code Profile 混合策略在多人協作的團隊環境中如何管理？若不同工程師各自設定不同的 Local/Cloud 模型組合，團隊成果是否會有品質不一致的問題？（建議搜尋：`AI coding tool team configuration consistency`）
+- 除了 Qwen、DeepSeek、Miniax，目前 2026 年主流的本地 Coder 模型生態圖為何？有沒有在 M5 晶片上針對 Apple Silicon 優化的量化版本？（建議搜尋：`Apple Silicon optimized local LLM coder 2026`）
+- LM Studio 與 Ollama 在記憶體管理策略上有何差異？多模型同時運行時（如 Kilo Code 的 Profile 系統切換），記憶體的分配和回收機制是否會影響穩定性？（建議搜尋：`LM Studio Ollama memory management multiple models`）
+- 「速度讓人進入更深思考」的心理效應是否有認知科學研究支持？對比快速 AI（Claude）和慢速 AI（本地 LLM），哪種互動節奏對程式設計學習者更有益？（建議搜尋：`cognitive load AI response speed programming`）
+- MacBook Air M5 的無風扇設計在高負載（本地 LLM 推理）時，長時間使用是否有熱節流（Thermal Throttling）問題？這對推理速度的實際影響有多大？（建議搜尋：`MacBook Air M5 thermal throttling LLM inference sustained load`）
+
 ## 相關連結（Related）
 
 - [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 對比閉源模型（Claude）的進階使用策略，理解為何閉源模型仍是嚴肅工作的選擇

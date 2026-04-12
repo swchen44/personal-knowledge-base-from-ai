@@ -226,6 +226,14 @@ links:
 
 ---
 
+## 待補充（Open Questions）
+
+- Restatement 的最佳觸發時機如何量化決定？是固定步驟數、上下文視窗使用率百分比，還是其他動態指標？業界有無對 Restatement 頻率的實驗數據？（建議搜尋：`LLM agent restatement frequency context window strategy`）
+- 當任務需要多個 Agent 並行執行時，「壓平架構」本質上是串行的這個限制如何克服？並行 Agent 的上下文同步問題有哪些現有解法？（建議搜尋：`parallel agent context synchronization coordination`）
+- Memory System + RAG 作為替代方案，在創意生成類任務中的實際效果如何？向量記憶庫對「上下文污染」問題的改善程度有量化比較嗎？（建議搜尋：`RAG agent creative generation context pollution benchmark`）
+- KV Cache 的具體成本模型是什麼？在不同模型提供商（OpenAI、Anthropic、Google）上，「修改前段導致整條快取鏈重算」的計費影響有多大？（建議搜尋：`KV cache cost model prompt caching pricing`）
+- 本文案例特定於「創意影片生成 Agent」——對「精確多步驟執行」類任務（如資料庫遷移、部署流程），壓平架構與分層架構的優劣比較是否有其他研究？（建議搜尋：`agent architecture deterministic tasks vs creative tasks`）
+
 ## 相關連結（Related）
 
 - [[CONTEXT-ENGINEERING]] — 本影片核心依賴的上下文管理概念

@@ -565,6 +565,15 @@ if __name__ == '__main__':
 3. **`` !`command` `` 注入是動態上下文的正確方式**：不是讓 Claude 去呼叫，而是預處理後直接給 Claude 最終結果
 4. **Skill 字元預算要注意**：skill 多了之後可能會有 skill 被 context 排除，要定期檢查 `/context`
 
+## 待補充（Open Questions）
+
+- `context: fork` 的子代理人實際上是如何計費的？與主對話共用 token 預算，還是獨立計算？在大量使用 `/batch` 產生數百個子代理時，成本控制機制為何？（建議搜尋：`Claude Code context fork token billing subagent cost`）
+- Skill 的「字元預算（2% of context window）」在多個 skill 競爭時是否有優先順序機制？如何確保關鍵 skill 不被排除在 context 之外？（建議搜尋：`Claude Code skill context budget priority`）
+- `agent` 欄位所提到的「內建代理人類型」（Explore、Plan、general-purpose）之間有何具體能力差異？官方是否有各類型的能力基準測試（Benchmark）？（建議搜尋：`Claude Code built-in agent types Explore Plan capabilities`）
+- Plugin skills 的 `plugin-name:skill-name` 命名空間機制，與企業級 skill 的衝突解決優先順序文件在哪裡？當 plugin skill 和 enterprise skill 有相同觸發描述時，哪個優先？（建議搜尋：`Claude Code plugin skill enterprise skill priority conflict`）
+- `!`command`` 動態注入語法的安全性如何？若 skill 被惡意改寫，是否存在命令注入（Command Injection）風險？官方的 skill 驗證機制是否有針對此風險的防護？（建議搜尋：`Claude Code skill dynamic context injection security`）
+- `disable-model-invocation: true` 的執行語意是「Claude 不會自動觸發」，但若使用者在對話中間接暗示觸發條件，Claude 是否仍有可能執行？這個控制的邊界條件為何？（建議搜尋：`Claude Code disable-model-invocation edge case`）
+
 ## 相關連結（Related）
 
 - [[SKILL-MD-SPECIFICATION]] — SKILL.md 格式規格完整參考

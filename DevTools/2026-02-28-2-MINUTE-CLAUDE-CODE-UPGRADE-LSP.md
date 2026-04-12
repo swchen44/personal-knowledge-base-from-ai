@@ -208,6 +208,14 @@ LSP 設定立即執行。關鍵操作清單：
 
 注意：此旗標（`ENABLE_LSP_TOOL`）目前非官方文件，未來版本可能改變。但根據文章資訊，截至 2026 年 2 月仍有效。
 
+## 待補充（Open Questions）
+
+- `ENABLE_LSP_TOOL` 是透過社群 GitHub Issue 發現的非官方旗標。Anthropic 是否有計劃將其正式化，或者未來版本可能直接預設啟用 LSP 而不需要額外設定？（建議搜尋：`claude code ENABLE_LSP_TOOL official flag roadmap default`）
+- 被動診斷（Passive Diagnostics）讓 Claude 在同一輪次修復 LSP 回報的錯誤。若 LSP 伺服器回報了誤判（false positive）的錯誤，Claude 是否有可能對正確的程式碼做出不必要的修改？（建議搜尋：`LSP false positive diagnostic claude auto-fix unintended change`）
+- 在大型 monorepo（例如超過 10 萬個 TypeScript 檔案）中，LSP 伺服器的索引記憶體佔用和 Claude Code 的 context 消耗之間有沒有已知的瓶頸？（建議搜尋：`typescript language server large monorepo memory performance`）
+- LSP 工具呼叫（`goToDefinition`、`findReferences` 等）是否也計入 Claude Code 的 API token 用量？大量 LSP 查詢對每次對話的費用影響有多少？（建議搜尋：`claude code LSP tool token cost usage`）
+- 若同一個專案使用了多種語言（例如 TypeScript + Python + Rust），多個 LSP 伺服器同時運行，cross-language reference（例如從 TypeScript 呼叫 Python binding）能否被 LSP 追蹤？（建議搜尋：`multi-language LSP cross-language reference polyglot`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 技能系統，LSP 外掛亦屬其中

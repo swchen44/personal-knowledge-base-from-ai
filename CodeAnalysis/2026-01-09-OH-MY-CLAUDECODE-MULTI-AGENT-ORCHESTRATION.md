@@ -1660,6 +1660,15 @@ Layer 5：狀態持久化
 
 ---
 
+## 待補充（Open Questions）
+
+- OMC 宣稱多模型路由（Haiku/Sonnet/Opus 三層）能節省 30-50% API 成本，這個數字有沒有具體的測量方法或對照實驗支撐？在不同任務類型下節省比例差異有多大？（建議搜尋：`multi-model routing cost savings measurement LLM tiered pricing`）
+- `omc wait` 的速率限制（Rate Limit）偵測與自動恢復機制是如何判斷 Claude Code 工作階段已進入速率限制狀態的？偵測的可靠性有多高？（建議搜尋：`claude code rate limit detection programmatic recovery`）
+- `ralph` 模式的「連續 3 波都乾淨才宣告完成」這個終止條件實際使用中是否常常不收斂？有沒有社群回報的無限迴圈（infinite loop）案例？（建議搜尋：`oh-my-claudecode ralph infinite loop convergence issues`）
+- OMC 的 LSP 工具整合（`lsp_hover`、`lsp_diagnostics` 等）需要本地有 Language Server（如 TypeScript LSP）運行，設定複雜度如何？支援哪些程式語言的 LSP？（建議搜尋：`oh-my-claudecode LSP integration setup supported languages`）
+- OMC 的 Python REPL 工具使用 Unix Socket 保持工作階段狀態，這在 Claude Code 工作階段結束後是否能自動清理？長期使用是否有記憶體洩漏風險？（建議搜尋：`claude code MCP python repl unix socket cleanup memory leak`）
+- `omc autoresearch` 的「keep/discard/reset」決策是由人類決定還是由 AI evaluator 自動決定？若由 AI 決定，評估器（evaluator）的提示詞設計如何影響結果品質？（建議搜尋：`autonomous research loop AI evaluator design prompt engineering`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS]] — OMC 深度依賴 Claude Code Hook 系統

@@ -241,6 +241,15 @@ LLM 讀取來源
    - **人類審查門檻**：對 Wiki 的某些頁面（如 "總覽、核心主張"）設為**人類審核必要**，LLM 只能提建議不能直接改
    - **版本快照**：定期對 Wiki 做快照，讓你能回溯到任何歷史時間點的 wiki 狀態
 
+## 待補充（Open Questions）
+
+- Karpathy 個人的 LLM Wiki 實際有多大規模（頁面數、sources 數）？他有沒有公開過自己的 wiki 結構或部分內容作為參考？（建議搜尋：`Karpathy personal wiki scale sources obsidian`）
+- 當 wiki 規模超過 1000 頁時，`index.md` 單一索引檔是否足夠？Karpathy 提到的 `qmd` 工具的實際效能與準確率如何？（建議搜尋：`qmd markdown search engine BM25 vector performance benchmark`）
+- LLM Wiki 的 Ingest 操作每次會觸及 10-15 個頁面——這個數字是基於什麼樣的 wiki 規模和 source 類型得出的？對於高度技術性的論文或長篇書籍，這個數字會顯著增加嗎？（建議搜尋：`LLM wiki ingest pages touched per source`）
+- 在「LLM 完全擁有 wiki 層」的設計下，若 LLM 在某次 ingest 後錯誤地修改了多個頁面，如何有效率地回溯和修正？git diff 是否足夠，還是需要額外的 audit trail？（建議搜尋：`LLM wiki error correction rollback audit trail git`）
+- 不同 LLM（Claude、GPT-4、Gemini）維護同一份 wiki 時，對頁面結構、摘要風格、交叉參考風格的一致性有何影響？切換模型後，wiki 品質是否會出現明顯的「風格斷層」？（建議搜尋：`LLM wiki cross model consistency style transfer obsidian`）
+- Karpathy 提到 wiki 適合「企業/團隊」使用案例（如 Slack、會議記錄），但多人協作的 LLM Wiki 如何處理衝突：當兩個人同時 ingest 不同來源並更新同一頁面時，版本衝突如何解決？（建議搜尋：`LLM wiki collaborative editing conflict resolution multi-user`）
+
 ## 相關連結（Related）
 
 - [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — Claude Code Agent 的實作層面，與本文的 Schema（CLAUDE.md）概念直接對應

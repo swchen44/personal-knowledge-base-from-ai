@@ -640,6 +640,14 @@ ls -la ~/.claude/skills/qa/
 7. **Claude 是 driver，Codex 是 oracle**：在你的多 agent 架構，先決定誰是主、誰是輔。雙向對等很容易死循環。
 8. **不是 plugin 也能很 powerful**：純 markdown + symlink 的安裝模型，user 心智成本低、debug 容易、卸載沒副作用。在沒有 plugin API 的 host 上這是最好的擴充模式。
 
+## 待補充（Open Questions）
+
+- gstack 透過 `real-dir-symlink` 繞過 Claude Code skill discovery 的命名規則，但這個 hack 依賴 Claude Code 不改變 skill discovery 邏輯。若 Anthropic 修改了 `~/.claude/skills/` 的掃描方式，所有的 symlink 結構可能同時失效，有無更穩健的方案？（建議搜尋：`claude code skill discovery symlink hack fragile alternative`）
+- gstack 支援 8 種 AI agent host，每種 host 的 skill 格式細節不同（例如 Codex 的字串長度限制、frontmatter allowlist）。這些差異由 `HostConfig` 系統處理，但新 host（如 Kiro）加入時需要多少額外工作？有沒有 host-agnostic 的標準化計劃？（建議搜尋：`gstack host config new agent integration skill format standard`）
+- gstack 的 23 個 slash command 各自是獨立的 SKILL.md，沒有共用的 runtime 狀態。若一個 sprint 需要跨多個 command（例如 `/plan` → `/review` → `/ship`），session 之間的上下文如何傳遞？（建議搜尋：`gstack multi-skill context handoff session state`）
+- browse CLI（Playwright headless browser）是編譯好的 binary，在不同 OS/arch 需要不同的 binary。目前支援哪些平台？若在 Linux ARM64 伺服器上跑 gstack，browse 是否可用？（建議搜尋：`gstack browse playwright binary platform arm64 linux`）
+- gstack 的 `learnings.jsonl` 系統讓 skill 可以從之前的執行紀錄學習。但 learnings 是 per-project 的，對新 project 來說這些知識無法遷移。有沒有跨 project 的 learnings 共享機制？（建議搜尋：`gstack learnings cross project transfer knowledge`）
+
 ## 相關連結（Related）
 
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 觀測子系統的設計（同一個 repo 的另一面）

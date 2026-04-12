@@ -776,6 +776,14 @@ ls -la ~/.claude/skills/
 4. **Canonical + Symlink 是個好模式**：值得在自己的工具中借鑑，解決「多入口、一份資料」的同步問題
 5. **discoverSkills 的三階段搜尋**很聰明：優先目錄機制確保常見結構快速命中，遞迴搜尋作為兜底確保不漏
 
+## 待補充（Open Questions）
+
+- 機制 A 的 `SKILL_NAMES` 是硬編碼在 Rust 原始碼中，新增 skill 需要重新編譯整個 binary。這對於需要客製化 skill 的企業用戶來說是嚴重限制，Vercel Labs 是否有計劃讓 SKILL_NAMES 可由外部設定檔動態指定？（建議搜尋：`agent-browser skill names dynamic config external`）
+- `npx skills check/update` 只支援來自 GitHub 的 skill 自動更新，Gerrit/GitLab 來源的 skill 無法自動更新。對於使用內部 Gerrit server 的企業，有什麼替代的 skill 版本管理流程？（建議搜尋：`npx skills update gerrit gitlab self-hosted version management`）
+- `discoverSkills` 在階段 3 的遞迴搜尋最深 5 層，且跳過 `node_modules` 等常見忽略目錄，但如果一個 monorepo 的 skill 放在第 6 層，就會被靜默忽略。有沒有辦法提高深度限制或指定額外搜尋路徑？（建議搜尋：`npx skills discoverSkills max depth custom path`）
+- skill lock file 記錄了安裝來源和 hash，用來追蹤版本。但 lock file 的格式是否有文件說明？若 lock file 損壞或遺失，`npx skills update` 會怎麼處理？（建議搜尋：`npx skills lock file format corruption recovery`）
+- `owner/repo` 簡寫格式永遠被解析為 GitHub，這表示在只有 Gerrit/GitLab 的環境中，所有 skill 安裝都需要完整 URL。這個行為是否有計劃改進（例如加入 `--provider` 旗標）？（建議搜尋：`npx skills add provider flag gitlab gerrit shorthand`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-SKILL-SYSTEM]] — Claude Code 的 skill 系統如何讀取 `.claude/skills/` 目錄

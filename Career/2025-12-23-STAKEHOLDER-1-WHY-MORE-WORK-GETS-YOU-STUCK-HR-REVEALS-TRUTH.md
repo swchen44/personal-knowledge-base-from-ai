@@ -101,6 +101,14 @@ HR 在人才盤點（Talent Review）會議中常見的場景——真正有影�
 
 值得注意的是，這不是教人偷懶或搞辦公室政治，而是一種系統性思考：**先辨識系統中的關鍵節點（Stakeholder），再決定在哪裡施力**。這在職場和工程專案管理中其實是同一個道理。
 
+## 待補充（Open Questions）
+
+- Stakeholder 地圖（Stakeholder Map）在組織結構不透明或頻繁重組的公司（如新創、跨國矩陣型組織）中如何建立？當正式組織圖與實際影響力網絡差距很大時，如何識別「隱性利害關係人」？（建議搜尋：`stakeholder mapping informal power network organizational change`）
+- 文化差異對 Stakeholder 管理的影響是什麼？台灣本土公司的「倫理人情網絡」與外商的「結構性 KPI 對齊」在實踐上有何根本差異？（建議搜尋：`stakeholder management cultural difference Taiwan local vs foreign company`）
+- Kevin 的策略（提前識別誰的 KPI 被影響）若被廣泛採用，是否會演變成辦公室政治的軍備競賽？在強調心理安全感（Psychological Safety）的環境中，如何區分「策略性可見度」與「投機性形象管理」？（建議搜尋：`stakeholder visibility vs impression management psychological safety`）
+- 當 Stakeholder 的 KPI 與自己的工作目標存在根本衝突時（如銷售部門 vs 工程部門），如何處理對立的利害關係人？影片只討論了對齊，未討論衝突情境。（建議搜尋：`conflicting stakeholders cross-functional negotiation engineering sales`）
+- 在遠距工作（Remote Work）或非同步溝通文化下，事前 Alignment 和提醒風險的可見度如何維持？傳統面對面政治手腕在數位工作空間如何轉譯？（建議搜尋：`remote work stakeholder visibility digital workplace influence`）
+
 ## 相關連結（Related）
 
 - [[STAKEHOLDER-MANAGEMENT]] — 利害關係人管理的核心方法論

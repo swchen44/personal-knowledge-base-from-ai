@@ -648,6 +648,15 @@ export function evaluatePolicy(
 
 最實際的啟發：**從「最少代理（Least Agency）」開始設計**，而非從「最多便利（Most Convenience）」。每增加一個 MCP、每放寬一個權限、每加一個 hook，都是在擴大攻擊面——而 AgentShield 正好可以量化這個代價。
 
+## 待補充（Open Questions）
+
+- AgentShield 的 102 條靜態規則有多少覆蓋了文章中提到的「間接提示注入」攻擊向量（如 PDF 附件、GitHub PR 中的隱藏差異）？靜態分析是否有辦法偵測這類動態攻擊路徑？（建議搜尋：`AgentShield indirect prompt injection PDF GitHub PR detection`）
+- 文章提到 Snyk ToxicSkills 研究發現 36% 的公開技能含有提示注入——這個數字是「Claude Code skills」還是更廣義的 AI agent skills？目前 Claude Plugin Marketplace 上的技能是否有安全審查機制？（建議搜尋：`Snyk ToxicSkills Claude Code plugin marketplace security review`）
+- CVE-2025-59536 的根本原因（信任對話框前的預執行）是否在架構層面完全修復，還是只是修補了特定觸發路徑？是否有已知的類似設計模式仍存在於其他地方？（建議搜尋：`CVE-2025-59536 root cause trust dialog pre-execution architecture fix`）
+- 「行程組終止（process group kill）和基於心跳的死人開關（dead man's switch）」的具體實作方式是什麼？有沒有公開的 Claude Code hook 範例實作這兩個機制？（建議搜尋：`Claude Code process group kill heartbeat dead man switch hook implementation`）
+- Simon Willison 的「致命三要素」（私人資料 + 不受信任內容 + 外部通訊）框架是否有量化的風險評估方法，還是純粹是定性的分析工具？（建議搜尋：`lethal trifecta prompt injection risk quantification Simon Willison`）
+- MCP 伺服器的「工具中毒（Tool Poisoning）」攻擊具體是如何運作的？攻擊者是否需要控制 MCP 伺服器本身，還是可以透過工具回傳的內容進行注入？（建議搜尋：`MCP tool poisoning attack vector OWASP top 10`）
+
 ## 相關連結（Related）
 
 - [[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — 被這篇文章引用的前置讀物：基礎設定指南

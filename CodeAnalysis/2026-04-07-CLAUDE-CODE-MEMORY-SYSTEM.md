@@ -522,6 +522,15 @@ find ~/.claude/projects -name "MEMORY.md"
 
 接下來想試著把 **「指令通道 / 行為通道分離」** 套用到自己的 Agent 專案。
 
+## 待補充（Open Questions）
+
+- Sonnet 動態召回每次查詢都發一次額外 API 呼叫來評估相關性，這筆費用計入使用者帳單嗎？還是 Anthropic 內部吸收？長時間密集使用下召回呼叫的累計成本有多高？（建議搜尋：`claude code memory recall sonnet cost billing`）
+- AutoDream 的「time gate ≥ 24h + session gate ≥ 5」觸發條件是否可由使用者設定？對於每天使用量很低的使用者，AutoDream 可能長期不觸發，導致記憶累積大量未整理的條目。（建議搜尋：`claude AutoDream trigger condition configure threshold`）
+- memdir 的四種記憶類型（user/feedback/project/reference）由 extraction sub-agent 自動分類，這個分類的誤判率有多高？有沒有辦法手動審視或修正自動寫入的記憶？（建議搜尋：`claude memdir memory type classification accuracy review`）
+- `@include` 遞迴載入最多 5 層深度，若企業的 `CLAUDE.md` 組織結構很深，有沒有已知的遞迴截斷問題或警告訊息通知使用者？（建議搜尋：`claude CLAUDE.md @include recursive depth limit warning`）
+- Session Memory 的壓縮（compaction）在壓縮前由 `PreCompact` hook 備份。但壓縮演算法本身的邏輯是什麼？它是否會丟失某些難以重建的細節？（建議搜尋：`claude code session memory compaction algorithm what is lost`）
+- Feature Flag `tengu_paper_halyard` 可以讓 Enterprise 跳過 Project/Local 層，這表示企業管理員可以強制所有使用者無法使用本地的 `CLAUDE.local.md`。這個行為有沒有官方文件說明，使用者如何得知自己的本地指令被略過？（建議搜尋：`claude enterprise managed policy CLAUDE.md override feature flag`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-MEMORY-ENGINE]] — 我自己的記憶引擎設計筆記

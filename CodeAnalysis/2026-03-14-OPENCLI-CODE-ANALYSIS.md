@@ -815,6 +815,14 @@ OpenCLI 給了一個非常完整的答案：
 
 ---
 
+## 待補充（Open Questions）
+
+- Browser Bridge 模式必須有正在執行的 Chrome + Extension，這在 CI/CD 環境中無法使用。OpenCLI 的 CDP Direct Mode 在實際自動化測試或定時排程場景中的完整設定流程是什麼？（建議搜尋：`opencli CDP direct mode headless CI/CD setup`）
+- `opencli operate state` 回傳結構化 DOM 帶 `[N]` 索引，這個 DOM 序列化的方式是完整 DOM tree 還是 accessibility tree？對於複雜頁面（上千個元素），token 消耗量是否會成為瓶頸？（建議搜尋：`chrome CDP accessibility tree DOM serialization token cost`）
+- 73+ 個預建 Adapter 隨著各網站 UI 和 API 更新可能同時失效，作者如何維護這些 Adapter？是否有自動化健康檢查（health check）或社群貢獻機制？（建議搜尋：`opencli adapter maintenance automated testing health check community`）
+- `opencli record` 功能宣稱可以錄製使用者操作並自動生成 Adapter，生成的程式碼品質如何？與手動撰寫的 Adapter 相比，是否需要大量手動修改才能穩定運行？（建議搜尋：`opencli record adapter generation quality automation`）
+- OpenCLI 在 Chrome Extension 安裝後，所有通過 Daemon 的操作都有 CSRF 防護。但若 Daemon 在 localhost:19825 上運行，本機的其他惡意程序是否有辦法透過同樣的 HTTP 介面控制瀏覽器？（建議搜尋：`localhost daemon security CSRF protection attack surface`）
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 | 認知層次 | 核心目的 | 對本文的具體應用 |

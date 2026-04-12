@@ -168,6 +168,15 @@ AI打破後的邏輯：
 - **觀點**：若站在高等教育機構立場，他們會如何反駁「學費是最貴的騙局之一」這個論點？
 - **後果**：如果大量年輕人轉向藍領技能訓練，12個月後這些藍領職位的薪資競爭是否也會因為供給增加而下壓？
 
+## 待補充（Open Questions）
+
+- 斯坦福數位經濟學實驗室的研究方法是什麼？樣本是否僅限美國市場，台灣或東亞地區的22歲軟體工程師就業數據是否有類似趨勢？（建議搜尋：`Stanford Digital Economy Lab methodology Taiwan software developer employment`）
+- 杜克大學750個CFO調查中，這些CFO主要來自哪些產業？非科技業（製造業、傳統金融）的AI裁員計畫與科技業相比有何差異？（建議搜尋：`Duke CFO survey industry breakdown AI layoffs manufacturing finance`）
+- 「隱性知識（Tacit Knowledge）」在學術定義上與「實踐知識（Practical Knowledge）」的邊界為何？是否有實驗性研究量化AI能學習到多少程度的隱性知識？（建議搜尋：`tacit knowledge AI machine learning quantification research`）
+- 影片提到DeepSeek招「文史哲背景的數據百曉生」，這個職位的具體工作內容、薪酬區間和發展路徑是什麼？在中國以外的AI公司是否有類似職位？（建議搜尋：`AI data annotation humanities background job roles salary`）
+- 莫拉維克悖論（Moravec's Paradox）的原始提出時間（1980年代）至今，機器人學和AI的進展是否正在打破這個悖論？具身AI（Embodied AI）對藍領工作威脅程度的最新評估為何？（建議搜尋：`Moravec's Paradox embodied AI physical labor automation 2025`）
+- 入門級職缺消失（「梯子第一格被拆掉」）這個現象如何影響大學選擇中間財管道？是否有提前實習、Bootcamp、自學後進入中階職位的實際案例和成功率數據？（建議搜尋：`entry level job disappearing alternative pathways bootcamp to mid-level`）
+
 ## 相關連結（Related）
 
 - [[AI-LABOR-MARKET-TRENDS]] — 整體 AI 對就業市場的衝擊趨勢

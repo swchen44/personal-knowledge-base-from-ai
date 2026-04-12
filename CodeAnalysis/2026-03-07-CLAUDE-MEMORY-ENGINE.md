@@ -276,6 +276,14 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 
 ---
 
+## 待補充（Open Questions）
+
+- 踩坑偵測（pitfall detection）使用關鍵字比對（`retry`、`wrong`、`失敗` 等），這個方法的誤判率（false positive）在實際使用中有多高？社群是否有回報過哪些常見的誤判場景？（建議搜尋：`claude memory engine pitfall detection false positive accuracy`）
+- `/reflect` 的 8 步驟學習週期需要手動執行，是否有方法設定自動觸發（例如每 X 次 session 後自動提醒）？或者與 claude-code-scheduler 搭配使用的配置範例？（建議搜尋：`claude memory engine reflect automation scheduler trigger`）
+- 記憶檔案儲存在本地 Markdown，長期使用後（例如 6 個月、1,000+ session）檔案會膨脹到多大？對 SessionStart 注入的 ~200-500 tokens 成本有何影響？（建議搜尋：`claude memory engine scaling long term storage markdown growth`）
+- 這個工具沒有自動化測試，若 Claude Code 官方更新了 Hooks 的 JSON schema 或新增了生命週期事件，系統是否會靜默失敗？如何監控升級相容性問題？（建議搜尋：`claude code hooks version compatibility breaking changes monitoring`）
+- `write-guard` 和 `pre-push-check` 兩個防護 Hook 的具體攔截條件是什麼？與 `claude-code-hooks` 的 `protect-secrets.js` 相比，哪些場景各有優劣？（建議搜尋：`claude memory engine write-guard pre-push-check protection rules`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS]] — Claude Code Hooks 機制，本系統的基礎設施

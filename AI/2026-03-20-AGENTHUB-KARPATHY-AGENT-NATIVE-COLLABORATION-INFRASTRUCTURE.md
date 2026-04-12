@@ -474,6 +474,15 @@ AgentHub 最深刻的貢獻不是程式碼，而是**提出了一個業界一直
 
 ---
 
+## 待補充（Open Questions）
+
+- AgentHub 的 DAG 在長期使用後（例如數千個 commit）的查詢效能如何？SQLite 的 `leaves` 查詢在大規模 DAG 上的複雜度為何？是否有索引策略可以維持亞秒查詢？（建議搜尋：`SQLite DAG leaf query performance large scale`）
+- 多個代理同時讀取同一個 leaf 節點時，是否有搶佔機制（Reservation）防止重複工作？文件中提到 mutex 只保護寫入，讀取競爭問題如何處理？（建議搜尋：`AgentHub leaf commit reservation concurrent agents`）
+- AgentHub 的「留言板文化由代理指令決定」意味著協調協議完全非標準化。有沒有正在形成的社群標準（如 JSON 訊息格式規範）來讓不同來源的代理能夠互操作？（建議搜尋：`AI agent message board protocol interoperability standard`）
+- 原始 `karpathy/agenthub` 設為私有後，Karpathy 是否有在其他場合（講演、論文、採訪）進一步發展 AgentHub 的概念？其核心思想是否有被整合進其他工具？（建議搜尋：`Karpathy agenthub follow-up agent collaboration`）
+- AgentHub 的評估模式（Metric / LLM Judge / Hybrid）如何防止「評估者被代理作弊」？文中提到「評估者鎖定」，但若協調者本身也是 LLM，它的判斷是否仍有被操縱的空間？（建議搜尋：`AI agent evaluation alignment evaluator manipulation`）
+- Git Bundle 的大小上限（預設 50MB）對真實韌體工程 Codebase（可能超過數 GB）是否是一個嚴重限制？有沒有支援 sparse checkout 或 partial bundle 的方案？（建議搜尋：`git bundle large repository partial sparse checkout`）
+
 ## 相關連結（Related）
 
 - [[2026-03-17-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — 同樣是多代理 CLI 框架，用 tmux + 檔案系統做協調，比較兩者的設計哲學

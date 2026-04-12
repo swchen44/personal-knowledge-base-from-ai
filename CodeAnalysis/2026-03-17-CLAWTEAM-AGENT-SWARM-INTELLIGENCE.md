@@ -361,6 +361,15 @@ clawteam launch hedge-fund --team fund1 --goal "Analyze AAPL, MSFT, NVDA for Q2 
 
 4. **TOML 模板的威力**：hedge-fund.toml 用不到 200 行宣告式設定就定義了一個 7-Agent 金融分析系統，這種「把 Agent 團隊當成軟體套件來打包發布」的思路很有啟發性。
 
+## 待補充（Open Questions）
+
+- ClawTeam 的 `_wait_for_claude_ready()` 透過偵測 `❯` 符號判斷 Claude Code 就緒，這個偵測方式在 Claude Code 不同版本或不同終端主題設定下是否穩定？有沒有已知的失敗案例？（建議搜尋：`ClawTeam claude ready detection tmux prompt symbol reliability`）
+- TOML 模板一鍵啟動 7-Agent 對沖基金（`hedge-fund.toml`）的成本是多少？若每個 Worker Agent 執行完整的金融分析任務，一次完整執行預計消耗多少 token 和 API 費用？（建議搜尋：`ClawTeam hedge fund template cost estimation token usage`）
+- 8-Agent ML 實驗的 benchmark（30 GPU-hours，2430 experiments）是在什麼硬體規格和時間預算下完成的？這個數字是否具有可重複性（reproducibility）？（建議搜尋：`ClawTeam autoresearch benchmark reproducibility GPU experiment`）
+- ClawTeam 的 File-based Transport 使用 `fcntl.flock()` 防止並發寫入，但 `flock` 在 NFS 或某些 Linux 核心版本下可能不可靠。在分散式檔案系統或容器環境中使用時有何注意事項？（建議搜尋：`fcntl flock NFS reliability container distributed filesystem`）
+- ClawTeam 的 Leader Agent 與 Worker Agent 之間透過 `inbox send` 傳遞訊息，這個訊息格式是否有大小限制？若需要傳遞大量上下文（如程式碼片段、文件內容），最佳實踐是什麼？（建議搜尋：`ClawTeam inbox message size limit large context passing`）
+- ZeroMQ P2P Transport 作為 File-based 的替代方案，啟用後對代理人間通訊延遲有多大改善？實際配置 ZeroMQ 的複雜度如何，有沒有完整的設定文件？（建議搜尋：`ClawTeam ZeroMQ P2P transport setup configuration performance`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-AGENT]] — ClawTeam 原生支援 Claude Code 作為 Leader/Worker Agent

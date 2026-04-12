@@ -119,6 +119,14 @@ Codex 最終達成了端到端的功能開發能力：
 
 4. **合併哲學的轉變**特別有啟發性——在代理人大量產出 PR 的世界中，傳統的重度 Code Review 流程成為瓶頸。需要找到品質與速度的新平衡點。
 
+## 待補充（Open Questions）
+
+- 文章提到 5 個月 ~1,500 個 PR 全由 Codex 產生，但代理人無法處理的任務比例是多少？人工介入的真實頻率有無揭露？（建議搜尋：`Codex agent failure rate human escalation OpenAI harness`）
+- 「短命 PR + 後續修復」的合併哲學如何管理技術債的累積？若代理人持續快速合併，長期是否會引入架構腐敗？（建議搜尋：`AI generated code technical debt accumulation long-term`）
+- 自訂 Linter 強制分層架構（Types → Config → … → UI）在跨層業務邏輯需求（如 saga、跨服務事務）出現時如何處理例外？（建議搜尋：`layered architecture cross-layer business logic exception handling`）
+- 「程式碼可讀性（human readability）」與「代理人可讀性（agent legibility）」是否存在取捨？有無案例顯示優化代理人可讀性反而使人類 debug 更困難？（建議搜尋：`agent legibility human readability tradeoff codebase`）
+- 文章聲稱 ~1/10 的傳統開發時間，但缺乏對照組。這個倍速估算是基於什麼假設，外部是否有獨立驗證？（建議搜尋：`AI coding productivity benchmark controlled study 10x`）
+
 ## 相關連結（Related）
 
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 同一概念的中文影片深度解析，涵蓋 Harness 六層架構

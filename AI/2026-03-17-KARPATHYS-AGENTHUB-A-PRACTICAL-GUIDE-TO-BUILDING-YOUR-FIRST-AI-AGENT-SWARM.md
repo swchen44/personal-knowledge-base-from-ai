@@ -164,6 +164,14 @@ AgentHub 最重要的貢獻不在程式碼本身，而在**概念框架**：當�
 
 對於想在代理人系統中引入「共享程式碼庫協作」的場景，[[GIT-BUNDLE-PROTOCOL]] 是值得深入理解的傳輸機制。
 
+## 待補充（Open Questions）
+
+- 原始 repo 已設為私有，Karpathy 未公開說明原因。這是技術決策、商業考量還是安全疑慮？是否有後續替代方案計畫？（建議搜尋：`karpathy agenthub private reason alternative`）
+- AgentHub 的 DAG 在實際使用中如何避免指數增長（代理人不斷分叉）？有無 DAG 剪枝或節點上限的設計？（建議搜尋：`AgentHub DAG pruning growth limit agent swarm`）
+- SQLite 並發限制在大量代理人同時推送時是瓶頸，升級到 PostgreSQL 時有哪些架構變更是必要的？現有 fork 是否有這個分支？（建議搜尋：`agenthub PostgreSQL migration concurrent writes scaling`）
+- 平台刻意「愚笨（dumb）」的設計哲學，意味著衝突解決全靠代理人指令。若兩個代理人推送互相衝突的程式碼，合併後的正確性由誰驗證？（建議搜尋：`agent swarm conflict resolution verification git DAG`）
+- 代理人循環的訊息板（message board）目前是純文字，是否支援結構化資料（如指標、JSON）傳遞？缺乏結構化協調的局限為何？（建議搜尋：`AgentHub message board structured coordination protocol`）
+
 ## 相關連結（Related）
 
 - [[AGENTHUB-DAG-ARCHITECTURE]] — AgentHub 的有向無環圖架構詳細說明

@@ -256,6 +256,14 @@ Create `.canvas` files for visual mind maps and concept diagrams that link to yo
 - For automation: the Obsidian CLI can batch-tag, batch-search, or auto-fill daily notes from scripts
 - Best combo: Defuddle → note → wikilinks → Bases view → Canvas map
 
+## 待補充（Open Questions）
+
+- Obsidian Bases（`.base` 檔案）目前是否為正式功能還是仍在 Insider Build 階段？它與社群外掛 Dataview 的功能重疊程度如何，使用者應如何選擇？（建議搜尋：`Obsidian Bases vs Dataview official release comparison`）
+- Defuddle CLI 對需要登入的頁面（如付費媒體、需要 cookie 的內容）效果如何？有沒有與 browser extension 結合的使用方式？（建議搜尋：`Defuddle CLI login required pages cookies authentication`）
+- Obsidian CLI 的 `obsidian read`、`obsidian search` 等指令需要 Obsidian 正在執行，這在 headless server 環境（如 CI pipeline 或遠端機器）下是否有替代方案？（建議搜尋：`Obsidian CLI headless server automation alternative`）
+- JSON Canvas 格式是否為 Obsidian 專屬還是有跨工具標準？其他工具（如 Logseq、Roam Research）是否支援或能匯入 `.canvas` 檔案？（建議搜尋：`JSON Canvas specification cross-tool compatibility standard`）
+- Wikilink 自動追蹤重新命名的機制（Obsidian auto-tracks renames）在大型 vault（1000+ 筆記）中的效能如何？大量重新命名時是否有已知的效能問題？（建議搜尋：`Obsidian wikilink rename large vault performance`）
+
 ## Related
 
 - [[ADD-ARTICLE-SOP]]

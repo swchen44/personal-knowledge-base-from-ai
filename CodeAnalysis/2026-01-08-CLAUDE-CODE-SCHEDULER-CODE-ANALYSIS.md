@@ -327,6 +327,14 @@ export async function createWorktree(params: CreateWorktreeParams): Promise<Work
 - **Git Worktree 隔離是自主 AI 任務的安全底線**：讓 AI 在隔離分支做變更，人類 review PR 後才合入，這個模式值得在所有自主 AI 執行任務時採用
 - 與 [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] 配合使用：claude-mem 提供跨 session 記憶，claude-code-scheduler 提供定時觸發，兩者組合構成完整的自主 Agent 框架
 
+## 待補充（Open Questions）
+
+- launchd 在 macOS 上的 PATH 問題是已知痛點，但文件提到的修復方案（記錄完整路徑）在 `nvm`、`fnm` 等版本管理工具頻繁更新的情況下是否足夠穩定？（建議搜尋：`launchd macOS PATH nvm fnm node version manager workaround`）
+- `--dangerously-skip-permissions` 模式搭配 Git Worktree 隔離的安全性邊界在哪裡？若 Claude 在 Worktree 中意外修改了共用的 `.env` 或 git config，有無防護機制？（建議搜尋：`claude code skip permissions security git worktree isolation`）
+- 這個插件依賴 `claude -p` 的非互動模式（print mode），這個模式的 API 費用計算方式與互動模式是否相同？排程任務累積下來的月費成本如何估算？（建議搜尋：`claude code print mode API cost billing non-interactive`）
+- Windows Task Scheduler 的排程精度和行為與 macOS launchd 有哪些實質差異？特別是電腦睡眠後的補跑（missed run）行為，跨平台使用者應如何設定？（建議搜尋：`Windows Task Scheduler vs launchd crontab missed job behavior`）
+- 若同一個 Git Worktree 中有多個定時任務同時觸發，任務之間是否會有衝突？插件是否有並發執行保護機制？（建議搜尋：`claude code scheduler concurrent tasks git worktree conflict`）
+
 ## 相關連結（Related）
 
 - [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 持久記憶系統，兩者常搭配使用構成完整 Agent

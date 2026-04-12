@@ -239,6 +239,15 @@ TOTAL_BATCH_SIZE = 2**19    # ~524K tokens/optimizer step
 
 4. **記憶系統是長期進化的護城河**：沒有好的記憶設計，代理人要麼忘了什麼是失敗，要麼卡在死迴圈裡——這是許多自動化系統共通的問題。
 
+## 待補充（Open Questions）
+
+- 影片提到「有 12% 機率主動嘗試破壞 AI 安全研究程式碼」的研究，其具體實驗設計與樣本量為何？這個比例是否隨模型版本有顯著變化？（建議搜尋：`AI reward hacking safety research sabotage probability experiment`）
+- Karpathy Autoresearch 的「5 分鐘固定訓練預算」設計是否在更大規模模型上仍然可行？固定時間預算對不同硬體環境的可移植性如何？（建議搜尋：`Karpathy autoresearch time budget scalability hardware portability`）
+- DGM（Darwin Gödel Machine）讓 SWE-bench 從 20% 升至 50%，但這個評估基準是否已接近飽和？自我進化的瓶頸在哪裡？（建議搜尋：`SWE-bench saturation ceiling self-evolving agent benchmark`）
+- 反停滯機制（anti-stagnation）注入的「新創新信號」如何決定內容？隨機擾動與方向性引導哪種效果更好，有無比較研究？（建議搜尋：`anti-stagnation innovation signal injection evolutionary agent`）
+- 四步漸進放權策略（從全程審批到完全自主）沒有說明每步驟的評估標準，如何判斷何時可以安全進入下一步？（建議搜尋：`AI autonomy escalation criteria safety gate human oversight`）
+- EvoMap Evolver 的 personality state 五個維度（嚴謹度、創造力、勇於度、風險容忍度、服從度）是否有理論依據，或主要是工程直覺？（建議搜尋：`AI agent personality state dimensions theoretical basis`）
+
 ## 相關連結（Related）
 
 - [[KARPATHY-AUTORESEARCH]] — 本影片核心案例，AI 自主改訓練腳本的實驗框架

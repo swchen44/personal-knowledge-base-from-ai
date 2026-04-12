@@ -294,6 +294,15 @@ Anthropic 內部員工用 Claude Code 向開源專案提交程式碼時，會自
 
 3. **有沒有更好的替代方案？** 記憶系統可以考慮加入**時間衰減（Time Decay）**機制，讓舊記憶的權重隨時間降低；上下文壓縮可以探索**結構化壓縮**（保留工具呼叫的 schema 但壓縮內容）vs 當前的純摘要方式
 
+## 待補充（Open Questions）
+
+- 五級上下文壓縮中，第三級「上下文折疊（Context Folding）」的摘要是由主模型執行還是獨立的較小模型？折疊後的摘要是否有品質驗證機制，以防止關鍵資訊遺失？（建議搜尋：`Claude Code context folding compression model quality`）
+- 反蒸餾（Anti-distillation）策略中注入的「假工具定義」是否在每次 API 請求都注入，還是只在特定條件下啟用？Anthropic 是否有公開說明過這個機制的存在？（建議搜尋：`Claude Code anti-distillation fake tool definitions API`）
+- KAIROS（24小時持續運行模式）與 AutoDream（自動整理記憶）的功能旗標是否在洩漏後仍存在於最新版本？有沒有預計的公開上線時間？（建議搜尋：`Claude Code KAIROS AutoDream feature flag release timeline`）
+- 三層記憶系統中，「第二層話題檔案的選擇」是由 Sonnet 模型負責——這個選擇過程有沒有一致性保證？若不同版本的 Sonnet 選擇不同的相關檔案，會導致什麼問題？（建議搜尋：`Claude Code memory topic file selection consistency`）
+- `yoloClassifier.ts` 的影子 AI 分類器使用什麼模型？是輕量化的分類模型還是完整的語言模型？其判斷結果是否可被用戶查看或覆蓋？（建議搜尋：`Claude Code yoloClassifier model safety shadow AI`）
+- 提示詞快取分裂（Prompt Cache Splitting）的「動態邊界」是如何定義的？是固定的分隔符還是由 Claude Code 動態計算，並且這個機制是否在 Claude API 文件中有公開說明？（建議搜尋：`Claude API prompt cache splitting dynamic boundary`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-ARCHITECTURE]] — Claude Code 架構設計整體概覽

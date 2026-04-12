@@ -229,6 +229,15 @@ hooks:
 
 3. **有沒有更好的替代方案？** 混合方案：用 Claude Code 原生功能處理 80% 的日常工作，用 LangGraph 處理需要複雜狀態機（State Machine）的工作流。這樣保留了 Markdown-only 的簡潔性，但在框架真正有價值的場景不會受限
 
+## 待補充（Open Questions）
+
+- `memory: project` 欄位的具體儲存機制為何？儲存在 `.claude/` 目錄的哪個位置？跨多個工程師協作時，不同人的 Agent-level memory 是否會衝突或覆蓋？（建議搜尋：`Claude Code agent memory project frontmatter storage location`）
+- 作者維護 48 個 skills 的經驗是否有公開的 skills 倉庫可參考？維護 48 個 skill 的認知負擔有多重？有無自動測試框架確保 skill 描述和實際行為對齊？（建議搜尋：`Alireza Rezvani claude-skills repository 48 skills maintenance`）
+- `.claude/rules/*.md` 的「按檔案路徑作用域（path-scoped rules）」機制，當 Claude 同時在兩個不同路徑的檔案工作時，兩組規則是否會合併？若有衝突，以哪個優先？（建議搜尋：`Claude Code rules path scope conflict resolution`）
+- Meta-judge 模式（Stop Hook 觸發另一個 Agent 評估輸出）的「重試觸發」機制如何避免無限迴圈？若評估 Agent 和生成 Agent 互相否定對方，是否有最大重試次數的熔斷器（Circuit Breaker）？（建議搜尋：`Claude Code meta-judge retry loop circuit breaker`）
+- 「Subagent 不能巢狀生成（flat delegation only）」這個限制的技術原因是什麼？是設計決策（安全考量）還是實作限制？未來版本是否有計劃支援多層委派？（建議搜尋：`Claude Code subagent nesting limitation flat delegation design decision`）
+- 此框架完全依賴 Claude Code 的專有格式，作者提到 Vendor Lock-in 是最大風險——有沒有開放標準（如 gitagent、GNAP）可以作為跨平台的 Agent 定義格式，讓同一套 Agent 能在不同 AI 工具上運行？（建議搜尋：`AI agent definition open standard portable format cross-platform`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-ARCHITECTURE]] — Claude Code 的內部架構，驗證本文框架的技術可行性

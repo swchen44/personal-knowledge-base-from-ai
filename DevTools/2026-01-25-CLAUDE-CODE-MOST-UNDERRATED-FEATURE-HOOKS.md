@@ -255,6 +255,14 @@ Claude Code 等待輸入（權限提示、閒置提示）時推送 Slack 通知�
 
 全部 hook 開源於：[github.com/karanb192/claude-code-hooks](https://github.com/karanb192/claude-code-hooks)
 
+## 待補充（Open Questions）
+
+- Hook 腳本是以 session user 的身份執行，還是有沙盒（sandbox）隔離？若 hook 腳本本身有 bug 或被惡意修改，能對系統造成什麼程度的破壞？（建議搜尋：`claude code hook security sandbox isolation privilege`）
+- `PreToolUse` hook 返回 `deny` 時，Claude 會收到 stderr 作為理由並嘗試其他方式繞過。有沒有「硬性終止整個 session」的機制，讓某些危險操作完全無法繞過？（建議搜尋：`claude code hook hard block session terminate bypass`）
+- 13 個 hook 事件中，`SubagentStart` 和 `SubagentStop` 在 Claude 使用 Task tool 生成子代理時是否也會觸發？子代理的 hooks 設定是否繼承自父 session？（建議搜尋：`claude code subagent hook inheritance task tool spawn`）
+- 若多個 hook 同時訂閱同一個事件（例如 `PreToolUse` 同時有 `block-dangerous-commands` 和 `protect-secrets`），執行順序如何決定？任一 hook 返回 deny 就阻斷，還是要全部 deny 才阻斷？（建議搜尋：`claude code multiple hooks same event execution order`）
+- Hook 腳本以 Node.js 執行約 50–100ms，在 CI/CD 遠端執行環境（`CLAUDE_CODE_REMOTE=true`）下是否也有同樣的行為？遠端環境是否有不同的 hook 執行限制？（建議搜尋：`claude code remote hooks CI execution environment`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 技能（Skill）系統，與 Hooks 互補的自動化機制

@@ -627,6 +627,15 @@ framework-clawteam-spawn-flow SKILL.md 內容摘要：
 
 ---
 
+## 待補充（Open Questions）
+
+- 每個 Worker 啟動時需要執行完整的 `repo sync`，即使有 Shared Reference Repo 也需要 1–5 分鐘。對於需要快速回應的 CI 修復場景，這個延遲是否可以接受？有沒有「熱備 workspace」的設計來消除啟動延遲？（建議搜尋：`repo sync warm workspace prewarming agent latency`）
+- ClawTeam inbox 是檔案系統的 JSON 訊息，Leader 監看 inbox 的機制是主動輪詢（polling）還是 inotify watch？高頻場景下 polling interval 怎麼設定？（建議搜尋：`clawteam inbox polling inotify file watch latency`）
+- connsys-jarvis 的 `human_in_the_loop` 欄位禁止 Agent 執行 Gerrit submit，但 Agent 仍然可以上傳 Change 等待 submit。若 CI 自動核准了 Agent 上傳的 Change，有沒有第二道防線防止未審查的程式碼進 main？（建議搜尋：`gerrit submit hook pre-submit review bot guard`）
+- 模式 A 的完整 Expert 實例每人一個獨立 workspace，磁碟用量建議限制在 ≤ 3 個 Worker。如果需要同時跑 5+ 個 Expert（例如全 domain 同時 CI 失敗），有沒有 workspace 共享或 thin clone 的替代方案？（建議搜尋：`git repo shared workspace clone overlay overlayfs`）
+- Worker 之間透過 Gerrit Change-ID 傳遞程式碼，這個模式要求每個 Worker 都有 Gerrit push 權限。若公司安全政策不允許 CI bot 帳號有自動 push 權限，替代方案是什麼？（建議搜尋：`gerrit service account bot push permission security policy`）
+- `framework-expert-discovery-knowhow` skill 讓 Leader 執行 `setup.py --list` 取得可用 Expert 清單。若 Expert 清單很大（50+ 個），每次 Leader 決策都要讀完整清單，context budget 怎麼管理？（建議搜尋：`expert discovery skill list context budget compression`）
+
 ## 延伸閱讀
 
 - [ClawTeam 架構分析](../CodeAnalysis/2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md)

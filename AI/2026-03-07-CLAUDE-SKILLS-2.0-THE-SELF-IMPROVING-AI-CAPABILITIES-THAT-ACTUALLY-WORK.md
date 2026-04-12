@@ -294,6 +294,14 @@ git push  # 分享給團隊
 - **企業管理（Enterprise Management）**：細粒度權限（granular permissions）、使用分析（usage analytics）、合規控制（compliance controls）、審核流程（approval workflow）
 - **技能市集（Skill Marketplace）**：社群提交（community submissions）、評分評論、品質驗證（quality verification）
 
+## 待補充（Open Questions）
+
+- Skills 2.0 的 A/B 測試結果（如 PDF 表單 +287%）是否有控制組設計？不同資料集或不同 Claude 版本下，這些數字的可重現性如何？（建議搜尋：`Claude skill A/B test reproducibility benchmark variance`）
+- 技能建立器（Skill Creator）自動生成的測試案例品質如何驗證？若自動生成的測試案例本身有盲點，會不會導致一種「循環自我欺騙」的假高分？（建議搜尋：`automated test case quality validation AI skill creator`）
+- 分叉模式（fork mode）中，子代理人與主對話的資料傳遞邊界為何？若子代理人輸出中包含敏感資訊，傳回主對話後如何管理隱私？（建議搜尋：`Claude skill fork mode context isolation data privacy`）
+- 2026 年路線圖提到「企業管理」中的細粒度權限（granular permissions），具體控制粒度是否包含資料分類（如 PII 欄位）？（建議搜尋：`Claude skill enterprise permissions granular data classification`）
+- 工作流程型 Skill（Workflow/Preference）隨時間「累積成組織知識」，但若組織工作流程改變，如何系統性審計並更新已有 Skill？（建議搜尋：`organizational skill audit workflow change management`）
+
 ## 相關連結（Related）
 
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 同日期發布的 Skill Eval 實戰文章

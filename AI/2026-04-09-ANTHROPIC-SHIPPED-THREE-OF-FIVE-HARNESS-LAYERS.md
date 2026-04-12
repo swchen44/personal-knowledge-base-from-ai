@@ -186,6 +186,15 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 
 4. **跨職能擁有權問題**是最真實的挑戰。OpenAI 的實驗成功部分原因是單一團隊擁有全部五層——但大多數組織無法複製這個結構。將 Harness 工程嵌入現有流程（架構審查、Sprint、路線圖、完成定義、Runbook）而非成立新團隊，是更務實的方法。
 
+## 待補充（Open Questions）
+
+- L1 約束層（自訂 Linter、ArchUnit）與 L4 驗證層的邊界在實務中如何劃定？型別檢查（TypeScript）、Schema 驗證、契約測試（Contract Testing）各自歸屬哪一層？（建議搜尋：`harness engineering L1 L4 boundary type checking contract testing`）
+- 「移除 80% 工具後任務完成率提升」（Vercel v0 案例）的具體實驗設計是什麼？是否有控制其他變數？這個數據對不同類型的 Agent 任務是否具有通用性？（建議搜尋：`agent tool reduction task completion Vercel v0 experiment`）
+- Anthropic Managed Agents 將 L5 生命週期層提升為平台原語後，「p50 首 Token 時間下降 60%」的技術機制是什麼？大腦/雙手/會話解耦具體如何實現？（建議搜尋：`Anthropic managed agents brain hands session decoupling latency`）
+- 五層模型應用於非編碼場景（客服 Agent、文件處理、資料分析）時，各層的定義是否需要重新詮釋？目前有無跨場景的通用五層框架？（建議搜尋：`harness engineering non-coding agent document processing`）
+- ETH Zurich 研究發現「LLM 生成的 agentfile 反而降低效能」——這個研究的樣本量、評估指標和控制條件是什麼？結論是否已被後續研究驗證或反駁？（建議搜尋：`ETH Zurich agentfile LLM generated performance degradation study`）
+- 「沒有人端到端擁有 Harness」的跨職能協調問題，在已成功落地五層架構的組織中是如何解決的？是否有組織設計的案例研究？（建議搜尋：`harness engineering cross-functional ownership organizational design case study`）
+
 ## 相關連結（Related）
 
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 的六層架構解析（中文影片），與本文的五層模型互為補充

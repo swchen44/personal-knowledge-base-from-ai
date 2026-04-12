@@ -158,6 +158,14 @@ AI 最大的風險不是做不到，而是每次做法都不一樣。Standards �
 2. **什麼情況下會失敗？** — (a) 團隊 <3 人且無跨專案複用需求；(b) 任務本質是探索性而非重複性；(c) 沒有人負責維護 Standards 文件，導致規則過時；(d) skill 粒度切得太細或太粗，都會讓路由失準。
 3. **有沒有更好的替代方案？** — **替代方案 A**：單一 CLAUDE.md + 好的 git 習慣（適合小團隊）；**替代方案 B**：只做 Skills 層不做 Agent 路由（讓人類決定用哪個 skill，適合中型團隊）；**替代方案 C**：完全不封裝，依賴長期上下文與 memory 系統（適合探索型工作）。何時選本方案：≥3 人團隊 + 高重複性工作 + 有跨專案複用需求。
 
+## 待補充（Open Questions）
+
+- 「薄路由厚能力（Thin Router, Thick Skill）」的路由判斷本身是由 LLM 做的，還是有規則引擎？若任務跨越多個 Skill 的邊界，LLM 路由的準確率有多高？有沒有路由失敗的 fallback 機制？（建議搜尋：`AI agent router accuracy multi-domain task routing fallback`）
+- `learnings.md` 和 `future-enhancement-ideas.md` 的更新責任歸屬是人工還是 AI 自動填寫？若由 AI 自動填寫，如何確保記錄的是真正有用的經驗而非雜訊？（建議搜尋：`institutional memory AI automated update quality control`）
+- 三層架構（Agent/Skill/Standards）的「跨專案可攜性」如何測試？把一套完整的 `.claude/skills/` 移植到另一個 Git 倉庫時，哪些 Skill 會因為環境假設不同而失效？（建議搜尋：`Claude Code skills portability cross-project migration`）
+- 「不可變流程規則 vs 可調整組織政策」的分類，在實務中誰有權限更改「不可變」的部分？若規則本身過時需要更新，是否有正式的廢棄（deprecation）和升級流程？（建議搜尋：`AI workflow immutable process rules governance update protocol`）
+- 此架構假設工作流可以被「高頻、可標準化」地識別，但對於創意或探索型工作（如 spike 或 PoC），三層架構是否反而成為阻礙？這類工作是否有另一套設計模式？（建議搜尋：`AI workflow exploratory work PoC spike unstructured`）
+
 ## 相關連結（Related）
 
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 也是從 prompt 工程升級到流程工程的同類思路

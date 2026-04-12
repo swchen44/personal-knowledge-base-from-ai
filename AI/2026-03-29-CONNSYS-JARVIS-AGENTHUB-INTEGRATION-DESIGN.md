@@ -785,6 +785,14 @@ gen4m workspace 的 hub-session-start.sh 在新 debug session 啟動時：
 
 ---
 
+## 待補充（Open Questions）
+
+- `hub-session-start.sh` 的語義搜尋要在工程師尚未描述任務時執行，這個設計的前提是什麼？若沒有 `CONNSYS_JARVIS_TASK_DESC` 環境變數，語義搜尋會對什麼向量做比對？（建議搜尋：`session start semantic search task context injection`）
+- 四種 Commit 類型（R/C/CI/D）的 YAML frontmatter 格式目前是文字規範，有沒有 JSON Schema 或自動驗證機制確保 Expert 每次 push 的格式符合標準？若格式不符，協調者的 LLM judge 如何降級處理？（建議搜尋：`git commit metadata schema validation CI`）
+- framework-agenthub-expert 作為獨立 Expert，在 Jarvis 的 dependency 解析機制中，若 `framework-base-expert` 版本升級且介面改變，升級流程如何管理？是否有 semver 或鎖定機制？（建議搜尋：`AI expert framework dependency version management`）
+- 語義搜尋的相似度分數閾值如何設定？若閾值太低，WIP commit 或不相關的 Type D 會污染新 session 的 context；若太高，有用的歷史資訊會被漏掉。有沒有基於韌體工程領域的標定實驗？（建議搜尋：`semantic search threshold calibration firmware engineering`）
+- 此設計針對 WiFi/BT 韌體工程的特定場景，若要推廣到其他嵌入式系統（如 MCU、RTOS）或應用層軟體開發，四種 Commit 類型和協調模式需要做哪些調整？（建議搜尋：`multi-agent workflow embedded systems RTOS adaptation`）
+
 ## 相關連結（Related）
 
 - [[2026-03-20-AGENTHUB-KARPATHY-AGENT-NATIVE-COLLABORATION-INFRASTRUCTURE]] — AgentHub 技術基礎：DAG、git bundle、message board 完整分析

@@ -258,6 +258,15 @@ Yegge 大膽預測：未來的開發介面將是完全基於對話（conversatio
 
 ---
 
+## 待補充（Open Questions）
+
+- 吸血鬼效應（Vampire Effect）的認知超載問題，在人體工學或認知科學領域有無對應的研究框架？「三小時是高強度 AI 協作的上限」這個數字有無實驗依據，還是個人經驗？（建議搜尋：`cognitive overload AI-assisted review attention fatigue limit research`）
+- Yegge 預測 IDE 走向消亡——但程式碼的靜態結構分析、語法高亮、型別推斷這些工具仍然服務於「人類理解程式碼」的需求。即便不手寫程式碼，工程師仍需閱讀與審查，IDE 的哪些功能在 AI 時代反而更重要？（建議搜尋：`IDE future AI era code review tools static analysis`）
+- Gas Town 專案（Yegge 的多代理人系統）的架構細節是什麼？它與 Karpathy 的 AutoResearch、OpenClaw 等同類系統相比，在任務分解和代理人調度上有何不同設計選擇？（建議搜尋：`Steve Yegge Gas Town multi-agent system architecture`）
+- 「微型團隊崛起」的論點假設小團隊在 AI 輔助下能達到大公司的執行力——但大公司的護城河還包括品牌信任、合規資質、銷售管道等非技術因素。AI 在哪些特定維度縮短了差距，在哪些維度差距依然存在？（建議搜尋：`micro-team vs big tech competitive advantage AI non-technical moat`）
+- Vibe Coding（以自然語言傳達業務邏輯和架構直覺）在對模型傳達隱性知識（tacit knowledge）時有何本質限制？在安全性、合規性等需要精確規格的領域，Vibe Coding 的適用邊界在哪？（建議搜尋：`vibe coding limitations safety compliance precise specification`）
+- Yegge 對大公司官僚主義的批評是否低估了規模效應的其他優勢（如資料護城河、算力優勢、人才密度）？歷史上哪些技術典範轉移確實讓小公司顛覆大公司，哪些最終大公司仍佔主導？（建議搜尋：`big tech disruption AI startup vs incumbent data moat compute advantage`）
+
 ## 相關連結（Related）
 
 - [[BITTER-LESSON-RICH-SUTTON]] — Rich Sutton 的《苦澀的教訓》是理解 AI 發展規律的必讀文章

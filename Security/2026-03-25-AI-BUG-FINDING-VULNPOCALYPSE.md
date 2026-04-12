@@ -235,6 +235,15 @@ LLM：
    - **左移（Shift Left）**：與其事後找 bug，不如在 PR review 階段就用 LLM 把關，防止 bug 進入 codebase
    - **Capability-based Security**：從根本上減少 attack surface（如 Rust 的 memory safety），讓 LLM 能找的 bug 類別從源頭減少
 
+## 待補充（Open Questions）
+
+- Anthropic 的 500 個 OSS-Fuzz bugs 有多少已被上游 maintainer 確認並修補？從報告到修補的平均週期是多長？（建議搜尋：`Anthropic OSS-Fuzz bugs fix rate maintainer confirmation`）
+- Carlini 的「30 行 prompt」有沒有公開內容？這個 prompt 的關鍵設計決策是什麼，讓模型能有效找到安全漏洞？（建議搜尋：`Nicholas Carlini bug finding prompt template 30 lines`）
+- Ghost CMS 的 blind SQL injection exploit（含二分搜尋讀 admin 資料庫）是如何被 Opus 4.6 自動生成的？這個 exploit 是否已負責任披露並修復？（建議搜尋：`Ghost CMS SQL injection CVE Anthropic Opus disclosure`）
+- 文中提到的「critique agent 在乾淨映像上驗證報告」——這個驗證流程的誤報率（false positive）和漏報率（false negative）大概各是多少？（建議搜尋：`AI vulnerability research critique agent false positive rate`）
+- LLM 目前在發現「logic bugs（業務邏輯漏洞）」和「concurrency bugs（競態條件）」上的能力如何？文中雖提到這些類別，但沒有具體數據——有沒有相關的 benchmark？（建議搜尋：`LLM logic bug concurrency bug detection benchmark evaluation`）
+- Bug bounty 平台（如 HackerOne、Bugcrowd）目前對 AI 生成的漏洞報告是否有特殊政策？他們如何區分人工發現與 AI 輔助發現？（建議搜尋：`HackerOne Bugcrowd AI generated vulnerability report policy`）
+
 ## 相關連結（Related）
 
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 本身的架構，理解為什麼 `--dangerously-skip-permissions` 模式如此有效

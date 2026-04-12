@@ -592,6 +592,15 @@ Write in polished, professional memo style:
 
 ---
 
+## 待補充（Open Questions）
+
+- GPT-5.4 的「代理人工作流程穩健性（Agentic Workflow Robustness）」具體是如何測量的？官方有沒有公開的 agentic benchmark 數據（如 τ-bench、AgentBench）可以驗證這個主張？（建議搜尋：`GPT-5.4 agentic workflow benchmark tau-bench`）
+- 「推理力度（Reasoning Effort）」的 none/low/medium/high/xhigh 等級，在 API 層面是如何實現的？是否對應到不同的 sampling temperature 或 chain-of-thought token 預算？（建議搜尋：`OpenAI reasoning effort API implementation mechanism`）
+- 本文提到「Compaction 後保持 prompt 功能相同」，但 Compaction 的具體演算法為何？如何保證壓縮後不遺失關鍵指令（如輸出契約的格式約束）？（建議搜尋：`GPT-5.4 conversation compaction algorithm context preservation`）
+- P-03「工具持久性（Tool Persistence）」規則在多工具並發場景下，如何防止工具呼叫的無限循環？有無官方建議的最大工具呼叫次數上限或超時機制？（建議搜尋：`OpenAI tool use infinite loop prevention max calls`）
+- GPT-5.4-mini 的「更字面性解讀」特性，在中文提示詞場景下是否表現不同？本文的 prompt 模板是針對英文設計的，中文版本是否需要額外調整？（建議搜尋：`GPT-5.4-mini Chinese prompt literal interpretation`）
+- 從 GPT-4o 遷移到 GPT-5.4 時，建議「先設推理力度為 none」——這個建議的背後假設是什麼？若任務原本依賴 GPT-4o 的隱式推理，直接設 none 是否會有品質退化風險？（建議搜尋：`GPT-4o to GPT-5.4 migration reasoning effort regression`）
+
 ## 相關連結（Related）
 
 - [[PROMPT-ENGINEERING]] — OpenAI 的廣義提示工程策略

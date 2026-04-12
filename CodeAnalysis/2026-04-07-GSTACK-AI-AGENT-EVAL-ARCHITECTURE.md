@@ -554,6 +554,14 @@ bun run eval:select
 7. **Self-preference 是真的**：別只用 Claude 評 Claude，至少加一個 cross-family judge 做 sanity。
 8. **KPI 訂在「比上次差」而非「夠不夠 N 分」**：絕對門檻給 floor（不能掉到 3 以下），相對 regression 給 ceiling（不能比上次差超過 X%）。
 
+## 待補充（Open Questions）
+
+- gstack 的 Planted-Bug 框架需要手工維護 ground truth JSON（已知 bug 清單）。當 codebase 持續演進，這些 fixture 如何保持與真實代碼同步？有沒有自動化更新 ground truth 的方法？（建議搜尋：`planted bug ground truth maintenance fixture sync`）
+- LLM-as-Judge 評分的一致性（consistency）如何保證？同一份 SKILL.md 在不同時間送給 judge 可能得到不同分數。gstack 是否有對 judge 本身做校準（calibration）或多次取樣取平均？（建議搜尋：`LLM judge consistency calibration inter-rater reliability`）
+- E2E 測試以 `claude -p` 子程序跑真實 Agent，每次約 $3.85。若 Claude API 的定價改變或模型更新，歷史 cost benchmark 就會失去可比性。gstack 是否有 normalize cost 的機制（例如按 token 數而非美元計算）？（建議搜尋：`AI agent eval cost normalization benchmark reproducibility`）
+- `outcomeJudge` 判斷 Agent 是否找到 planted bug 時，是否有考慮 Agent 找到 bug 但用不同描述方式的情況？judge prompt 的相似度判斷邊界是如何定義的？（建議搜尋：`LLM judge semantic equivalence bug detection paraphrase`）
+- Diff-based touchfiles 是開發者手動宣告「這個測試依賴哪些檔案」，若宣告不完整（漏填 glob），可能導致相關測試在 CI 中被跳過。有沒有自動偵測依賴關係的計劃？（建議搜尋：`test dependency detection automatic touchfiles CI coverage`）
+
 ## 相關連結（Related）
 
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 同 repo 的 telemetry 設計，KPI 落地的另一面

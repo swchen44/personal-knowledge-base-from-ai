@@ -96,6 +96,14 @@ links:
                               - The progressive disclosure gap in export adapters is a real issue worth contributing a fix for
                               - OpenClaw's passthrough approach for skills is the most principled — let the runtime parse, don't pre-digest
 
+                              ## 待補充（Open Questions）
+
+                              - 技能懶加載（Lazy Loading）的 PR 機會已被識別（GitHub Issue #19），但現有適配器全部使用全量載入——修改後對不同規模技能庫（10 個 vs 100 個技能）的上下文視窗節省量估計有多大？（建議搜尋：`gitagent lazy loading skill progressive disclosure context window`）
+                              - DUTIES.md（職責分離）只有兩個適配器支援，其餘全部跳過——對於需要合規控制的企業場景，缺少 SOD 支援的安全風險具體是什麼？（建議搜尋：`AI agent segregation of duties compliance SOD enterprise`）
+                              - 各框架適配器（CrewAI、LangChain、OpenAI）對 `agent.yaml` 解析的差異在實務中會導致哪些行為不一致？是否有跨框架行為一致性的測試套件？（建議搜尋：`gitagent adapter cross-framework behavior consistency testing`）
+                              - `SOUL.md` 給 Agent 賦予身份與價值觀的設計在不同框架中有不同程度的支援——當框架對 SOUL.md 只做 regex 解析（如 Lyzr）時，Agent 的身份一致性如何保證？（建議搜尋：`agent identity soul personality cross-framework consistency`）
+                              - Git 原生版本控制作為 Agent 定義的管理機制，在 Agent 定義頻繁更新的生產環境中有何實際優勢？與傳統 Agent 平台（如 LangSmith、Langfuse）的版本管理相比有何差異？（建議搜尋：`git-native agent versioning production deployment comparison`）
+
                               ## Related
 
                               - [[AI-AGENT-FRAMEWORKS-COMPARISON]]

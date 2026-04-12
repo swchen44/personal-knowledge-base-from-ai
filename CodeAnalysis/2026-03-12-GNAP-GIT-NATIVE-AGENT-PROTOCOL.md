@@ -359,6 +359,14 @@ Claude Code 在下次心跳時會 pull、找到 PROJ-1、執行工作、寫入 r
 
 ---
 
+## 待補充（Open Questions）
+
+- GNAP 的心跳循環（heartbeat loop）預設 300 秒（5 分鐘）輪詢一次，這個延遲對大多數 AI 任務協調場景是否足夠？有沒有實際部署案例分享最佳的 `heartbeat_sec` 設定值？（建議搜尋：`GNAP heartbeat interval optimization agent coordination latency`）
+- GNAP 目前只是 RFC 規格，沒有官方 CLI 實作。社群中是否已有非官方的 `gnap` CLI 工具或 Python/TypeScript library 可以直接使用？（建議搜尋：`GNAP git native agent protocol CLI implementation community`）
+- 當 10+ 個代理人同時活躍時，git merge conflict 頻率會顯著上升。在實際測試中，多少個並發代理人是合理的上限，超過後系統效能如何退化？（建議搜尋：`GNAP concurrent agents git conflict rate scalability testing`）
+- GNAP 中的 Run 實體記錄了 `cost_usd` 和 token 用量，但這些數字是代理人自行填寫的（非自動計算）。在沒有強制執行機制的情況下，如何確保成本追蹤數據的準確性？（建議搜尋：`GNAP run cost tracking accuracy agent self-reporting`）
+- GNAP 文件提到與 jj-mailbox、GitClaw、GAM、aegis-spec 等類似協議的「趨同演化（convergent evolution）」，這些協議目前各自的發展狀態如何？有無整合或互通的計畫？（建議搜尋：`git-native agent protocol ecosystem jj-mailbox GitClaw comparison`）
+
 ## 相關連結（Related）
 
 - [[GITAGENT-FRAMEWORK-ANALYSIS]] — git-based 代理人框架生態系分析，GNAP 是其中的協議層代表

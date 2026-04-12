@@ -229,6 +229,14 @@ Team Memory 的設計揭示了一個重要的 **「共享知識 vs 個人偏好�
 
 另一個洞察是 `feature('TEAMMEM')` 作為 build-time 開關的設計哲學 — 未發布的功能在反編譯版中雖然程式碼完整存在，但透過靜態分析可知它們全部被死碼消除（DCE）。要「解鎖」這些功能，改 polyfill 是最直接的路徑，但需要配套的 OAuth + Team 帳號才能真正運作。
 
+## 待補充（Open Questions）
+
+- Server 端對 team memory 的容量上限（`max_entries`、單檔大小限制）是否會因 claude.ai 方案等級不同而有所差異？超出上限時的行為（截斷、拒絕 push、自動 prune）是什麼？（建議搜尋：`claude team memory max entries limit quota`）
+- Team memory 的「刪除不傳播」設計讓 server 端成為 source of truth。若要從 server 端強制刪除一個含錯誤資訊的 team memory 條目，目前是否有 admin API 或管理介面？（建議搜尋：`claude team memory server delete admin api`）
+- extraction sub-agent 判斷 feedback 是否屬於「全專案慣例」這件事本身是 LLM inference，是否有已知的誤判模式（例如把個人偏好誤存為 team memory）？有沒有辦法審計或回滾？（建議搜尋：`claude memory extraction accuracy feedback scope classification`）
+- 同一組織若有多個不同 GitHub repo 的 team，各 repo 的 team memory 之間是否完全隔離？能否設計跨 repo 共享的 organization-level memory？（建議搜尋：`claude team memory cross-repo organization sharing`）
+- KAIROS 模式與 Team Memory 互斥，KAIROS 具體是什麼功能？它的 append-only log 與 team sync 的不相容性是技術限制還是設計選擇？（建議搜尋：`claude code KAIROS mode append-only log memory`）
+
 ## 相關連結（Related）
 
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — 完整六層記憶架構概覽，本筆記是其 team memory 子章節的深化

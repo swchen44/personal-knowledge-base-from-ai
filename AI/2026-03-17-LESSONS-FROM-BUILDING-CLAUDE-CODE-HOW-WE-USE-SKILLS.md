@@ -294,6 +294,15 @@ Skills 是 AI 智能體（AI Agent）極其強大且靈活的工具，但這一�
 4. **按需鉤子（On Demand Hooks）模式值得借鑒**：不是所有保護機制都應該一直開著，按需啟用更符合實際工作流程。
 5. **Skill 效果可量化**：用 `PreToolUse` 鉤子記錄觸發率，讓 Skill 優化有數據支撐。
 
+## 待補充（Open Questions）
+
+- 文章說 Anthropic 內部有數百個活躍 Skills，但如何避免 Skill 重複或功能重疊導致的衝突觸發？是否有官方的 Skill 去重機制或命名規範？（建議搜尋：`Claude Code skills deduplication naming convention conflict`）
+- `${CLAUDE_PLUGIN_DATA}` 穩定儲存路徑在版本升級後如何確保資料遷移？有無官方的資料遷移 API？（建議搜尋：`Claude Code plugin data directory migration upgrade`）
+- 「按需鉤子（On Demand Hooks）」在 Skill 被呼叫後如何在會話結束時自動清除？若使用者忘記清除，是否會影響後續會話？（建議搜尋：`Claude Code on-demand hooks session cleanup lifecycle`）
+- Skill 的 `description` 欄位由 Claude 掃描來判斷觸發，但當多個 Skill 的描述語義相近時，選擇邏輯是什麼？是否有優先級機制？（建議搜尋：`Claude Code skill description ambiguity resolution priority`）
+- 文章建議用 `PreToolUse` 鉤子記錄 Skill 觸發率以量化效果，但這個方案對不懂 JSON 鉤子配置的非工程師使用者而言有多高的門檻？（建議搜尋：`Claude Code hooks non-technical user setup friction`）
+- 插件市場（Plugin Marketplace）的「審核機制」目前是作者自判，沒有中央審查。若有惡意 Skill（如竊取檔案或執行危險指令）被提交，目前的防護機制是什麼？（建議搜尋：`Claude Code plugin marketplace security malicious skill review`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-SKILLS]] — 本文主題，Claude Code Skills 系統的深入說明

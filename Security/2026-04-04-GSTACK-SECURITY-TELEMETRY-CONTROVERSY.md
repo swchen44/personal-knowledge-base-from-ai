@@ -130,6 +130,15 @@ gstack 是 Y Combinator 總裁 Garry Tan 開源的 Claude Code Skill 工具包�
 3. **個人專案爆紅後需要立即補治理**：當一個 side project 突然有數萬使用者，原本的「個人決定」就變成「產業標準問題」
 4. **AI 工具的威脅模型（Threat Model）不同於一般 CLI**：它們有權讀 session、project、edit history，信任審查應該更嚴格
 
+## 待補充（Open Questions）
+
+- Issue #750（Admin Key 繞過 RLS）的修復目前狀態如何？修復後是否有第三方安全研究員進行複驗，確認 Supabase RLS 已正確限制遙測資料的存取範圍？（建議搜尋：`gstack issue 750 Supabase RLS fix verification`）
+- gstack 收集的「工作目錄路徑和專案名稱」資料在後端如何儲存和保護？Supabase 資料庫是否在特定國家/地區部署，可能影響 GDPR 或台灣個資法的合規性？（建議搜尋：`gstack telemetry data storage GDPR compliance Supabase region`）
+- 文中提到遙測設為 `off` 後確實不上傳，但「每次執行指令都會發網路請求」的那些請求內容是什麼？是心跳包、版本檢查，還是其他用途？（建議搜尋：`gstack network request telemetry off content analysis`）
+- 除了 gstack，目前 Claude Code Plugin Marketplace 上有多少其他工具收集遙測資料？Anthropic 是否有針對 Plugin 的遙測政策要求？（建議搜尋：`Claude Code plugin marketplace telemetry policy Anthropic`）
+- 作者用 Perplexity 交叉查證 GitHub 的方法論有何限制？對於較新或較冷門的工具，這種靜態分析+社群反應的評估方式是否足夠，還是需要動態分析（如網路流量監控）？（建議搜尋：`AI tool security audit methodology static dynamic analysis network traffic`）
+- Garry Tan 作為 YC 總裁開源 gstack 是否存在利益衝突（如收集開發者行為資料供 YC 投資決策使用）？是否有任何法律層面的披露義務？（建議搜尋：`gstack Garry Tan YC conflict of interest developer data`）
+
 ## 相關連結（Related）
 
 - [[2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — gstack 作為三大 AI 編程框架之一，本文揭露了其治理層面的問題

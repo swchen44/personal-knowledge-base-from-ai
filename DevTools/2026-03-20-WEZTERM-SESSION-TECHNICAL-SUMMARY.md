@@ -208,6 +208,14 @@ xattr -cr /Applications/WezTerm.app
 
 ---
 
+## 待補充（Open Questions）
+
+- GitHub Release 上的預編譯版本是否會持續更新？當 WezTerm 上游有安全性修補時，下游的 `feat/macos-dictation` 分支需要多久才能追上？（建議搜尋：`wezterm release cadence upstream sync`）
+- `wezterm-mux-server` 在多使用者情境下的安全性如何？若多台設備共用同一個 mux server，是否有認證機制？（建議搜尋：`wezterm mux server security authentication`）
+- WezTerm 的 `unicode_version = 14` 設定對 Emoji 寬度計算有何影響？設定錯誤的版本號會導致什麼排版問題？（建議搜尋：`wezterm unicode_version emoji width`）
+- 除了 `.app` bundle 方式，是否有更正式的 macOS 安裝方式（如 Homebrew tap）可以讓用戶更方便追蹤版本更新？（建議搜尋：`wezterm homebrew tap custom fork`）
+- `IMKClient_Modern` 日誌出現是否只代表「IMKit 框架已載入」，還是可以確認聽寫功能真的正常運作？有沒有更可靠的測試方式？（建議搜尋：`IMKClient_Modern IMKInputSession validation macOS`）
+
 ## 相關連結（Related）
 
 - [[2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]] — 完整編譯與設定流程文章

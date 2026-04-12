@@ -180,6 +180,15 @@ LIMITATIONS                     → 5. 誠實（Honesty）
    - **範例導向（Few-shot）**：給 Agent 3 個好範例和 3 個反例，讓它自己歸納邊界，有時比明確列出規則更有效
    - **混合方案**：用這篇的 5 原則寫骨架，用 Anthropic 的「漸進式揭露」技術讓 Agent 按需載入詳細指令
 
+## 待補充（Open Questions）
+
+- Observe-Reflect-Act 模式和學術界的 ReAct（Reasoning + Acting）框架有何實質差異？ReAct 在有外部工具呼叫的場景下表現更好，但 ORA 更適合純推理任務——這個假設有實驗支持嗎？（建議搜尋：`ReAct vs Observe-Reflect-Act agent framework comparison`）
+- 「生產環境最好的 Agent 是最清晰而非最聰明的」——這個主張有無大規模的定量研究支持？或者它只是特定工程師基於有限樣本的直覺？是否有反例（聰明的 Agent 反而更好）？（建議搜尋：`AI agent clarity vs intelligence production performance study`）
+- 「WHAT I DON'T DO」清單如何隨時間維護？當業務需求改變，Agent 應該做的事和不應該做的事的邊界會移動——有沒有系統化的方法管理這種邊界漂移（boundary drift）？（建議搜尋：`AI agent constraint boundary evolution maintenance`）
+- 對於「任務本身不清晰」的情境（使用者自己也不確定要什麼），這 5 原則中的「身份（Identity）」和「邊界（Boundaries）」要如何動態生成？有沒有「先探索後定義」的 Agent 設計模式？（建議搜尋：`AI agent exploratory task unclear requirements design`）
+- Cisco 的 Yuri Kramarz 在文章後是否有發布後續案例研究，展示這個 Document Summarizer 範本在實際生產環境的表現數據？（建議搜尋：`Yuri Kramarz Cisco AI agent case study production`）
+- 200 字範本在非英語（如繁體中文）任務中是否同樣有效？語言本身是否影響 Agent 的結構化思考品質，特別是在「BEFORE FINISHING」驗證階段？（建議搜尋：`multilingual AI agent prompt effectiveness Chinese`）
+
 ## 相關連結（Related）
 
 - [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 進階版：從 5 原則擴展到 10 步工具導向框架

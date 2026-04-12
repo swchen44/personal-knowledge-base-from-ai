@@ -148,6 +148,14 @@ links:
 
 ---
 
+## 待補充（Open Questions）
+
+- 不同外商公司（美商、歐商、日商）的 Competency 模型在三大維度（思維、行為、合作）的權重是否有系統性差異？例如歐商是否更重視合作能力、美商更重視思維能力？（建議搜尋：`competency model comparison American European company cultural difference`）
+- 「具體 Evidence（實證）」在績效考核中如何被量化評分？在不同公司的 9-box 人才矩陣（talent grid）或升遷委員會中，Evidence 的蒐集和呈現格式有什麼標準？（建議搜尋：`performance review evidence collection 9-box talent grid promotion`）
+- AI 工具（如 LLM 助理）已能協助員工快速產出報告、郵件和分析——這是否會讓「行為能力（Behavior Competency）」的評估標準逐漸失效，或反而更強調「判斷力」與「合作能力」？（建議搜尋：`AI impact competency evaluation behavior communication skills`）
+- Why/What/So What 溝通框架在東亞文化的直屬主管溝通中（如台灣本土公司），是否與外商場景同樣有效？高情境（high-context）文化的溝通偏好是否構成阻力？（建議搜尋：`why what so what communication framework high context culture East Asia`）
+- 外商裁員時「留下 Competency 符合公司方向的核心人才」——在 AI 時代，公司方向快速轉變的情況下，Competency 的評估如何避免成為落後指標（lagging indicator）？（建議搜尋：`competency model AI era future skills lagging indicator`）
+
 ## 相關連結（Related）
 
 - [[FOREIGN-COMPANY-CAREER-GUIDE]] — 外商職場全攻略，進一步了解外商文化差異

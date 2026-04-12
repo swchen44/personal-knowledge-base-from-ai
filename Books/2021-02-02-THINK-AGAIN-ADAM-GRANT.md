@@ -376,6 +376,14 @@ Adam Grant 在官方網站提供一份自我評估測驗，測量你目前的「
 
 ---
 
+## 待補充（Open Questions）
+
+- 「逆火效應（Backfire Effect）」在 2010 年代後的複製研究中已有部分研究指出其存在範圍被高估——Grant 的論述是否參考了最新的元分析（meta-analysis）？事實糾正在哪些條件下確實有效？（建議搜尋：`backfire effect replication crisis political psychology 2020`）
+- 動機式訪談（Motivational Interviewing）在職場說服（而非戒癮治療）情境中的效果證據有多強？跨文化（特別是東亞高情境文化）的適用性是否有研究？（建議搜尋：`motivational interviewing workplace cross-cultural effectiveness Asia`）
+- 「科學家模式」的實踐建議中，如何處理「需要在不確定情況下果斷決策」的場景？過度開放的懷疑態度是否有可能在高壓決策環境中反而降低效率？（建議搜尋：`intellectual humility decisive action under uncertainty balance`）
+- Grant 的「把職涯當小實驗」框架在哪些社會經濟條件下適用？對於缺乏安全網（如台灣中小企業員工、無積蓄可試錯的工作者）的人，這個框架的局限性是什麼？（建議搜尋：`career experimentation socioeconomic privilege psychological safety`）
+- 書中關於「說服的反直覺法則（更少論點更有力）」的研究背景是什麼？論點質量的評估標準本身就因人而異，這個法則在哪些條件下失效？（建議搜尋：`argument quality vs quantity persuasion research inoculation theory`）
+
 ## 相關連結（Related）
 
 - [[INTELLECTUAL-HUMILITY]] — 智識謙遜：重新思考的核心態度

@@ -335,6 +335,15 @@ uv run python src/my_research_flow/main.py
 - 事件驅動架構（Event-Driven Architecture）讓所有元件可以獨立演化，觀測性（Observability）的插入也更自然，參見 [[AI-AGENT-DESIGN]]
 - CrewAI Flows 的裝飾器語法比 LangGraph 的圖建構更直覺，若下次需要建立確定性 AI 工作流，Flow 是比 LangGraph 更值得考慮的選項
 
+## 待補充（Open Questions）
+
+- CrewAI 的 Hierarchical 模式中 Manager Agent 是如何決定任務分配策略的？是否有機制防止 Manager Agent 自身出現「幻覺（hallucination）」導致錯誤分派？（建議搜尋：`CrewAI hierarchical manager agent task delegation mechanism`）
+- CrewAI 與 OpenAI Agents SDK（Swarm）在多代理人協作場景下的實際效能和成本對比，有沒有公開的 benchmark 數據？（建議搜尋：`CrewAI vs OpenAI Swarm benchmark cost performance comparison`）
+- CrewAI 的 A2A（Agent-to-Agent）企業通訊協定與 Google 推出的 A2A 協定是否相容？若不相容，未來整合難度如何評估？（建議搜尋：`CrewAI A2A protocol Google Agent2Agent interoperability`）
+- `crewai_event_bus` 的全域事件總線在高並發（多個 Crew 同時執行）場景下是否有競爭條件（Race Condition）問題？官方是否有並發限制建議？（建議搜尋：`CrewAI concurrent execution event bus race condition`）
+- CrewAI 在生產環境中的 token 成本控制策略（例如 `max_iter` 的最佳實踐設定值）有沒有來自社群的經驗數據？（建議搜尋：`CrewAI production token cost optimization max_iter best practices`）
+- YAML 配置與 Python 程式碼分離的設計在團隊協作時（非技術人員修改 agents.yaml）是否真的降低了門檻？有沒有實際企業採用的案例分享？（建議搜尋：`CrewAI YAML configuration non-technical team collaboration enterprise`）
+
 ## 相關連結（Related）
 
 - [[AI-AGENT-DESIGN]] — 多代理人系統的設計原則，CrewAI 是最佳實踐範例

@@ -291,6 +291,15 @@ ANTHROPIC_API_KEY=你的API_Key
 - Claude Code 的 `soul/my-soul.md` + `data/raw/` 架構值得借鑒：將用戶畫像與原始資料分離，讓 Agent 可以依需求迭代
 - **調教期是必要的**：新 Agent 如同新員工，需要時間磨合，關鍵是持續反饋與修正
 
+## 待補充（Open Questions）
+
+- 定時任務插件（scheduler）不支援 Claude Subscription 方案，僅支援 API Key，這是技術限制還是商業政策？未來是否可能改變？（建議搜尋：`Claude Code scheduler plugin API key subscription limitation`）
+- 個性化資料（`data/raw/`）的資安風險如何管理？日常思考、交易記錄等敏感資料儲存在本地，若 Claude Code 將其傳送至 Anthropic 伺服器，有無資料使用政策規範？（建議搜尋：`Claude Code data privacy local files sent to Anthropic`）
+- 文章中的「個性化資料越豐富 Agent 越好」假設——資料量增加到何種程度開始出現邊際效益遞減？（建議搜尋：`AI agent personalization data volume diminishing returns`）
+- `soul/my-soul.md` 用戶畫像架構如何處理個人偏好隨時間演變的情況？是否需要定期重新填寫，還是有增量更新機制？（建議搜尋：`AI agent user profile update incremental personalization`）
+- 教程以 Windows 環境示範，但 Claude Code 在 Windows + Git Bash 環境下的功能完整性是否與 macOS/Linux 有已知差距？（建議搜尋：`Claude Code Windows Git Bash feature parity macOS`）
+- 接入 Telegram Bot 以「作者風格」回答群友，這種模擬個人風格的 AI 代理人在公開社群中是否有揭露義務或潛在誤導風險？（建議搜尋：`AI persona impersonation disclosure ethics social media bot`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-SETUP]] — Claude Code 安裝設定的詳細指南

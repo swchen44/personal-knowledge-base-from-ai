@@ -140,6 +140,15 @@ Jensen Huang 把 OpenClaw 比作 Linux、Kubernetes、HTTP——不是技術，�
 
 ---
 
+## 待補充（Open Questions）
+
+- 文章提到 42,665 個暴露的 OpenClaw 實例中 93.4% 有身份驗證繞過漏洞，這份資料的來源與掃描方法為何？是否有正式安全研究報告可查？（建議搜尋：`OpenClaw exposed instances authentication bypass security scan report`）
+- NemoClaw 的隱私路由器（Privacy Router）依「政策規則」決定資料走向，這些政策如何被稽核與驗證？是否有符合 GDPR 審計要求的記錄機制？（建議搜尋：`NemoClaw privacy router GDPR audit compliance logging`）
+- 「跨進程執行（out-of-process enforcement）」在高吞吐量場景（如每秒數百個代理人動作）下的延遲成本有多少？是否有效能基準數據？（建議搜尋：`out-of-process security enforcement latency overhead agent throughput`）
+- 文章建議現有 OpenClaw 用戶「觀察，不要切換」，但沒有說明 beta 版本的預計時間表。NVIDIA 的官方路線圖是否有具體 milestone？（建議搜尋：`NemoClaw beta roadmap release timeline NVIDIA`）
+- Nemotron 本地模型在推論能力上與 Claude/GPT-4 等前沿模型的差距有多大？隱私路由中「需要前沿能力的任務」的劃分標準是什麼？（建議搜尋：`Nemotron local model capability benchmark comparison frontier`）
+- 「身份冷啟動問題（Identity Cold Start Problem）」文章指出 NemoClaw 無法解決，但現有 OpenClaw 社群是否有標準化的 SOUL.md / USER.md 模板可供參考？（建議搜尋：`OpenClaw SOUL.md USER.md identity onboarding template community`）
+
 ## 相關連結（Related）
 
 - [[OPENCLAW-SECURITY-HARDENING]] — 作者提到的 17 項手動安全設定清單的出處

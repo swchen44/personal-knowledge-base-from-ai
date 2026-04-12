@@ -129,6 +129,14 @@ links:
 
 3. **六維度框架可以抽象為通用的 AI 提示詞設計原則**：明確主體 → 定義核心行為 → 界定邊界 → 指定觀察視角 → 設定風格基調 → 控制節奏。這個結構不僅適用於視頻，也適用於圖片生成甚至文字生成。
 
+## 待補充（Open Questions）
+
+- 六維度框架是否在不同 AI 視頻模型（Sora、Runway、Kling、Veo）上有不同效果？各模型對提示詞的敏感度差異是否有系統性比較？（建議搜尋：`AI video prompt comparison Sora Runway Kling model difference`）
+- 雙主體場景（如兩人對話、打鬥）中，如何定義「絕對主體」？六維度框架對多主體互動場景的適用性是否有任何延伸討論？（建議搜尋：`AI video prompt multiple subjects interaction`）
+- 文字直接生成視頻（Text-to-Video）與圖片生成視頻（Image-to-Video）在使用此框架時有無本質差異？哪些維度需要調整？（建議搜尋：`text to video vs image to video prompt engineering`）
+- 本文框架側重於「控制」，但 AI 生成的意外輸出有時具有藝術價值——如何在結構化控制與創意湧現（Emergent Creativity）之間取得平衡？（建議搜尋：`AI creative emergence vs controlled generation`）
+- 時間節奏（第六維度）的具體語言如何表達？業界是否有標準的鏡頭切換、動作速度的提示詞詞彙庫？（建議搜尋：`AI video pacing tempo prompt vocabulary`）
+
 ## 相關連結（Related）
 
 - [[2026-03-26-OPENAI-GPT54-PROMPT-GUIDANCE-COMPLETE-GUIDE]] — OpenAI 官方提示詞指南，同樣強調精確與結構化

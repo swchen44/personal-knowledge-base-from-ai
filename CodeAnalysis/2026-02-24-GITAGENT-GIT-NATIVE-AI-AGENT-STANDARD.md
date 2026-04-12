@@ -371,6 +371,14 @@ gitagent 最讓我眼睛一亮的是**把「合規」變成「測試」**的思�
 
 ---
 
+## 待補充（Open Questions）
+
+- gitagent 的 `spec_version` 目前只有 0.1.0，規格在成熟之前可能大幅變動。是否有向後相容（backward compatibility）的承諾或升級路徑文件？早期採用者如何評估遷移風險？（建議搜尋：`gitagent spec version compatibility migration path`）
+- `gitagent validate --compliance` 將 FINRA Rule 3110 程式化為 if 判斷式，但法規本身有大量模糊地帶和解釋空間。這樣的程式化合規驗證在真實監管審查中是否被接受？有無法律顧問背書？（建議搜尋：`AI compliance programmatic FINRA regulatory validation legal review`）
+- `gitagent run` 目前依賴外部框架（Claude API、OpenAI）實際執行，本身無完整 runtime。若要讓 gitagent 在 CI/CD 環境中真正自動執行，最小可行的設定步驟是什麼？（建議搜尋：`gitagent run CI/CD integration minimal setup`）
+- gitagent 定義的 `memory/` 資料夾只是 Markdown 檔案的約定，沒有語義搜尋能力。在實際使用中，一個代理人需要多少 memory 條目之後效能才開始明顯下降（context window 壓力）？（建議搜尋：`git-native agent memory scaling context window limits`）
+- gitagent 的 `openclaw` 轉接器（Adapter）是什麼？OpenClaw 是一個獨立框架還是 gitagent 生態的一部分？其與 ClawTeam 的關係為何？（建議搜尋：`openclaw agent framework gitagent adapter relationship`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-MEMORY-ENGINE]] — Claude Code 的記憶系統設計與 gitagent 的 `memory/` 資料夾概念高度重疊

@@ -483,6 +483,15 @@ disabledMcpServers: [
 - **鉤子的 PostToolUse 自動格式化**：讓 Claude 每次編輯後自動執行 Prettier + tsc，等於免費的品質保障
 - **Git Worktrees + 並行 Claude**：真正的並行開發，不是假的「一次做一件事」
 
+## 待補充（Open Questions）
+
+- 文章聲稱過多 MCP 會讓 200k 上下文縮至 70k，但此數字的測量條件為何？不同 MCP 對 token 的佔用量是否有官方文件可查？（建議搜尋：`Claude Code MCP context window token overhead benchmark`）
+- 鉤子（Hooks）的 matcher 語法支援哪些運算子與正規表達式？文章範例僅給出 `matches`，完整語法規格是否有正式文件？（建議搜尋：`Claude Code hooks matcher syntax specification`）
+- Git Worktrees 方案在 Windows 環境下（Git Bash）是否有已知限制或需要額外設定？（建議搜尋：`git worktrees Windows compatibility Claude Code`）
+- 子代理人的「沙箱化（sandboxed）」在實踐上是如何隔離的？若子代理人發生惡意或意外行為，宿主環境有什麼防護機制？（建議搜尋：`Claude Code subagent sandboxing security isolation`）
+- 文章提到 `mgrep` 比 ripgrep 顯著更好，但其優勢是否依賴 Mixedbread 的 embedding 服務，在離線環境或企業內網中是否仍然適用？（建議搜尋：`mgrep Mixedbread offline enterprise intranet`）
+- Zed 編輯器的代理人面板整合在 Linux 環境下的穩定性與 macOS 相比如何，是否有已知的跨平台差異？（建議搜尋：`Zed editor Linux agent panel Claude Code integration`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-MEMORY-ENGINE]] — Claude 的記憶系統架構與 CLAUDE.md 設計

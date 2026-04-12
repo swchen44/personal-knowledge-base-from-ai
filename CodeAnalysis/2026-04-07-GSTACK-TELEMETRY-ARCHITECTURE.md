@@ -425,6 +425,14 @@ rm -f ~/.gstack/analytics/.last-sync-time
 3. **Cursor file + append-only log** 比「刪除已送行」可靠太多。同樣模式可用在 outbox pattern。
 4. **Bash 內 `set -uo pipefail`（無 -e）+ 全部 `|| true`**：對於「絕不能影響主流程」的觀測程式碼是正確選擇，違反「fail fast」直覺但合理。
 
+## 待補充（Open Questions）
+
+- gstack-telemetry-sync 以 `tail -n +N` 做 cursor-based 同步，在高頻使用下 JSONL 檔案會持續增長。是否有 log rotation 的計劃，或者長期使用者該如何手動管理以避免效能退化？（建議搜尋：`logrotate jsonl append-only log rotation bash`）
+- 三層隱私設計（off/anonymous/community）中，`off` 模式下 preamble 仍會 inline 寫一筆本地 JSONL。這筆紀錄的生命週期是什麼？會不會在 tier 改為 community 後被誤上傳？（建議搜尋：`gstack telemetry off tier local only jsonl`）
+- Supabase anon key 是否硬編碼在 `supabase/config.sh` 中？如果 key 洩漏或需要 rotate，客戶端要怎麼更新？（建議搜尋：`supabase anon key rotation client update`）
+- `gstack-telemetry-sync` 目前用 sed denylist 剝除敏感欄位。若未來新增了帶有 PII 的欄位但忘記更新 denylist，有沒有自動化的防護機制？（建議搜尋：`pii scrubbing allowlist denylist bash telemetry`）
+- edge function 沒有 idempotency key，重複送同一筆事件會造成重複計算。若要加入 idempotency，Supabase 端的 UNIQUE constraint 應該加在哪個欄位？（建議搜尋：`supabase idempotency unique constraint insert edge function`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-SKILL-ARCHITECTURE]] — gstack 的 skill 為何是獨立 process

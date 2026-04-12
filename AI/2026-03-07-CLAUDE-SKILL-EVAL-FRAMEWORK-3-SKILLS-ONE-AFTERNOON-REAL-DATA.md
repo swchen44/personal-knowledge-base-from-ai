@@ -161,6 +161,15 @@ Analyze pull request diffs and code changes against team-specific coding standar
 
 Benchmark 模式的量化角度（40% token vs 70% 修正減少）也很實用——讓 skill 投資的取捨從「感覺好像有幫助」變成可以說明的數字。
 
+## 待補充（Open Questions）
+
+- 文章的 Benchmark 模式中，5 個 PR diff 測試案例是否足以代表真實分布？小樣本數下，通過率從 3/5 到 4/5 的統計意義有多大？（建議搜尋：`AI skill eval statistical significance small sample benchmark`）
+- 序列錯誤（sequence error）的偵測仍需人工讀取完整執行記錄（eval transcript），是否有自動化偵測步驟順序問題的方案？（建議搜尋：`LLM agent step order verification automated eval`）
+- 描述優化使觸發精準度從 7/10 升至 9/10，但 10 個樣本的評估基礎是否太小？有無更大規模的觸發測試建議？（建議搜尋：`skill trigger description optimization sample size`）
+- 「在寫 skill 之前先寫測試案例」的 TDD 方法，如何避免測試案例本身的設計偏見（即寫出的測試案例只覆蓋已知 happy path）？（建議搜尋：`AI skill TDD test case design bias coverage`）
+- 評估框架目前無法在 CI/CD 中自動觸發，若要整合到 PR 流程，有哪些已知的可行方案？（建議搜尋：`Claude skill eval CI CD integration automation`）
+- 能力提升型 Skill（Capability Uplift）的退役判斷依賴基礎模型評估通過，但評估標準本身是否需要隨時間更新以避免評估過時（evaluation staleness）？（建議搜尋：`AI capability skill retirement evaluation staleness`）
+
 ## 相關連結（Related）
 
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — skill-creator 評估框架的詳細說明與四項核心能力

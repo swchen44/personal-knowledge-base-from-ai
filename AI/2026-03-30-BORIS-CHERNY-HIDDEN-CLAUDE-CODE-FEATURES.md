@@ -227,6 +227,15 @@ claude --add-dir /path/to/repo-B
 2. **`claude -w` + Worktrees** — 對需要同時跑多個任務的人是倍增器（Force Multiplier）
 3. **Hooks + SessionStart** — 把 CLAUDE.md 的靜態指令升級為動態上下文載入
 
+## 待補充（Open Questions）
+
+- `/batch` 能分發給「數百乃至數千個 Agent」——這個規模下的 API 費用估算為何？有沒有官方的成本計算器或用量預警機制防止帳單爆炸？（建議搜尋：`Claude Code batch agents cost estimation token billing`）
+- `--teleport` 跨裝置切換 session 時，session 的狀態（包括 context history 和 Tools 狀態）如何同步？若在手機和桌機間快速切換，是否有 race condition 的風險？（建議搜尋：`Claude Code teleport session state sync race condition`）
+- Dispatch 的「安全遠端控制」具體採用什麼安全協議？在公共 WiFi 或企業防火牆環境下，遠端控制本機 MCP 和瀏覽器的資料傳輸是否經過端對端加密？（建議搜尋：`Claude Code Dispatch remote control security protocol encryption`）
+- `/btw` 的「不打斷主流程」是透過什麼機制實現的？在技術實作上，主任務和 `/btw` 問題是否在同一個 context window 中處理，還是完全隔離的平行處理？（建議搜尋：`Claude Code /btw parallel context implementation`）
+- `claude -w` + Git Worktrees 同時跑數十個 Claude 實例時，每個 worktree 是否有獨立的 CLAUDE.md 設定層級？不同 worktree 的 Hook 是否互相干擾？（建議搜尋：`Claude Code worktree CLAUDE.md hooks isolation multiple instances`）
+- Claude Code iOS/Android App 目前的功能集和 CLI 有何差異？行動裝置上是否能完整執行 Hooks、Worktrees 和 MCP 等進階功能？（建議搜尋：`Claude Code mobile app feature parity iOS Android CLI`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS]] — Hooks 機制深入探討

@@ -128,6 +128,15 @@ LLM 本質是機率模型，存在「幻覺（hallucination）」問題——生
 
 ---
 
+## 待補充（Open Questions）
+
+- Bolin 的案例以大型科技公司（Meta、OpenAI）為背景，這些建議對中小型新創公司或非矽谷環境的工程師是否同樣適用？（建議搜尋：`software engineer career advice startups vs big tech`）
+- 「底層理解力（deep system knowledge）」的邊界如何定義？精通到哪個層次才足以有效審查 AI 生成程式碼，有沒有量化框架？（建議搜尋：`software engineer competency framework systems knowledge levels`）
+- CTF（Capture the Flag）競賽在台灣或亞洲地區的生態系如何？哪些平台最適合工作中的工程師利用碎片時間練習？（建議搜尋：`CTF platforms beginner working engineer picoCTF`）
+- 技術寫作（technical writing）的具體訓練方法有哪些？是否有系統性課程或書籍可參考，特別適合非母語英文的工程師？（建議搜尋：`technical writing for engineers courses books`）
+- Bolin 在 OpenAI 期間提到把「天馬行空的數學理論轉化為 CUDA 程式碼」——這類 ML Infrastructure 工程師的人才供需現況如何，與純應用工程師相比薪資差異有多大？（建議搜尋：`ML infrastructure engineer salary GPU programming career`）
+- E8 到 E9 的晉升失敗（英雄主義陷阱）是否有產業研究數據支撐，還是僅為個人敘事？其他公司（Google L8→L9、Amazon P7→P8）是否有類似的晉升模式轉變？（建議搜尋：`staff engineer principal engineer promotion failure reasons research`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE]] — Claude Code 就是 Codex 後繼概念的延伸，AI 取代命令列重複工作

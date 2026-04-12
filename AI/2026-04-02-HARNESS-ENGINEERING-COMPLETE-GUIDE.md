@@ -192,6 +192,15 @@ Harness Engineering → 建立持續監控與糾偏機制
 2. 六層架構是一個很好的自查框架：信息邊界→工具系統→執行編排→記憶狀態→評估觀測→約束恢復
 3. Anthropic 的 Context Reflect（重啟進程而非壓縮）和 OpenAI 的 AGENTS.md 目錄化思路，都指向同一個核心原則：**上下文是稀缺資源，必須精打細算**
 
+## 待補充（Open Questions）
+
+- Anthropic 的「Context Reflect」（啟動乾淨新 Agent 接手工作）與 Compaction（壓縮歷史）的選擇依據為何？文中以「記憶體洩漏」比喻，但實際觸發 Context Reflect 的條件是否有量化閾值（如 context 使用率 >X%）？（建議搜尋：`Anthropic Context Reflect vs Compaction threshold trigger`）
+- 「生產與驗收分離（Planner/Generator/Evaluator 三代理架構）」中，Evaluator 的角色是另一個 LLM call 還是可插拔的外部驗證程式？若評估需要操作真實瀏覽器，這個架構的延遲成本有多大？（建議搜尋：`Anthropic Planner Generator Evaluator architecture latency cost`）
+- Harness Engineering 是否已有正式的業界標準定義或規範文件？目前這個術語主要由 Anthropic 和 OpenAI 推廣，有沒有第三方（如 Linux Foundation、CNCF）嘗試制定相關標準？（建議搜尋：`Harness Engineering standard definition industry body`）
+- 六層 Harness 架構的「第六層：約束與恢復」在極端失敗情境（如 Agent 開始刪除生產資料庫）下，有沒有「硬停機（Hard Stop）」機制不依賴 LLM 自身判斷？純 LLM 約束層的可靠性邊界在哪裡？（建議搜尋：`AI agent hard stop kill switch harness constraint layer`）
+- OpenAI 把「資深工程師經驗寫成系統規則」——這個知識擷取（Knowledge Elicitation）過程是否有方法論指引？隱性知識（Tacit Knowledge）如何被系統化地轉換成 Agent 可使用的顯性規則？（建議搜尋：`tacit knowledge elicitation AI agent rules engineering`）
+- 此影片以中文講解的 Harness Engineering，其中的技術術語翻譯（如「馬具工程」）是否已有業界共識？不同中文技術社群（台灣、中國、香港）對同一概念的命名是否存在分歧？（建議搜尋：`Harness Engineering 中文術語翻譯 AI 工程`）
+
 ## 相關連結（Related）
 
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 的內部架構正是 Harness Engineering 的具體實現

@@ -310,6 +310,14 @@ cd ~/.claude/hooks-repo && npm test
 
 **Regex 陣列 + 等級過濾**的模式也值得借鑑：把「規則清單」和「處理邏輯」完全分離，新增或修改規則不觸碰業務邏輯，只改資料陣列。
 
+## 待補充（Open Questions）
+
+- `block-dangerous-commands.js` 使用正規表示式（Regex）比對 23 個危險模式，但複雜的 Bash 指令（多行、HERE-DOC、管道組合）可能繞過或誤觸。是否有已知的 bypass 手法，以及對應的 AST 解析替代方案？（建議搜尋：`bash command pattern matching AST parser shell injection bypass`）
+- 這個 repo 採用 Node.js 零依賴設計，但 `protect-secrets.js` 中的 `fs.appendFileSync` 是同步阻塞呼叫。若在大型 monorepo 中高頻觸發（每次編輯都執行），對 Claude Code 體感流暢度的影響是否可量測？（建議搜尋：`claude code hooks latency performance synchronous blocking`）
+- `notify-permission.js` 目前只支援 Slack，作者的 roadmap 提到 Discord/ntfy。有沒有社群已經自行實作的 Telegram 或 macOS 原生通知版本可以參考？（建議搜尋：`claude code hooks notification telegram desktop notify`）
+- 多個 hook 腳本同時運行時（如 `block-dangerous-commands` 和 `protect-secrets` 都掛在 PreToolUse），Claude Code 是序列執行還是並行執行？若序列執行，多個 hook 的總延遲如何估算？（建議搜尋：`claude code hooks execution order sequential parallel`）
+- Claude Code 的 `PreToolUse` hook 若輸出 `permissionDecision: deny`，Claude 會怎麼處理？是直接報錯還是嘗試改換指令重試？這對整體工作流有什麼影響？（建議搜尋：`claude code hooks permission denied behavior retry`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-HOOKS-GUIDE]] — Hooks 完整概念指南，13 個事件類型詳解

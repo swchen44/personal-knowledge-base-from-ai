@@ -152,6 +152,14 @@ find ~/.claude/skills/ -type l -lname "*/plugins/*" -delete 2>/dev/null
 
 在 `/context` 指令的 Skills 區塊確認改善效果。**臭蟲二（提示建構）需等待 Anthropic 修復，目前無法從使用者端完全解決。**
 
+## 待補充（Open Questions）
+
+- 臭蟲二（提示建構重複登錄）已有 GitHub Issue #27721 記錄超過 4 個月且無受理人。Anthropic 的外掛系統架構是否有計劃從根本上重設計（例如加入去重層），還是只會在表層 patch？（建議搜尋：`claude code plugin skill deduplication architecture fix roadmap`）
+- 清除快取和符號連結後，`/context` 指令顯示的 preamble 減少了多少百分比？不同使用者的實測數據有沒有被彙整？（建議搜尋：`claude code context preamble overhead measurement benchmark`）
+- MCP 工具定義在 `/context` 中隱藏（顯示 13% 但實際 40K tokens），`/doctor` 是否能準確反映所有隱藏的 context 消耗來源，包含 MCP 工具、plugin 等？（建議搜尋：`claude code doctor context window hidden usage MCP`）
+- 外掛停用（`enabledPlugins: false`）後，其工具定義真的完全不注入 context，還是只是使用者看不到但仍然在後台載入？（建議搜尋：`claude code disabled plugin context injection system prompt`）
+- `settings.local.json` 的 permission 條目累積問題：在 permissive 模式下清除後，之前允許的工具操作是否需要重新確認？清除後對工作流程的影響是什麼？（建議搜尋：`claude code settings local permission cleanup permissive mode`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 技能系統架構與設計

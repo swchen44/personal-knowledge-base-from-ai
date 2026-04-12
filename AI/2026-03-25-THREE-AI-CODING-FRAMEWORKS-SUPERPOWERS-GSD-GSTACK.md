@@ -203,6 +203,15 @@ gstack 推薦用 Conductor 做並行開發（作者同時跑 10–15 個任務�
 3. Auto Research 的循環模式是「無人值守 CI」的雛形，值得在自己的專案中實驗
 4. 上下文窗口 50%/70% 的品質拐點是一個很實用的經驗法則
 
+## 待補充（Open Questions）
+
+- 影片引用的「上下文窗口 50%/70% 品質拐點」數據從何而來？是有控制變因的 A/B 測試，還是工程師的主觀觀察？不同模型（Sonnet vs Opus）在這個拐點上是否有顯著差異？（建議搜尋：`context window quality degradation benchmark LLM`）
+- gstack 的 15 個角色中，「設計審查角色×3」如何避免「千篇一律 UI」的問題？這類角色扮演提示（Role Prompting）對不同視覺風格任務的效果是否有評估數據？（建議搜尋：`gstack design review roles AI UI uniqueness evaluation`）
+- Conductor（並行任務管理工具）只支援 macOS/Linux 的原因是什麼？有無 Windows 上可達到同等效果的替代工具？`claude -w` 在不同 shell 環境的相容性如何？（建議搜尋：`Conductor parallel AI tasks Windows alternative`）
+- Superpowers 的「強制 TDD」機制是在 prompt 層面實施，還是有工具層面的強制執行（如攔截 commit）？若 Claude 跳過測試，框架有沒有偵測和回滾機制？（建議搜尋：`Superpowers AI coding framework TDD enforcement mechanism`）
+- Auto Research 的「可量化單一指標」概念在軟體工程中的可行性有多高？當優化目標互相衝突時（如覆蓋率 vs 執行速度），循環如何決定「保留 vs 重置」？（建議搜尋：`auto research software optimization multi-objective metric`）
+- GSD 的「原子任務（Atomic Tasks）」拆分策略是否有輔助工具自動建議拆分點？人工拆分在大型重構中是否本身就是瓶頸，且難以預先完整定義？（建議搜尋：`GSD atomic task decomposition AI coding workflow`）
+
 ## 相關連結（Related）
 
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 本影片討論的三個框架正是 Harness Engineering 的具體實踐

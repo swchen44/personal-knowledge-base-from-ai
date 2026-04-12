@@ -238,6 +238,15 @@ links:
 
 ---
 
+## 待補充（Open Questions）
+
+- 蘇格拉底式提問框架在東方文化脈絡下（如台灣、日本）的接受度與效果是否有研究數據支撐，或是否有文化適應問題？（建議搜尋：`Socratic questioning cross-cultural effectiveness Asia`）
+- 文章強調「語料庫鎖定」能降低幻覺，但若個人語料庫本身存在偏見或錯誤，AI 是否會放大這些問題而非糾正？（建議搜尋：`RAG knowledge base bias amplification`）
+- 五維追問協議（澄清→假設→證據→觀點→後果）有無最佳執行順序，或在不同決策場景下應優先選用哪一維？（建議搜尋：`Socratic questioning optimal sequence decision making`）
+- 與真人蘇格拉底式對話（如教練、顧問）相比，AI 蘇格拉底框架在長期認知技能養成上的效果有多少差距？（建議搜尋：`AI tutoring Socratic method long-term learning outcomes`）
+- 文章的「三重回饋（策略解析 + 風險評估 + 延伸思考）」在情緒敏感或衝突性決策場景中（如人際關係、危機處理）是否仍然適用？（建議搜尋：`AI decision support emotional context sensitive topics`）
+- 系統指令以「華語版本」為唯一合法版本的設計，在跨語言團隊或國際應用中是否形成落差，有無可信的多語言移植方案？（建議搜尋：`system prompt multilingual localization LLM`）
+
 ## 相關連結（Related）
 
 - [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — Claude Code 進階長文指南，含 Claude Project 的使用方式

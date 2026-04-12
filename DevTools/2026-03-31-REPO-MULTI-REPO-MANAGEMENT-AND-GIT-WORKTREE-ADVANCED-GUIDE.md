@@ -747,6 +747,15 @@ git branch -d hotfix/login-crash
 
 ---
 
+## 待補充（Open Questions）
+
+- `repo --worktree` 模式在官方文件中標注為「experimental」，實際上在 AOSP 或 ChromiumOS 的正式生產環境中是否已被廣泛採用？還是仍以 symlink 模式為主？（建議搜尋：`repo worktree mode AOSP production usage`）
+- `repo sync` 不影響手動建立的 extra worktrees 是實測結論，但當 `repo sync --force-sync` 時（強制重置到 manifest 指定狀態）行為是否一致？（建議搜尋：`repo sync force-sync worktree behavior`）
+- `worktreeConfig = true` 允許 per-worktree 設定（如不同的 `user.email`），但在實際的企業開發場景中，這個功能的典型用途是什麼？有沒有公開的最佳實踐文件？（建議搜尋：`git worktreeConfig per-worktree config use cases`）
+- Manifest XML 的 `<project>` 標籤是否支援指定 worktree 相關的屬性（如 clone-depth、特定 revision）？這些屬性在 `--worktree` 模式下的行為是否與 symlink 模式一致？（建議搜尋：`repo manifest project attributes worktree mode`）
+- 在跨 NFS 或 Docker volume 掛載的場景中，gitdir 指標檔（純文字）是否比 symlink 更可靠？有沒有已知的路徑解析問題？（建議搜尋：`git worktree gitdir NFS docker volume path resolution`）
+- `git worktree prune` 的觸發時機與清理邏輯是什麼？若 worktree 目錄被直接刪除（而不是用 `git worktree remove`），是否會殘留 orphan metadata？（建議搜尋：`git worktree prune orphan metadata cleanup`）
+
 ## 相關連結（Related）
 
 - [[GIT-INTERNALS]] — git 底層物件模型（commits、trees、blobs）的詳細說明

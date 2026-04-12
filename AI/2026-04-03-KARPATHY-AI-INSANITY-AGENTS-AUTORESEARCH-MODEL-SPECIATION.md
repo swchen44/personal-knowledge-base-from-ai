@@ -202,6 +202,15 @@ Karpathy 的「AI 精神錯亂」其實是一種認知狀態的描述：**可能
 - **觀點**：從閉源模型公司（OpenAI、Anthropic）的立場看，6-8 個月的領先是否足以支撐商業模式？如果差距繼續縮小，他們的護城河在哪裡？
 - **後果**：若「人類互相教授知識的時代結束」成真，對教育產業（大學、補習班、線上課程平台）的衝擊有多大？教師的角色會如何轉變？
 
+## 待補充（Open Questions）
+
+- 自動研究（AutoResearch）在「無客觀評估指標」的領域（如設計決策、商業策略）是否有可行的替代方案，或是根本無法自動化？（建議搜尋：`AutoResearch subjective evaluation metric`）
+- Token 吞吐量作為生產力指標的具體計算方式是什麼？是 API 費用、Token 數量、還是有效產出與 Token 的比率，業界有無共識標準？（建議搜尋：`AI productivity metrics token throughput measurement`）
+- 大模型物種分化（Model Speciation）的技術前提——「微調不損通用能力」——目前最新的研究進展如何？持續學習（Continual Learning）和 LoRA 微調在這方面有什麼突破？（建議搜尋：`LLM continual learning catastrophic forgetting LoRA`）
+- Auto Research @ home 的分散式驗證機制如何防止惡意節點注入有害程式碼？與 Folding@home 的模型相比，安全假設有何本質差異？（建議搜尋：`distributed AI research security adversarial nodes`）
+- 開源與閉源模型「差距 6-8 個月」的判斷基準是哪些 benchmark？在編程、數學推理、創意寫作等不同任務類型上，差距是否一致？（建議搜尋：`open source closed source LLM benchmark gap 2025`）
+- Karpathy 預測「1-3 年家庭自動化免費化」——這個時間線背後的假設是什麼？隱私法規（如 GDPR、台灣個資法）對家庭 Agent 的部署有多大阻力？（建議搜尋：`home automation AI privacy regulation`）
+
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-ARCHITECTURE]] — Agent 編程架構的具體實作（與 Karpathy 描述的工作流高度相關）

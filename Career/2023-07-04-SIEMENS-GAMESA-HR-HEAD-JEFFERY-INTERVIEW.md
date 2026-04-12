@@ -159,6 +159,14 @@ Jeffery 提到曾有過 **7 個月的待業期**，這段經歷是深刻的警�
 
 ---
 
+## 待補充（Open Questions）
+
+- 台灣離岸風電從 40 人成長到 330 人的招募策略中，「無現成人才」的挑戰如何解決？從哪些產業跨界引進（如石油鑽井、海洋工程），以及跨界人才的成功率如何？（建議搜尋：`offshore wind talent acquisition cross-industry Taiwan renewable energy`）
+- HR 將 60% 行政工作外包並推動員工自助服務（Self-Service）的具體成效如何量化？外包後的服務品質控管機制是什麼？（建議搜尋：`HR outsourcing self-service ROI quality control measurement`）
+- 西門子歌美颯在台灣面臨的 16 個國家員工多樣性管理，具體有哪些文化衝突案例？歐洲總部的 HR 政策如何因應亞太市場（特別是台灣勞動法規）進行在地化調整？（建議搜尋：`multinational HR localization Taiwan labor law European company`）
+- 台灣能源安全角度（石油撐 1 週、天然氣 2 週）的敘述背景是 2023 年——在俄烏戰爭後全球能源政策重組的情況下，台灣離岸風電的地緣政治定位有何新的發展？（建議搜尋：`Taiwan offshore wind energy security geopolitics 2024`）
+- Jeffery 提到 7 個月待業期是職涯警鐘——台灣 HR 在外商體系的市場流動性與薪資中位數目前如何？與十年前相比有何結構性變化？（建議搜尋：`台灣 HR 薪資中位數外商職缺 2024`）
+
 ## 相關連結（Related）
 
 - [[HR-BUSINESS-PARTNER]] — 影片深度解析 HR BP 角色在外商三隻腳架構中的定位

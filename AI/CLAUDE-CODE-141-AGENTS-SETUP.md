@@ -102,6 +102,14 @@ Each team lives in .claude/teams/<color>-team.yaml with:
 - **ROI math**: 45-hour setup cost, 12–15 hours/week savings → break-even in ~3 weeks for CTOs managing 7+ person teams; overkill for solo devs on small projects
 - The repo **claude-code-tresor** (288 stars) is worth cloning as a starting template
 
+## 待補充（Open Questions）
+
+- 「3 agents max per team」的 4-minute vs 12-minute handoff 數據是如何量測的？計時起點和終點如何定義，且這個數字對不同任務類型（code review vs. 資料庫遷移）是否有差異？（建議搜尋：`multi-agent handoff latency measurement benchmark`）
+- 15% handoff information loss 的具體原因是什麼？除了寫入 .claude/decisions.md，是否有其他減少資訊遺失的機制（如結構化 handoff schema、向量記憶庫）？（建議搜尋：`agent handoff information loss reduction strategies`）
+- Skill drift（第 6 個月 Code Review 少偵測 62% 問題）的根本原因是什麼？是 prompt 腐化、模型更新，還是程式碼庫本身的語意漂移？如何設計月度 skill audit 流程？（建議搜尋：`agent skill drift prompt decay monthly audit`）
+- 「context_isolation: strict」模式下，不同 team 之間如何共享確實需要共享的資訊（如架構決策、全域常數）？shared .claude/decisions.md 是否足夠，或需要更精細的選擇性共享機制？（建議搜尋：`agent context isolation selective sharing cross-team`）
+- 顏色命名系統（color-coded teams）在超過 10 個 team 時如何擴展？顏色數量有限，是否有其他命名空間策略可供參考？（建議搜尋：`multi-agent team naming strategy namespace scaling`）
+
 ## Related
 
 - [[CLAUDE-MEMORY-ENGINE]] — complementary system: memory + learning across sessions; hooks architecture maps to this team system

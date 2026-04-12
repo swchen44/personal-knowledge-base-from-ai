@@ -671,6 +671,15 @@ echo "0 3 * * * cd /workspace-shared && repo sync -j8" | crontab -
 
 ---
 
+## 待補充（Open Questions）
+
+- OpenClaw Plugin SDK 目前處於哪個穩定版本？`onSessionStart`、`onSessionEnd`、`onPreCompact` 等 hook API 在過去的 minor version 之間是否曾有 breaking change？（建議搜尋：`openclaw plugin sdk hook api changelog breaking change`）
+- LanceDB 的向量索引在 macOS 上的 ARM 架構（Apple Silicon）和 x86 Linux 上的效能差異如何？韌體工程師的開發機環境是否需要特別的建置設定？（建議搜尋：`lancedb apple silicon arm performance setup`）
+- OpenClaw 常駐 daemon 的安全模型為何？外部攻擊者若能存取開發機的 Slack/Teams 帳號，是否可以讓 Expert 執行任意指令？allowlist 的邊界怎麼設定才安全？（建議搜尋：`openclaw daemon security model allowlist command injection`）
+- Gerrit Change-ID 傳遞是透過 announce 訊息（純文字），若 framework-base-expert 誤解 Change-ID 格式或 sub-agent announce 訊息結構改變，整個 pipeline 會如何失效？是否應該有結構化的 handoff 格式？（建議搜尋：`openclaw sub-agent announce structured output contract`）
+- 多個 Expert sub-agent 同時寫入 LanceDB 的同一個 shared table 時，是否有 write contention 問題？LanceDB 的並發寫入模型是什麼？（建議搜尋：`lancedb concurrent write transaction isolation`）
+- OpenClaw 的 `sessions_spawn` 在 sub-agent 執行期間若主 agent session 超時或被重啟，sub-agent 的執行狀態與 LanceDB 寫入是否能保持一致？（建議搜尋：`openclaw sessions spawn parent session timeout recovery`）
+
 ## 延伸閱讀
 
 - [Connsys-Jarvis Stage 3 × ClawTeam 設計](2026-03-29-CONNSYS-JARVIS-STAGE3-CLAWTEAM-EXPERT-SWARM-DESIGN.md)

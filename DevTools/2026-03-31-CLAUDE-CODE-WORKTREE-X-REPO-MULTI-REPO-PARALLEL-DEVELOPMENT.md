@@ -520,6 +520,15 @@ git push origin hotfix-login-crash-merge
 
 ---
 
+## 待補充（Open Questions）
+
+- EnterWorktree 忽略 WorktreeCreate/WorktreeRemove hooks 的 bug（#36205）目前修復狀態如何？是否有已知的 workaround 讓 subagent 觸發的 worktree 也能走 hook 腳本？（建議搜尋：`Claude Code EnterWorktree hook bug 36205 fix`）
+- `isolation: worktree` 的 subagent 設定在哪個版本的 Claude Code 開始穩定支援？是否有官方文件說明 subagent 的 worktree 生命週期（何時建立、何時清除）？（建議搜尋：`Claude Code subagent isolation worktree lifecycle docs`）
+- 當多個 Claude session 並行工作並產生衝突的 commits 時，merge 策略是由人工決定還是可以設定自動合併策略？在實際大型 AOSP 開發場景中，這個工作流如何與 Gerrit code review 流程整合？（建議搜尋：`Claude Code worktree merge strategy Gerrit integration`）
+- `repo forall` 不感知 worktrees 的限制是否有計畫改善？目前是否有社群工具可以對 workspace 內所有 worktrees 批次執行命令？（建議搜尋：`repo forall worktree aware batch operation`）
+- 文中提到的 DevContainer/Docker per worktree 方案與 Claude Code 的 devcontainer 支援具體整合方式是什麼？有沒有實際的配置範例？（建議搜尋：`Claude Code devcontainer worktree isolation docker`）
+- 三層 worktree 巢狀結構下，CI/CD 系統（如 GitHub Actions 或 Jenkins）如何感知並正確執行針對 worktree branch 的 pipeline？（建議搜尋：`git worktree CI CD GitHub Actions Jenkins pipeline`）
+
 ## 相關連結（Related）
 
 - [[2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] — 本文的前篇，repo 三層架構與 git worktree 原理
