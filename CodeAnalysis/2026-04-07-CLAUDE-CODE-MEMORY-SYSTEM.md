@@ -537,6 +537,7 @@ find ~/.claude/projects -name "MEMORY.md"
 - [[CONTEXT-ENGINEERING-PATTERNS]] — Context engineering 通用模式整理
 - [[FORKED-SUBAGENT-PATTERN]] — Sub-agent fork + prompt cache 共享技術
 - [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
+- [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — Worktree 的檔案操作追蹤，與記憶系統的檔案操作可對照參考
 
 ---
 

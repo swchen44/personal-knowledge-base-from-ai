@@ -751,6 +751,7 @@ claude /plugin uninstall my-plugin --scope user
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — 記憶系統同樣採用分層架構，與 plugin 的 scope 設計理念一致
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — Team Memory 的同步機制可與 project scope plugin 對照理解
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — Hooks 系統的深度分析，plugin hooks 是其擴充形式
+- [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — 同樣以檔案操作角度分析 Claude Code 功能的姊妹文
 
 ## References
 

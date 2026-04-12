@@ -534,6 +534,7 @@ git push origin hotfix-login-crash-merge
 - [[2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] — 本文的前篇，repo 三層架構與 git worktree 原理
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Claude Code Hooks 完整指南，含 WorktreeCreate 詳解
 - [[GIT-INTERNALS]] — git objects、refs、worktree 底層機制
+- [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — 從原始碼逐行追蹤 worktree 的檔案操作（新增/修改/讀取/刪除）
 
 ## References
 

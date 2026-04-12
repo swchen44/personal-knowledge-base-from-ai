@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code Worktree 檔案操作全解析：從原始碼追蹤到 repo 整合](./DevTools/2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION.md) — 逐行追蹤 worktree 建立/使用/清理的檔案操作，結合 repo forall + Gerrit topic 的 Multi-Repo 實戰
 - [Claude Code Plugin 完整生命週期 — 安裝/停用/移除/更新的檔案影響全解析](./CodeAnalysis/2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE.md) — 追蹤 Plugin 五大操作（安裝/使用/停用/移除/更新）會觸碰的所有檔案，比較三種 Scope（user/project/local）差異
 - [Claude Code 監控實戰：OpenTelemetry 設定、生產堆疊與團隊數據揭示的 8 個關鍵指標](./DevTools/2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA.md) — 七人團隊部署 OpenTelemetry 監控 Claude Code，揭示快取效率差異與採用率落差
 - [AI 一人公司實戰：Karpathy 知識庫架構、多模型角色分工與 OpenCLI 自動化信息採集](./AI/2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI.md) — 一人公司四步閉環、多 AI 擬人化角色分工（GPT/Claude/Grok/Doubao）、知識庫「憲法」與編譯健檢機制、OpenCLI 自動採集

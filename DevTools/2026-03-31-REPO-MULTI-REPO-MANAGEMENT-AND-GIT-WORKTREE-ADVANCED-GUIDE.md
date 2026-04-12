@@ -762,6 +762,7 @@ git branch -d hotfix/login-crash
 - [[MONOREPO-VS-MULTI-REPO]] — monorepo 與 multi-repo 的架構選型討論
 - [[ANDROID-BUILD-SYSTEM]] — AOSP 的 repo 使用實踐，以及 `repo upload` 與 Gerrit 的整合
 - [[2026-03-31-CLAUDE-CODE-WORKTREE-X-REPO-MULTI-REPO-PARALLEL-DEVELOPMENT]] — 本文的續集，將 repo + git worktree 與 Claude Code --worktree 結合的並行開發實戰
+- [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — 從檔案操作角度追蹤 worktree 建立/清理各階段的新增/修改/讀取
 
 ## References
 

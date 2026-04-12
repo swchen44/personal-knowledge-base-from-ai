@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] | Claude Code Worktree 檔案操作全解析：從原始碼追蹤新增/修改/讀取，到 repo Multi-Repo 整合實戰 | 2026-04-12 |
 | [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] | Claude Code 監控實戰：OpenTelemetry 設定、生產堆疊與團隊數據揭示的 8 個關鍵指標 | 2026-04-11 |
 | [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] | Claude Code 原始碼洩漏！11 個隱藏秘密完整解析 | 2026-04-02 |
 | [[2026-03-31-REPO-MULTI-REPO-MANAGEMENT-AND-GIT-WORKTREE-ADVANCED-GUIDE]] | Multi-Repo 管理利器：repo 工具原理剖析 + Git Worktree 進階實戰（含原生 --worktree 模式） | 2026-03-31 |
