@@ -243,6 +243,7 @@ Team Memory 的設計揭示了一個重要的 **「共享知識 vs 個人偏好�
 - [[CLAUDE-MEMORY-ENGINE]] — 個人記憶引擎設計，與 team memory 的私有側設計呼應
 - [[FORKED-SUBAGENT-PATTERN]] — extraction sub-agent 用來寫 team memory 的背後技術
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 從監控角度看團隊 Claude Code 管理，與本文的記憶系統角度互補
+- [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 
 ---
 

@@ -323,6 +323,7 @@ cd ~/.claude/hooks-repo && npm test
 - [[CLAUDE-CODE-HOOKS-GUIDE]] — Hooks 完整概念指南，13 個事件類型詳解
 - [[CLAUDE-CODE-SKILLS]] — Claude Code Skill 系統，與 Hooks 互補的自動化機制
 - [[AI-AGENT-SAFETY]] — AI 代理安全控制模式，含護欄（Guardrail）設計思路
+- [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 
 ## References
 

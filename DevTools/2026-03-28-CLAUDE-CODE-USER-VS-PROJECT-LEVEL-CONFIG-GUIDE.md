@@ -458,6 +458,7 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 - [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] — settings.json 中 enabledPlugins 設定與外掛重複載入問題的實戰診斷
 - [[2026-03-31-CLAUDE-CODE-WORKTREE-X-REPO-MULTI-REPO-PARALLEL-DEVELOPMENT]] — Worktree 模式下的專案層級配置隔離策略
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 團隊統一 settings.json 配置遙測環境變數的實際範例
+- [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 
 ## References
 
