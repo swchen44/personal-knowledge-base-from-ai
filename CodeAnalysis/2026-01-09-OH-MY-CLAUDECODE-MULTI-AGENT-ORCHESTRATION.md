@@ -1682,3 +1682,33 @@ Layer 5：狀態持久化
 - [官方文件](https://yeachan-heo.github.io/oh-my-claudecode-website)
 - [npm 套件（oh-my-claude-sisyphus）](https://www.npmjs.com/package/oh-my-claude-sisyphus)
 - [ARCHITECTURE.md](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/main/docs/ARCHITECTURE.md)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 魔術關鍵字（ralph / autopilot / ulw / ralplan）；19 個專業代理人；12 個 Hook 事件點；技能系統（Skills）+ Hooks 雙軌架構；Haiku/Sonnet/Opus 三層模型路由；omc CLI 作為「會話外控制器」；HUD 狀態列；13,861 顆 GitHub Stars |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | OMC 的核心設計哲學是「技能即文件（Skills as Documents）」：工作流邏輯寫在 Markdown 中，Claude 直接閱讀後執行，使工作流可被版本控制、社群貢獻、零程式碼修改。Hook 系統介入 Claude Code 的生命週期事件實現關鍵字偵測與行為注入，而 omc CLI 則填補 Session 邊界的空隙（啟動前環境準備、Rate Limit 恢復、跨 session 搜尋）。ralph 模式的 PRD 驅動驗收解決「AI 假完成」問題。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①「三層模型路由能節省 30-50% 成本」的假設缺乏公開的對照實驗數據，實際節省率高度依賴任務分類邏輯準確性；②ralph 模式假設「連續 3 波 clean 等同於任務真正完成」，但這個終止條件在邏輯迴圈型任務中可能無法收斂；③MCP 工具伺服器作為所有 LSP/AST/記憶工具的單一入口，隱含單點失敗風險 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①在個人 Claude Code 設定中安裝 OMC，用 autopilot 模式自動完成重複性開發任務；②借鑑「技能即文件」設計，將自己的重複性工作流程寫成 Markdown Skill，讓 Claude 直接執行；③用 omc teleport 快速建立 Issue 對應的 git worktree 環境，保持主分支乾淨 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | OMC 在「全方位擴展 Claude Code 能力」上是最完整的插件（19 代理人、12 Hook 事件、30+ Skills），但也因此引入最高的複雜度（851 個 TypeScript 檔案、tmux 強依賴、npm 套件命名混亂）。相比 ClawTeam（專注多 Agent 協調、零學習曲線）或 claude-mem（專注記憶、依賴明確），OMC 是「全能但學習成本高」的選擇，適合重度 Claude Code 使用者。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：OMC 的 `ralph` 模式在 Stop Hook 中通過 `persistent-mode.cjs` 控制 Claude 是否繼續執行，這個「繼續執行」的機制具體是如何告知 Claude Code 不要停止的？是修改退出碼（exit code）還是修改 hook 的 JSON 輸出？
+- **假設**：`keyword-detector.mjs` 在 UserPromptSubmit 時偵測魔術關鍵字並注入 Skill，這假設「Claude 會按照 Skill Markdown 的指示執行」。但 Claude 的行為本質上是隨機的，同一個 Skill 在不同版本的 Claude 中執行結果可能不同，如何確保 Skill 的可重現性？
+- **證據**：omc autoresearch 的「keep/discard/reset」決策若由 AI evaluator 自動執行，評估器的 prompt 設計是 OMC 最關鍵但最不透明的部分。這個 prompt 是否有公開？社群有無反饋評估品質問題？
+- **觀點**：從安全研究者的角度，OMC 在 UserPromptSubmit Hook 注入 CLAUDE.md 的方式本質上是在 Claude 的 system prompt 中插入可被用戶輸入影響的內容。若用戶輸入包含特殊標記，是否可能破壞 Skill 的注入邏輯？
+- **後果**：若 OMC 的版本更新（v4.9.1 → v5.0.0）修改了 CLAUDE.md 的格式或 Hook 腳本的介面，所有依賴 OMC 的個人工作流都需要同步更新。這個「框架依賴」的維護成本在長期使用中如何評估？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — OMC 的 `ralph` 持久執行模式是最大風險所在：一旦 PRD 的驗收條件設計不當，ralph 模式會不斷迭代但永遠無法宣告完成，每次迭代都消耗大量 API token，且在 Stop Hook 中主動阻止 Claude 停止，使用者只能強制關閉進程才能終止。在高成本模型（Opus）上跑 ralph 任務而沒有 Token budget 上限，可能在幾小時內產生數百美元的 API 費用。
+2. **什麼情況下會失敗？** — ①tmux 版本升級改變了 pane 偵測 API，所有依賴 tmux pane buffer 的功能（omc team、HUD、worker 就緒偵測）同時靜默失敗；②Claude Code 官方更新了 Hook 的 JSON 輸入/輸出格式，OMC 的 12 個 Hook 腳本全部需要同步更新，但 OMC 版本更新可能滯後；③MCP 工具伺服器（bridge/mcp-server.cjs）崩潰後，所有 LSP/AST 工具不可用，但 Claude 可能繼續嘗試呼叫這些工具導致任務卡住
+3. **有沒有更好的替代方案？** — ①若只需要多 Agent 協作：ClawTeam 更輕量、更聚焦，無 tmux 單一點失敗；②若只需要任務保證完成：單獨使用 claude 的 `--continue` flag 搭配自訂 CLAUDE.md 約束，無需框架依賴；③若需要多模型協作：直接設定 Claude Code 的 Native Teams 功能（`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`），不依賴 OMC 的封裝層

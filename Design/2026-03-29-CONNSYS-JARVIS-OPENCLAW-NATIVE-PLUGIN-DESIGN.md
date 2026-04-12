@@ -688,3 +688,25 @@ echo "0 3 * * * cd /workspace-shared && repo sync -j8" | crontab -
 - [OpenClaw Sub-agents 文件](https://docs.openclaw.ai/tools/subagents)
 - [OpenClaw ACP Agents 文件](https://docs.openclaw.ai/tools/acp-agents)
 - [OpenClaw LanceDB Memory Plugin](https://docs.openclaw.ai/memory/lancedb)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 三個核心設計決策（原生 Plugin 路線、每個 Expert 是 OpenClaw 的一個 Agent、Gerrit 仍是 Code Exchange Bus）、connsys-jarvis Plugin 目錄結構（`openclaw.plugin.json`、`soul.md`、TypeScript hooks）、LanceDB 三個 table（sessions、handoffs、shared）、三階段記憶系統遷移路線（Git-based → 雙軌並存 → 全面 LanceDB）、四個 Use Case（UC1 CI/CD、UC2 Debug、UC3 Feature Design、UC4 Memory Slim）、OpenClaw vs ClawTeam 決策矩陣 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 本設計文件的核心邏輯是：將 connsys-jarvis 從「Claude Code 的技能集合」升級為「以 OpenClaw 為執行平台的原生多代理人系統」。這個升級的關鍵價值是三層解耦：(1) 任務定義（SKILL.md）與執行平台解耦，(2) Agent 身份（soul.md）與通訊頻道解耦，(3) 記憶系統從 Git 的版本控制語意遷移到 LanceDB 的向量語意搜尋。Gerrit 作為 Code Exchange Bus 的設計則讓「平台無關的 Agent 協作」能透過既有的程式碼審查流程自然落地。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 1. **原生 Plugin 路線的風險集中化假設**：選擇深度整合 OpenClaw 的原生 Plugin 路線，假設 OpenClaw 的 Plugin SDK API 足夠穩定；但文件本身在「已知限制」中承認 SDK API 可能有 breaking change，這意味著一旦 OpenClaw 升版或停止維護，整個 hooks 層需要重寫，風險被集中化而非分散。2. **Gerrit 純文字 announce 的脆弱性**：sub-agent 透過純文字 announce 傳遞 Change-ID（如 "Change-ID: I3a4b5c6d"），framework-base 再解析文字提取 ID，這個設計高度依賴 announce 訊息格式的一致性，任何 sub-agent prompt 的細微改動都可能破壞整個 pipeline，缺乏結構化的 handoff 合約。3. **LanceDB 並發寫入的假設**：四個 Use Case 中多個 sub-agent 同時執行並寫入 LanceDB 的 shared table，但文件未確認 LanceDB 的並發寫入模型，可能存在 write contention 或資料一致性問題。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. **Phase 1 驗證的最小可行路徑**：按照 Roadmap 的 W1-W2，先以 Claude bundle format 安裝 skills（不重寫 hooks），驗證從 Slack 觸發 framework-base 的基本流程，再逐步加入 TypeScript session-start.ts，避免一次性引入太多未知變數。2. **建立 announce 訊息的結構化合約**：在 soul.md 和每個 Expert 的 SKILL.md 中定義標準化的 announce 格式（如 JSON 格式的完工報告），讓 framework-base 能可靠地解析而不依賴自然語言 pattern matching。3. **先做 ACP 橋接的 spike**：在投入完整原生 Plugin 重寫之前，用 `sessions_spawn --runtime acp` 快速驗證多代理人的基本協作流程是否如預期運作，降低技術假設風險後再做完整重寫。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | **原生 Plugin vs ACP 橋接**：原生 Plugin 在功能完整性（LanceDB 整合、lifecycle hook 完整掌控）和長期維護性上更優，但引入了 TypeScript 學習成本、SDK 版本耦合風險、以及更長的初期實作時間；ACP 橋接在短期驗證速度和風險隔離上更優，但犧牲了記憶系統整合和頻道觸發的深度。**OpenClaw vs ClawTeam**：OpenClaw 是 connsys-jarvis Phase 2 的設計目標，長期路線明確，但 2 個月才能完整整合，且對韌體工程師有較高的 TypeScript 門檻；ClawTeam 在 2-3 週可驗證基本概念，Shell/Python 對韌體工程師更親切，但缺乏 Always-on daemon 和頻道整合能力。決策樹建議：若主要目標是「工程師能從手機遠端觸發任務」，選 OpenClaw；若主要目標是「快速驗證 Multi-Agent 概念」，選 ClawTeam。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：設計文件選擇「Gerrit 作為 Code Exchange Bus」而非讓 sub-agent 直接透過 LanceDB 傳遞任務上下文——這個選擇的核心假設是什麼？在哪些情境下，Gerrit Change-ID 傳遞的方式會比直接的 Agent-to-Agent 通訊更可靠，哪些情境下反而更脆弱？
+- **假設**：本設計假設韌體工程師會接受學習 TypeScript 來重寫 hooks——但韌體工程師通常的技術棧是 C/C++/Python，TypeScript 的學習曲線是一個現實阻力。若這個假設不成立，回退到 ACP 橋接路線時，哪些核心功能會永久缺失，這個取捨是否可以接受？
+- **證據**：LanceDB 的「語意搜尋」（「上次 wifi coredump 的修法是什麼？」）被列為 Git 記憶系統做不到的新能力——但目前 Phase 1 的目標是完成基本連通，LanceDB 的向量索引在韌體工程師的實際查詢場景中是否有足夠的召回率（recall）？是否有對工程 log 和程式碼摘要的向量化效果的實驗數據？
+- **觀點**：框架選擇了「每個 Expert 是 OpenClaw 的一個獨立 Agent」的設計——另一種可能是「單一 Agent 搭配豐富的 skills」（更接近現在的 Claude Code + connsys-jarvis 設計）。在什麼條件下，「多 Agent 隔離」比「單 Agent 豐富技能」更優？記憶隔離的邊界如何在韌體工程師的日常工作中實際體現？
+- **後果**：OpenClaw daemon 常駐在開發機上，開放 Slack/Teams 頻道接收任何已授權帳號的指令——若一個合法帳號（如工程師的手機）被社交工程攻擊（如偽造的「請幫我 push 這個緊急修復」訊息），Expert 執行惡意任務的最壞情境是什麼？soul.md 的禁止規則和 skill 的 must-never 約束在這個情境下是否足夠作為安全防線？

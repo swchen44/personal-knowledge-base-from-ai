@@ -356,3 +356,33 @@ uv run python src/my_research_flow/main.py
 - [官方文件](https://docs.crewai.com)
 - [CrewAI 雲端平台](https://app.crewai.com)
 - [DeepLearning.AI 課程](https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | CrewAI 的兩大核心抽象 Crews 與 Flows；Pydantic 全面採用；YAML 配置分離；LiteLLM 多 LLM 支援；OpenTelemetry 可觀測性；A2A 企業通訊協定；46,627 顆 GitHub Stars；Python 3.10+ |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | CrewAI 的核心設計哲學是「自主性與精確控制的二元互補」：Crews 讓代理人在角色扮演與 ReAct 迴圈中自由協作，適合創意性和不確定性高的任務；Flows 則以事件驅動的裝飾器語法提供確定性的工作流控制，適合生產環境。兩者可相互嵌套，讓開發者不必在極端選項間二選一。事件總線（crewai_event_bus）解耦所有元件，Pydantic 模型解決型別安全與 LLM 結構化輸出兩個問題。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①「Crews 自主性越高 = Token 成本越不可控」是一個被文件輕描淡寫的重要假設，需要 `max_iter` 設定才能緩解；②Hierarchical 模式隱含「Manager Agent 的決策品質等同或超越人類判斷」的假設，但 LLM 幻覺問題未被正視；③YAML 與 Python 分離假設「業務人員能安全修改 YAML」，但 prompt injection 風險未被提及 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①在自己的 AI 自動化工作流中採用 Crews + Flows 雙軌設計，不確定性高的研究任務用 Crew，確定性的報告生成用 Flow；②將 Pydantic 模型作為 LLM structured output 的標準介面，同時作為 API schema；③用 `@CrewBase` + YAML 配置分離，讓 prompt 調整不需要修改 Python 程式碼 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | CrewAI 在「快速建立多 Agent 原型」上優於 LangGraph（圖節點建構複雜）和 AutoGen（缺乏精確控制）；但在 Token 成本可預測性上劣於 LangGraph（圖結構明確限制執行路徑）。框架規模達 1021 個 Python 檔案，對於只需要輕量 Agent 場景可能過於重型。AGPL 授權不影響個人使用，但商業整合需評估法律風險。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：CrewAI 的 `crewai_event_bus` 是全域單例（singleton）還是每個 Crew 實例各自擁有？在測試環境中多個 Crew 並行執行時，事件是否可能串台（cross-contamination）？
+- **假設**：CrewAI 假設「YAML 配置分離能讓非工程師修改 Agent 行為」，但 `agents.yaml` 中的 `backstory` 和 `goal` 欄位依然需要 prompt engineering 知識。這個設計假設是否過於樂觀？
+- **證據**：文件中提到「超過 100,000 名認證開發者」，但生產環境的實際採用率、平均 Token 成本、任務完成率等數據從未公開。如何客觀評估 CrewAI 的實際生產可靠性？
+- **觀點**：從 LangGraph 設計者的角度，「圖節點明確定義執行路徑」比 Flows 的裝飾器語法更適合需要嚴格審計的金融或醫療場景。CrewAI 如何回應這個批評？
+- **後果**：若 CrewAI 的 breaking changes 節奏（v1.11.0 已有多次重大變更）持續，企業若將核心 AI 工作流依賴 CrewAI，升級成本會如何累積？有無 migration 工具或 LTS 計畫？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — CrewAI 的 Crews 自主執行模式讓 LLM 呼叫次數完全不可預測。在生產環境中，一個預期執行 5 次工具呼叫的任務可能因為 Agent 決策失誤而觸發 50 次 ReAct 迴圈，造成 Token 費用暴增 10 倍以上。若未設定 `max_iter` 和 token budget，財務損失無上限。
+2. **什麼情況下會失敗？** — ①Agent 輸出格式不符合 `expected_output` 時反覆重試，進入死循環直到 `max_iter`；②Hierarchical 模式的 Manager Agent 決策出現幻覺，錯誤分派任務給沒有對應能力的 Agent，導致整個 Crew 陷入混亂；③框架快速版本迭代導致 API 不相容，測試覆蓋不足的生產系統在升級後靜默失敗
+3. **有沒有更好的替代方案？** — ①若需要嚴格可控的執行路徑：LangGraph（明確圖結構）更適合需要審計合規的場景；②若需要最小化複雜度：直接呼叫 Claude Agents SDK 並手動管理 Agent 間通訊，避免框架抽象帶來的 debugging 困難；③若已有 Python 工程師團隊：比較 AutoGen（Microsoft 背書，有更完整的 enterprise 支援）

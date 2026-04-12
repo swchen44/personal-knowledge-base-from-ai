@@ -227,3 +227,25 @@ LSP 設定立即執行。關鍵操作清單：
 
 - [原文](https://karanbansal.in/blog/claude-code-lsp/)
 - [GitHub Issue #15619 — ENABLE_LSP_TOOL 發現來源](https://github.com/anthropics/claude-code/issues/15619)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | `ENABLE_LSP_TOOL` 環境變數；四步驟安裝流程（設定環境變數→安裝語言伺服器二進位→plugin install→重啟）；LSP 提供的 8 種操作（goToDefinition、findReferences、hover、documentSymbol、workspaceSymbol、goToImplementation、incomingCalls、outgoingCalls）；grep 耗時 30–60 秒 vs LSP 約 50ms |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | LSP 的核心價值在於它「理解程式碼語意」而非「搜尋文字」——這使它能在啟動後立即完成整個專案的索引，任何查詢都以熱索引狀態回應。被動診斷（Passive Diagnostics）是最高價值特性：每次編輯後 LSP 主動推送錯誤，Claude 在同一輪次修復，消除「編輯→看錯誤→再問→再修」的迭代循環，大幅縮短人機協作的回饋週期。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 假設一：`ENABLE_LSP_TOOL` 是非官方旗標，代表功能可能在未來版本靜默變更或移除，依賴此旗標的工作流有穩定性風險；假設二：LSP 誤判（false positive）的診斷可能導致 Claude 對正確程式碼做出不必要修改，被動診斷並非無副作用；假設三：文章未提及大型 monorepo 下 LSP 索引的記憶體與啟動時間成本，適用性可能受限。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 在 `~/.claude/settings.json` 加入 `"ENABLE_LSP_TOOL": "1"` 並安裝常用語言伺服器（pyright、typescript-language-server）；2. 在 `~/.claude/CLAUDE.md` 明確指示優先使用 LSP 操作，防止 Claude 退回 grep；3. 重構函式簽名前，固定使用 `findReferences` 確認所有呼叫端，再一次性修改。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | LSP 帶來約 900 倍的查詢速度提升，且被動診斷幾乎消除了型別錯誤的遺漏，對中大型專案效益顯著；但對小型腳本或單檔案作業，grep 的零配置成本可能更實際。Java（jdtls）需 8.6 秒 JVM 預熱，對短暫 session 價值有限。整體而言，2 分鐘設定成本相對極低，對任何超過數百行程式碼的專案幾乎都值得投入。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：「被動診斷讓 Claude 在同一輪次修復錯誤」——這裡的「同一輪次」確切指的是什麼？Claude 是在工具呼叫之間看到 LSP 推送，還是需要等到整個回應完成後才能感知診斷結果？
+- **假設**：文章假設 LSP 診斷永遠是有用的訊號，但在實際專案中，TypeScript 的嚴格模式或 pyright 的嚴格型別檢查可能產生大量「預期外」的警告，這會如何影響 Claude 的行為？
+- **證據**：「900 倍速度差異」的數字基於什麼樣的程式碼庫規模與硬體條件？在 50 個檔案的小型專案與 5 萬個檔案的 monorepo 之間，這個差距如何變化？
+- **觀點**：若從「最小依賴原則」考量，Claude Code 預設不啟用 LSP 是否有其合理性——例如避免在無法安裝語言伺服器的環境（如遠端 CI）中產生混亂？
+- **後果**：若 Anthropic 在未來版本中預設啟用 LSP，現有依賴「grep 文字搜尋」行為的 hook 或測試腳本會受到什麼影響？

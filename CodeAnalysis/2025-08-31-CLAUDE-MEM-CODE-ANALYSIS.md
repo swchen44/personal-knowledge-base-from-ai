@@ -334,3 +334,33 @@ open http://localhost:37777
 - [官方文件](https://docs.claude-mem.ai/)
 - [架構概覽](https://docs.claude-mem.ai/architecture/overview)
 - [漸進式揭露哲學](https://docs.claude-mem.ai/progressive-disclosure)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 6 個生命週期鉤子（PostToolUse、Stop、SessionStart 等）；SQLite FTS5 + Chroma 混合搜尋；Bun 作為 Worker 執行時；MCP 3 層搜尋工具（search / timeline / get_observations）；port 37777 的 Worker HTTP API；`<private>` 隱私標籤；38,509 顆 GitHub Stars；AGPL-3.0 授權 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | claude-mem 的核心洞察是「Hook 腳本只做 HTTP 轉發，所有複雜邏輯交由長期運行的 Worker Service 非同步處理」，這解決了 Hook timeout 限制問題。3 層搜尋架構（index → timeline → full fetch）實現漸進式揭露，以約 10x 的 Token 節省為代價換取可擴展的記憶查詢能力。SQLite FTS5 + Chroma 的混合搜尋策略同時覆蓋關鍵字精確比對與語意相似度查詢兩種需求。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①「Worker Service 作為唯一入口」隱含單點失敗風險，若 port 37777 崩潰，所有記憶功能降級；②「AI 壓縮摘要品質等同原始 context」是核心假設，但 Claude Agent SDK 的壓縮模型本身可能引入資訊失真，且壓縮品質未有量化評估方法；③Chroma 依賴 Python 環境打破了「純 TypeScript 工具」的簡潔假設，在 CI/CD 環境安裝複雜度顯著增加 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①在自己的 Claude Code 設定中安裝此插件，解決跨 session 的專案上下文遺失問題；②借鑑 3 層 MCP 工具設計模式，在任何需要大量歷史資料查詢的 AI 應用中實作漸進式揭露；③用 `<private>` 標籤保護 API key、密碼等敏感資訊不被記入記憶系統 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | claude-mem 的 3 層搜尋架構在 Token 效率上優於直接載入全部 context；但 Bun + uv + Chroma 三個額外依賴使安裝複雜度顯著高於 Claude Memory Engine（零依賴方案）。AGPL-3.0 授權在企業環境是阻礙，個人使用不受影響。相較於 claude-memory-engine 的純 Markdown 方案，claude-mem 提供更強大的語意搜尋但代價是更高的安裝門檻與更低的透明度。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：claude-mem 的 Worker Service 在 MacBook 上以常駐程式形式運行，若電腦睡眠後喚醒，Worker 是否能自動恢復連線？重啟後 port 37777 的佔用狀態如何處理？
+- **假設**：系統假設 Claude Agent SDK 的壓縮摘要能保留 session 中最重要的技術決策細節，但 LLM 壓縮天然傾向保留語意而非細節。若一個 session 包含關鍵的 edge case 處理邏輯，壓縮後是否可能丟失？
+- **證據**：文件宣稱「上下文壓縮率 ~53%（v10.6.1）」，但這個指標僅反映字元數壓縮，而非資訊保留率。是否有方法測量「Claude 在注入記憶後對 2 周前問題的回答準確率」？
+- **觀點**：從系統管理員角度，AGPL-3.0 授權意味著若企業內部修改並部署此插件，需要開放修改後的原始碼。這與企業通常的「內部工具不外洩」政策相衝突，應如何評估採用風險？
+- **後果**：若 claude-mem 的版本迭代引入 breaking changes（已有多次），且 Worker Service 的資料格式改變，舊有的記憶資料是否會自動遷移？若不，累積幾個月的記憶可能一次性全部失效。
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — Worker Service 的單點依賴是最大風險：所有記憶操作（觀察值儲存、摘要生成、上下文注入）都必須通過 port 37777 的 HTTP Service。若 Bun 執行時崩潰、port 被佔用、或 Chroma 資料庫損毀，整個記憶系統靜默失效，使用者可能在毫不知情的情況下損失數週的 session 記憶。
+2. **什麼情況下會失敗？** — ①多個 Claude Code 工作視窗同時執行時，session 隔離機制是否完備，同一個 Worker Service 能否正確區分來自不同視窗的觀察值；②Python 環境（uv）或 Chroma 版本升級後與舊資料格式不相容，語意搜尋功能靜默降級為僅關鍵字搜尋；③在記憶量大時（1000+ sessions），SQLite 查詢效能下降，Session 開始時的 2-5 秒注入時間拉長至分鐘級
+3. **有沒有更好的替代方案？** — ①若注重簡單與透明：Claude Memory Engine（零依賴、純 Markdown、Hook-driven）更易審計和自定義，代價是無語意搜尋；②若注重企業級部署：將 Worker Service Docker 化，用 PostgreSQL + pgvector 取代 SQLite + Chroma，消除本地安裝問題；③若只需要基礎跨 session 記憶：直接用 CLAUDE.md 手動記錄關鍵決策，零依賴，完全透明

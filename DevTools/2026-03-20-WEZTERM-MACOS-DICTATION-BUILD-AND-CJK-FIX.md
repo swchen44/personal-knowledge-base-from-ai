@@ -279,3 +279,25 @@ WezTerm 視窗開啟後，按 **連按兩下 `Fn` 鍵**（或麥克風按鈕）�
 
 - [Erog38/wezterm feat/macos-dictation](https://github.com/Erog38/wezterm/tree/feat/macos-dictation)
 - [WezTerm 官方字體設定文件](https://wezfurlong.org/wezterm/config/fonts.html)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | `feat/macos-dictation` 分支由 Erog38 實作 `NSTextInputClient` protocol；必要步驟：`git submodule update --init --recursive`；三個執行檔（wezterm、wezterm-gui、wezterm-mux-server）；`wezterm start` 才會開視窗；字體設定用 `Heiti TC` 作為 CJK fallback；`treat_east_asian_ambiguous_width_as_wide = true` 會造成 prompt 排版跑掉 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | CJK 顯示亂碼有兩個獨立根源：一是主字體缺少 CJK 字形（顯示豆腐塊），二是 `nsstring_to_str` 函數誤用 `NSString::len()` 回傳的 UTF-16 code unit 數作為 UTF-8 byte slice 長度，中文字因 UTF-8（3 bytes）與 UTF-16（1 unit）的差異而被截斷。字體 fallback 能解決前者，但無法修復後者影響的 IME 輸入行為。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 假設一：文章用字體 fallback 作為 CJK 修復方案，但未修復 `nsstring_to_str` bug，代表聽寫輸入時中文截斷問題仍存在，實際應用有隱患；假設二：`treat_east_asian_ambiguous_width_as_wide` 的副作用範圍超出 CJK，影響所有 Unicode 模糊寬度字符，顯示此設定的語意比名稱更廣；假設三：預編譯版本限 Apple Silicon，分發範圍未考量 Intel Mac 使用者。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. Clone 後立即執行 `git submodule update --init --recursive`，再 `cargo build --release`；2. 建立 `~/.config/wezterm/wezterm.lua` 設定 JetBrains Mono + Heiti TC fallback 與 `unicode_version = 14`，不加 `treat_east_asian_ambiguous_width_as_wide`；3. 打包 `.app` bundle 分享時附上 `xattr -cr` 解除 Gatekeeper 的說明。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 字體 fallback 方案零成本、零風險，是解決 CJK 顯示問題的最佳路徑；修復 `nsstring_to_str` bug 需要改動 Rust 原始碼，維護成本較高，且需在每次 upstream 更新後重新套用 patch，適合有長期維護意願的進階使用者。等待 `feat/macos-dictation` 合併至主線是最省力的長期策略，但時間不確定。整體而言，「先用字體 fallback 解決顯示問題，等待上游合併」是最務實的取捨。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：文章說字體 fallback 能解決「平時顯示」的亂碼，但 IME/聽寫輸入時的截斷問題是 `nsstring_to_str` bug 導致——這兩種場景在使用者體驗上的差異是什麼？實際使用聽寫功能時，截斷問題有多嚴重？
+- **假設**：本文假設 `Heiti TC` 在所有 macOS 版本都是內建字體，但 Apple 是否在某些新版系統中移除或更名了這個字體？
+- **證據**：`nsstring_to_str` 的 UTF-16 vs UTF-8 長度 bug 是作者自行發現還是上游已知問題？這個 bug 在 Erog38 的分支中是否有修復計劃或相關 issue？
+- **觀點**：從終端機生態系的角度，與 Ghostty、Alacritty 相比，WezTerm 選擇透過社群分支實現 macOS 聽寫支援，而非官方優先，反映出什麼樣的開發者社群優先級觀點？
+- **後果**：若 `feat/macos-dictation` 長期未合併主線，依賴此分支的使用者將面對 upstream 安全修補無法自動獲取的問題，自行維護 fork 的長期成本如何評估？

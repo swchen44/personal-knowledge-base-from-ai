@@ -645,3 +645,25 @@ framework-clawteam-spawn-flow SKILL.md 內容摘要：
 - [[2026-03-17-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam v1 的程式碼分析，本設計文件基於此架構演進
 - [[2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam v2 的程式碼分析，含 worktree 隔離與 JSON 通訊細節
 - [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — oh-my-claudecode 多代理人編排系統，另一種可整合的 Agent 協作框架
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 三角定位（connsys-jarvis 提供「誰來做」、ClawTeam 提供「怎麼協調」、Gerrit 提供「程式碼怎麼交換」）；兩種整合模式（模式 A 完整 Expert 實例 vs 模式 B Skills 注入）；Gerrit topic 命名慣例（`clawteam-{team-name}-{task-id}`）；四個 Use Case（CI/CD 修復、Debug、新功能設計、Memory Slim）；兩個月 Roadmap（Phase 1 手動、Phase 2 半自動） |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 本架構的核心洞察是：在多 repo 韌體環境中，git worktree 無法處理跨 repo 隔離，而 Gerrit Change 本身就是一個結構化的程式碼交換單位——它天然具備身份識別（Change-ID）、可以跨 Worker 傳遞、且有 Web UI 供人工審查。將 Gerrit 定位為 Code Exchange Bus 使多 Agent 協作與既有韌體工作流程無縫整合，無需引入新的基礎設施。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 假設一：Shared Reference Repo 能將 Worker 啟動時間縮短至 1–5 分鐘，但這依賴 shared repo 的 sync 頻率與網路條件，CI 修復場景的時效性要求可能仍未被滿足；假設二：ClawTeam inbox 以 JSON 檔案作為訊息匯流排，polling 延遲與高頻場景下的可靠性未經驗證；假設三：人工 Gerrit submit 作為最後防線，但若 CI 自動核准了 Agent 上傳的 Change，此防線可能形同虛設。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. Phase 1 驗證：先手動執行 UC1（CI/CD fix），用 Leader 人工操作 ClawTeam CLI，驗證 Gerrit Bus 可行性，不修改任何原始碼；2. 為 Leader 撰寫包含 `framework-expert-discovery-knowhow` 的 prompt template，使其能自主查詢可用 Expert 清單並決定 spawn 策略；3. 在 `expert.json` 加入 `clawteam` 欄位（spawn_mode、workspace_template），為 Phase 2 自動化預埋結構。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 模式 A（完整 Expert 實例）vs 模式 B（Skills 注入）的核心取捨是：啟動成本（5–30 分鐘 vs 秒級）換取能力完整度（完整 Hooks + 記憶 vs 僅文字知識）。對需要寫 code 上 Gerrit 的任務，模式 A 不可替代；對分析日誌、閱讀文件等輸入輸出清晰的子任務，模式 B 的輕量性優勢顯著。Hybrid 策略雖最靈活，但增加了 Leader 的決策複雜度，Phase 1 建議先只實作模式 A 以降低驗證變數。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：設計文件將 Gerrit 定位為 Code Exchange Bus，但 Gerrit 的 Change Review 流程（Code Review、Verified 投票）在 Agent 工作流中是否完整保留？Agent 上傳的 Change 是否仍需人工 +2 才能 submit？
+- **假設**：本設計假設各 Worker 的記憶隔離是優點（「避免污染」），但在需要跨 domain 協作設計的 UC3 中，Worker 之間缺乏共享記憶是否反而會導致重複工作或設計不一致？
+- **證據**：ClawTeam inbox 的 JSON 訊息匯流排在文件中被描述為成熟機制，但在高並發（3+ Worker 同時完成）場景下，Leader 的 inbox 讀取是否有 race condition 或訊息遺失的風險？
+- **觀點**：從軟體工程角度，將 AI Agent 的協調機制建立在 Gerrit（一個 Code Review 工具）之上，是否是合適的架構選擇？Gerrit 的設計目標是人機協作而非機器間通訊，這種用途上的偏移會帶來哪些長期維護問題？
+- **後果**：若 Phase 2 的 ClawTeam 修改無法被上游接受（例如 HKUDS 維護者不想在 ClawTeam 核心加入 connsys-jarvis 整合），本設計的 Phase 2 計劃如何調整？有沒有不修改 ClawTeam 原始碼就能實現半自動化的替代路徑？

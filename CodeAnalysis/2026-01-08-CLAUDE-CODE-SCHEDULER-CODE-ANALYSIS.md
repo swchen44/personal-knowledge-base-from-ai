@@ -345,3 +345,33 @@ export async function createWorktree(params: CreateWorktreeParams): Promise<Work
 
 - [GitHub Repo](https://github.com/jshchnz/claude-code-scheduler)
 - [Plugin Marketplace](https://github.com/jshchnz/claude-code-scheduler)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 三種執行模式（唯讀 / 自主執行 / Git Worktree 隔離）；策略模式（Strategy Pattern）的 BaseScheduler 抽象；Zod Schema 驗證；croner + cronstrue 函式庫；macOS launchd / Linux crontab / Windows Task Scheduler；shellEscape() 注入防護；6 個 Slash commands；485 顆 GitHub Stars |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | claude-code-scheduler 的核心設計選擇是「委託作業系統原生排程器管理任務生命週期，而非自行實作 daemon」。這讓框架本身極度輕量（只負責翻譯自然語言為 cron 表達式並寫入設定），而系統重啟恢復、睡眠喚醒等複雜場景由 launchd/crontab 原生處理。自然語言 → cron 的轉換橋接了人類描述與系統執行之間的語義鴻溝。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①「OS 排程器比自製 daemon 更可靠」成立的前提是 PATH 設定正確，但 launchd 啟動時的 PATH 與 interactive shell 不同，此假設在 macOS nvm/fnm 環境中頻繁失敗；②`--dangerously-skip-permissions` 假設「用戶信任自己設定的 prompt」，但 prompt injection 威脅模型未被分析；③Git Worktree 隔離假設 main branch 的 .env 和 git config 在 worktree 中不可存取，此假設需要驗證 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①設定每日 9am 的程式碼審查排程，用唯讀模式確保安全；②設定每週報告生成任務，搭配 Git Worktree 隔離讓 Claude 自主生成並 commit 到新分支，人工 review PR 後合入；③參考此插件的策略模式架構，在自己的跨平台 CLI 工具中實作平台抽象層 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | claude-code-scheduler 在「單機定時任務」場景下是最輕量的選擇（無 daemon、無資料庫、無伺服器）；但在需要高可靠性（機器關機時任務不執行）或跨機器協調的場景下完全不適用。與 GNAP 的 heartbeat 模式相比，scheduler 更適合「固定時間觸發」，GNAP 更適合「事件驅動協調」。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：`DarwinScheduler.register()` 在寫入 plist 前先執行 `launchctl unload`，若 plist 從未被 load 過，unload 會失敗但被 `try/catch` 吞掉。這個設計是否可能遮蔽真正的排程器問題？
+- **假設**：插件假設使用者的 `claude` CLI 在 launchd 啟動環境中可用，但 launchd 的 PATH 遠比 interactive shell 少。在不同的版本管理工具（nvm、fnm、mise）下，這個假設的成立率有多高？
+- **證據**：自然語言轉 cron 表達式的準確率沒有公開測試數據。「每個工作日早上 9 點」轉換成 `0 9 * * 1-5` 是正確的，但「每季度最後一個工作日下午 3 點」是否能被正確解析？
+- **觀點**：從 DevOps 角度，「任務狀態存在 JSON 檔案」的設計在多人協作環境中缺乏版本控制語義。若兩個工程師在同一台機器上管理 schedules.json，是否會產生 git merge conflict？
+- **後果**：若 `--dangerously-skip-permissions` 的自主執行任務被 prompt injection 影響（例如任務描述中包含惡意指令），Claude 在 worktree 中可以執行任意 shell 指令，後果如何估計？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — `--dangerously-skip-permissions` 與 OS 排程器的組合創造了一個「無人值守的自主 AI 執行環境」。若排程任務的 prompt 被間接修改（例如 task description 從外部來源讀取），Claude 能在無任何人工確認的情況下執行任意系統命令，包括刪除檔案、推送程式碼、發送請求到外部服務。這個風險在文件中被嚴重低估。
+2. **什麼情況下會失敗？** — ①macOS 系統更新重設 launchd PATH，導致所有排程任務靜默失敗，使用者在數天後才發現；②Claude Code CLI 版本更新後指令介面改變，`claude -p "..."` 的 print mode 格式不相容，所有任務以非零錯誤碼退出但無警報機制；③機器睡眠或關機期間觸發的任務不會補跑，使用者誤以為任務已執行但日誌為空
+3. **有沒有更好的替代方案？** — ①若需要更高可靠性：改用雲端排程服務（AWS EventBridge、GitHub Actions scheduled workflow）搭配 `claude -p` 的 API 呼叫；②若需要更安全的自主執行：在 Docker 容器中以受限權限執行 Claude，而非使用 `--dangerously-skip-permissions`；③若排程需求簡單：直接用 crontab 手動設定，避免插件引入的 PATH 和版本相容性複雜度

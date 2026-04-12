@@ -380,3 +380,33 @@ Claude Code 在下次心跳時會 pull、找到 PROJ-1、執行工作、寫入 r
 - [GitHub Repo](https://github.com/farol-team/gnap)
 - [Farol Labs 官網](https://farol.io)
 - [GNAP 架構深度文章](https://github.com/farol-team/gnap/blob/main/docs/article.md)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 四種 JSON 實體（Agent / Task / Run / Message）；心跳循環（heartbeat loop）；`.gnap/` 目錄結構；任務狀態機（backlog → ready → in_progress → review → done）；heartbeat_sec 預設 300 秒；Run 與 Task 分離設計；git non-fast-forward 拒絕作為分散式鎖；Commit 慣例作為審計日誌；Draft v4；30 顆 GitHub Stars |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | GNAP 的核心洞察是「git 本身已經解決了分散式系統的三大問題：持久性（commit log）、衝突解決（non-fast-forward 拒絕）、去中心化（distributed repo）」，只需將這些特性重新詮釋為代理人協調基礎設施。四種實體的極簡設計讓任何能讀寫 JSON 和執行 git 的代理人都能參與協調，真正實現框架無關性。Run 與 Task 分離天然支援失敗重試和成本追蹤。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①「git non-fast-forward 可作為分散式鎖」的假設在 GitHub/GitLab 上基本成立，但在允許 force push 的 git server 設定下失效；②heartbeat 輪詢模型假設任務的延遲需求是「分鐘級」，但現代 AI 任務越來越需要秒級協調，此假設限制了 GNAP 的適用範圍；③「Run 成本由代理人自行填寫」假設代理人會誠實且準確地報告 token 用量，但無強制執行機制 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①在個人知識庫（personal-kb-repo）中引入 `.gnap/` 目錄，協調多個 Claude 代理人維護知識庫；②借鑑 Run 與 Task 分離設計，在自己的 AI pipeline 中加入每次執行的成本追蹤和結果記錄；③用 GNAP 的 Commit 慣例作為 AI 代理人操作的審計日誌格式 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | GNAP 是唯一同時滿足「持久性 + 跨執行環境 + 零基礎設施」三項需求的方案，在這個組合需求上無可替代。然而「只有 RFC，無 CLI 實作」是致命弱點——stars 不多的根本原因就是缺乏可執行工具（working tools > perfect specs）。與 GNAP 相比，Paperclip 更成熟（有 CLI），LangGraph 生態更豐富（但需要 Redis），兩者針對不同場景各有優勢。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：GNAP 的 heartbeat loop 在步驟 5 中設任務為 in_progress 然後執行工作，但若代理人在執行中崩潰，任務會永遠卡在 in_progress 狀態。規格中是否定義了 stale task 的超時和自動回滾機制？
+- **假設**：「git pull --rebase 時失敗最多重試 3 次」的假設在網路不穩或 git server 壓力大時可能不足夠。若多個代理人同時協調，衝突率隨代理人數的非線性增長（O(n²)）是否在規格中被考慮？
+- **證據**：文章提到「2026 年 1-3 月間超過 10 個不同團隊獨立得出相同結論」，但這個「趨同演化」的說法沒有引用任何具體的獨立發展時間線或溝通記錄。這是觀察到的現象還是有確鑿的佐證？
+- **觀點**：從資料庫設計師的角度，使用 JSON 檔案的 git commit 作為事件日誌，雖然實現了零基礎設施，但 git log 的查詢能力遠不及真正的 append-only log（如 Kafka 或 SQLite）。在代理人數量和任務數量增長後，這個「審計日誌」是否真的可用？
+- **後果**：若 GNAP 在 Draft v5 中修改了 `agents.json` 或 `tasks/*.json` 的必要欄位，而沒有向後相容保證，現有的代理人實作需要同步更新。沒有官方 CLI 也意味著沒有官方的遷移工具。這對採用 GNAP 的早期實作者意味著什麼？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — GNAP 是一個「只有規格，沒有工具」的協議，這是其最大的採用障礙。協議需要每個使用者自行實作心跳循環、任務鎖定、衝突重試等邏輯，且沒有參考實作可以對照。在沒有官方 CLI 的情況下，各自實作的代理人可能在邊界情況（concurrent push、stale lock、schema validation）上行為不一致，使協議的互通性承諾無法兌現。
+2. **什麼情況下會失敗？** — ①10+ 個代理人同時 push 同一個 tasks/*.json，git 的 O(n²) 衝突率導致大量重試，系統吞吐量急劇下降；②代理人填寫 `cost_usd` 不準確（多報或少報），累積後的成本追蹤數據失去意義，Run 實體的成本審計功能形同虛設；③JSON 缺乏 Schema 驗證，一個格式錯誤的 agents.json commit 可能導致所有代理人在下次 git pull 後解析失敗，整個協調系統靜默停擺
+3. **有沒有更好的替代方案？** — ①若需要即時代理人協調（秒級）：使用 MCP（Model Context Protocol）Server 作為協調中介，或採用 Redis Pub/Sub，代價是引入基礎設施；②若需要零基礎設施但有更好的工具支援：ClawTeam 的檔案系統方案更成熟（有 Python CLI、原子寫入、flock 鎖定），且已有社群採用；③若需要跨執行環境但可接受輕量伺服器：Paperclip 提供 Node.js server 支援，比 GNAP 的 RFC 更接近可用狀態

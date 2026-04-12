@@ -393,3 +393,33 @@ gitagent 最讓我眼睛一亮的是**把「合規」變成「測試」**的思�
 - [官方網站 gitagent.sh](https://gitagent.sh)
 - [規格文件 SPECIFICATION.md](https://github.com/open-gitagent/gitagent/blob/main/spec/SPECIFICATION.md)
 - [npm @shreyaskapale/gitagent](https://www.npmjs.com/package/@shreyaskapale/gitagent)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | `agent.yaml` + `SOUL.md` 最小化必要檔案；5 個 CLI 指令（init / validate / export / run / audit）；9 種框架轉接器（system-prompt / claude-code / openai / crewai / lyzr / github / openclaw / nanobot）；AJV JSON Schema 驗證；FINRA / Federal Reserve / SEC / CFPB 合規支援；職責分離（SOD）衝突矩陣；570 顆 GitHub Stars；spec_version 0.1.0 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | gitagent 的核心主張是「Git Repository 即代理人定義的唯一真實來源（Single Source of Truth）」，通過開放標準策略（定義規格 → 提供參考實作 → 社群自由擴展轉接器）實現框架無關的可移植性。Adapter / Runner / Validator 三層分離讓導出格式的添加不影響驗證邏輯，而把合規需求（FINRA Rule 3110）程式化為可測試的 if 條件是最具創新性的設計。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①「Git repo 即代理人定義」假設所有需要的代理人知識都可以表達為文字文件，但向量記憶、動態工具調用等執行時狀態無法在靜態 repo 中充分表達；②`gitagent validate --compliance` 將 FINRA 法規程式化為 if 判斷式的假設是「法規可被充分形式化」，但法規包含大量解釋空間和情境判斷，程式化版本必然有遺漏；③spec_version 只有 0.1.0 暗示規格仍在快速演化，早期採用者承擔高技術債風險 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①用 `gitagent init` 建立標準 agent.yaml + SOUL.md 模板，作為個人 AI 代理人定義的版本控制起點；②在 CI/CD 流水線中加入 `gitagent validate --compliance` 步驟，確保代理人定義符合組織規範；③用 `gitagent export --format claude-code` 快速生成 CLAUDE.md，取代手動撰寫系統提示 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | gitagent 在「跨框架移植性」上是同類工具中最突出的（9 種框架轉接器），且「合規程式化」是業界罕見的創新。然而 runtime 執行能力薄弱（仍需依賴外部框架）意味著「clone repo 即可執行代理人」的承諾目前無法實現。與 GNAP 相比，gitagent 聚焦於代理人「定義」的標準化，GNAP 聚焦於代理人「協調」的標準化，兩者互補而非競爭。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：`gitagent export --format openai` 生成的是 Python 程式碼片段還是可直接執行的腳本？若是前者，生成的程式碼品質和可維護性如何保證？若不同人用同樣的 agent.yaml 生成，結果是否完全可重現？
+- **假設**：gitagent 假設「把 FINRA Rule 3110 程式化為 if 判斷式就等同於合規驗證」，但實際的監管審查是否會接受這種程式化合規作為法律依據？沒有法律顧問背書的程式化合規可能反而產生虛假的安全感。
+- **證據**：「9 種框架轉接器」中 github.ts 未整合至 `adapters/index.ts`，openclaw 轉接器的文件也不完整。在宣稱支援 9 種框架的同時，實際可用的轉接器數量是否被誇大？
+- **觀點**：從框架維護者（如 CrewAI、LangGraph）的角度，gitagent 試圖成為所有 AI 框架的「中間標準層」。若每個框架都直接支援從 git repo 導入代理人定義，gitagent 的存在意義是否會消失？
+- **後果**：若 gitagent 的 spec_version 從 0.1.0 升到 1.0.0 時引入了 breaking changes，而沒有官方的遷移工具，所有已發布的 agent.yaml 定義都需要手動更新。這個標準碎片化風險如何影響採用決策？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — `spec_version: 0.1.0` 的規格不成熟性是最大風險。gitagent 定位為跨框架「標準」，但標準的生命在於穩定性與廣泛採用。目前規格才剛起步（570 Stars），若主要框架（LangChain、OpenAI）拒絕或選擇性支援，gitagent 可能成為另一個孤立標準。早期在核心系統採用此標準，可能面臨「孤注一擲」的技術賭注。
+2. **什麼情況下會失敗？** — ①`gitagent run` 依賴外部框架，若 Claude API / OpenAI API 的認證設定不正確，整個 run 指令靜默失敗，error message 不足以引導修復；②`github.ts` 未整合至主 export 清單，`--format github` 可能生成不可執行的 GitHub Actions 配置，在 CI/CD 環境中造成難以追蹤的失敗；③合規驗證假設 `agent.yaml` 的 `compliance.segregation_of_duties` 欄位被正確填寫，若團隊跳過此欄位，`validate --compliance` 直接 pass 而沒有任何警告
+3. **有沒有更好的替代方案？** — ①若只需要跨框架移植性：直接用結構化的 system prompt 模板（純 Markdown），不依賴任何額外工具；②若需要合規稽核：使用成熟的 GRC（Governance, Risk, Compliance）工具（如 Vanta、Drata），比自製 if 判斷式更有法律效力；③若需要代理人版本控制：直接用 git + 語意化版本標籤管理 CLAUDE.md 或 system prompt 文件，無需學習新的 CLI 工具

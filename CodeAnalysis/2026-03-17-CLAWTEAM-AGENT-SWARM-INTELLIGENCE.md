@@ -382,3 +382,33 @@ clawteam launch hedge-fund --team fund1 --goal "Analyze AAPL, MSFT, NVDA for Q2 
 - [autoresearch demo](https://github.com/novix-science/autoresearch)
 - [ai-hedge-fund 靈感來源](https://github.com/virattt/ai-hedge-fund)
 - [karpathy/autoresearch](https://github.com/karpathy/autoresearch)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 原子寫入（mkstemp + rename）；flock 互斥鎖；自動解除阻塞（_resolve_dependents_unlocked）；Agent 存活檢查（is_agent_alive）；tmux paste-buffer 提示詞注入；FileTransport / ZeroMQ P2P 雙傳輸；TOML 模板；Typer + Pydantic + Rich 技術棧；1,898 顆 GitHub Stars（三天內）；Python 3.10+ |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | ClawTeam 的核心哲學是「CLI 作為通訊協議」：每個 Worker 代理人只需要能執行 shell 指令，不需要知道 ClawTeam 的內部實作。Coordination Prompt 自動注入讓 Worker 在生成瞬間就知道如何報告進度、如何通訊，無需額外整合。原子寫入 + flock 的無伺服器協調模式用最簡單的技術解決了多進程並發的核心問題。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①`_wait_for_claude_ready()` 依賴 `❯` 符號偵測就緒狀態，假設 Claude Code 的提示符號不會改變，但這是一個脆弱的假設；②任務掃描（O(n)）假設任務數量在可控範圍，但大型多代理人團隊（50+ 任務）時效能會顯著下降；③tmux paste-buffer 注入假設 Worker 代理人在收到 prompt 前已完全就緒，但視窗切換和初始化的時序競爭條件（race condition）無法完全消除 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①用 ClawTeam 協調 3-5 個 Claude Code 實例平行開發一個全棧應用的不同模組；②借鑑 TOML 模板設計，為常見的開發場景（code review team、ML experiment team）建立可重用的團隊模板；③在多 Agent ML 實驗中用 ClawTeam 自動化超參數搜尋（autoresearch 模式） |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | ClawTeam 在「單機多代理人協調」場景下是設計最完整的工具（原子寫入 + flock + 自動解除阻塞 + Agent 存活檢查），比 GNAP（只有 RFC）更可用，比 OMC（單一 Claude Code 增強）更適合真正的多代理人場景。主要限制是單機（File Transport 不支援跨機器）和 Unix 專用（fcntl 依賴），但這些在 v0.4 路線圖中有規劃解決。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：ClawTeam 的 Coordination Prompt 自動注入（`build_agent_prompt()`）假設每個 Worker 都能理解並遵守協調協議指令。但若 Worker 是一個 Gemini CLI 或 Codex CLI，其對 `clawteam task update` 等 shell 指令的執行意願取決於自身的 system prompt 設定，這個假設的成立率有多高？
+- **假設**：`_resolve_dependents_unlocked()` 掃描所有任務檔案以解除阻塞，這個 O(n) 掃描假設任務數量有限。若一個大型 ML 研究任務有 500+ 子任務，每次任務完成都觸發一次完整掃描，效能影響如何評估？
+- **證據**：8-Agent ML 實驗（30 GPU-hours，2430 experiments，val_bpb 6.4% 改善）的數據來自 autoresearch demo，但這是在 ClawTeam 協調下完成還是手動協調後聲稱是 ClawTeam 的結果？實驗的可重複性文件在哪裡？
+- **觀點**：從軟體架構師的角度，ClawTeam 的「無協調伺服器（Serverless Coordination）」設計在可靠性上其實是以「分散式狀態在多個代理人之間可能暫時不一致」為代價換取的簡單性。這個一致性保證是否足夠應用於需要嚴格原子性的任務（如資料庫遷移）？
+- **後果**：若 tmux 版本更新改變了 `capture-pane` 的輸出格式或 paste-buffer 的行為，`_wait_for_claude_ready()` 和 `_inject_prompt_via_buffer()` 都可能靜默失敗，導致 Worker 代理人收到空白 prompt 後執行不可預期的操作。這個維護風險如何管理？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — tmux 螢幕文字解析（screen scraping）是架構中最脆弱的部分。ClawTeam 通過讀取 tmux pane 的文字內容來偵測 Claude Code 就緒狀態（`❯` 符號）和確認 workspace trust 提示，這個方法完全依賴 CLI 介面的文字格式不改變。一旦 Claude Code 更新了終端機輸出格式（如更換提示符號、改變 trust 確認的措辭），所有代理人生成邏輯都可能靜默失敗，且沒有明確的錯誤訊息。
+2. **什麼情況下會失敗？** — ①多個 Worker 同時完成並嘗試 push 任務狀態更新，若 flock 在 NFS 或 Docker volume 上不可靠，原子性保證失效，任務狀態可能損毀；②Leader Agent 中途崩潰（如 Claude Code 被強制關閉），Worker 繼續執行但沒有 Leader 收集結果，孤兒 Worker 在 tmux 中持續運行直到耗盡資源；③`clawteam workspace merge` 在多個 Worker 修改同一檔案時需要人工解決 merge conflict，若在自動化流程中無人值守，整個合併步驟阻塞
+3. **有沒有更好的替代方案？** — ①若需要更健壯的跨進程通訊：用 SQLite（WAL mode）取代 JSON 檔案作為任務後端，提供更好的並發支援和查詢能力；②若需要跨機器協調：ClawTeam v0.4 的 Redis Transport 是官方規劃，或直接使用 GNAP（git-native 天然跨機器）；③若不需要 tmux 視覺化監控：用 ClawTeam 的 subprocess backend 取代 tmux backend，更適合 CI/CD 環境和無頭伺服器

@@ -679,3 +679,25 @@ export function evaluatePolicy(
 - [Microsoft Security: AI Recommendation Poisoning](https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/)
 - [Snyk: ToxicSkills](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
 - [OpenAI: Designing AI agents to resist prompt injection](https://openai.com/index/designing-agents-to-resist-prompt-injection/)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | CVE-2025-59536（CVSS 8.7，信任對話框前執行）、CVE-2026-21852（ANTHROPIC_BASE_URL 覆寫 + API 金鑰洩露）、Simon Willison「致命三要素」（私人資料 + 不受信任內容 + 外部通訊）、OWASP MCP Top 10、AgentShield 102 條規則五大類別（密鑰偵測/權限審計/鉤子分析/MCP 安全/代理人設定）、Snyk ToxicSkills 統計（3,984 個技能、36% 含注入、1,467 個惡意有效負載）、Hunt.io 17,470 個暴露 OpenClaw 實例、Opus 4.6 三代理人管道（Red Team/Blue Team/Auditor）、最低限度清單十項。 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 代理人安全的核心邏輯是「安全邊界在模型和行動之間，而不在模型內部」。LLM 讀取的所有內容都是可執行的上下文，「數據」和「指令」之間沒有有意義的區別，因此傳統依賴「系統提示 = 安全邊界」的思維根本上是錯誤的。防禦必須從隔離身份（Separate Identity）、沙箱執行（Sandboxing）、輸入清洗（Sanitization）、最少代理（Least Agency）、可觀測性（Observability）到殺開關（Kill Switches）多層疊加，AgentShield 則是把這些防禦要求轉化為可自動化驗證的 102 條規則。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | （1）文章假設「遵循最低限度清單可以顯著降低風險」，但 36% 的公開技能含注入的統計說明供應鏈風險無法透過本地清單完全控制；（2）AgentShield 的靜態分析方法假設威脅可被規則化，但零日攻擊和邏輯性攻擊鏈（如分片記憶體污染）本質上無法被靜態規則捕捉；（3）「永遠不要讓便利層超越隔離層」這條規則是定性的，缺乏量化指標來判斷何時便利層已「超越」隔離層。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | （1）立即為 Claude Code 設定 `permissions.deny` 基線規則（拒絕讀取 `~/.ssh/**`、`~/.aws/**`、`**/.env*` 及高危 Bash 命令）；（2）對每個新增的技能、MCP 伺服器或 hook，在 git commit hook 中執行 `agentshield scan` 並在分數下降時阻止提交；（3）建立 PostToolUse hook 對工具輸出進行即時注入風險評分，實現「防毒即時防護」概念。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 靜態掃描（AgentShield）vs. 動態防護（PostToolUse hook + 即時評分）：靜態掃描成本低、可在 CI/CD 中全自動執行，但只能在配置時發現問題，無法防禦執行期注入；動態防護更全面但每次工具呼叫都有額外延遲和 API 費用。沙箱化（Docker/devcontainer）vs. 權限清單（deny rules）：沙箱提供硬性隔離邊界，是最高爆炸半徑控制手段，但增加開發摩擦；權限清單靈活易調整但依賴人工維護，容易因疏忽產生漏洞。兩者不互斥，最小風險策略是先沙箱後加清單。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：「安全邊界在模型和行動之間」這個原則，在實際的 Claude Code hook 架構下具體如何落地？`PreToolUse` hook 的執行時序是否在所有版本中都可信賴？
+- **假設**：Snyk ToxicSkills 研究假設「公開技能 = 社群技能」，但 Claude Plugin Marketplace 的官方技能是否有獨立的安全審查流程？官方渠道的信任假設是否也需要被重新檢驗？
+- **證據**：Microsoft 的 AI 推薦中毒報告提到「有效負載可以被記住後稍後再回來」——但這個記憶體持久化攻擊需要什麼條件才能成功？攻擊者需要對代理人記憶體有多少了解？
+- **觀點**：文章認為代理人安全必須被當作基礎設施對待，而非提示設計問題。但如果模型本身有更強的指令遵循能力和越獄抵抗力，是否可以讓基礎設施層的防禦要求降低？兩條路線的投資報酬率各如何？
+- **後果**：若「最少代理（Least Agency）」原則被廣泛採用，代理人的自主性和生產力必然受到限制。在高度受限的執行環境下，代理人是否還能發揮其核心價值？安全與效能之間的最佳平衡點在哪裡？

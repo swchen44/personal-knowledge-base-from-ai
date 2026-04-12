@@ -227,3 +227,25 @@ xattr -cr /Applications/WezTerm.app
 - [Erog38/wezterm feat/macos-dictation](https://github.com/Erog38/wezterm/tree/feat/macos-dictation)
 - [swchen44/wezterm-macos-dictation Release](https://github.com/swchen44/wezterm-macos-dictation/releases/latest)
 - [WezTerm 官方字體設定文件](https://wezfurlong.org/wezterm/config/fonts.html)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 五個主要目標（編譯、CJK 修復、打包、GitHub Release、存入知識庫）；錯誤紀錄（rustc 找不到、視窗不出現、中文亂碼、prompt 字元寬度、Write tool 失敗）；關鍵檔案路徑（`window/src/os/macos/mod.rs`、`~/.config/wezterm/wezterm.lua`、`assets/macos/WezTerm.app`）；編譯產物為 arm64 架構 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 本文作為「踩坑紀錄」的核心價值在於把每個錯誤與根本原因配對：`cargo build` 自動化程度高但 git submodule 是手動步驟（最常漏）；`wezterm` 是 CLI dispatcher 而非 GUI 本體；字體 fallback 解決顯示問題但無法修復 nsstring_to_str 的 UTF-16/UTF-8 長度錯誤；Gatekeeper 是分發未簽名 app 時最常被忽略的障礙。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 假設一：文章以 `IMKClient_Modern` 日誌出現作為聽寫功能生效的確認，但這只代表 IMKit 框架已載入，不等於聽寫真的可用，確認方式可能不夠嚴謹；假設二：arm64 只限制了預編譯版本的受眾，但未說明 Universal Binary 的構建可行性與成本；假設三：使用 `xattr -cr` 解除 Gatekeeper 的長期安全含義未深入討論。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 建立標準的 WezTerm fork 編譯 checklist（clone → submodule init → cargo build → 設定 wezterm.lua → 打包 .app）；2. 未來分享未簽名 macOS app 時，在 README 首段置入 `xattr -cr` 指令，避免對方無法開啟；3. 將本次踩坑紀錄轉為個人知識庫範本，後續處理其他 Rust GUI 專案時可直接套用。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 本文以「速查文件」為定位，取捨上刻意聚焦「踩過的坑」而非完整技術說明，對想快速重現的讀者價值高，但對想深入理解 WezTerm 架構的讀者則需搭配配對的詳細文章（WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX）。未處理 `nsstring_to_str` bug 是已知技術債，在正式推薦聽寫功能前應先確認此問題的實際影響範圍。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：`wezterm-mux-server` 的用途類比為「tmux server」，但它在本次編譯使用場景中是否真的被啟用？不啟動 mux server 時，WezTerm 的功能會有哪些限制？
+- **假設**：本文假設 `source "$HOME/.cargo/env"` 是解決 `rustc: command not found` 的完整修復，但若使用者的 shell 設定（如 `.zshrc`）已包含 cargo 路徑，重複 source 是否有副作用？
+- **證據**：「Write tool 失敗因為未先 Read 檔案」——這是 Claude Code 的設計限制還是當時的 session 狀態問題？這個行為是否有官方文件說明？
+- **觀點**：從知識管理的角度，「踩坑紀錄型」文章（本文）與「完整流程型」文章（配對文章）各自服務不同閱讀目的，維護兩份文件的成本是否值得？有無更好的組織方式？
+- **後果**：若 `feat/macos-dictation` 的 PR 長期未被 WezTerm 維護者接受，Erog38 的 fork 是否有持續維護的動力？社群 fork 在沒有官方支持的情況下，使用者的遷移成本如何預估？

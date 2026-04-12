@@ -278,3 +278,25 @@ Claude Code 等待輸入（權限提示、閒置提示）時推送 Slack 通知�
 - [原文](https://karanbansal.in/blog/claude-code-hooks/)
 - [claude-code-hooks GitHub Repo](https://github.com/karanb192/claude-code-hooks)
 - [Claude Code Hooks 官方文件](https://code.claude.com/docs/en/hooks)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | Hook 共有 13 個事件類型（SessionStart、PreToolUse、PostToolUse、PreCompact 等）；退出碼 0/2/其他的語意；設定檔三層路徑（~/.claude、.claude、.claude/settings.local.json）；Node.js 啟動約 50–100ms，Python 約 200–400ms |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | Hooks 是事件驅動的攔截器，在 Claude Code 的「思考→行動→重複」迴圈中插入自訂邏輯；它們透過 stdin 接收 JSON、執行任意語言的腳本、再透過 stdout 回傳決策（allow/deny/ask），從而讓使用者從「事後回應」進化為「主動控制」Claude 的行為。高頻事件（PreToolUse）應優先選用啟動快的 Node.js 或 Bash，避免延遲累積影響體驗。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 假設一：Hook 腳本本身被視為可信任的程式碼，但若 hook 被惡意竄改，攔截機制本身就成為攻擊向量；假設二：退出碼 2 能讓 Claude 接收 deny 理由，但文章未說明 Claude 是否會嘗試繞過 deny，安全閉環可能不完整；假設三：多個 hook 同訂一事件的執行順序與 deny 邏輯未明確定義，實際行為可能與預期不符。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 立即在 `PreToolUse` 部署 `block-dangerous-commands`（high 等級）+ `protect-secrets`，防止不可逆操作與機密外洩；2. 在 `PostToolUse` 掛載 `auto-stage`，讓 `git status` 成為 Claude 修改的即時追蹤器；3. 先部署事件日誌器（event-logger.py）觀察各事件的 JSON 資料結構，再依需求撰寫功能性 hook。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | Hook 提供強大控制力，但同步執行的特性使高頻場景有延遲風險——Python hook 在 PreToolUse 每次約增加 200–400ms，大型專案中可能顯著影響流暢度，因此 Node.js/Bash 是更優選擇。與 Claude Code 的 Permission 對話框相比，hook 的優勢在於可自動化、可程式化，缺點是需要維護額外腳本；對於低頻安全需求，Permission 對話框可能已足夠，不必過度工程化 hook 系統。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：Hook 腳本以當前 session 使用者身份執行，與 Claude Code 進程本身的權限隔離程度如何？若 hook 腳本存取網路或寫入系統檔案，Claude Code 有辦法阻止嗎？
+- **假設**：文章假設「block-dangerous-commands 幾乎零成本」，但在每次工具呼叫都觸發的 PreToolUse 中，即使是 10ms 的 Bash hook 在大量工具呼叫時累積效果是否仍可忽略？
+- **證據**：Node.js 啟動約 50–100ms 的數字出自哪個量測環境？在不同作業系統或硬體下，這個基準值的變異幅度有多大？
+- **觀點**：若從「最小信任原則」出發，使用者定義的 hook 腳本是否應該在沙盒環境中執行，而非完全信任？這樣的設計會如何改變 hook 的使用方式？
+- **後果**：若 hook 生態系統（如 karanb192/claude-code-hooks）被廣泛採用，但其中某個常見 hook 被植入惡意邏輯，影響範圍與傳播速度會比傳統軟體供應鏈攻擊更快還是更慢？

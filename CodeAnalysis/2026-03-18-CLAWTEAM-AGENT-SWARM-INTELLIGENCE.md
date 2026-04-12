@@ -505,3 +505,33 @@ clawteam board attach my-team
 - [ROADMAP.md](https://github.com/HKUDS/ClawTeam/blob/main/ROADMAP.md)
 - [ClawTeam Skill（代理使用手冊）](https://github.com/HKUDS/ClawTeam/blob/main/skills/clawteam/SKILL.md)
 - [AutoResearch 實際案例](https://github.com/novix-science/autoresearch)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 協調提示自動注入（spawn/prompt.py）；任務自動解除阻擋（auto-unblock）；lazy init（~/.clawteam/ 首次執行時建立）；7 個 TOML 模板環境變數；clawteam-mcp MCP 伺服器；雙傳輸模式（file / P2P ZeroMQ）；懶惰初始化設計；3,819 顆 GitHub Stars；6 個核心使用案例 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 2026-03-18 版本相較 2026-03-17 版本深入解析了安裝流程（hatchling 打包 → lazy init）、使用案例地圖（6 個案例的完整調用鏈）和 MCP 伺服器整合（clawteam-mcp）。核心架構理念一致：「CLI 即協議、檔案即訊息匯流排、框架無關性」。Coordination Prompt 讓 Worker 無需知道 ClawTeam 存在就能遵守協調規則，這是「透明整合」的最佳實踐。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①`pip uninstall clawteam` 不清理 `~/.clawteam/`，假設「使用者知道需要手動清理」，但對初學者而言這是隱藏的狀態遺留問題；②TOML 模板（hedge-fund.toml）的 spawn_sequence 依序啟動代理人，假設後一個代理人在前一個完全就緒後才接收任務，但 `_wait_for_cli_ready()` 的輪詢機制不保證嚴格的 happens-before 關係；③MCP 伺服器（clawteam-mcp）讓 MCP 客戶端可以管理 ClawTeam，但這個「代理人控制代理人協調器」的二層架構增加了故障排查複雜度 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①用 `clawteam launch hedge-fund` 一鍵啟動金融分析團隊，驗證多代理人並行分析的效果；②為個人常用場景（全端開發、文件撰寫、安全審查）建立自訂 TOML 模板；③通過 clawteam-mcp 讓 Claude Code 本身可以動態調度 ClawTeam 任務，實現 AI 自驅動的多層協調 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 相較 2026-03-17 版本，此版本更完整地揭示了安裝產物（entry points / lazy init）和環境變數設計，讓部署場景更清晰。MCP 伺服器整合是相對於 oh-my-claudecode 的架構優勢，後者的 MCP 工具伺服器是單點瓶頸，ClawTeam 的 MCP 是可選整合。然而兩個版本筆記的重疊度較高，建議合併為單一筆記。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：`clawteam-mcp` 的 MCP 伺服器讓 MCP 客戶端可以呼叫 `clawteam` CLI 指令，但 MCP 客戶端（如 Claude Code）通常在沙盒環境中運行。MCP 伺服器如何傳遞 `CLAWTEAM_SKIP_PERMISSIONS=true` 等環境變數，確保生成的代理人能自動確認 trust prompt？
+- **假設**：環境變數 `CLAWTEAM_SKIP_PERMISSIONS=true` 假設所有 Worker 的操作都可以無需人工確認。但若 Worker 執行的任務包含潛在破壞性操作（刪除舊代碼、重構核心模組），這個假設是否創造了非預期的安全風險？
+- **證據**：ML 研究案例（2430+ 次實驗，val_bpb 1.044 → 0.977）中，ClawTeam 的協調開銷（框架本身）在 30 GPU-hours 中佔多少比例？有無對照組（相同任務，手動協調）的效率比較？
+- **觀點**：從 DevOps 工程師的角度，`~/.clawteam/` 的懶惰初始化設計讓使用者無法在安裝後立即驗證配置是否正確（需要執行 spawn-team 才能確認）。`omc doctor` 這種安裝診斷工具對 ClawTeam 是否同樣必要？
+- **後果**：若 Leader Agent 在 spawn 多個 Worker 後崩潰，`~/.clawteam/teams/{team}/` 目錄和 git worktrees 都已建立但沒有人負責協調。Worker 會持續執行已分配的任務，但結果無人收集。這個「孤兒 Worker」場景如何偵測和清理？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — `CLAWTEAM_SKIP_PERMISSIONS=true` 環境變數自動確認所有 Claude Code 的 workspace trust 和工具使用權限，結合 `clawteam launch hedge-fund` 一鍵啟動 7 個 Agent 的設計，創造了一個「完全自動化但零監督的多代理人執行環境」。若任何一個 Worker 的 Coordination Prompt 被意外篡改或受到 prompt injection 影響，7 個代理人都會在無人值守的情況下執行任意操作，且沒有任何攔截機制。
+2. **什麼情況下會失敗？** — ①git worktree 的目標分支（`clawteam/{team}/{agent}`）若與現有分支名稱衝突，`git worktree add` 失敗，但 ClawTeam 可能繼續嘗試注入 prompt，Worker 在錯誤的目錄中執行任務；②`clawteam workspace merge` 在多個 Worker 修改相同檔案的情況下需要人工解決衝突，若在自動化 TOML 模板啟動的無人值守場景中觸發，整個 pipeline 無限期阻塞；③長期使用後 `~/.clawteam/` 累積大量過期狀態（無 TTL 機制），task list 查詢時間線性增長，影響 ClawTeam 自身的 CLI 響應速度
+3. **有沒有更好的替代方案？** — ①若需要更嚴格的安全控制：在 Docker 容器中隔離每個 Worker，通過容器 API 而非 tmux 管理生命週期；②若已有 MCP 基礎設施：用 MCP Server 作為代理人協調中心，比檔案系統方案有更好的即時性和錯誤處理；③若需要跨機器協調且生態系更成熟：等待 ClawTeam v0.4 的 Redis Transport，或採用已有完整跨機器支援的工具（如 LangGraph Platform）

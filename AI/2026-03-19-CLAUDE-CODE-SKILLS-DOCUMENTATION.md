@@ -587,3 +587,25 @@ if __name__ == '__main__':
 ## References
 
 - [原文](https://code.claude.com/docs/en/skills)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | SKILL.md、`disable-model-invocation: true`、`user-invocable: false`、`context: fork`、`allowed-tools`、`$ARGUMENTS`、`${CLAUDE_SKILL_DIR}`、`${CLAUDE_SESSION_ID}`、`!`command`` 動態注入語法、Skill 字元預算（上下文視窗的 2%）、內建 Skills（`/batch`、`/simplify`、`/loop`、`/debug`、`/claude-api`）、四層存放位置（Enterprise/Personal/Project/Plugin）、`CLAUDE_PLUGIN_DATA` |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | Claude Code Skills 系統的設計邏輯建立在「控制誰在何時看到什麼」這個核心上：`disable-model-invocation` 控制觸發主體（人 vs. 模型），`context: fork` 控制執行隔離程度，`allowed-tools` 控制工具存取範圍，而 `!`command`` 語法讓 skill 在執行前先完成資料準備，避免讓模型在對話中多一次工具呼叫。四層存放位置（Enterprise→Personal→Project→Plugin）形成優先順序明確的繼承結構，讓組織可以強制執行標準，個人可以客製化，專案可以覆蓋。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 1. `disable-model-invocation: true` 和 `user-invocable: false` 的命名方式讓兩者的行為邊界容易混淆——前者防止 Claude 自動觸發，後者隱藏選單可見性但不阻止程式化呼叫，這個設計可能導致安全假設錯誤；2. Skill 字元預算（2% of context window）是動態的，意味著當模型版本或 context window 大小改變時，哪些 skill 被包含的結果也會不同，這種隱性不確定性在生產環境中難以預測；3. `!`command`` 動態注入在 skill 被惡意篡改時是命令注入（Command Injection）的潛在向量，但文件對此風險著墨極少。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 對所有有副作用的 skills（deploy、commit、send-message）加上 `disable-model-invocation: true`，確保只有明確的 `/skill-name` 呼叫才能觸發；2. 利用 `context: fork` + `agent: Explore` 建立唯讀研究 skill，既不汙染主對話又能安全探索程式碼庫；3. 定期執行 `/context` 指令確認所有 skills 都在字元預算內，避免關鍵 skill 被靜默排除。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | Claude Code Skills 系統相較於直接使用 CLAUDE.md 的優勢在於可組合性與精細控制，但複雜性顯著更高（frontmatter 選項多、行為模式細微差異需要熟悉）。內建的 `/batch` skill 可以生成平行子代理人，這是最強大但也最昂貴的功能，在預算有限時應謹慎使用。對比自建工具鏈：若已有 CI/CD 系統，維運手冊型 skill（Runbook skills）可以取代部分人工操作；但若組織缺乏 Claude Code 的使用文化，skill 的維護成本（Gotchas 更新、字元預算監控）可能超過其帶來的效率收益。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：`context: fork` 讓 skill 在「隔離的子代理人上下文中執行，不共用對話歷史」——這個隔離在計費層面是否也是獨立的？若子代理人的 token 使用算在主對話的預算裡，「隔離」的語義是否會讓使用者誤解成本邊界？
+- **假設**：文章假設「description 欄位讓 Claude 判斷何時套用 skill」是可靠的觸發機制，但這個機制的可靠性本質上依賴模型的語義理解，而非確定性邏輯。在高可靠性需求場景（如自動部署），這個假設是否過於樂觀？
+- **證據**：「Skill 描述的字元預算動態為上下文視窗的 2%，預設後備為 16,000 字元」——這個設計決策的依據是什麼？是基於實驗數據還是工程估算？當 skill 數量增加時，2% 是否足夠？
+- **觀點**：從企業資安角度，`!`command`` 動態注入語法允許 skill 在執行前運行任意 shell 指令。若 skill 檔案被篡改（如供應鏈攻擊），這個機制是否成為攻擊面？官方對此有無沙盒或驗簽機制？
+- **後果**：若 `/batch` skill 被廣泛用於生成數十個平行子代理人，Claude Code 的計費模式在大規模使用下會如何影響組織的 AI 採用決策？Token 成本的不可預測性是否會成為企業推廣的障礙？

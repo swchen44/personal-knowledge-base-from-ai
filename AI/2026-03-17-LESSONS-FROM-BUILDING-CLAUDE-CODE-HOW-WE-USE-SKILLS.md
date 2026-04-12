@@ -320,3 +320,25 @@ Skills 是 AI 智能體（AI Agent）極其強大且靈活的工具，但這一�
 - [原文推文（X/Twitter）](https://x.com/trq212/status/2033949937936085378)
 - [LinkedIn 版本](https://www.linkedin.com/pulse/lessons-from-building-claude-code-how-we-use-skills-thariq-shihipar-iclmc)
 - [中文翻譯（baoyu.io）](https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | Skills 是資料夾而非 markdown 文件、9 種 Skills 類型（庫與 API 參考、產品驗證、資料獲取、業務流程、程式碼鷹架、程式碼品質、CI/CD、維運手冊、基礎設施維運）、Gotchas 章節、漸進式揭露（Progressive Disclosure）、description 欄位、按需鉤子（On Demand Hooks）、`${CLAUDE_PLUGIN_DATA}`、`PreToolUse` 鉤子、Skill Creator |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | Skills 的核心價值在於上下文工程（Context Engineering）：透過資料夾結構控制 Claude 在正確時機取得正確資訊，而非一次性塞入所有資訊。description 欄位決定「何時觸發」（if-then 條件），而非「做什麼」，這個設計讓 Skill 能以最小上下文成本在需要時才被載入。Gotchas 章節是知識密度最高的部分，因為它累積的是 Claude 在實際使用中的反直覺失敗點，而非一般常識。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 1. 文章假設「Anthropic 內部數百個 Skills 仍運作良好」，但未說明如何解決語義相近的 Skills 相互競爭觸發的問題，這是規模化後的隱藏成本；2. 「按需鉤子」建議「不想一直開著」的保護機制只在特定情境啟用，但若工程師忘記啟用，保護形同虛設；3. 文章鼓勵建立插件市場並依靠自然湧現挑選優質 Skill，但缺乏對惡意 Skill 的防禦設計，安全風險被輕描淡寫。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 為團隊最頻繁的三個痛點（如每日站會匯報、PR 審查、資料庫查詢）各建立一個 Skill，先從最小可行版本（幾行 + Gotchas）開始，再迭代；2. 將 description 欄位從功能描述改寫為「當使用者說 X 時觸發」的 if-then 格式，提升觸發精準度；3. 在 `CLAUDE_PLUGIN_DATA` 目錄建立 `.log` 日誌記錄 Skill 執行歷史，實現跨 session 的輕量記憶。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 相較於「把所有指令放進 CLAUDE.md」的做法，Skills 的優勢在於按需載入與可組合性，缺點是設計複雜度更高且需要維護 Gotchas；相較於 MCP（Model Context Protocol），Skills 更輕量但缺乏標準化的工具呼叫介面。對於小團隊，直接提交 Skills 到 repo 即可；對於大組織，插件市場的治理成本（審核、去重、安全性）可能超過其帶來的靈活性收益，需要謹慎評估是否值得投入維護。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：「description 欄位是給模型看的」這個設計，意味著 Skill 觸發是由模型語義理解決定的，而非精確的字符串比對。這種模糊性在生產環境中的可靠性到底有多高？
+- **假設**：文章假設「Gotchas 章節最有資訊量」，但如果 Gotchas 是在失敗後才逐步積累的，是否意味著使用者必須先「踩坑」才能讓 Skill 成熟？有沒有辦法提前設計出高品質的 Gotchas？
+- **證據**：「按需鉤子」比「持續開著的鉤子」更好——這個主張的依據是工程師的主觀感受還是有效能或可靠性數據支撐？
+- **觀點**：從安全研究者的角度，插件市場（Plugin Marketplace）的「自然湧現」篩選機制是否足夠防範惡意 Skill？若有人提交一個看似合法實則竊取資料的 Skill，現有機制能發現嗎？
+- **後果**：若 Anthropic 內部 Skills 數量從數百個增長到數千個，上下文視窗的字元預算（2% of context window）會成為根本瓶頸嗎？這對 Skills 生態系的長期可擴展性意味著什麼？

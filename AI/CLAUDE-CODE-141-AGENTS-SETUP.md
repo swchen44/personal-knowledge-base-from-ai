@@ -118,3 +118,25 @@ Each team lives in .claude/teams/<color>-team.yaml with:
 - [[OBSIDIAN-POWER-TIPS]] — knowledge management systems that parallel the .claude/decisions.md shared context pattern
 - [[2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT]] — NemoClaw 的跨進程安全治理層，為多代理人系統提供進程外的安全約束機制
 - [[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]] — Jarvis 多代理協調架構，將本文的 domain team 概念實作為 Expert 角色分工
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 10 色彩命名團隊系統（Blue/Cyan/Orange/Yellow/Green/Red/Purple/Gray/White/Black）、`shared_memory: false`、`context_isolation: strict`、`max_concurrent_agents: 3`、8 個自主 Skills（code-review/doc-sync/test-generation/dependency-audit/refactoring-scout/performance-monitor/migration-assistant/incident-analyzer）、19 個 Slash Commands（核心 8/上下文 5/工具 6）、`/handoff`、`.claude/decisions.md`、Supervised 自主層級、skill drift、日均 $12 運作成本 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 本文的核心架構思路是「以領域所有權組織代理人，而非以任務類型」。10 色彩團隊系統並非裝飾性命名，而是強制每個團隊保持窄焦範圍（否則無法與單一顏色關聯）。`shared_memory: false` 的反直覺設計源於一個觀察：共享上下文讓代理人跨領域套用解法，反而造成錯誤；明確的 handoff 規則雖有 15% 資訊遺失，但比隱式共享狀態更可預測、更易除錯。Supervised→Full Auto 的漸進授權模式讓信任隨可靠性累積，而非預先假設。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 1. 「3 agents max per team」的 4 分鐘 vs 12 分鐘 handoff 數據是核心論據，但文章沒有說明量測方法、樣本數量或任務類型，這個數字的通用性存疑；2. Skill drift（第 6 個月 Code Review 少偵測 62% 問題）的根本原因未被分析——是 prompt 腐化、模型更新還是程式碼庫語意漂移——月度 skill audit 的有效性取決於能診斷出正確原因；3. 文章建議的 ROI 試算（45 小時設定成本、每週 12-15 小時節省、3 週回本）對不同規模的團隊差異極大，但只給出了「CTO 管理 7+ 人團隊」的單一情境。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 複製 10 色彩系統作為起點，從最痛的 3 個領域（如 Blue 核心程式碼、Green 品質測試、Gray 文件）建立第一批代理人，驗證後再擴展；2. 立即在現有代理人設定中加入 `shared_memory: false` 並建立 `.claude/decisions.md` 共享關鍵架構決策，取代隱式共享狀態；3. 對所有 code-modifying skills 強制從 Supervised 模式開始，設計 30 天觀察期後再評估是否提升自主層級。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 10 色彩團隊系統的優勢是強制範圍約束和快速溝通（`/blue-review` 比 `/engineering-core-review` 快），缺點是在超過 10 個領域時顏色空間耗盡、且顏色-領域映射對新成員不直觀。日均 $12（峰值 $40）的成本對個人開發者不划算，但對 CTO 管理多人團隊的情境可能僅是一個初階工程師月薪的極小比例。與集中式協調方案（如 Claude Code multi-agent）相比，本文的分散式域團隊方案在 context 隔離和並發吞吐上更好，但管理開銷（19 個 slash commands、8 個 skills 的維護）也更高。適合已有清晰領域邊界的成熟產品，不適合仍在探索架構的早期創業。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：「domain ownership」作為組織代理人的原則聽起來合理，但在實際產品中，許多任務天然跨越多個域（如一個功能同時涉及 API 設計、資料庫遷移、前端組件）。這種跨域任務在 10 色彩系統中如何處理？由哪個顏色負責協調？
+- **假設**：「shared_memory: false 是關鍵」這個主張假設代理人的錯誤主要來自「跨域上下文污染」，但另一種解釋是代理人缺乏足夠的全局上下文導致重複工作。這兩個假設哪個更符合你的實際場景？
+- **證據**：「Skill drift」（Code Review 在第 6 個月少偵測 62% 問題）是一個驚人的退化幅度。若原因是 prompt 腐化，那 prompt 為何在沒有人修改的情況下會「腐化」？這個現象是否可能有其他解釋（如程式碼庫風格改變導致審查標準不再適用）？
+- **觀點**：從工程文化的角度，將所有決策集中在 `.claude/decisions.md` 一個共享檔案，是否反而製造了新的單點故障（SPOF）？若這個檔案過時或不完整，代理人基於錯誤的「共享知識」做出決策的後果比 `shared_memory: false` 更難診斷嗎？
+- **後果**：若這套 141 代理人架構被廣泛採用，工程師的職責是否會從「寫程式碼」轉變為「設計和維護代理人系統」？這個轉變對工程師的職涯發展意味著什麼？需要培養哪些新的核心能力？

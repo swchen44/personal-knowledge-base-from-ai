@@ -296,3 +296,33 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 
 - [GitHub Repo](https://github.com/HelloRuru/claude-memory-engine)
 - [繁體中文 README](https://github.com/HelloRuru/claude-memory-engine/blob/main/README.zh-TW.md)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 三重儲存安全網（mid-session-checkpoint / pre-compact / session-end）；踩坑關鍵字偵測（detectPitfalls）；8 步驟反思迴圈（/reflect）；shared-utils.js 共用函式抽象；36 個雙語指令；Smart Context 智慧脈絡載入；零外部依賴；Hook-driven 架構 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | Claude Memory Engine 的核心洞察是「Hook 不會遺忘，AI 會」——將記憶系統的觸發交給生命週期 Hook 而非 Claude 自身決策，確保記憶行為的可靠性不受 LLM 隨機性影響。三重儲存安全網的設計哲學是「降級容忍（Graceful Degradation）」：不依賴任何單一最佳觸發點，在多個次佳時機各自備份，整體可靠性反而更高。Markdown over Database 的選擇犧牲語意搜尋換取透明度與可審計性。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | ①踩坑偵測假設「包含 retry/wrong/失敗等關鍵字的用戶訊息必然是在回應 AI 錯誤」，但這些關鍵字大量出現在正常的技術討論中（如「如何處理 retry 邏輯」），假陽性率可能很高；②三重儲存假設「pre-compact 時機是最完整的 context」，但 PreCompact hook 觸發時間不由使用者控制，可能在不合適的時機截取 context；③無自動化測試假設「hook 腳本邏輯足夠簡單不需要測試」，但若 Claude Code 官方更新 Hook JSON schema，靜默失敗難以察覺 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | ①安裝此工具作為個人 Claude Code 記憶系統的基礎，特別是用於長期維護的專案；②定期執行 `/reflect` 整合知識，防止記憶檔案無限膨脹；③借鑑三重儲存安全網設計，在自己的系統中實作多重備份而非依賴單一觸發點 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | Claude Memory Engine 在「簡單、透明、零依賴」上是最佳選擇，比 claude-mem 的安裝門檻低得多（無需 Bun / uv / Chroma）。然而它缺乏語意搜尋能力，記憶查詢完全依賴 Claude 在 context 中讀取 Markdown 文字，在記憶量大時效率下降。對於只需要「不忘記上次做了什麼」的個人開發者，此工具是比 claude-mem 更務實的選擇。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：`session-start.js` 在 SessionStart 時注入 200-500 tokens 的記憶摘要，這個注入是通過 `additionalContext` 機制還是直接修改 system prompt？兩者在 Claude 處理優先級上是否有差異？
+- **假設**：系統假設「使用者願意定期執行 `/reflect` 整理記憶」，但反思迴圈需要主動執行且耗時。實際使用中，有多少用戶真的建立了定期反思習慣，而非讓記憶檔案無限增長？
+- **證據**：踩坑偵測（detectPitfalls）使用關鍵字比對，但沒有公開的準確率數據。在不同的開發場景（前端、後端、ML）中，誤判率是否差異顯著？是否有更好的替代指標（如連續修正同一行代碼）？
+- **觀點**：從知識管理研究者的角度，「記住做了什麼」（過程記憶）和「理解為什麼這樣做」（概念記憶）是兩種不同的知識類型。Claude Memory Engine 主要捕捉前者，但 AI 輔助開發中「為什麼選擇這個架構」可能更有長期價值。系統是否有機制捕捉後者？
+- **後果**：若 Claude Code 在某次更新後修改了 PreCompact hook 的觸發時機或 JSON 格式，而 Claude Memory Engine 未同步更新，會導致什麼？系統是否有版本相容性檢查機制？
+
+### 方案批判三問（Critical Evaluation）
+
+> [!warning] 適用於技術方案類內容
+
+1. **最大的風險是什麼？** — 無自動化測試是最大的長期風險。Claude Memory Engine 依賴 Claude Code 的 Hook 系統，但 Hook 的 JSON 輸入/輸出格式、生命週期事件的觸發時機、以及 hook 腳本的執行環境都可能在 Claude Code 版本更新後改變。沒有自動化測試意味著這些變化只能在用戶實際遭遇問題後才被發現，而記憶系統的靜默失敗特別難以察覺——使用者可能數週後才意識到記憶一直沒有被儲存。
+2. **什麼情況下會失敗？** — ①視窗直接關閉時 SessionEnd hook 可能不觸發，若 PreCompact 也未觸發（context 不夠長），整個 session 的工作記憶全部遺失；②長期使用後（1000+ sessions），session 摘要檔案累積到 MB 級別，SessionStart 的注入時間從 2-5 秒拉長，影響對話流暢度；③踩坑偵測的高假陽性率使錯誤筆記本充斥無關記錄，降低提醒的實際價值，使用者開始忽略錯誤筆記本
+3. **有沒有更好的替代方案？** — ①若需要語意搜尋能力：claude-mem 提供 SQLite FTS5 + Chroma 的混合搜尋，代價是更高的安裝複雜度；②若需要結構化知識管理：直接維護 CLAUDE.md（手動，但完全可控）+ 定期用 Claude 整理成結構化文件；③若需要自動化測試：基於此 repo fork 並補充測試，或直接採用 claude-mem（有更完整的測試覆蓋）

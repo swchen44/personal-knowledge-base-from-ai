@@ -464,3 +464,25 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 - [Claude Code 官方文件 - Plugins](https://docs.anthropic.com/en/claude-code/plugins)
 - [Claude Code 官方文件 - MCP](https://docs.anthropic.com/en/claude-code/mcp)
 - [Claude Code 官方文件 - Hooks](https://docs.anthropic.com/en/claude-code/hooks)
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+> 以下從五個認知層次對本篇內容進行結構化分析，協助從記憶到評估逐層深化理解。
+
+| 認知層次 | 核心目的 | 對本文的具體應用 |
+|---------|---------|--------------|
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | 四層配置系統優先級（Managed > Local > Project > User）；Plugin 只能安裝在使用者層級且對所有專案無差別生效；Skills、Agents、Commands、MCP、Hooks 均可部署於兩個層級；Array 類型欄位採 deep merge 而非覆蓋；`settings.local.json` 須加入 `.gitignore` |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | 此系統的設計哲學是「file-based, git-native」——所有設定均為純文字，可版控、可 diff、可 code review。Plugin 的「全域生效」特性是其最大限制：安裝後無法按專案停用，因此適合「跨所有專案通用」的工具；專案特有的領域能力應改用 `.claude/` standalone 設定，確保團隊成員 git clone 後即獲得完整一致的 Claude 協作環境。 |
+| **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 假設一：「Plugin 全域生效」被定性為設計缺陷，但也可能是刻意的簡化設計決策，以降低多層設定系統的複雜度；假設二：Array 欄位的 deep merge 行為在不同版本間是否一致未經確認，hooks 意外疊加可能造成非預期行為；假設三：`direnv` 偽按目錄開關方案假設環境變數能正確傳遞給 Claude Code 進程，tmux session 等場景下的繼承行為尚未驗證。 |
+| **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 個人開發者：Plugin 只安裝跨所有專案通用工具，專案特有能力（domain expert skill、API agent）一律放到 `.claude/` 目錄；2. 團隊：將 `.claude/settings.json`（含 hooks、MCP、permissions）commit 進 repo，`.claude/settings.local.json` 加入 gitignore 保留個人覆蓋空間；3. 在 README 明確列出「建議安裝的 Plugin」清單，讓新成員知道手動安裝步驟。 |
+| **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 在個人 vs 團隊的配置策略中，Plugin 的「方便但不靈活」vs `.claude/` 的「精確但需手動管理」各有適用場景。Plugin 對個人單一工作流的快速上手很有價值，但一旦管理 3 個以上不同性質的專案，Plugin 的全域副作用就會造成干擾。最乾淨的長期策略是：對所有具有專案特異性的能力，優先選用 `.claude/` standalone 設定，完全繞開 Plugin 的設計限制。 |
+
+### 分析型追問（Socratic Follow-up）
+
+> 以下問題供進一步反思，可用來與 AI 展開蘇格拉底式對話：
+
+- **澄清**：四層配置的 Array 欄位採 deep merge，但若 `hooks` 陣列中有兩個功能相似的 hook（一來自 user settings，一來自 project settings），它們都會執行嗎？合併後的執行順序如何決定？
+- **假設**：文章假設「Plugin 無法按專案停用」是目前的絕對限制，但 `ENABLE_TOOL_SEARCH` 的存在暗示了延遲載入的可能性——未來是否有可能出現「Plugin 條件啟用」的機制？
+- **證據**：「git clone 即獲得完整 Claude 協作環境」的說法依賴所有能力都放在 `.claude/` 而非 Plugin，但 MCP server 的執行環境（Node.js、Python 等依賴）仍需本地安裝，這個假設是否過於樂觀？
+- **觀點**：「file-based, git-native」哲學強調設定的可版控性，但 AI 助手的設定（如 CLAUDE.md 中的行為指引）是否適合與程式碼混在同一個版控系統中？有無分開管理的理由？
+- **後果**：若 Claude Code 未來引入 Plugin 的 per-project 啟用機制，現有用「.claude/ standalone 設定替代 Plugin」的方案需要遷移嗎？兩種方式的共存是否會造成更大的設定混亂？
