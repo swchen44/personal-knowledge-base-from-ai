@@ -375,6 +375,7 @@ clawteam launch hedge-fund --team fund1 --goal "Analyze AAPL, MSFT, NVDA for Q2 
 - [[CLAUDE-CODE-AGENT]] — ClawTeam 原生支援 Claude Code 作為 Leader/Worker Agent
 - [[MULTI-AGENT-SYSTEMS]] — ClawTeam 是「Agent Swarm」模式的具體實現
 - [[AI-ORCHESTRATION]] — 與 LangChain、AutoGen 等框架的協調哲學比較
+- [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — DPI 理論指出蜂群通訊瓶頸可能引入資訊損失，ClawTeam 的任務分解設計需考慮此理論限制
 
 ## References
 

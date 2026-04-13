@@ -349,6 +349,7 @@ uv run python src/my_research_flow/main.py
 - [[AI-AGENT-DESIGN]] — 多代理人系統的設計原則，CrewAI 是最佳實踐範例
 - [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — Claude Code 的持久記憶插件，與 CrewAI 的 Memory 系統概念互補
 - [[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]] — 用 Claude Code 建立 Agent 的實務教程，可對比 CrewAI 的架構選擇
+- [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — Stanford 論文質疑 MAS 框架的效能提升可能來自更多令牌而非架構優勢，CrewAI 使用者應注意此對照
 
 ## References
 

@@ -277,6 +277,7 @@ Yegge 大膽預測：未來的開發介面將是完全基於對話（conversatio
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 多 AI 角色分工在一人公司中的具體實踐案例
 - [[2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9]] — 同頻道「最佳拍檔」訪談 Meta E9，從個人層面論證 AI 時代工程師的核心價值
 - [[2026-03-30-STANFORD-STUDY-22YO-EMPLOYMENT-DROPS-20PCT-750-CFOS-AI-LAYOFFS-9X]] — 斯坦福數據驗證 Yegge 觀點：初階工程師就業塌方，但資深者反增
+- [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — Stanford 實證研究為「何時該用 Multi-Agent」提供定量參考，補充 Yegge 的定性展望
 
 ## References
 

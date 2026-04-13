@@ -229,6 +229,7 @@ Claude 不知道應用的安全邊界或 UX 介面。Bash 工具給 Claude 廣�
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — Claude Code 記憶系統的原始碼分析，驗證本文「Claude 已內建記憶」的主張
 - [[2026-03-26-WRITING-YOUR-FIRST-SIMPLE-AI-AGENT]] — 入門級 Agent 的 5 原則設計，與本文「減少結構」的哲學形成「增加結構 vs 減少結構」的辯證
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發實戰踩坑錄，以「重述（Restatement）」機制驗證本文「Claude 需要明確指引而非過度結構」的觀點
+- [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — Stanford 論文以令牌預算控制實證支持本文「用對的工具而非更多的工具」的核心主張
 
 ## References
 

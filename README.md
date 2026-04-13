@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [單一代理人勝過多代理人系統：在相同思考令牌預算下的多跳推理實證](./Research/2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS.md) — Stanford 論文以 DPI 理論與受控實驗證明，控制令牌預算後 SAS 一致匹配或超越 MAS
 - [Claude Code Telemetry 原始碼深度分析：三層 OTel 架構與 100 人團隊部署策略](./CodeAnalysis/2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE.md) — 從 18 個遙測檔案追蹤完整架構、8 個指標設計、Skill 追蹤缺口與自訂方案
 - [Claude Code Worktree 檔案操作全解析：從原始碼追蹤到 repo 整合](./DevTools/2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION.md) — 逐行追蹤 worktree 建立/使用/清理的檔案操作，結合 repo forall + Gerrit topic 的 Multi-Repo 實戰
 - [Claude Code Plugin 完整生命週期 — 安裝/停用/移除/更新的檔案影響全解析](./CodeAnalysis/2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE.md) — 追蹤 Plugin 五大操作（安裝/使用/停用/移除/更新）會觸碰的所有檔案，比較三種 Scope（user/project/local）差異

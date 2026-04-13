@@ -210,6 +210,8 @@ Harness Engineering → 建立持續監控與糾偏機制
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析，Harness 設計中常被忽略的可觀測性面向
 - [[2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT]] — NemoClaw 的跨進程安全治理層，是 Harness 約束層在企業環境的具體實踐
 - [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — 從 Prompt 工程升級到流程工程的三層式架構，與 Harness Engineering 的系統化思維相通
+- [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅教授的教學版 Harness Engineering，包含情緒向量和口頭回饋等獨特觀點
+- [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — 上下文退化分析為 Harness 的上下文工程層提供理論補充：上下文品質決定 SAS vs. MAS 的最優選擇
 
 ---
 

@@ -9,3 +9,4 @@
 | 2026-04-12 22:30 | ingest | conversation research: Plugin lifecycle | [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] | CodeAnalysis | 5 | 5 |
 | 2026-04-13 00:30 | ingest | conversation research: Worktree file ops + repo | [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] | DevTools | 4 | 7 |
 | 2026-04-13 12:00 | ingest | conversation research: Claude Code telemetry OTel source | [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] | CodeAnalysis | 6 | 7 |
+| 2026-04-14 07:00 | ingest | https://arxiv.org/html/2604.02460v1 | [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] | Research | 6 | 5 |
