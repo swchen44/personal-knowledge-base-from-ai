@@ -273,6 +273,7 @@ Claude Code 等待輸入（權限提示、閒置提示）時推送 Slack 通知�
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — claude-code-hooks 開源集合的程式碼分析，提供可直接使用的 hook 腳本
 - [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — Claude Memory Engine 以 hooks 實現記憶系統的程式碼分析
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — Hooks 搭配 OpenTelemetry 事件可實現監控→自動響應的閉環
+- [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — 透過 PostToolUse Hook 自訂 Skill 執行追蹤的具體方案，彌補原生遙測的 Skill 追蹤缺口
 
 ## References
 

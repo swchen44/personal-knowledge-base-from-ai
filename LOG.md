@@ -8,3 +8,4 @@
 | 2026-04-12 14:00 | ingest | https://alirezarezvani.medium.com/...monitoring... | [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] | DevTools | 6 | 5 |
 | 2026-04-12 22:30 | ingest | conversation research: Plugin lifecycle | [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] | CodeAnalysis | 5 | 5 |
 | 2026-04-13 00:30 | ingest | conversation research: Worktree file ops + repo | [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] | DevTools | 4 | 7 |
+| 2026-04-13 12:00 | ingest | conversation research: Claude Code telemetry OTel source | [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] | CodeAnalysis | 6 | 7 |

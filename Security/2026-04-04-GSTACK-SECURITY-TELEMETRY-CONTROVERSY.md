@@ -147,6 +147,7 @@ gstack 是 Y Combinator 總裁 Garry Tan 開源的 Claude Code Skill 工具包�
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析，本文爭議的技術細節在此
 - [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — gstack 測試架構的程式碼分析，另一面向的設計品質
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — Claude Code 官方遙測的隱私權衡（OTEL_LOG_USER_PROMPTS），與 gstack 爭議的對照
+- [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — Claude Code 遙測原始碼分析，其隱私設計（預設脫敏、PII 路由、opt-in 主開關）是 gstack 爭議的正面範例
 
 ---
 

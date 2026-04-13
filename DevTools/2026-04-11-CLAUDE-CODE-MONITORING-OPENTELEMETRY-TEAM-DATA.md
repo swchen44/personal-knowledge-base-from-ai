@@ -291,6 +291,7 @@ export OTEL_TRACES_EXPORTER=otlp
 - [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — 遙測資料的隱私爭議，本文的 `OTEL_LOG_USER_PROMPTS` 也涉及類似權衡
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Hooks 可搭配遙測事件做自動化響應，是監控 → 行動的下一步
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — 團隊層級的 Claude Code 管理，本文從監控角度，該文從記憶系統角度
+- [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — 從原始碼追蹤遙測子系統的完整架構、18 個檔案的程式碼分析與 100 人團隊部署策略
 
 ---
 
