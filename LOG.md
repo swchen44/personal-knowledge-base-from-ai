@@ -14,3 +14,4 @@
 | 2026-04-14 07:30 | ingest | https://www.youtube.com/watch?v=R6fZR_9kmIw | [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] | AI | 5 | 5 |
 | 2026-04-15 00:00 | ingest | https://alirezarezvani.medium.com/...karpathy-claude-md... | [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] | AI | 6 | 5 |
 | 2026-04-15 10:00 | update | conversation research: @include directive analysis | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
+| 2026-04-15 11:00 | update | conversation research: Skill 按需載入機制勘誤 + 閉包捕獲分析 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |

@@ -24,7 +24,7 @@ links:
 ## 關鍵洞察（Key Insights）
 
 - **CLAUDE.md 被 `memoize()` 包裝**，整個 session 只讀取一次磁碟，之後所有 API call 使用快取內容 — 參見 [[CLAUDE-CODE-CONTEXT-ENGINEERING]]
-- **Skills 有雙層熱載入機制**：chokidar 監控檔案變更清除 metadata 快取，而 skill 完整內容每次呼叫時才從磁碟讀取（延遲載入（Lazy Loading）） — 參見 [[CLAUDE-CODE-SKILLS-DOCUMENTATION]]
+- **Skills 的熱載入是「chokidar 清除快取 + 整體重新載入」**，非逐次延遲載入（~~Lazy Loading~~）。Skill 內容在載入時被閉包（Closure）捕獲，chokidar 偵測變更後清除 memoize 快取，下次存取時從磁碟重新讀取所有 SKILL.md — 參見 [[CLAUDE-CODE-SKILLS-DOCUMENTATION]]
 - **Symlink 完整支援**：程式碼用 `realpath()` 解析 canonical path 做去重，chokidar 也能透過 symlink 偵測變更
 - **`--resume` 會清除所有快取**：啟動新程序時明確呼叫 `clearSessionCaches()` → `resetGetMemoryFilesCache()`，因此 CLAUDE.md 會重新讀取
 - **System prompt 每次 API call 都重新組裝**，但底層資料（CLAUDE.md 內容、git status）來自快取
@@ -77,35 +77,138 @@ export const getSystemContext = memoize(async (): Promise<...> => {
 
 ### Skills 的熱載入機制
 
-Skills 的行為與 CLAUDE.md 完全不同，有兩個關鍵差異：
+> [!warning] 勘誤（Erratum）
+> 初版描述 skill 內容為「每次呼叫時從磁碟重新讀取（lazy loading）」，經進一步追蹤原始碼確認為**不正確**。實際機制是**閉包捕獲（closure capture）+ chokidar 觸發整體重新載入**，詳見下方。
 
-**1. chokidar 檔案監控（File Watcher）**
+Skills 的行為與 CLAUDE.md 不同，差異在於有 chokidar 監控觸發快取清除：
+
+**1. Skill 載入流程——閉包捕獲**
 
 ```
-// src/utils/skills/skillChangeDetector.ts:110-131
-chokidar.watch(skillDirectories, { atomic: true })
-  → 偵測檔案變更（包含 symlink）
-  → 300ms debounce
-  → clearSkillCaches()  // 清除 metadata 快取
-  → clearCommandsCache()  // 清除 command 快取
+ 啟動 / chokidar 清除快取後的首次呼叫
+   │
+   ▼
+ getSkillDirCommands(cwd)  ← memoize 包裝
+   │
+   ▼
+ loadSkillsFromSkillsDir(basePath)
+   │
+   ├── fs.readdir(basePath)        ← 列出 .claude/skills/ 下所有子目錄
+   │
+   └── 對每個子目錄：
+         │
+         ├── fs.readFile(SKILL.md)  ← 讀取完整內容到記憶體
+         │
+         ├── parseFrontmatter()     ← 分離 frontmatter 和 markdownContent
+         │
+         └── createSkillCommand({
+               markdownContent,     ← 內容被封裝進閉包
+               ...
+             })
+               │
+               └── getPromptForCommand(args) {
+                     // markdownContent 來自閉包，不再讀磁碟
+                     let finalContent = markdownContent
+                     finalContent = substituteArguments(...)
+                     finalContent = await executeShellCommandsInPrompt(...)
+                     return [{ type: 'text', text: finalContent }]
+                   }
+```
+
+> [!important] 內容在載入時就已讀完
+> `markdownContent` 在 `loadSkillsFromSkillsDir()` 中被 `fs.readFile()` 讀取，然後傳入 `createSkillCommand()` 作為閉包變數。`getPromptForCommand()` 每次呼叫時**不會重新讀磁碟**，而是使用閉包中已快取的內容。
+
+**2. chokidar 檔案監控觸發重新載入**
+
+```
+ 檔案變更（修改 SKILL.md / symlink 指向的檔案）
+   │
+   ▼
+ chokidar.watch(skillDirectories, { atomic: true })
+   │
+   ▼
+ scheduleReload(changedPath)
+   │
+   ▼
+ setTimeout(300ms debounce)     ← 批次處理，防止重複清除
+   │
+   ▼
+ clearSkillCaches()             ← getSkillDirCommands.cache.clear()
+ clearCommandsCache()           ← loadAllCommands.cache.clear()
+                                   getSkillToolCommands.cache.clear()
+                                   clearSkillIndexCache()
+ skillsChanged.emit()           ← 通知 UI 更新
+   │
+   ▼
+ 下次需要 skills 時（如 API call 組裝 system prompt）
+   │
+   ▼
+ getSkillDirCommands(cwd)       ← 快取已清除，觸發完整重新載入
+   │
+   └── 從磁碟重新讀取所有 SKILL.md → 建立新閉包 → 新 markdownContent
 ```
 
 > [!tip] Symlink 感知
 > chokidar 設定了 `atomic: true`，能正確偵測透過 symlink 的檔案變更。同時 `getFileIdentity()` 用 `realpath()` 解析 canonical path，確保同一檔案不會因不同路徑被重複載入。
 
-**2. 延遲載入（Lazy Loading）完整內容**
+**3. 完整快取清除鏈時序圖**
 
 ```
-啟動時：
-  getSkillDirCommands()  ←  memoize，快取 metadata（名稱、描述、whenToUse）
-
-每次呼叫時：
-  SkillTool.call()
-    → getPromptForCommand()  ←  每次從磁碟讀取完整 markdown 內容
+ chokidar       scheduleReload      clearSkillCaches     getSkillDirCommands
+    │                │                     │                      │
+    │──file change──►│                     │                      │
+    │                │──setTimeout(300ms)──►│                      │
+    │                │                     │                      │
+    │                │  (debounce 期間      │                      │
+    │──file change──►│   更多變更被合併)     │                      │
+    │                │                     │                      │
+    │                │     300ms 到期       │                      │
+    │                │────────────────────►│                      │
+    │                │                     │──cache.clear()───────►│
+    │                │                     │  (memoize 快取清除)    │
+    │                │                     │                      │
+    │                │                     │──emit(skillsChanged) │
+    │                │                     │                      │
+    │                │        下一次 API call 需要 skills           │
+    │                │                     │     getCommands()────►│
+    │                │                     │                      │
+    │                │                     │              重新讀磁碟│
+    │                │                     │              建立新閉包│
+    │                │                     │◄──新 Command[]────────│
 ```
 
-> [!note] 兩層快取策略
-> Metadata（frontmatter）被 memoize 快取，但 chokidar 會在檔案變更時清除。完整 markdown 內容則完全不快取，每次呼叫都重新讀取。這使得 skills 天然支援熱載入。
+> [!note] 與 CLAUDE.md 的關鍵差異
+> CLAUDE.md 也是啟動時全部讀完並 memoize，但**沒有 chokidar 監控**來清除快取。Skills 有 chokidar 監控，所以檔案變更後快取會被清除，下次存取時重新讀取。這就是 skills 能在對話中「即時生效」而 CLAUDE.md 不能的根本原因。
+
+**4. 多層 memoize 快取架構**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    API call 層                           │
+│  queryModel() → fetchSystemPromptParts()                │
+│       │                                                 │
+│       ▼                                                 │
+│  getCommands(cwd)  ← 每次呼叫，但底層 memoized          │
+│       │                                                 │
+│       ▼                                                 │
+│  ┌─────────────────────────────────────────┐            │
+│  │ loadAllCommands(cwd)  ← memoize 層 1   │            │
+│  │     │                                   │            │
+│  │     ▼                                   │            │
+│  │ getSkillDirCommands(cwd) ← memoize 層 2 │            │
+│  │     │                                   │            │
+│  │     ▼                                   │            │
+│  │ loadSkillsFromSkillsDir()               │            │
+│  │   → fs.readFile(SKILL.md)               │            │
+│  │   → createSkillCommand()                │            │
+│  │   → markdownContent 進入閉包            │            │
+│  └─────────────────────────────────────────┘            │
+│                                                         │
+│  chokidar 觸發時清除：                                   │
+│    clearSkillCaches()     → 層 2 清除                    │
+│    clearCommandsCache()  → 層 1 + 層 2 + 索引全清除      │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### `--resume` 的快取清除流程
 
@@ -375,7 +478,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 
 ## 我的心得（My Takeaways）
 
-1. **設計哲學差異明確**：CLAUDE.md 是「session 級設定」，像啟動參數；Skills 是「工具級資源」，像動態函式庫。兩者的快取策略反映了不同的使用模式假設。
+1. **設計哲學差異明確但機制相似**：CLAUDE.md 和 Skills 都是啟動時讀完並 memoize，差異僅在於 Skills 加了 chokidar 監控來清除快取。「熱載入」不是靠每次重新讀磁碟，而是靠檔案監控觸發快取失效（Cache Invalidation）。
 2. **Symlink 是一等公民**：程式碼中明確用 `realpath()` 處理 symlink 去重，chokidar 也能穿透 symlink 監控。這說明 Claude Code 團隊預期用戶會用 symlink 管理設定。
 3. **`--resume` 是被低估的功能**：不只是恢復對話，更是刷新所有設定快取的官方途徑。
 
@@ -398,7 +501,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 | 認知層次 | 核心目的 | 對本文的具體應用 |
 |---------|---------|--------------|
 | **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | `memoize()`、`chokidar`、`realpath()`、`clearSessionCaches()`、`getMemoryFiles()`、`MAX_INCLUDE_DEPTH=5`、`extractIncludePathsFromTokens()` — 七個核心 API |
-| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | CLAUDE.md 用 session 級 memoize 因為它是啟動設定；`@path` 在同一次 memoize 中遞迴展開（eager），所以被引用的檔案也不會在對話中刷新。Skills 用 chokidar + lazy load 因為它是工具資源。三者的快取策略形成：CLAUDE.md（全快取）→ @include（隨父檔案快取）→ Skills（熱載入）的梯度。 |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | CLAUDE.md 和 Skills 都在載入時一次讀完並 memoize，差異僅在於 Skills 有 chokidar 監控來清除快取。`@path` 在同一次 memoize 中遞迴展開。三者形成：CLAUDE.md（全快取、無監控）→ @include（隨父檔案快取）→ Skills（全快取、有 chokidar 監控清除）的梯度。核心差異不是「讀的時機」而是「有沒有人來清除快取」。 |
 | **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 核心假設是「用戶不會在對話中修改 CLAUDE.md」——但使用 symlink 管理跨專案設定的進階用戶恰恰會這麼做。chokidar 的 300ms debounce 在大量檔案同時變更時可能漏掉事件。 |
 | **應用（主動）** | 將知識套用情境，規劃執行方案 | (1) 將頻繁變更的指令放在 skills 而非 CLAUDE.md 中，利用熱載入；(2) 建立 `exit → 修改 → resume` 的肌肉記憶來更新 CLAUDE.md；(3) 用 symlink 共享 skills 目錄給多個專案 |
 | **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 熱載入 CLAUDE.md 的替代方案：(a) 加 chokidar 監控 CLAUDE.md — 優：即時生效，劣：system prompt 可能在 API call 途中變更造成不一致；(b) 加 `/reload` command — 優：用戶控制時機，劣：需新增 UI；(c) 維持現狀 + resume — 優：最安全，劣：中斷工作流。目前的設計在安全性和一致性上是最佳選擇。 |
