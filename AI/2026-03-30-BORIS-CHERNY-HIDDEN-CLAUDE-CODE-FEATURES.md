@@ -244,6 +244,7 @@ claude --add-dir /path/to/repo-B
 - [[2026-01-08-CLAUDE-CODE-SCHEDULER-CODE-ANALYSIS]] — Boris 提到的排程功能，此為 scheduler 插件的程式碼深度分析
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — Boris 提到的團隊記憶功能，此為 Team Memory 的原始碼深度分析
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — `--resume` 會刷新 CLAUDE.md 快取的原始碼驗證，與 Boris 提到的 resume 功能直接相關
+- [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 最佳實踐全攻略，涵蓋 Boris 的 Skills 設計哲學在整體生態中的定位
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Reza Rezvani 分析本文中提及的 Boris 技巧文章，並實測 Karpathy CLAUDE.md 四原則
 
 ---

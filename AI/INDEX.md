@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] | 七位專家的 CLAUDE.md 最佳實踐交叉比較，Skills 按需載入實驗數據與混合架構建議 | 2026-04-15 |
 | [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] | Karpathy 的 CLAUDE.md 實測解析：四原則效果排名、合併摩擦與五個無法解決的問題 | 2026-04-13 |
 | [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] | Harness Engineering 教學版：李宏毅解析三層工程演進、模型情緒向量與口頭回饋學習 | 2026-04-12 |
 | [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] | Anthropic 已交付五層 Harness 中的三層——另外兩層是你的責任 | 2026-04-09 |

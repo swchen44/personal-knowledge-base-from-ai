@@ -16,3 +16,4 @@
 | 2026-04-15 10:00 | update | conversation research: @include directive analysis | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
 | 2026-04-15 11:00 | update | conversation research: Skill 按需載入機制勘誤 + 閉包捕獲分析 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
 | 2026-04-15 12:00 | update | conversation research: Skill Token 層按需注入 + 預算機制 + 降級策略 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
+| 2026-04-15 18:00 | ingest | conversation research: CLAUDE.md 最佳實踐七位專家比較 | [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] | AI | 7 | 7 |

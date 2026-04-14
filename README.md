@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [CLAUDE.md 最佳實踐全攻略：七位專家的痛點、方案與 Skills 按需載入實戰比較](./AI/2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD.md) — 綜合 Kyle/Anthropic/Karpathy/Gábor/Ran/Opalic/Tyler 七位專家觀點，CLAUDE.md 精簡策略、Skills 按需載入 82% token 節省 vs 56% 未觸發的取捨
 - [Karpathy 的 CLAUDE.md 實測解析：四原則效果排名、合併摩擦與五個無法解決的問題](./AI/2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES.md) — 數週實測 Karpathy 四原則：Simplicity First 最有效、Goal-Driven Execution 最弱，合併順序與令牌預算管理實戰
 - [Claude Code CLAUDE.md 與 Skills 熱載入機制——Symlink 修改是否即時生效？](./DevTools/2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM.md) — 從原始碼追蹤 memoize 快取與 chokidar 熱載入的差異，驗證 --resume 的快取清除流程
 - [Harness Engineering 教學版：有時候語言模型不是不夠聰明，只是沒有人類好好引導](./AI/2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE.md) — 李宏毅教授解析三層工程演進、Gemma 4 E2B 小模型逆襲、模型情緒向量與口頭回饋學習

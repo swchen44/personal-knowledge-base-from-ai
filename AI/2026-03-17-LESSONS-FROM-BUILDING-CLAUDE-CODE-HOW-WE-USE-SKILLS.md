@@ -311,6 +311,7 @@ Skills 是 AI 智能體（AI Agent）極其強大且靈活的工具，但這一�
 - [[CLAUDE-CODE-PROMPT-CACHING]] — 同系列文章，關於提示快取（Prompt Caching）的優化
 - [[CLAUDE-CODE-SEEING-LIKE-AN-AGENT]] — 同系列文章，關於 Agent 視角的思考
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — claude-code-hooks 開源集合的程式碼分析，Hooks 是 Skills 的互補機制
+- [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — 七位專家的 CLAUDE.md 最佳實踐比較，Skills 按需載入策略與本文的 Anthropic 團隊經驗互為印證
 - [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] — npx skills CLI 深度分析，展示外部工具如何整合 skill 機制
 - [[2026-03-07-CLAUDE-SKILLS-2.0-THE-SELF-IMPROVING-AI-CAPABILITIES-THAT-ACTUALLY-WORK]] — Skills 2.0 的自動建立、測試、A/B 優化循環，將本文的 skill 設計哲學延伸為自我改善系統
 - [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Claude Code 創始人的 Hooks、Git Worktrees、/batch 實用技巧，與本文 skill 設計互為上下游
