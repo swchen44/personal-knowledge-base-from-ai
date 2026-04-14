@@ -31,6 +31,7 @@ links:
 - **`@path` 是唯一有效的 include 語法**：不存在 `@include` 關鍵字或 `read` 指令，regex 為 `/(?:^|\s)@((?:[^\s\\]|\\ )+)/g`
 - **@include 是 eager loading**：所有被引用的檔案在 `getMemoryFiles()` 時就遞迴讀取完畢，不是按需載入
 - **最深 5 層遞迴**（`MAX_INCLUDE_DEPTH = 5`），有循環引用保護（`processedPaths: Set<string>`）
+- **Skill 的按需是 Token 層而非 I/O 層**：所有 SKILL.md 啟動時就讀進記憶體，但 system prompt 只注入 name+description 索引（佔上下文 1%），完整內容只在呼叫時才注入對話，節省 ~97% Token
 
 ## 詳細內容（Details）
 
@@ -209,6 +210,111 @@ Skills 的行為與 CLAUDE.md 不同，差異在於有 chokidar 監控觸發快�
 │    clearCommandsCache()  → 層 1 + 層 2 + 索引全清除      │
 └─────────────────────────────────────────────────────────┘
 ```
+
+### Skill 的 Token 層按需注入機制
+
+> [!important] 按需（On-demand）的層次
+> Skill 的「按需載入」不是指**磁碟 I/O 層**（所有 SKILL.md 啟動時就全部讀進記憶體），而是指 **Token 注入層**：system prompt 只放名稱+描述的索引，完整內容只在 skill 被呼叫時才注入對話。
+
+**兩階段注入架構圖**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  階段 1：索引注入（每次 API call）              │
+│                                                              │
+│  getSkillListingAttachments()                                │
+│    │                                                         │
+│    ├── 取出所有 skill 的 name + description + whenToUse       │
+│    │                                                         │
+│    ├── formatCommandsWithinBudget()                          │
+│    │     │                                                   │
+│    │     ├── 預算：上下文視窗的 1%（200K → 8,000 字元）        │
+│    │     ├── 每條描述上限 250 字元                             │
+│    │     └── 超出預算 → 截斷描述 → 極端時只放名稱             │
+│    │                                                         │
+│    └── 注入為 system-reminder：                               │
+│          "- kb-create: 讀取網頁文章..."                       │
+│          "- commit: Create a git commit"                     │
+│                                                              │
+│  Token 消耗：~1,000 tokens（50 個 skills）                    │
+└──────────────────────────────────────────────────────────────┘
+                           │
+              模型看到索引，決定呼叫某個 skill
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
+│             階段 2：完整內容注入（呼叫時）                      │
+│                                                              │
+│  SkillTool.call()                                            │
+│    │                                                         │
+│    └── getPromptForCommand(args)                             │
+│          │                                                   │
+│          ├── 從閉包取出 markdownContent（完整 SKILL.md 正文）  │
+│          ├── substituteArguments()    ← 替換 $ARGUMENTS       │
+│          ├── executeShellCommandsInPrompt() ← 執行 !` ` 指令  │
+│          └── 回傳完整 prompt → 注入對話                       │
+│                                                              │
+│  Token 消耗：~750 tokens（單個 3,000 字的 skill）              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Token 節省效果**
+
+```
+ 假設：50 個 skills，每個 SKILL.md 平均 3,000 字
+
+ 全部注入方案（假設性）：
+   50 × 3,000 = 150,000 字 ≈ 37,500 tokens  ❌ 每次 API call
+
+ 按需注入方案（Claude Code 實際做法）：
+   skill_listing:  50 × ~80 字 = ~4,000 字 ≈ 1,000 tokens  ✅
+   呼叫時注入:      1 × 3,000 字 ≈ 750 tokens（僅在需要時）
+
+ 節省率：~97%（每次 API call 省 ~36,000 tokens）
+```
+
+**關鍵程式碼**
+
+```typescript
+// src/tools/SkillTool/prompt.ts:20-28
+// 索引預算：上下文視窗的 1%
+export const SKILL_BUDGET_CONTEXT_PERCENT = 0.01
+export const DEFAULT_CHAR_BUDGET = 8_000
+
+// 每條描述上限 — 索引只是為了讓模型找到 skill，不需要完整內容
+// "the Skill tool loads full content on invoke"
+export const MAX_LISTING_DESC_CHARS = 250
+```
+
+```typescript
+// src/skills/loadSkillsDir.ts:96-105
+// Token 估算只算 frontmatter，不算正文
+export function estimateSkillFrontmatterTokens(skill: Command): number {
+  const frontmatterText = [skill.name, skill.description, skill.whenToUse]
+    .filter(Boolean)
+    .join(' ')
+  return roughTokenCountEstimation(frontmatterText)
+}
+```
+
+**超出預算時的三級降級策略**
+
+```
+ 50 個 skills，預算 8,000 字元
+   │
+   ▼
+ 策略 1：完整描述（name + description + whenToUse，≤250 字/條）
+   │ 超出預算
+   ▼
+ 策略 2：截斷描述（bundled skills 保留完整，其他按比例縮短）
+   │ maxDescLen < 20 字
+   ▼
+ 策略 3：只放名稱（bundled 例外保留描述）
+   例："- kb-create"（無描述）
+```
+
+> [!note] parseFrontmatter 的角色
+> 磁碟層面沒有「只讀前半段」的機制。`fs.readFile()` 讀完整檔案，然後 `parseFrontmatter()` 將內容分離成 YAML frontmatter 和 markdown 正文兩部分。frontmatter 用於建立索引（`skill_listing`），正文存入閉包等待被呼叫時注入。
 
 ### `--resume` 的快取清除流程
 

@@ -15,3 +15,4 @@
 | 2026-04-15 00:00 | ingest | https://alirezarezvani.medium.com/...karpathy-claude-md... | [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] | AI | 6 | 5 |
 | 2026-04-15 10:00 | update | conversation research: @include directive analysis | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
 | 2026-04-15 11:00 | update | conversation research: Skill 按需載入機制勘誤 + 閉包捕獲分析 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
+| 2026-04-15 12:00 | update | conversation research: Skill Token 層按需注入 + 預算機制 + 降級策略 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
