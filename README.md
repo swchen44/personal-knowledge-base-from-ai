@@ -2,6 +2,8 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code CLAUDE.md 與 Skills 熱載入機制——Symlink 修改是否即時生效？](./DevTools/2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM.md) — 從原始碼追蹤 memoize 快取與 chokidar 熱載入的差異，驗證 --resume 的快取清除流程
+- [Harness Engineering 教學版：有時候語言模型不是不夠聰明，只是沒有人類好好引導](./AI/2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE.md) — 李宏毅教授解析三層工程演進、Gemma 4 E2B 小模型逆襲、模型情緒向量與口頭回饋學習
 - [單一代理人勝過多代理人系統：在相同思考令牌預算下的多跳推理實證](./Research/2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS.md) — Stanford 論文以 DPI 理論與受控實驗證明，控制令牌預算後 SAS 一致匹配或超越 MAS
 - [Claude Code Telemetry 原始碼深度分析：三層 OTel 架構與 100 人團隊部署策略](./CodeAnalysis/2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE.md) — 從 18 個遙測檔案追蹤完整架構、8 個指標設計、Skill 追蹤缺口與自訂方案
 - [Claude Code Worktree 檔案操作全解析：從原始碼追蹤到 repo 整合](./DevTools/2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION.md) — 逐行追蹤 worktree 建立/使用/清理的檔案操作，結合 repo forall + Gerrit topic 的 Multi-Repo 實戰

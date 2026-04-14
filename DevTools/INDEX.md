@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | CLAUDE.md 與 Skills 的熱載入機制：Symlink 修改是否即時生效的原始碼驗證 | 2026-04-14 |
 | [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] | Claude Code Worktree 檔案操作全解析：從原始碼追蹤新增/修改/讀取，到 repo Multi-Repo 整合實戰 | 2026-04-12 |
 | [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] | Claude Code 監控實戰：OpenTelemetry 設定、生產堆疊與團隊數據揭示的 8 個關鍵指標 | 2026-04-11 |
 | [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] | Claude Code 原始碼洩漏！11 個隱藏秘密完整解析 | 2026-04-02 |

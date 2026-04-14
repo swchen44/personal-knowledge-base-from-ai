@@ -460,6 +460,7 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 團隊統一 settings.json 配置遙測環境變數的實際範例
 - [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — 遙測環境變數的 managed settings.json 團隊集中部署策略，從原始碼解析設定如何生效
+- [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — 配置載入時機的深入分析：CLAUDE.md session 級快取 vs Skills 熱載入
 
 ## References
 

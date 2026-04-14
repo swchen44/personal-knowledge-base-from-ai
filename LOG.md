@@ -10,3 +10,5 @@
 | 2026-04-13 00:30 | ingest | conversation research: Worktree file ops + repo | [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] | DevTools | 4 | 7 |
 | 2026-04-13 12:00 | ingest | conversation research: Claude Code telemetry OTel source | [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] | CodeAnalysis | 6 | 7 |
 | 2026-04-14 07:00 | ingest | https://arxiv.org/html/2604.02460v1 | [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] | Research | 6 | 5 |
+| 2026-04-14 22:00 | ingest | conversation research: CLAUDE.md & Skills hot reload | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 5 | 5 |
+| 2026-04-14 07:30 | ingest | https://www.youtube.com/watch?v=R6fZR_9kmIw | [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] | AI | 5 | 5 |

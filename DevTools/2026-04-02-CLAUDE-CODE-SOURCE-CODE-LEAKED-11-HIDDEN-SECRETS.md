@@ -315,6 +315,7 @@ Anthropic 內部員工用 Claude Code 向開源專案提交程式碼時，會自
 - [[2026-03-25-AI-BUG-FINDING-VULNPOCALYPSE]] — 使用 Claude Code `--dangerously-skip-permissions` 模式進行漏洞研究的實戰案例
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — 基於同份洩漏原始碼，深入拆解記憶系統的十大設計細節
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — 基於同份洩漏原始碼，深入分析 Team Memory Server 與 REST API
+- [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — 基於同份原始碼，深入追蹤 CLAUDE.md 與 Skills 的快取與熱載入機制
 
 ## References
 
