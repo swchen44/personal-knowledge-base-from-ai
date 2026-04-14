@@ -32,6 +32,7 @@ links:
 - **@include 是 eager loading**：所有被引用的檔案在 `getMemoryFiles()` 時就遞迴讀取完畢，不是按需載入
 - **最深 5 層遞迴**（`MAX_INCLUDE_DEPTH = 5`），有循環引用保護（`processedPaths: Set<string>`）
 - **Skill 的按需是 Token 層而非 I/O 層**：所有 SKILL.md 啟動時就讀進記憶體，但 system prompt 只注入 name+description 索引（佔上下文 1%），完整內容只在呼叫時才注入對話，節省 ~97% Token
+- **Plugin 不能注入 CLAUDE.md 或 Rules**：Plugin Manifest 沒有 `rules` 或 `claudeMd` 欄位，`getMemoryFiles()` 不掃描 plugin 目錄。Plugin 只能透過 skills/commands/hooks 間接影響行為，無法達到 system prompt 級的全局指令效果
 
 ## 詳細內容（Details）
 
@@ -340,6 +341,7 @@ clearSessionCaches();
 │ .claude/rules/*.md      │ ❌ 不生效         │ ✅ 重新讀取      │
 │ .claude/skills/         │ ✅ 即時生效       │ ✅ 重新讀取      │
 │ .claude/commands/       │ ✅ 即時生效       │ ✅ 重新讀取      │
+│ Plugin skills/commands  │ ✅ 即時生效       │ ✅ 重新讀取      │
 │ Git status 快照         │ ❌ 不更新         │ ✅ 重新擷取      │
 │ System prompt 組裝      │ ✅ 每次重組       │ ✅ 每次重組      │
 │ 對話訊息                │ — 持續累積       │ ✅ 從 transcript  │
@@ -530,6 +532,96 @@ if (isExternal && !includeExternal) {
 ```
 
 預設情況下，`@` 引用的檔案必須在專案工作目錄（CWD）內。`@~/` 或 `@/absolute/` 路徑指向專案外的檔案時，需要 `includeExternal` 參數為 `true` 才會載入。
+
+### Plugin 系統與 CLAUDE.md / Rules 的關係
+
+> [!important] Plugin 不能注入 CLAUDE.md 或 Rules
+> Plugin Manifest schema（`PluginManifestSchema`）中**沒有** `rules`、`claudeMd`、`instructions` 等欄位。`getMemoryFiles()` 也**不會掃描** plugin 目錄。Plugin 只能透過 skills 間接提供指令。
+
+**Plugin 能提供的元件**
+
+| 元件 | 說明 | 能替代 CLAUDE.md？ |
+|------|------|-------------------|
+| `commands/` | 指令（slash commands） | ❌ 呼叫時才注入 |
+| `skills/` | 技能（SKILL.md） | ❌ 呼叫時才注入 |
+| `hooks` | 事件鉤子（PreToolUse 等） | ⚠️ 可間接影響行為 |
+| `agents/` | 代理人定義 | ❌ |
+| `mcpServers` | MCP server 設定 | ❌ |
+| `output-styles/` | 輸出樣式 | ❌ |
+| `settings/user-config` | 使用者設定 | ❌ |
+| ~~`rules/`~~ | ❌ **不存在** | — |
+| ~~`CLAUDE.md`~~ | ❌ **不存在** | — |
+
+**注入層對比**
+
+```
+┌─── System Prompt（每次 API call 自動注入）────┐
+│                                               │
+│  CLAUDE.md          → ✅ 直接注入              │
+│  .claude/rules/*.md → ✅ 直接注入              │
+│  Plugin rules       → ❌ 不存在這個概念        │
+│                                               │
+└───────────────────────────────────────────────┘
+
+┌─── 對話層（按需注入）────────────────────────┐
+│                                               │
+│  skill_listing     → 索引（name + desc）       │
+│  Plugin skills     → ✅ 呼叫時注入完整內容     │
+│  Plugin commands   → ✅ 呼叫時注入完整內容     │
+│                                               │
+└───────────────────────────────────────────────┘
+
+┌─── 事件層（Event Hook）─────────────────────┐
+│                                               │
+│  Plugin hooks      → ✅ 事件觸發時執行腳本     │
+│  （PreToolUse, PostToolUse, etc.）             │
+│                                               │
+└───────────────────────────────────────────────┘
+```
+
+**CLAUDE.md vs Plugin Skills 的關鍵差異**
+
+| 面向 | CLAUDE.md | Plugin Skill |
+|------|-----------|-------------|
+| 注入位置 | system prompt（每次 API call） | 對話中（呼叫時） |
+| 持久性 | 整個 session 生效 | 只在該 turn 生效 |
+| 能否設定全局行為 | ✅ | ❌ 只在被呼叫時影響 |
+| 跨專案分享 | 手動 symlink | ✅ Plugin 安裝即可 |
+| 熱載入 | ❌（需 resume） | ✅（chokidar 監控） |
+| 支援 @include | ✅ | ❌ |
+
+> [!note] 變通方案
+> Plugin 無法注入 system prompt 級指令，但可以用 **hooks**（如 `PostToolUse`）在事件觸發時執行檢查腳本，間接約束行為。兩者是互補關係，不是替代關係。
+
+**Plugin Skill 的命名規則**
+
+Plugin 提供的 skills 會加上 plugin 名稱作為 namespace，用冒號分隔：
+
+```
+plugin-name:skill-name
+
+例：obsidian:obsidian-markdown
+    obsidian:json-canvas
+    skill-creator:skill-creator
+```
+
+**Plugin Skill 載入路徑**
+
+```
+~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/
+  ├── manifest.json
+  ├── skills/
+  │     └── my-skill/
+  │           └── SKILL.md       ← 啟動時讀取，閉包捕獲
+  └── commands/
+        └── my-command.md        ← 啟動時讀取，閉包捕獲
+
+getPluginSkills() ← memoize
+  └── loadAllPluginsCacheOnly()  ← 只從已安裝快取載入
+        └── loadSkillsFromDirectory()
+              └── fs.readFile(SKILL.md) → parseFrontmatter()
+                    → createPluginCommand({ markdownContent })
+```
 
 ### 快取清除的內部 API
 
