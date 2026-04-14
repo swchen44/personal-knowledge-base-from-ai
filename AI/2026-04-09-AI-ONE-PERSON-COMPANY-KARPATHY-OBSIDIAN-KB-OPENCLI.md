@@ -148,6 +148,7 @@ links:
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — 多 Agent 時代工程師角色轉變，與一人公司的多 AI 分工模式互為印證
 - [[2026-04-02-KARPATHY-LLM-WIKI-PATTERN]] — Karpathy 的 LLM Wiki 模式原始設計文件，本影片中知識庫架構的理論基礎
 - [[2026-03-14-OPENCLI-CODE-ANALYSIS]] — 影片中提到的 OpenCLI 工具的程式碼深度分析
+- [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy 的 AI 工具配置哲學在 CLAUDE.md 中的具體實踐與實測結果
 
 ---
 

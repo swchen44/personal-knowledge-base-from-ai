@@ -248,6 +248,7 @@ hooks:
 - [[2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS]] — 自我進化代理人的評估函數與記憶系統設計，為本文框架提供自動化迭代的進階方向
 - [[2026-03-26-WRITING-YOUR-FIRST-SIMPLE-AI-AGENT]] — 入門版的 5 原則 Agent 建構指南，與本文 10 步框架形成由淺入深的學習路徑
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發三個月踩坑復盤，揭示教科書式架構到有效架構的真實演化過程
+- [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — 同作者 Reza 對 Karpathy CLAUDE.md 的實測，展示 CLAUDE.md 合併順序與令牌預算管理
 
 ## References
 
