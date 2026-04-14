@@ -1,5 +1,5 @@
 ---
-title: "Claude Code 原始碼分析：CLAUDE.md 與 Skills 的熱載入機制——Symlink 修改是否即時生效？"
+title: "Claude Code 原始碼分析：CLAUDE.md 與 Skills 的熱載入機制——Symlink、@include 指令與快取全解析"
 date: 2026-04-14
 category: DevTools
 tags:
@@ -19,7 +19,7 @@ links:
 
 ## 摘要（Summary）
 
-深入研究 Claude Code 反編譯原始碼，追蹤 CLAUDE.md 與 `.claude/skills/` 在對話過程中的載入時機與快取機制。核心發現：**CLAUDE.md 在 session 啟動時讀取一次後即快取（memoize），對話中修改不會生效**；而 **Skills 透過 chokidar 檔案監控實現熱載入（Hot Reload），對話中修改會即時生效**。對於使用 symlink 管理設定的用戶，這意味著兩者的行為完全不同。此外，`claude --resume` 會重新讀取 CLAUDE.md，提供了一個不中斷對話歷史的折衷方案。
+深入研究 Claude Code 反編譯原始碼，追蹤 CLAUDE.md 與 `.claude/skills/` 在對話過程中的載入時機與快取機制。核心發現：**CLAUDE.md 在 session 啟動時讀取一次後即快取（memoize），對話中修改不會生效**；而 **Skills 透過 chokidar 檔案監控實現熱載入（Hot Reload），對話中修改會即時生效**。進一步追蹤 CLAUDE.md 的 `@include` 指令機制：**只有 `@path` 一種語法有效**（不存在 `@include` 關鍵字或 `read` 語法），所有被引用的檔案在啟動時**遞迴 eager loading**，最深 5 層，同樣被 memoize 快取。對於使用 symlink 管理設定的用戶，這意味著 CLAUDE.md 及其 `@` 引用的所有檔案都需要 `--resume` 才能刷新。
 
 ## 關鍵洞察（Key Insights）
 
@@ -28,6 +28,9 @@ links:
 - **Symlink 完整支援**：程式碼用 `realpath()` 解析 canonical path 做去重，chokidar 也能透過 symlink 偵測變更
 - **`--resume` 會清除所有快取**：啟動新程序時明確呼叫 `clearSessionCaches()` → `resetGetMemoryFilesCache()`，因此 CLAUDE.md 會重新讀取
 - **System prompt 每次 API call 都重新組裝**，但底層資料（CLAUDE.md 內容、git status）來自快取
+- **`@path` 是唯一有效的 include 語法**：不存在 `@include` 關鍵字或 `read` 指令，regex 為 `/(?:^|\s)@((?:[^\s\\]|\\ )+)/g`
+- **@include 是 eager loading**：所有被引用的檔案在 `getMemoryFiles()` 時就遞迴讀取完畢，不是按需載入
+- **最深 5 層遞迴**（`MAX_INCLUDE_DEPTH = 5`），有循環引用保護（`processedPaths: Set<string>`）
 
 ## 詳細內容（Details）
 
@@ -120,19 +123,204 @@ clearSessionCaches();
 ### 行為對照表
 
 ```
-┌───────────────────┬──────────────────┬──────────────────┐
-│       項目         │   對話中修改      │  --resume 後     │
-├───────────────────┼──────────────────┼──────────────────┤
-│ CLAUDE.md          │ ❌ 不生效         │ ✅ 重新讀取      │
-│ .claude/rules/*.md │ ❌ 不生效         │ ✅ 重新讀取      │
-│ .claude/skills/    │ ✅ 即時生效       │ ✅ 重新讀取      │
-│ .claude/commands/  │ ✅ 即時生效       │ ✅ 重新讀取      │
-│ Git status 快照    │ ❌ 不更新         │ ✅ 重新擷取      │
-│ System prompt 組裝 │ ✅ 每次重組       │ ✅ 每次重組      │
-│ 對話訊息           │ — 持續累積       │ ✅ 從 transcript  │
-│                   │                  │    恢復           │
-└───────────────────┴──────────────────┴──────────────────┘
+┌────────────────────────┬──────────────────┬──────────────────┐
+│          項目           │   對話中修改      │  --resume 後     │
+├────────────────────────┼──────────────────┼──────────────────┤
+│ CLAUDE.md               │ ❌ 不生效         │ ✅ 重新讀取      │
+│ CLAUDE.md 中 @path 檔案 │ ❌ 不生效         │ ✅ 重新讀取      │
+│ .claude/rules/*.md      │ ❌ 不生效         │ ✅ 重新讀取      │
+│ .claude/skills/         │ ✅ 即時生效       │ ✅ 重新讀取      │
+│ .claude/commands/       │ ✅ 即時生效       │ ✅ 重新讀取      │
+│ Git status 快照         │ ❌ 不更新         │ ✅ 重新擷取      │
+│ System prompt 組裝      │ ✅ 每次重組       │ ✅ 每次重組      │
+│ 對話訊息                │ — 持續累積       │ ✅ 從 transcript  │
+│                        │                  │    恢復           │
+└────────────────────────┴──────────────────┴──────────────────┘
 ```
+
+### CLAUDE.md 的 `@` Include 指令機制
+
+> [!important] 語法釐清
+> 文件中稱為「`@include` directive」，但這是功能命名，**實際語法只有 `@path`**。不存在 `@include filename` 或 `read filename` 這類語法。
+
+#### 語法格式與 Regex
+
+核心解析 regex（`claudemd.ts:459`）：
+
+```typescript
+const includeRegex = /(?:^|\s)@((?:[^\s\\]|\\ )+)/g
+```
+
+支援的路徑格式：
+
+| 語法 | 解析結果 | 說明 |
+|------|---------|------|
+| `@config.md` | `./config.md` | 相對路徑（Relative Path） |
+| `@./rules/style.md` | `./rules/style.md` | 明確相對路徑 |
+| `@~/global-rules.md` | `$HOME/global-rules.md` | 家目錄路徑 |
+| `@/etc/rules.md` | `/etc/rules.md` | 絕對路徑（Absolute Path） |
+| `@path\ with\ spaces` | `path with spaces` | 反斜線轉義空格 |
+| `@file.md#section` | `file.md`（去掉 `#` 後面） | 片段識別符（Fragment）被去除 |
+
+**常見誤用**：
+
+| 你寫的 | 實際行為 | 問題 |
+|-------|---------|------|
+| `@include config.md` | 嘗試讀取 `./include` | `include` 被當成路徑名 |
+| `read config.md` | 純文字，無效 | 不是合法指令 |
+| `` `@config.md` `` | 不觸發 | 在 code span 中被跳過 |
+| `<!-- @secret.md -->` | 不觸發 | 在 HTML comment 中被跳過 |
+
+#### 不會觸發的位置（`claudemd.ts:496-513`）
+
+```typescript
+// 跳過 code block 和 code span
+if (element.type === 'code' || element.type === 'codespan') {
+    continue
+}
+// 跳過 HTML comment
+if (element.type === 'html') {
+    // 只處理 comment 被 strip 後的殘餘文字
+    continue
+}
+```
+
+#### 載入時機：Eager Loading（非按需）
+
+```
+Session 啟動
+  │
+  ▼
+getMemoryFiles()  ← memoize，整個 session 只呼叫一次
+  │
+  ▼
+processMemoryFile(CLAUDE.md, depth=0)
+  │
+  ├── safelyReadMemoryFileAsync()    ← 讀取檔案內容
+  │     │
+  │     ▼
+  │   parseMemoryFileContent()
+  │     │
+  │     ├── Lexer.lex()              ← marked 解析 markdown tokens
+  │     │
+  │     └── extractIncludePathsFromTokens()
+  │           │
+  │           └── includeRegex.exec()  ← 提取所有 @path
+  │                 │
+  │                 └── expandPath()   ← 解析為絕對路徑
+  │
+  ├── result.push(主檔案)             ← 父檔案先加入
+  │
+  └── for (每個 @path)
+        │
+        └── processMemoryFile(path, depth+1)  ← 遞迴！
+              │
+              └── （重複上面的流程）
+```
+
+> [!warning] 全部是啟動時一次讀完
+> 所有 `@path` 引用的檔案在 `getMemoryFiles()` 被呼叫時就**遞迴展開並讀取完畢**，結果被 `memoize()` 快取。不存在「對話中遇到才去讀」的按需（On-demand）機制。
+
+#### 遞迴深度限制：最多 5 層
+
+```typescript
+// claudemd.ts:537
+const MAX_INCLUDE_DEPTH = 5
+
+// claudemd.ts:630
+if (processedPaths.has(normalizedPath) || depth >= MAX_INCLUDE_DEPTH) {
+    return []  // 靜默忽略，不報錯
+}
+```
+
+遞迴展開示意圖：
+
+```
+CLAUDE.md (depth=0)
+  ├── @./rules/naming.md (depth=1)
+  │     └── @./shared/base-rules.md (depth=2)
+  │           └── @./shared/constants.md (depth=3)
+  │                 └── @./shared/types.md (depth=4)
+  │                       └── @./deep/file.md (depth=5) ← ❌ 忽略
+  │
+  ├── @~/global-rules.md (depth=1)
+  │     └── @~/snippets/react.md (depth=2)  ← ✅ 正常載入
+  │
+  └── @./rules/naming.md               ← ❌ 已在 processedPaths，跳過（去重）
+```
+
+#### 循環引用保護
+
+```typescript
+// claudemd.ts:629-648
+const normalizedPath = normalizePathForComparison(filePath)
+if (processedPaths.has(normalizedPath)) {
+    return []  // 已處理過，跳過
+}
+processedPaths.add(normalizedPath)
+
+// Symlink 也加入去重 set
+const { resolvedPath, isSymlink } = safeResolvePath(fs, filePath)
+if (isSymlink) {
+    processedPaths.add(normalizePathForComparison(resolvedPath))
+}
+```
+
+時序圖 — `@include` 的完整載入流程：
+
+```
+ Session啟動     getMemoryFiles    processMemoryFile   safelyReadMemoryFileAsync
+     │                │                   │                       │
+     │──呼叫─────────►│                   │                       │
+     │                │──CLAUDE.md────────►│                       │
+     │                │                   │──讀取 CLAUDE.md───────►│
+     │                │                   │◄──內容 + @paths────────│
+     │                │                   │                       │
+     │                │                   │──遞迴 @rules.md───────►│
+     │                │                   │  (depth=1)            │
+     │                │                   │◄──內容 + @paths────────│
+     │                │                   │                       │
+     │                │                   │──遞迴 @base.md────────►│
+     │                │                   │  (depth=2)            │
+     │                │                   │◄──內容────────────────│
+     │                │                   │                       │
+     │                │◄──MemoryFileInfo[]─│                       │
+     │                │                   │                       │
+     │                │── memoize 快取 ────│                       │
+     │◄──快取結果──────│                   │                       │
+     │                │                   │                       │
+  後續 API call       │                   │                       │
+     │──再次呼叫──────►│                   │                       │
+     │◄──直接回傳快取──│  (不讀磁碟)       │                       │
+```
+
+#### 允許的檔案副檔名
+
+`@path` 只載入文字檔案，二進位檔案被靜默跳過（`claudemd.ts:94-227`）：
+
+```typescript
+const TEXT_FILE_EXTENSIONS = new Set([
+    '.md', '.txt', '.json', '.yaml', '.yml', '.toml',
+    '.js', '.ts', '.tsx', '.jsx', '.py', '.go', '.rs',
+    '.java', '.sh', '.bash', '.sql', '.html', '.css',
+    // ... 共 80+ 種副檔名
+])
+```
+
+> [!note] 無副檔名的檔案
+> 若檔案沒有副檔名（`ext === ''`），則 `!TEXT_FILE_EXTENSIONS.has(ext)` 為 `true`，會被**跳過**。所以 `@Makefile` 或 `@Dockerfile` 這類無副檔名檔案**不會被載入**。
+
+#### 外部路徑限制
+
+```typescript
+// claudemd.ts:667-669
+const isExternal = !pathInOriginalCwd(resolvedIncludePath)
+if (isExternal && !includeExternal) {
+    continue  // 跳過專案目錄外的檔案
+}
+```
+
+預設情況下，`@` 引用的檔案必須在專案工作目錄（CWD）內。`@~/` 或 `@/absolute/` 路徑指向專案外的檔案時，需要 `includeExternal` 參數為 `true` 才會載入。
 
 ### 快取清除的內部 API
 
@@ -193,11 +381,13 @@ ln -s ~/shared-claude-skills/ .claude/skills
 
 ## 待補充（Open Questions）
 
-- `@include` 指令在 CLAUDE.md 中引用的外部檔案，是否也被 memoize 包含？如果 include 的目標檔案變更，resume 後是否能正確反映？建議搜尋：`claudemd.ts @include resolve`
+- ~~`@include` 指令在 CLAUDE.md 中引用的外部檔案，是否也被 memoize 包含？~~ **已解答**：是的，`@path` 引用的檔案在 `getMemoryFiles()` 時就遞迴讀取，全部被 memoize 快取。修改後需要 resume 才能生效。
 - chokidar 監控是否涵蓋 `.claude/rules/*.md`？如果 rules 也有熱載入，那 CLAUDE.md 就是唯一不支援的設定檔。建議搜尋：`skillChangeDetector chokidar watch path`
 - 是否有計畫加入 `/reload` 之類的 slash command 來手動刷新 CLAUDE.md 快取？目前社群是否有相關 feature request？建議搜尋：`github claude-code reload claudemd issue`
 - `clearSessionCaches()` 除了清除 CLAUDE.md 快取外，還清除了哪些其他快取？完整的清除清單是什麼？建議搜尋：`clearSessionCaches function body`
 - 若在對話中用 tool 直接呼叫 `resetGetMemoryFilesCache()`（例如透過 Bash tool 執行 JS），是否能達到不中斷對話就刷新的效果？建議搜尋：`bun eval resetGetMemoryFilesCache`
+- `@path` 引用專案外檔案（如 `@~/global-rules.md`）時，`includeExternal` 在哪些情況下為 `true`？預設值是什麼？建議搜尋：`includeExternal getMemoryFiles forceIncludeExternal`
+- 無副檔名的檔案（如 `@Makefile`）被跳過是否為刻意設計？有無 issue 討論過允許特定無副檔名檔案？建議搜尋：`TEXT_FILE_EXTENSIONS no extension claudemd`
 
 ---
 
@@ -207,8 +397,8 @@ ln -s ~/shared-claude-skills/ .claude/skills
 
 | 認知層次 | 核心目的 | 對本文的具體應用 |
 |---------|---------|--------------|
-| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | `memoize()`、`chokidar`、`realpath()`、`clearSessionCaches()`、`getMemoryFiles()` — 五個核心 API/工具名稱 |
-| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | CLAUDE.md 用 session 級 memoize 因為它是啟動設定，不需頻繁變更；Skills 用 chokidar + lazy load 因為它是工具資源，需要即時反映開發者的迭代。兩者快取策略的差異源自使用頻率假設的不同。 |
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索，確立基礎知識 | `memoize()`、`chokidar`、`realpath()`、`clearSessionCaches()`、`getMemoryFiles()`、`MAX_INCLUDE_DEPTH=5`、`extractIncludePathsFromTokens()` — 七個核心 API |
+| **理解（半被動）** | 解釋概念的含義及關聯，串聯知識點，掌握核心邏輯 | CLAUDE.md 用 session 級 memoize 因為它是啟動設定；`@path` 在同一次 memoize 中遞迴展開（eager），所以被引用的檔案也不會在對話中刷新。Skills 用 chokidar + lazy load 因為它是工具資源。三者的快取策略形成：CLAUDE.md（全快取）→ @include（隨父檔案快取）→ Skills（熱載入）的梯度。 |
 | **分析（主動）** | 檢驗論點、拆解流程、找出假設，批判性思維 | 核心假設是「用戶不會在對話中修改 CLAUDE.md」——但使用 symlink 管理跨專案設定的進階用戶恰恰會這麼做。chokidar 的 300ms debounce 在大量檔案同時變更時可能漏掉事件。 |
 | **應用（主動）** | 將知識套用情境，規劃執行方案 | (1) 將頻繁變更的指令放在 skills 而非 CLAUDE.md 中，利用熱載入；(2) 建立 `exit → 修改 → resume` 的肌肉記憶來更新 CLAUDE.md；(3) 用 symlink 共享 skills 目錄給多個專案 |
 | **評估（主動）** | 判斷多個方案的優劣，進行決策和權衡 | 熱載入 CLAUDE.md 的替代方案：(a) 加 chokidar 監控 CLAUDE.md — 優：即時生效，劣：system prompt 可能在 API call 途中變更造成不一致；(b) 加 `/reload` command — 優：用戶控制時機，劣：需新增 UI；(c) 維持現狀 + resume — 優：最安全，劣：中斷工作流。目前的設計在安全性和一致性上是最佳選擇。 |
@@ -238,4 +428,9 @@ ln -s ~/shared-claude-skills/ .claude/skills
 ## References
 
 - Claude Code 反編譯原始碼（基於 v2.1.88 source map 洩漏版本）
-- 關鍵檔案：`src/context.ts`、`src/utils/claudemd.ts`、`src/skills/loadSkillsDir.ts`、`src/utils/skills/skillChangeDetector.ts`、`src/main.tsx`
+- 關鍵檔案：
+  - `src/utils/claudemd.ts` — CLAUDE.md 發現、解析、`@include` 遞迴展開、memoize 快取（核心）
+  - `src/context.ts` — `getUserContext()` / `getSystemContext()` memoize 包裝
+  - `src/skills/loadSkillsDir.ts` — Skills 載入、memoize、chokidar 快取清除
+  - `src/utils/skills/skillChangeDetector.ts` — chokidar 檔案監控設定
+  - `src/main.tsx` — `--resume` 時的 `clearSessionCaches()` 呼叫
