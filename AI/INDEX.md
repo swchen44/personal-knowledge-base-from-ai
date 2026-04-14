@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] | Harness Engineering 教學版：李宏毅解析三層工程演進、模型情緒向量與口頭回饋學習 | 2026-04-12 |
 | [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] | Anthropic 已交付五層 Harness 中的三層——另外兩層是你的責任 | 2026-04-09 |
 | [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] | AI 一人公司實戰：Karpathy 知識庫架構、多模型角色分工與 OpenCLI 自動化信息採集 | 2026-04-09 |
 | [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] | 做 AI Agent 最痛苦的事：明明看了很多教程，最後還是做不對 | 2026-04-07 |
