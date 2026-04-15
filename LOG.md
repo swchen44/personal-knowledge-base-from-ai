@@ -22,3 +22,4 @@
 | 2026-04-15 23:00 | ingest | https://alexop.dev/posts/stop-bloating-your-claude-md... | [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] | AI | 5 | 5 |
 | 2026-04-15 23:30 | ingest | https://vercel.com/blog/agents-md-outperforms-skills... | [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] | AI | 4 | 5 |
 | 2026-04-16 00:00 | ingest | https://github.com/forrestchang/andrej-karpathy-skills + prompts.ts | [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] | AI | 3 | 5 |
+| 2026-04-16 02:00 | ingest | conversation research: Skills vs Commands vs Subagents 比較 | [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] | AI | 7 | 5 |

@@ -198,6 +198,7 @@ npx @next/codemod@canary agents-md
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — 七位專家的 CLAUDE.md 最佳實踐比較，本文的 Vercel 實驗數據是核心論據之一
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Skills 的官方文件，本文的 56% 未觸發數據挑戰了 skills 自動觸發機制的可靠性
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — CLAUDE.md 的 memoize 快取與 Skills 的 chokidar 熱載入機制分析，從原始碼角度解釋本文的「被動 vs 按需」差異
+- [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 將本文的 Skills 56% 未觸發數據放入 Skills/Commands/Subagents 的完整定位分析
 
 ## References
 
