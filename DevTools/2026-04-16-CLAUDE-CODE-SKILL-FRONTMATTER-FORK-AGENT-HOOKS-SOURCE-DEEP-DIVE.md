@@ -386,11 +386,124 @@ hooks:
 | Fork + Explore | **低**（Haiku + 無 CLAUDE.md） | **最快** | 中 | 搜尋/分析 |
 | Fork + Plan | **低** | **最快** | 中 | 架構設計 |
 
+### 七、案例學習：Plugin Skill Frontmatter 欄位遺失問題
+
+> [!warning] Plugin Hooks Bug（社群回報）
+> 當 skill 從 plugin 載入時（無論是 `--plugin-dir` 還是 marketplace 安裝），frontmatter 中的 `hooks`、`context: fork`、`agent:`、`paths:` **全部被忽略**。
+
+#### 原始碼驗證：確認問題存在
+
+透過比對兩條載入路徑的程式碼，確認問題確實存在：
+
+**本地 skill 載入路徑**（`loadSkillsDir.ts`）：
+```typescript
+// loadSkillsDir.ts:447-468
+const { frontmatter, content: markdownContent } = parseFrontmatter(content)
+const parsed = parseSkillFrontmatterFields(frontmatter, markdownContent, skillName)
+//                  ↑ 解析 hooks, context, agent, effort, paths 等所有欄位
+
+return createSkillCommand({
+    ...parsed,           // ← 包含 hooks, context, agent, paths
+    markdownContent,
+    source,
+    baseDir: skillDirPath,
+    loadedFrom: 'skills',
+    paths,
+})
+```
+
+**Plugin skill 載入路徑**（`loadPluginCommands.ts`）：
+```typescript
+// loadPluginCommands.ts:218-325
+function createPluginCommand(commandName, file, ...) {
+    const { frontmatter, content } = file
+    // 手動解析每個欄位...
+    const allowedTools = parseSlashCommandToolsFromFrontmatter(...)
+    const model = frontmatter.model ? parseUserSpecifiedModel(...) : undefined
+    const effort = frontmatter['effort'] ? parseEffortValue(...) : undefined
+    // ...
+
+    return {
+        type: 'prompt',
+        name: commandName,
+        allowedTools, model, effort,  // ← 這些有
+        // ❌ 沒有 hooks
+        // ❌ 沒有 context（fork）
+        // ❌ 沒有 agent
+        // ❌ 沒有 paths
+        // ❌ 沒有 skillRoot
+    }
+}
+```
+
+#### 遺失欄位完整對照
+
+| Frontmatter 欄位 | 本地 skill | Plugin skill | 影響 |
+|-----------------|-----------|-------------|------|
+| `hooks:` | ✅ `parseHooksFromFrontmatter()` | ❌ **完全沒解析** | hooks 不會註冊 |
+| `context: fork` | ✅ 解析為 `executionContext` | ❌ **沒有** | 永遠走 inline 模式 |
+| `agent:` | ✅ 解析 | ❌ **沒有** | 無法指定 Explore/Plan |
+| `paths:` | ✅ `parseSkillPaths()` | ❌ **沒有** | 無法做條件觸發 |
+| `skillRoot` | ✅ `baseDir` | ❌ **沒有** | `${CLAUDE_SKILL_DIR}` 無效 |
+| `name` | ✅ | ✅ | 正常 |
+| `description` | ✅ | ✅ | 正常 |
+| `allowed-tools` | ✅ | ✅ | 正常 |
+| `model` | ✅ | ✅ | 正常 |
+| `effort` | ✅ | ✅ | 正常 |
+
+#### 根因分析
+
+```
+┌─────────────────────────────────────────────────────────┐
+│              經典軟體工程問題：                            │
+│        「兩條獨立的程式碼路徑沒有同步更新」                 │
+│                                                         │
+│  loadSkillsDir.ts                loadPluginCommands.ts   │
+│  ──────────────────              ────────────────────── │
+│  parseSkillFrontmatterFields()   createPluginCommand()   │
+│    ↓                               ↓                    │
+│  createSkillCommand()            手動逐一解析欄位         │
+│    ↓                               ↓                    │
+│  全部欄位都有                    hooks/context/agent/     │
+│                                  paths 沒有加入          │
+│                                                         │
+│  ※ 當新欄位被加入 createSkillCommand 時，                │
+│    createPluginCommand 沒有同步更新                      │
+└─────────────────────────────────────────────────────────┘
+```
+
+> [!note] 可能是刻意的安全限制
+> `processSlashCommand.tsx:874` 有一個安全檢查：
+> ```typescript
+> const hooksAllowedForThisSkill = 
+>     !isRestrictedToPluginOnly('hooks') || isSourceAdminTrusted(command.source);
+> ```
+> 這暗示 Anthropic **可能有意限制** plugin hooks（plugin 來源不受信任）。但 `context: fork` 和 `agent:` 不涉及安全性，更像是單純的遺漏。
+
+#### Workaround
+
+```bash
+# 將 plugin 的 skill 複製到專案的 .claude/skills/ 目錄
+cp -r ~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/skills/my-skill \
+      .claude/skills/my-skill
+
+# 本地 skill 路徑會使用 createSkillCommand()，所有欄位都會生效
+```
+
+#### 案例學習價值
+
+| 教訓 | 說明 |
+|------|------|
+| **共用解析函式** | 如果兩條路徑要處理同一種格式（SKILL.md frontmatter），應該共用同一個解析函式（如 `parseSkillFrontmatterFields`），而非各自手動解析 |
+| **新增欄位時的 checklist** | 每次在 `createSkillCommand` 加入新欄位，都應檢查 `createPluginCommand` 是否也需要同步 |
+| **測試覆蓋的盲點** | 如果測試只驗證本地 skill 的 frontmatter 解析，plugin skill 的遺漏就無法被發現 |
+
 ## 我的心得（My Takeaways）
 
 1. **Skill hooks 的累積特性是雙面刃**：好處是可以逐步建立自動化工作流（呼叫一個 skill 註冊 linter，呼叫另一個註冊 formatter）；風險是忘記自己掛了什麼 hooks，導致意外的副作用。建議控制每個 skill 的 hooks 數量，並在 skill description 中說明會註冊哪些 hooks。
 2. **`context: fork` + `agent: Explore` 是被低估的組合**：用 Haiku 模型快速搜尋程式碼，結果只佔主上下文的一段摘要。適合在需要大量搜尋的工作流中使用。
 3. **`once: true` 適合初始化型任務**：例如「首次呼叫時安裝依賴」或「首次呼叫時建立目錄結構」——只需執行一次，之後自動移除。
+4. **Plugin skill 的進階 frontmatter 欄位不會生效**：從原始碼確認 `hooks`、`context: fork`、`agent:`、`paths:` 在 plugin 載入路徑中全部被忽略。如果需要這些功能，必須將 skill 放在 `.claude/skills/` 而非透過 plugin 安裝。這是「兩條獨立程式碼路徑沒有同步更新」的經典軟體工程問題。
 
 ## 待補充（Open Questions）
 
