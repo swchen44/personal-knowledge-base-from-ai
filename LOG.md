@@ -26,3 +26,4 @@
 | 2026-04-16 03:00 | ingest | https://www.youtube.com/watch?v=Zr6QeVcfQ-M | [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] | Career | 5 | 5 |
 | 2026-04-16 05:00 | ingest | conversation research: Skill frontmatter fork/agent/hooks | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 4 | 5 |
 | 2026-04-16 06:00 | update | Plugin skill frontmatter 遺失問題驗證 + 案例學習 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
+| 2026-04-16 08:00 | update | Skill Hooks 最佳實踐追加：frontmatter 驗證表 + 三種組合模式 + #17688 bug | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |

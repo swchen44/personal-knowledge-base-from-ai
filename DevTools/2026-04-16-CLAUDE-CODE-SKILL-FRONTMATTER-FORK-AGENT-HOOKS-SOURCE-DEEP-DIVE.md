@@ -1,5 +1,5 @@
 ---
-title: "Claude Code Skill Frontmatter 原始碼深度解析：context:fork、agent、hooks 的運作原理與 FAQ"
+title: "Claude Code Skill Frontmatter 深度解析：context:fork、agent、hooks 的原始碼原理、最佳實踐與已知問題"
 date: 2026-04-16
 category: DevTools
 tags:
@@ -16,6 +16,7 @@ links:
   - "[[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]]"
   - "[[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]]"
   - "[[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]]"
+  - "[[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]]"
 ---
 
 ## 摘要（Summary）
@@ -498,6 +499,186 @@ cp -r ~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/skills/my-skill \
 | **新增欄位時的 checklist** | 每次在 `createSkillCommand` 加入新欄位，都應檢查 `createPluginCommand` 是否也需要同步 |
 | **測試覆蓋的盲點** | 如果測試只驗證本地 skill 的 frontmatter 解析，plugin skill 的遺漏就無法被發現 |
 
+## Skill Hooks 最佳實踐（2026-04-16 追加研究）
+
+> [!info] 來源
+> 本節基於 [Anthropic 官方 hooks 文件](https://code.claude.com/docs/en/hooks)、[Everett Quebral 的 Skills/Hooks/Plugins 實戰文章](https://www.everettquebral.com/blog/artificial-intelligence/skills-hooks-and-plugins-in-claude-code)、[GitHub Issue #17688](https://github.com/anthropics/claude-code/issues/17688) 以及對話研究整理。
+
+### Skill Hooks vs Settings Hooks 的選擇決策
+
+| 場景 | 用 Skill Hooks | 用 Settings Hooks |
+|------|---------------|-------------------|
+| **永遠都要執行的檢查**（如 lint 所有寫入） | | **Settings** — 不依賴 skill 是否被觸發 |
+| **只在特定工作流中才需要的檢查** | **Skill** — 隨 skill 生命週期自動管理 | |
+| **一次性初始化**（環境設定） | **Skill + `once: true`** | |
+| **需要分發給團隊** | **Skill**（隨 plugin 打包）— 但注意 #17688 bug | |
+| **安全策略（永不允許某操作）** | | **Settings** — 不可繞過 |
+
+> [!quote] Everett Quebral
+> 「Hooks are not a softer version of skills. They are automation points.」
+> Skills 是建議性的（Claude 可能不觸發），Hooks 是確定性的（一定會執行）。
+
+### 完整 Frontmatter 欄位驗證表
+
+根據官方文件逐一驗證所有 SKILL.md frontmatter 欄位：
+
+| 欄位 | 狀態 | 說明 |
+|------|------|------|
+| `name` | **官方支援** | 顯示名稱，也是 `/slash-command` |
+| `description` | **官方支援** | Claude 自動觸發的匹配依據 |
+| `when_to_use` | **官方支援** | 追加到 description，合計上限 1,536 字元 |
+| `context: fork` | **官方支援** | 在獨立 subagent 中執行 |
+| `agent` | **官方支援** | 搭配 fork 指定 agent 類型 |
+| `model` | **官方支援** | 覆蓋預設模型 |
+| `effort` | **官方支援** | low/medium/high/max（max 限 Opus 4.6） |
+| `allowed-tools` | **官方支援** | 允許的工具白名單 |
+| `disable-model-invocation` | **官方支援** | 禁止 Claude 自動呼叫 |
+| `user-invocable` | **官方支援** | 從 `/` 選單隱藏 |
+| `paths` | **官方支援** | glob pattern 路徑觸發 |
+| `argument-hint` | **官方支援** | 自動補全時的參數提示 |
+| `hooks` | **官方支援** | skill 專屬的生命週期 hooks |
+| `shell` | **官方支援** | bash 或 powershell |
+| ~~`arguments`~~ | **不存在** | 用 `$ARGUMENTS`、`$0`、`$1` 取代 |
+
+### Skill Hooks 支援的所有事件
+
+根據官方文件，所有事件都在 skill hooks 中可用：
+
+- `PreToolUse`、`PostToolUse`、`PostToolUseFailure`
+- `PermissionRequest`、`PermissionDenied`
+- `SessionStart`、`UserPromptSubmit`、`Stop`
+- `SubagentStart`、`SubagentStop`
+- `TaskCreated`、`TaskCompleted`
+
+### Skill Hooks vs Settings Hooks 生命週期差異
+
+| 面向 | Settings Hooks | Skill/Agent Hooks |
+|------|---------------|-------------------|
+| **作用範圍** | 全域或專案級 | **僅限元件活躍期間** |
+| **持久性** | 存在設定檔中 | **僅在記憶體中** |
+| **清理** | 需手動移除 | **元件結束時自動清理** |
+| **可分享** | 取決於檔案位置 | 隨元件一起打包分發 |
+| **`once` 欄位** | 不適用 | **Skills 專屬**——執行一次後自動移除 |
+
+### 實戰組合模式
+
+**模式 1：Skill 定義工作流 + Hooks 強制品質**
+
+```yaml
+---
+name: api-development
+description: REST API development workflow. Auto-invoke when creating endpoints or route handlers. Do NOT load for frontend or CSS work.
+hooks:
+  PostToolUse:
+    - matcher: "Write|Edit"
+      hooks:
+        - type: command
+          if: "Write(src/api/**)|Edit(src/api/**)"
+          command: "npx eslint --fix $CLAUDE_FILE_PATHS"
+          statusMessage: "Running linter..."
+---
+```
+
+**模式 2：`once: true` 做環境初始化**
+
+```yaml
+---
+name: project-setup
+description: Initialize development environment
+disable-model-invocation: true
+hooks:
+  SessionStart:
+    - hooks:
+      - type: command
+        command: "./scripts/check-dependencies.sh"
+        once: true
+---
+```
+
+**模式 3：安全操作 = `disable-model-invocation` + `allowed-tools` + hooks 三重保護**
+
+```yaml
+---
+name: deploy
+description: Deploy to production
+disable-model-invocation: true
+allowed-tools: Bash(npm run build) Bash(npm run deploy)
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/deployment-safety-check.sh"
+          timeout: 30
+---
+```
+
+### 已知問題與 Plugin Hooks Bug
+
+> [!warning] Issue #17688：Plugin 內 Skill Hooks 不觸發（OPEN）
+> 當 skill 從 plugin 載入時（無論 `--plugin-dir` 或 marketplace 安裝），frontmatter 中的 hooks **被完全忽略**。
+> 
+> | 來源 | Frontmatter Hooks |
+> |------|------------------|
+> | 專案 skill（`.claude/skills/`） | **正常運作** |
+> | 專案 agent（`.claude/agents/`） | **正常運作** |
+> | Plugin skill（任何安裝方式） | **不運作** |
+> | Plugin agent（任何安裝方式） | **不運作** |
+> 
+> **根因**：與本文原始碼分析中發現的「兩條獨立程式碼路徑」問題一致——`createSkillCommand()` 會解析 hooks，但 `createPluginCommand()` 不會。
+> 
+> **Workaround**：將有 hooks 的 skill 複製到 `.claude/skills/` 目錄。
+> 
+> 參考：[GitHub Issue #17688](https://github.com/anthropics/claude-code/issues/17688)
+
+### 修正版完整 Frontmatter 範本
+
+```yaml
+---
+# 基本資訊
+name: my-skill
+description: "做什麼用的。Auto-invoke when X. Do NOT load for Y."
+when_to_use: "額外的觸發提示（與 description 合計 ≤1536 字元）"
+
+# 執行控制
+context: fork               # fork | (省略=inline)
+agent: Explore              # 搭配 fork 使用
+model: claude-sonnet-4-6    # 覆蓋預設模型
+effort: high                # low | medium | high | max
+
+# 工具與安全
+allowed-tools:
+  - "Bash(npm *)"
+  - "Write"
+disable-model-invocation: false
+user-invocable: true
+
+# 條件觸發
+paths:
+  - "src/components/**"
+
+# 參數（沒有 arguments 欄位，用 $ARGUMENTS/$0/$1）
+argument-hint: "<query> [scope]"
+
+# Hooks — 呼叫後註冊到 session，結束後自動清理
+hooks:
+  PostToolUse:
+    - matcher: "Write|Edit"
+      hooks:
+        - type: command
+          command: "eslint --fix $CLAUDE_FILE_PATHS"
+          statusMessage: "Running linter..."
+  SessionStart:
+    - hooks:
+      - type: command
+        command: "./setup.sh"
+        once: true
+
+# Shell 設定
+shell: bash
+---
+```
+
 ## 我的心得（My Takeaways）
 
 1. **Skill hooks 的累積特性是雙面刃**：好處是可以逐步建立自動化工作流（呼叫一個 skill 註冊 linter，呼叫另一個註冊 formatter）；風險是忘記自己掛了什麼 hooks，導致意外的副作用。建議控制每個 skill 的 hooks 數量，並在 skill description 中說明會註冊哪些 hooks。
@@ -548,6 +729,7 @@ cp -r ~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/skills/my-skill \
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Skills 官方文件整理，本文補充原始碼級的運作原理
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Hooks 基礎指南，本文補充 skill hooks 的累積特性與 FAQ
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — 原始碼洩漏解析，涵蓋 Agent Loop 等核心機制
+- [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 七位專家最佳實踐，Skills hooks 在整體 harness 中的定位
 
 ## References
 
@@ -557,6 +739,9 @@ cp -r ~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/skills/my-skill \
   - `src/utils/forkedAgent.ts` — `prepareForkedCommandContext()` 隔離環境建立
   - `src/skills/loadSkillsDir.ts` — Frontmatter 解析（`parseHooksFromFrontmatter()`）
   - `src/utils/hooks/registerSkillHooks.ts` — Hooks 註冊到 session
+- [Hooks Reference — Anthropic 官方文件](https://code.claude.com/docs/en/hooks)
+- [Skills, Hooks, and Plugins in Claude Code — Everett Quebral](https://www.everettquebral.com/blog/artificial-intelligence/skills-hooks-and-plugins-in-claude-code)
+- [Issue #17688: Skill-scoped hooks not triggered in plugins](https://github.com/anthropics/claude-code/issues/17688)
   - `src/utils/hooks/sessionHooks.ts` — `addSessionHook()` / `removeSessionHook()` / `clearSessionHooks()`
   - `src/tools/AgentTool/built-in/exploreAgent.ts` — Explore agent 定義
   - `src/schemas/hooks.ts` — Hook 四種類型的 Zod schema
