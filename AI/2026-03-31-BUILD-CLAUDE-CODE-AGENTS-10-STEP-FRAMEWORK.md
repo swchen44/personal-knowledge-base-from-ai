@@ -19,7 +19,7 @@ links:
 
 ## 摘要（Summary）
 
-作者 Alireza Rezvani 是一位 CTO，他分享了從 LangChain + 自建 ReAct 迴圈的複雜架構，轉向純 Markdown 檔案 + Claude Code 原生功能的 10 步框架。核心主張：Claude Code 已經內建了 Agent 系統、記憶系統、工具權限、多 Agent 協作、MCP 整合等所有你需要的功能——不需要 LangChain、CrewAI 或 OpenAI Swarm，只需要 `.md` 檔案和 YAML 前置資料（Frontmatter）。
+作者 Alireza Rezvani 是一位 CTO，他分享了從 LangChain + 自建 ReAct 迴圈的複雜架構，轉向純 Markdown 檔案 + Claude Code 原生功能的 10 步框架。核心主張：Claude Code 已經內建了 Agent 系統、記憶系統、工具權限、多 Agent 協作、MCP 整合等所有你需要的功能——不需要 LangChain、CrewAI 或 OpenAI Swarm，只需要 `.md` 檔案和 YAML 前置資料（Frontmatter）。完整 10 步：（1）Agent 定義（2）Skills I/O（3）CLAUDE.md 行為調校（4）工具權限（5）多 Agent 協作（6）三層記憶（7）MCP 外部能力（8）輸出交付（9）UI 整合（10）Hooks 監控。作者的生產安全策略：所有 agent 運行在 Tailscale 之後，零公開端口（Zero Public Ports）。
 
 ## 關鍵洞察（Key Insights）
 
@@ -30,6 +30,9 @@ links:
 - **Subagent vs Agent Teams**：Subagent 成熟可用（不能巢狀生成）；Agent Teams 實驗性質（需 Opus 4.6，15-20 分鐘後可能協調崩潰）
 - **MCP 的實際限制**：作者試了 7 個 MCP server，砍掉 4 個——每個 MCP 連線都增加延遲和 Token 開銷，生產環境只跑 3 個
 - **Meta-judge 模式**：Stop Hook 觸發另一個 Agent 來評估第一個 Agent 的產出——Agent 評估 Agent，但成本倍數是真實的
+- **輸出層 = Skills + Slash Commands**：Skill 定義輸出格式，Slash Command 提供觸發器。作者的 CEO 晨間簡報：slash command → skill → memory → Telegram，完全自動化
+- **UI = 使用者已在用的介面**：不建 Gradio/Streamlit，透過 OpenClaw 橋接 Telegram/Slack。「無需學習新工具，採用是即時的」
+- **安全策略**：所有 agent 運行在 Tailscale 後面，零公開端口。作者自認這個框架「要么是最優雅的，要么是最可怕的——取決於你對純文字檔存取生產系統的信任程度」
 
 ## 詳細內容（Details）
 
@@ -160,6 +163,44 @@ hooks:
 | Auto-memory | `~/.claude/MEMORY.md`，Claude 自動寫入 | 冷啟動消除器（Cold-start Eliminator）——3 週累積 23 行專案知識 |
 | Agent-level memory | frontmatter 加 `memory: project` | 跨對話持久化，Agent 累積模式和慣例 |
 | CLAUDE.md | 版控共享 | 制度化記憶——個人發現 → 提升為團隊共享 |
+
+### 步驟 7：外部能力 — MCP 作為整合層（Integration Layer）
+
+```bash
+claude mcp add playwright npx @playwright/mcp@latest
+claude mcp add github gh copilot mcp
+```
+
+連線後，agent 可以瀏覽頁面、與 GitHub 互動、查詢資料庫——無需自訂整合程式碼。
+
+作者的 OpenClaw 設定透過 MCP 路由到 Google Workspace、Jira 和 GitHub，使協調 agent 能透過單一協定（Protocol）存取電子郵件、日曆、專案看板和程式碼儲存庫。
+
+> [!warning] MCP 的實際限制
+> 每個 MCP 連線都增加延遲（Latency）和 Token 開銷。作者嘗試了 7 個 MCP server，最終砍掉 4 個，生產環境只跑 3 個——「增加的上下文消耗不值得額外的能力」。
+
+### 步驟 8：輸出交付 — Skills + Slash Commands 作為輸出層
+
+Skill 定義輸出格式，`.claude/commands/` 的斜線指令（Slash Command）提供觸發器：
+
+```markdown
+# /commands/weekly-digest.md
+Run the weekly-digest skill. Pull from memory/daily/ for the past
+7 days. Output as a structured briefing with: highlights, blockers,
+decisions made, and open questions.
+```
+
+> [!example] CEO 晨間簡報實戰案例
+> 斜線指令觸發 skill → skill 從記憶體提取資訊 → 格式化輸出 → 透過 OpenClaw 經由 Telegram 發送。CEO 無需輸入任何內容，簡報在每天早上 7:00 自動送達。
+
+### 步驟 9：使用者介面 — Remote Control + 訊息整合
+
+不用 Gradio、Streamlit 或 FastAPI。對 Claude Code agent 來說，「UI」是使用者**已經在用的介面**：
+
+- **Claude Code Remote Control** — 在終端機啟動任務，從手機監控
+- **OpenClaw** — 將 Claude Code 橋接到 Telegram、Slack、Discord 或 WhatsApp
+
+> [!tip] 作者的實戰選擇
+> 團隊使用 Telegram 作為 UI。所有 agent 互動都透過 CEO 早已在用的即時通訊介面。「無需安裝新 App、無需登錄、無需學習——由於無需學習任何新內容，採用是即時的。」
 
 ### 步驟 10：Hooks 監控 + Meta-judge 模式
 
