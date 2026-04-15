@@ -587,6 +587,7 @@ if __name__ == '__main__':
 - [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅講解的工作流程控制概念，在 Claude Code Skills 中得到實踐
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — Skills 內部載入機制的原始碼分析：chokidar 監控 + lazy load 實現熱載入
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Vercel 實驗證明 skills 自動觸發 56% 未被調用，提出 /docs/ 引用作為替代方案
+- [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — Vercel 原始實驗：skills 預設行為 0% 改善、56% 未調用，挑戰 skills 自動觸發可靠性
 
 ## References
 

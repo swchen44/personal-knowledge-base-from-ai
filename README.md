@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Vercel 實驗報告：AGENTS.md 在 Agent 評估中完勝 Skills——100% vs 53%](./AI/2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS.md) — Next.js 16 新 API 硬化評估：被動上下文 100%、Skills 預設 53%、56% 未調用，40KB→8KB 壓縮索引策略
 - [別再把 CLAUDE.md 塞爆了：AI 程式設計工具的漸進式揭露策略](./AI/2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS.md) — 2000+ 行 CLAUDE.md 精簡為 50 行，/docs/ 按需載入，Vercel 實驗 100% vs 79% pass rate
 - [CLAUDE.md 最佳實踐全攻略：七位專家的痛點、方案與 Skills 按需載入實戰比較](./AI/2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD.md) — 綜合 Kyle/Anthropic/Karpathy/Gábor/Ran/Opalic/Tyler 七位專家觀點，CLAUDE.md 精簡策略、Skills 按需載入 82% token 節省 vs 56% 未觸發的取捨
 - [Karpathy 的 CLAUDE.md 實測解析：四原則效果排名、合併摩擦與五個無法解決的問題](./AI/2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES.md) — 數週實測 Karpathy 四原則：Simplicity First 最有效、Goal-Driven Execution 最弱，合併順序與令牌預算管理實戰
