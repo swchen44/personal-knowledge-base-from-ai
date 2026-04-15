@@ -345,6 +345,7 @@ SKILL.md 遵循 [Agent Skills 開放標準](https://agentskills.io)，可跨工�
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — Skill 評估框架與 A/B 測試方法論
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Opalic 的漸進式揭露策略，Skills 的替代方案
 - [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 10 步 Agent 建構框架，Subagent 設計的實戰指南
+- [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — 本文提到的 context:fork 和 agent 欄位的原始碼級深度解析
 
 ## References
 
