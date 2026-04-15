@@ -215,6 +215,7 @@ ln -s CLAUDE.md agents.md
 - [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — 配置層級指南，symlink 跨工具共享的技術基礎
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy 用行為準則（而非知識注入）的互補方案，可與本文的 /docs/ 方案結合
 - [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — 本文引用的 Vercel 實驗原始報告：AGENTS.md 100% vs Skills 53%，完整方法論與數據
+- [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] — 原始碼級驗證 Karpathy 準則與內建 prompt 的重疊度，支持本文「不要重複內建指令」的論點
 
 ## References
 

@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Karpathy 準則 vs Claude Code 內建 System Prompt：逐條原始碼比對](./AI/2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT.md) — 比對 prompts.ts 發現準則 2/3 已內建（浪費 Token），1/4 值得加入的精簡策略
 - [Vercel 實驗報告：AGENTS.md 在 Agent 評估中完勝 Skills——100% vs 53%](./AI/2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS.md) — Next.js 16 新 API 硬化評估：被動上下文 100%、Skills 預設 53%、56% 未調用，40KB→8KB 壓縮索引策略
 - [別再把 CLAUDE.md 塞爆了：AI 程式設計工具的漸進式揭露策略](./AI/2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS.md) — 2000+ 行 CLAUDE.md 精簡為 50 行，/docs/ 按需載入，Vercel 實驗 100% vs 79% pass rate
 - [CLAUDE.md 最佳實踐全攻略：七位專家的痛點、方案與 Skills 按需載入實戰比較](./AI/2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD.md) — 綜合 Kyle/Anthropic/Karpathy/Gábor/Ran/Opalic/Tyler 七位專家觀點，CLAUDE.md 精簡策略、Skills 按需載入 82% token 節省 vs 56% 未觸發的取捨

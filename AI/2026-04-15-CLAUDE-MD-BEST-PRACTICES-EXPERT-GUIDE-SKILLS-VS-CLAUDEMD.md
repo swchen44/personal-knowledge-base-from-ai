@@ -591,6 +591,7 @@ After:
 - [[2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS]] — Anthropic 團隊自己如何使用 Skills 的經驗
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Alexander Opalic 的 CLAUDE.md 瘦身實戰，Vercel agent evals 的原始數據來源
 - [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — Vercel 實驗原始報告，本文第五章引用的 100% vs 79% vs 56% 數據的一手來源
+- [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] — 逐行比對 Karpathy 準則與 `prompts.ts`，準則 2/3 已內建、1/4 值得加入
 
 ## References
 

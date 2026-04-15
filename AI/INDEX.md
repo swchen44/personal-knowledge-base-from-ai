@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] | Karpathy 四準則逐條比對 Claude Code prompts.ts：準則 2/3 已內建（浪費 Token），1/4 值得加入 | 2026-01-27 |
 | [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] | Vercel 原始實驗：AGENTS.md 100% vs Skills 53%，壓縮索引 40KB→8KB，56% skills 未調用 | 2026-01-27 |
 | [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] | CLAUDE.md 瘦身至 50 行，/docs/ 漸進式揭露 + Vercel 實驗：100% vs 79% pass rate | 2026-01-18 |
 | [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] | 七位專家的 CLAUDE.md 最佳實踐交叉比較，Skills 按需載入實驗數據與混合架構建議 | 2026-04-15 |
