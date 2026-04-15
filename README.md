@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [管理權流失中：AI 時代中階主管的危機與 30 歲工程師的反思重定位](./Career/2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS.md) — HR Jasmin 談 AI 縮短經驗差距，中階主管需重新定位，判斷力才是最有價值的能力
 - [Claude Code 擴充機制完整比較：Skills vs Commands vs Subagents vs Plugins](./AI/2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON.md) — Commands 已合併進 Skills、context:fork 部分取代 Subagents、WHEN/WHEN NOT description 工程、5-8 skills 上限
 - [Karpathy 準則 vs Claude Code 內建 System Prompt：逐條原始碼比對](./AI/2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT.md) — 比對 prompts.ts 發現準則 2/3 已內建（浪費 Token），1/4 值得加入的精簡策略
 - [Vercel 實驗報告：AGENTS.md 在 Agent 評估中完勝 Skills——100% vs 53%](./AI/2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS.md) — Next.js 16 新 API 硬化評估：被動上下文 100%、Skills 預設 53%、56% 未調用，40KB→8KB 壓縮索引策略

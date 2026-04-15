@@ -8,3 +8,4 @@
 | [[2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH]] | 【Stakeholder #1】為什麼你做得越多，反而越容易被卡？HR 揭露：你努力錯人了 | 2025-12-23 |
 | [[2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS]] | 【外商秘密】努力十年還卡在同級別？揭露 Competency 三大模型 | 2025-12-12 |
 | [[2023-07-04-SIEMENS-GAMESA-HR-HEAD-JEFFERY-INTERVIEW]] | 西門子歌美颯 HR Head Jeffery 訪談——HR 職涯、再生能源產業與政治敏感度 | 2023-07-04 |
+| [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] | 管理權流失中：AI 時代中階主管的危機與 30 歲工程師的反思重定位 | 2026-04-11 |

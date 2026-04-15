@@ -164,6 +164,7 @@ links:
 - [[2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH]] — 同作者 HR Jasmin 談利害關係人管理，從「為誰而做」角度補充 Competency 實踐
 - [[2023-07-04-SIEMENS-GAMESA-HR-HEAD-JEFFERY-INTERVIEW]] — 同頻道訪談，資深 HR 談外商晉升瓶頸與政治敏感度的必備能力
 - [[2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9]] — AI 時代工程師的能力轉型，E8 以上晉升從技術力轉為系統思維與帶人能力
+- [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] — 同作者 HR Jasmin，AI 時代「環境標準在改變」，與 Competency 模型需要動態校準的觀點呼應
 
 ---
 
