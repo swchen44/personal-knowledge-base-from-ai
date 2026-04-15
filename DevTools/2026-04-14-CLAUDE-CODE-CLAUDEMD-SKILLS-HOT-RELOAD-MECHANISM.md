@@ -33,6 +33,7 @@ links:
 - **最深 5 層遞迴**（`MAX_INCLUDE_DEPTH = 5`），有循環引用保護（`processedPaths: Set<string>`）
 - **Skill 的按需是 Token 層而非 I/O 層**：所有 SKILL.md 啟動時就讀進記憶體，但 system prompt 只注入 name+description 索引（佔上下文 1%），完整內容只在呼叫時才注入對話，節省 ~97% Token
 - **Plugin 不能注入 CLAUDE.md 或 Rules**：Plugin Manifest 沒有 `rules` 或 `claudeMd` 欄位，`getMemoryFiles()` 不掃描 plugin 目錄。Plugin 只能透過 skills/commands/hooks 間接影響行為，無法達到 system prompt 級的全局指令效果
+- **有條件規則（Conditional Rules）是唯一真正按需的 CLAUDE.md 級指令**：在 `paths:` frontmatter 中指定 glob 模式，只在 FileReadTool 讀取匹配路徑時才從磁碟讀取並注入（`nested_memory` attachment），是被低估的 Token 最佳化手段
 
 ## 詳細內容（Details）
 
@@ -338,7 +339,8 @@ clearSessionCaches();
 ├────────────────────────┼──────────────────┼──────────────────┤
 │ CLAUDE.md               │ ❌ 不生效         │ ✅ 重新讀取      │
 │ CLAUDE.md 中 @path 檔案 │ ❌ 不生效         │ ✅ 重新讀取      │
-│ .claude/rules/*.md      │ ❌ 不生效         │ ✅ 重新讀取      │
+│ .claude/rules/（無條件） │ ❌ 不生效         │ ✅ 重新讀取      │
+│ .claude/rules/（有條件） │ ✅ 按需讀取+注入  │ ✅ 重新讀取      │
 │ .claude/skills/         │ ✅ 即時生效       │ ✅ 重新讀取      │
 │ .claude/commands/       │ ✅ 即時生效       │ ✅ 重新讀取      │
 │ Plugin skills/commands  │ ✅ 即時生效       │ ✅ 重新讀取      │
@@ -622,6 +624,155 @@ getPluginSkills() ← memoize
               └── fs.readFile(SKILL.md) → parseFrontmatter()
                     → createPluginCommand({ markdownContent })
 ```
+
+### `.claude/rules/*.md` 的讀取與注入機制
+
+Rules 分為兩種：**無條件規則（Unconditional）** 和 **有條件規則（Conditional）**。兩者的讀取時機和注入方式完全不同。
+
+```
+.claude/rules/
+  ├── always-use-chinese.md      ← 無條件規則（無 paths: frontmatter）
+  ├── code-style.md              ← 無條件規則
+  └── react-patterns.md          ← 有條件規則（有 paths: frontmatter）
+        ---
+        paths:
+          - "src/components/**"
+        ---
+        React 元件必須使用 functional component...
+```
+
+#### 無條件規則：與 CLAUDE.md 完全相同
+
+**讀取時機**：Session 啟動時，與 CLAUDE.md 一起在 `getMemoryFiles()` 中讀取並 memoize。
+**注入時機**：每次 API call 都注入 system prompt。
+
+```typescript
+// claudemd.ts:909-919 — 在 getMemoryFiles() 中
+const rulesDir = join(dir, '.claude', 'rules')
+result.push(
+    ...(await processMdRules({
+        rulesDir,
+        type: 'Project',
+        processedPaths,
+        includeExternal,
+        conditionalRule: false,  // ← 只取無條件規則
+    })),
+)
+```
+
+篩選邏輯（`claudemd.ts:773`）：
+
+```typescript
+// conditionalRule: false → 只保留沒有 globs（paths:）的檔案
+result.push(
+    ...files.filter(f => (conditionalRule ? f.globs : !f.globs)),
+)
+```
+
+#### 有條件規則：真正的按需注入（On-demand Injection）
+
+> [!important] 有條件規則是整個 Claude Code 中**唯一真正按需讀取的 CLAUDE.md 級指令**
+> 啟動時**不讀取**，只在 Read tool 觸發且路徑匹配時才從磁碟讀取並注入對話。
+
+**觸發鏈**：
+
+```
+ 模型呼叫 Read tool 讀取 src/components/Button.tsx
+   │
+   ▼
+ FileReadTool.call()
+   │
+   └── context.nestedMemoryAttachmentTriggers.add(filePath)
+         │
+         ▼
+ 下一次 API call 的 attachment 組裝
+   │
+   ▼
+ getNestedMemoryAttachments()
+   │
+   └── getNestedMemoryAttachmentsForFile(filePath)
+         │
+         ├── Phase 1：Managed + User 有條件規則
+         │     └── getManagedAndUserConditionalRules(filePath)
+         │           └── processConditionedMdRules()
+         │                 ├── processMdRules({ conditionalRule: true })
+         │                 └── glob 匹配 filePath → 只保留匹配的
+         │
+         ├── Phase 2：計算目錄範圍
+         │     ├── nestedDirs（CWD → 目標檔案 之間的目錄）
+         │     └── cwdLevelDirs（根 → CWD 的目錄）
+         │
+         ├── Phase 3：CWD 以下的巢狀目錄
+         │     └── getMemoryFilesForNestedDirectory(dir, filePath)
+         │           ├── 該目錄的 CLAUDE.md
+         │           ├── 該目錄的無條件規則
+         │           └── 該目錄的有條件規則（匹配 filePath 的）
+         │
+         └── Phase 4：根 → CWD 的目錄
+               └── getConditionalRulesForCwdLevelDirectory()
+                     → 只取有條件規則（無條件的已在啟動時載入）
+```
+
+**Glob 匹配邏輯**（`claudemd.ts:1370-1396`）：
+
+```typescript
+return conditionedRuleMdFiles.filter(file => {
+    // Project 規則：相對於 .claude 的父目錄
+    // Managed/User 規則：相對於 CWD
+    const baseDir = type === 'Project'
+        ? dirname(dirname(rulesDir))
+        : getOriginalCwd()
+    const relativePath = relative(baseDir, targetPath)
+    // 用 ignore 庫（gitignore 風格）進行匹配
+    return ignore().add(file.globs).ignores(relativePath)
+})
+```
+
+#### Rules 掃描範圍
+
+```
+getMemoryFiles() 從根往 CWD 遞迴掃描：
+
+ /etc/claude-code/.claude/rules/   ← Managed（最低優先級）
+ ~/.claude/rules/                  ← User
+ /Users/.claude/rules/             ← 逐層往上
+ ...
+ {project-root}/.claude/rules/     ← Project（最高優先級）
+
+每個 rules/ 目錄會遞迴子目錄：
+  .claude/rules/
+    ├── general.md
+    ├── frontend/
+    │     ├── react.md
+    │     └── css.md
+    └── backend/
+          └── api.md
+```
+
+#### 完整的讀取與注入時機對照表
+
+```
+┌─────────────────────┬──────────────────┬──────────────────────────┐
+│       規則類型        │    讀取時機       │      注入時機             │
+├─────────────────────┼──────────────────┼──────────────────────────┤
+│ CLAUDE.md            │ 啟動（eager）    │ 每次 API call            │
+│                     │ memoize 快取     │ system prompt             │
+├─────────────────────┼──────────────────┼──────────────────────────┤
+│ 無條件 rules         │ 啟動（eager）    │ 每次 API call            │
+│ （無 paths:）        │ 與 CLAUDE.md     │ system prompt             │
+│                     │ 一起 memoize     │                          │
+├─────────────────────┼──────────────────┼──────────────────────────┤
+│ 有條件 rules         │ 按需（on-demand）│ Read tool 讀取匹配路徑時  │
+│ （有 paths:）        │ FileReadTool     │ nested_memory attachment  │
+│                     │ 觸發時才讀取     │ （非 system prompt）      │
+├─────────────────────┼──────────────────┼──────────────────────────┤
+│ Skills               │ 啟動（eager）    │ 索引每次注入（~1%）       │
+│                     │ memoize + 閉包   │ 完整內容呼叫時注入        │
+└─────────────────────┴──────────────────┴──────────────────────────┘
+```
+
+> [!tip] Token 節省策略
+> 把只跟特定檔案類型相關的規則加上 `paths:` frontmatter 變成有條件規則。例如 React 規範只在碰到 `src/components/**` 時才注入，避免每次 API call 都消耗這些 Token。這是一個被低估的 Token 最佳化手段。
 
 ### 快取清除的內部 API
 
