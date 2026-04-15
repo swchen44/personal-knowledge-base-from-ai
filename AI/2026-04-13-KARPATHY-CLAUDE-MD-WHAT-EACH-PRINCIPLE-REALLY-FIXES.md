@@ -134,6 +134,7 @@ curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/
 - [[2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS]] — Skills 系統的官方經驗，Karpathy 的 CLAUDE.md 可透過 Skills 目錄全域安裝
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — Karpathy 的一人公司實踐，包含他對 AI 工具配置的整體哲學
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — 七位專家的 CLAUDE.md 最佳實踐交叉比較，含 Karpathy 四原則與其他方案的定位分析
+- [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Opalic 的漸進式揭露方案，與 Karpathy 行為準則可互補：行為約束 + 知識按需載入
 
 ---
 

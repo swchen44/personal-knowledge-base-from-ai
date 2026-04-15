@@ -19,3 +19,4 @@
 | 2026-04-15 18:00 | ingest | conversation research: CLAUDE.md 最佳實踐七位專家比較 | [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] | AI | 7 | 7 |
 | 2026-04-15 20:00 | update | conversation research: Plugin 與 CLAUDE.md/Rules 關係分析 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
 | 2026-04-15 21:00 | update | conversation research: Rules 無條件/有條件注入機制 + 按需讀取流程 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | DevTools | 0 | 7 |
+| 2026-04-15 23:00 | ingest | https://alexop.dev/posts/stop-bloating-your-claude-md... | [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] | AI | 5 | 5 |

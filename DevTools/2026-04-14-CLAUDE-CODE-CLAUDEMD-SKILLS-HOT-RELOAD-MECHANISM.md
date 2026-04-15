@@ -877,6 +877,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Skills 系統的官方文件整理，本文補充了其內部載入機制
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Hooks 的載入機制與 skills 類似，可對照理解
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md vs Skills 的最佳實踐比較，引用本文的 memoize 與熱載入發現作為技術佐證
+- [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Opalic 的 /docs/ + IMPORTANT 指示句方案，用 Vercel 實驗證明明確引用比 skills 自動觸發更可靠
 
 ## References
 

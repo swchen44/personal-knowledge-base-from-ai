@@ -589,6 +589,7 @@ After:
 - [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Boris Cherny（Claude Code 創造者）的隱藏功能解析
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — Anthropic Harness 架構的整體觀，Skills 是其中的能力層
 - [[2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS]] — Anthropic 團隊自己如何使用 Skills 的經驗
+- [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Alexander Opalic 的 CLAUDE.md 瘦身實戰，Vercel agent evals 的原始數據來源
 
 ## References
 

@@ -586,6 +586,7 @@ if __name__ == '__main__':
 - [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — Agents/Skills/Standards 三層式架構，將本文的 skill 機制放入組織級工作流設計
 - [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅講解的工作流程控制概念，在 Claude Code Skills 中得到實踐
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — Skills 內部載入機制的原始碼分析：chokidar 監控 + lazy load 實現熱載入
+- [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Vercel 實驗證明 skills 自動觸發 56% 未被調用，提出 /docs/ 引用作為替代方案
 
 ## References
 
