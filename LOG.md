@@ -28,3 +28,4 @@
 | 2026-04-16 06:00 | update | Plugin skill frontmatter 遺失問題驗證 + 案例學習 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
 | 2026-04-16 08:00 | update | Skill Hooks 最佳實踐追加：frontmatter 驗證表 + 三種組合模式 + #17688 bug | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
 | 2026-04-16 10:00 | update | 重新抓取 Medium 會員原文，補齊缺失的步驟 7-9（MCP/輸出/UI） | [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] | AI | 0 | 6 |
+| 2026-04-16 12:00 | ingest | https://arxiv.org/html/2602.11988v1 | [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] | Research | 4 | 7 |

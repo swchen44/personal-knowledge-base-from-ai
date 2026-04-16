@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [評估 AGENTS.md 的真實效果：ETH Zurich 138 個實例實證研究](./Research/2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS.md) — LLM 生成的 context file 降低成功率 3%、增加成本 20%+；與 Vercel 100% 結果的關鍵差異在於知識缺口 vs 可發現資訊
 - [Skill Frontmatter 原始碼深度解析：context:fork、agent、hooks 的運作原理與 FAQ](./DevTools/2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE.md) — Fork 隔離原理、Explore/Plan agent 工具限制、hooks 累積特性與 session 生命週期
 - [管理權流失中：AI 時代中階主管的危機與 30 歲工程師的反思重定位](./Career/2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS.md) — HR Jasmin 談 AI 縮短經驗差距，中階主管需重新定位，判斷力才是最有價值的能力
 - [Claude Code 擴充機制完整比較：Skills vs Commands vs Subagents vs Plugins](./AI/2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON.md) — Commands 已合併進 Skills、context:fork 部分取代 Subagents、WHEN/WHEN NOT description 工程、5-8 skills 上限
