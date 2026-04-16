@@ -499,6 +499,159 @@ cp -r ~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/skills/my-skill \
 | **新增欄位時的 checklist** | 每次在 `createSkillCommand` 加入新欄位，都應檢查 `createPluginCommand` 是否也需要同步 |
 | **測試覆蓋的盲點** | 如果測試只驗證本地 skill 的 frontmatter 解析，plugin skill 的遺漏就無法被發現 |
 
+### 八、企業 Marketplace 部署：命名冒名防護（Impersonation Protection）
+
+> [!warning] 實測：clone Anthropic plugin 後改名會被擋
+> 當使用者把官方 plugin clone 到自己的 repo、微調 marketplace 或 plugin 名稱後，會看到錯誤訊息：
+> ```
+> Marketplace name impersonates an official Anthropic/Claude marketplace
+> ```
+> 這是 `src/utils/plugins/schemas.ts` 中**刻意設計**的冒名防護機制，用以防止第三方偽裝成 Anthropic 官方 marketplace。
+
+#### 五層防禦機制
+
+```
+ 新增 marketplace / 載入 plugin
+   │
+   ▼
+ 第一層：基本路徑安全檢查（schemas.ts:225-232）
+   └── 禁止 "/"、"\"、".."、單獨 "."
+         │
+         ▼
+ 第二層：冒名 regex 偵測（schemas.ts:70-71）
+   └── BLOCKED_OFFICIAL_NAME_PATTERN
+         │
+         ▼
+ 第三層：非 ASCII 字元（同形異義攻擊防護）
+   └── /[^\u0020-\u007E]/  禁止西里爾字母等冒名
+         │
+         ▼
+ 第四層：保留名稱（schemas.ts:239-244）
+   └── "inline"、"builtin" 不能用
+         │
+         ▼
+ 第五層：保留名稱的來源驗證
+   └── validateOfficialNameSource()
+         必須來自 github.com/anthropics/*
+```
+
+#### 8 個保留名稱（僅 Anthropic 官方可用）
+
+```typescript
+// schemas.ts:18-27
+export const ALLOWED_OFFICIAL_MARKETPLACE_NAMES = new Set([
+    'claude-code-marketplace',
+    'claude-code-plugins',
+    'claude-plugins-official',
+    'anthropic-marketplace',
+    'anthropic-plugins',
+    'agent-skills',
+    'life-sciences',
+    'knowledge-work-plugins',
+])
+```
+
+這些名稱即使你用了，也必須來自 `github.com/anthropics/*`，否則報錯：
+```
+The name 'claude-code-plugins' is reserved for official Anthropic marketplaces.
+Only repositories from 'github.com/anthropics/' can use this name.
+```
+
+#### 冒名 Regex 詳解
+
+```typescript
+// schemas.ts:70-71
+const BLOCKED_OFFICIAL_NAME_PATTERN =
+    /(?:official[^a-z0-9]*(anthropic|claude)|(?:anthropic|claude)[^a-z0-9]*official|^(?:anthropic|claude)[^a-z0-9]*(marketplace|plugins|official))/i
+```
+
+三個分支邏輯：
+
+1. `official` + 分隔符 + `anthropic|claude`
+2. `anthropic|claude` + 分隔符 + `official`
+3. **以** `anthropic|claude` 開頭 + `marketplace|plugins|official`
+
+> [!note] `[^a-z0-9]*` 允許任意分隔符
+> 這段代表「0 或多個非字母數字字元」，所以 `anthropic-official`、`anthropic_official`、`anthropic.official`、`anthropic  official`（底線、點、空格、dash）**全部都會被擋**。
+
+#### 命名安全性對照表
+
+| ✅ 會通過 | ❌ 會被擋 | 原因 |
+|---------|----------|------|
+| `yourcompany-plugins` | `claude-plugins-v2` | 以 `claude` 開頭 + `plugins` |
+| `internal-tools` | `anthropic-marketplace-new` | 以 `anthropic` 開頭 + `marketplace` |
+| `acme-ai-tools` | `official-claude-plugins` | `official` + `claude` |
+| `my-claude-tools` | `claude-official` | `claude` + `official` |
+| `team-formatter-suite` | `claude_official_tools` | 底線也算分隔符 |
+| `formatter-claude-utils` | `clаude-plugins`（西里爾 а） | 非 ASCII |
+| `anthropic-wrapper` | `anthropic-official-wrapper` | `anthropic` + `official` |
+| **(注意)** `my-anthropic-plugins` ✅ | `anthropic-plugins-fork` ❌ | 前者沒以 `anthropic` 開頭 |
+
+> [!tip] 關鍵規則
+> 只要**不以 `claude` 或 `anthropic` 開頭**，通常就不會觸發第二分支。所以 `my-anthropic-tools` 可以，`anthropic-tools` 不行。
+
+#### 給企業部署的命名建議
+
+```
+✅ 推薦命名模式：
+  {公司名}-{功能}        → "acme-formatter-plugins"
+  {品牌}-{tools/ai}      → "acme-ai-tools"
+  internal-{something}   → "internal-dev-tools"
+  {team}-{purpose}       → "platform-team-formatter"
+
+❌ 避免的模式：
+  anthropic-*            → 觸發第三分支
+  claude-*               → 觸發第三分支
+  official-{anthropic}*  → 觸發第一分支
+  {anthropic}*-official* → 觸發第二分支
+  {非 ASCII 字元}         → 觸發第三層
+
+🔒 絕對禁止（系統保留）：
+  inline                 → --plugin-dir 會話保留
+  builtin                → 內建 plugin 保留
+```
+
+#### 案例：假設你要 fork Anthropic 的 plugin
+
+```bash
+# ❌ 錯誤做法 — 會被擋
+原 marketplace: anthropic-marketplace（Anthropic 官方）
+你 fork 後改名為: anthropic-marketplace-mycompany
+# 錯誤：以 anthropic 開頭 + marketplace → regex 匹配
+
+# ❌ 錯誤做法 — 會被擋
+你 fork 後改名為: claude-plugins-internal
+# 錯誤：以 claude 開頭 + plugins → regex 匹配
+
+# ✅ 正確做法
+你 fork 後改名為: mycompany-plugins
+# 通過：不以 claude/anthropic 開頭
+
+# ✅ 或者改名為
+你 fork 後改名為: internal-mirror-anthropic
+# 通過：anthropic 不在開頭
+
+# ✅ 或者
+你 fork 後改名為: devtools-mirror
+# 通過：完全中性
+```
+
+#### 設計意圖
+
+```
+第一層防禦（代碼層）：regex + 非 ASCII 擋直接冒名
+       ↓
+第二層防禦（註冊層）：保留名稱必須來自 github.com/anthropics/*
+       ↓
+第三層防禦（政策層）：企業用 strictKnownMarketplaces 做白名單
+
+防禦目的：
+  • 防止供應鏈攻擊（惡意 plugin 偽裝 Anthropic 官方）
+  • 防止 homograph attack（西里爾字母冒充拉丁字母）
+  • 保留官方品牌名稱（類似商標保護）
+  • 不擋間接變體（my-claude-tools 可以），避免 false positive
+```
+
 ## Skill Hooks 最佳實踐（2026-04-16 追加研究）
 
 > [!info] 來源
