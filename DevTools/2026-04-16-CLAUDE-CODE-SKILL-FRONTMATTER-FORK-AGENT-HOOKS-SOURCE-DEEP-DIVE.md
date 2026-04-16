@@ -883,6 +883,188 @@ export CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL=1
 
 （加粗表示**企業管理員可控制**的機制）
 
+### 十、Subagent Markdown vs Skill `context: fork` Frontmatter 對照
+
+> [!important] 兩者解析路徑不同
+> - **Subagent**：`loadAgentsDir.ts:parseAgentFromMarkdown()` — 完整 frontmatter 解析
+> - **Skill**：`loadSkillsDir.ts:parseSkillFrontmatterFields()` — 不同欄位集
+
+#### 重疊欄位（兩者都有）
+
+| 欄位 | Agent Markdown | Skill Fork | 差異說明 |
+|------|---------------|-----------|---------|
+| `name` | ✅ 必填（agentType） | ✅ 必填（顯示名） | **語意不同**：agent 是 ID，skill 是顯示名 |
+| `description` | ✅ 必填（whenToUse） | ✅ 必填 | 都用來讓模型判斷何時呼叫 |
+| `model` | ✅ | ✅ 會套用到 fork 出的 agent | 相同 |
+| `effort` | ✅ | ✅ merge 進 agentDefinition | 相同 |
+| `hooks` | ✅ | ✅ | **生命週期不同**（見下） |
+| 工具白名單 | `tools` | `allowed-tools` | **欄位名不同！** |
+| 工具黑名單 | `disallowedTools` | ❌ 無 | Skill 無黑名單 |
+
+#### Agent 獨有欄位（Skill 沒有）
+
+```yaml
+# .claude/agents/my-agent.md 獨有
+permissionMode: acceptEdits   # 整體權限模式
+maxTurns: 10                  # 最大對話輪數
+color: blue                   # UI 顏色
+skills:                       # 預載的 skills
+  - "commit"
+mcpServers:                   # 專屬 MCP servers
+  - "slack"
+background: true              # 背景執行
+memory: project               # user|project|local 持久記憶
+isolation: worktree           # worktree|remote
+initialPrompt: "前綴"          # 注入第一個 user turn
+disallowedTools:              # 工具黑名單
+  - "Write"
+```
+
+#### Skill 獨有欄位（Agent 沒有）
+
+```yaml
+# .claude/skills/my-skill/SKILL.md 獨有
+context: fork                 # fork 或 inline
+agent: Explore                # 指定使用哪個 agent
+paths:                        # glob 條件觸發
+  - "src/components/**"
+arguments: ["query"]          # 命名參數
+argument-hint: "<query>"      # 參數提示
+when_to_use: "更精確的觸發提示" # 與 description 分開
+shell: bash                   # 預設 shell
+disable-model-invocation: false  # 禁止模型主動呼叫
+user-invocable: true          # 用戶可用 / 呼叫
+```
+
+#### 同名欄位的語意對照
+
+```
+┌──────────────────┬──────────────────────┬──────────────────────┐
+│     欄位          │   Agent Markdown      │    Skill Fork        │
+├──────────────────┼──────────────────────┼──────────────────────┤
+│ name             │ agentType（被引用 ID）│ 顯示名               │
+│ description      │ whenToUse             │ skill_listing 的描述 │
+│ hooks 註冊時機    │ agent spawn 時        │ skill 被呼叫時        │
+│ hooks 清除時機    │ agent 結束時          │ session 結束時        │
+│ 正文作用          │ system prompt         │ user message         │
+│                  │（設定 agent 角色）     │（傳給 agent 作任務）  │
+└──────────────────┴──────────────────────┴──────────────────────┘
+```
+
+#### 執行路徑差異圖
+
+```
+ Agent Markdown（直接被 AgentTool 呼叫）：
+ ────────────────────────────────────────
+ Model 呼叫 AgentTool(subagent_type="my-agent")
+   ↓
+ 載入 .claude/agents/my-agent.md
+   ↓
+ 正文 → system prompt（設定 agent 的角色）
+   ↓
+ Model 跟這個 agent 對話完成任務
+
+ Skill Fork：
+ ────────────
+ User/Model 呼叫 /my-skill
+   ↓
+ 載入 .claude/skills/my-skill/SKILL.md
+   ↓
+ context === 'fork' → 找 agent = frontmatter.agent
+   ↓
+ agent 載入：包含它的 system prompt + 工具集
+   ↓
+ 正文 → user message（作為 agent 的任務指令）
+   ↓
+ Agent 執行（agent system prompt + skill 任務指令）
+```
+
+#### 關鍵理解：「環境」vs「任務」
+
+> [!important] Skill Fork 是「拿別人的 agent 執行我的任務」
+> 
+> - **Agent** = 執行**環境**（system prompt、工具集、模型、權限、生命週期）
+> - **Skill Fork** = 要執行的**任務**（user message）+ 選哪個環境（`agent` 欄位）
+> 
+> 所以：
+> - Skill 不能定義 `permissionMode`、`maxTurns`、`memory`、`isolation` 等**環境屬性**（由 agent 定義）
+> - Skill 能控制：任務內容、用哪個環境、額外工具、自己的事件 hooks、何時被選用
+
+#### 實務選擇決策表
+
+| 需求 | 用什麼 |
+|------|--------|
+| 可重用的執行環境 | Agent（`.claude/agents/*.md`） |
+| 可重用的任務 | Skill（`.claude/skills/*/SKILL.md`） |
+| 在特定環境執行特定任務 | Skill + `context: fork` + `agent: ...` |
+| 只在特定檔案出現 | Skill + `paths`（Agent 沒這個） |
+| 背景長任務 | Agent + `background: true` |
+| 參數化任務 | Skill + `arguments` |
+| 持久記憶 | Agent + `memory` |
+| Isolated worktree | Agent + `isolation: worktree` |
+| 嚴格權限模式 | Agent + `permissionMode` |
+| 工具黑名單 | Agent + `disallowedTools`（Skill 不能黑名單） |
+
+#### 「Agent + Skill 組合」實戰範例
+
+```yaml
+# .claude/agents/code-reviewer.md
+---
+name: code-reviewer
+description: 「程式碼審查專家」環境
+model: sonnet
+permissionMode: bypassPermissions
+maxTurns: 20
+tools: ["Read", "Grep", "Glob", "Bash(git diff *)"]
+disallowedTools: ["Write", "Edit"]
+memory: project
+---
+你是資深的程式碼審查員。專注於：
+- 安全漏洞
+- 程式碼品質
+- 最佳實踐
+（這是 system prompt，定義 agent 的角色和行為）
+
+# .claude/skills/review-pr/SKILL.md
+---
+name: review-pr
+description: 對指定 PR 進行程式碼審查
+context: fork
+agent: code-reviewer
+arguments: ["pr_number"]
+paths:
+  - "**/*.ts"
+hooks:
+  PostToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "echo 'PR review tool used'"
+---
+請對 PR #$PR_NUMBER 進行完整的程式碼審查。
+（這是 user message，告訴 agent 要做什麼）
+```
+
+兩者組合的執行：
+```
+用戶輸入：/review-pr 1234
+  ↓
+SkillTool: 找到 skill review-pr
+  ↓
+context: fork → 進入 fork 模式
+  ↓
+agent: code-reviewer → 載入 code-reviewer agent
+  - 帶著 sonnet model + bypassPermissions + 唯讀工具集
+  ↓
+正文 → user message："請對 PR #1234 進行完整的程式碼審查"
+  ↓
+code-reviewer agent 執行任務（最多 20 turns）
+  ↓
+hooks: PostToolUse 在 session 中被註冊（持續到 session 結束）
+  ↓
+回傳結果摘要到主對話
+```
+
 ## Skill Hooks 最佳實踐（2026-04-16 追加研究）
 
 > [!info] 來源
