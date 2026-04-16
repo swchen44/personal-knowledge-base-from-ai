@@ -32,3 +32,4 @@
 | 2026-04-16 14:00 | update | Marketplace 命名冒名防護（五層防禦 + regex 詳解 + 企業命名建議） | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
 | 2026-04-16 16:00 | update | 補遺第九章：SEED_DIR/isPluginBlockedByPolicy/17 項安全檢查清單 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
 | 2026-04-16 18:00 | update | 第十章：Subagent Markdown vs Skill context:fork frontmatter 對照表 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
+| 2026-04-17 10:00 | update | 第十一章：when_to_use 寫法——官方指引 vs 社群實踐（3 種 Pattern） | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |

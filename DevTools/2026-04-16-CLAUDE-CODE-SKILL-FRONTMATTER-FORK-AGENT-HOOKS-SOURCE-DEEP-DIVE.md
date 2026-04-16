@@ -1065,6 +1065,113 @@ hooks: PostToolUse 在 session 中被註冊（持續到 session 結束）
 回傳結果摘要到主對話
 ```
 
+### 十一、`when_to_use` 寫法：官方原始碼的實際做法
+
+> [!warning] 澄清一個常見誤解
+> 社群文章常強調「`when_to_use` 應包含 WHEN + WHEN NOT（反例）來降低誤觸發率」，但**原始碼檢查顯示：這並非 Anthropic 官方的明確要求，只是部分 skill 的個別做法**。
+
+#### 官方唯一的寫法指引（`skillify.ts`）
+
+`skillify` 是 Claude Code 內建用來**產生新 skill** 的 meta-skill，是最接近「官方寫 skill 的教學」：
+
+```typescript
+// skillify.ts:146
+'`when_to_use` is CRITICAL -- tells the model when to auto-invoke. 
+ Start with "Use when..." and include trigger phrases. 
+ Example: "Use when the user wants to cherry-pick a PR to a release branch. 
+          Examples: \'cherry-pick to release\', \'CP this PR\', \'hotfix\'."'
+```
+
+**官方明確要求 3 件事**：
+1. 以 `Use when...` 開頭
+2. 包含 trigger phrases（觸發片語）
+3. 提供 example user messages
+
+**沒有要求**：❌ WHEN NOT、❌ DO NOT TRIGGER、❌ 反例
+
+#### 12 個官方 bundled skill 的實際統計
+
+| 寫法模式 | Skills | 比例 |
+|---------|--------|------|
+| **只有正面**（`Use when...` / `When the user wants...`） | `remember`、`schedule`、`keybindings`、`batch`、`stuck`、`simplify`、`verify`、`debug`、`loremIpsum`、`updateConfig` | 10/12（83%） |
+| **正面 + 單句反例** | `loop`（`Do NOT invoke for one-off tasks`） | 1/12（8%） |
+| **完整 TRIGGER + DO NOT TRIGGER** | `claude-api` | 1/12（8%） |
+
+**只有 1 個官方 skill 採用完整的 WHEN + WHEN NOT 格式**。
+
+#### 兩個使用反例的 skill 原始碼
+
+**Pattern B — 單句反例**（`loop.ts:79-80`）：
+```typescript
+whenToUse:
+    'When the user wants to set up a recurring task, poll for status, 
+     or run something repeatedly on an interval 
+     (e.g. "check the deploy every 5 minutes"). 
+     Do NOT invoke for one-off tasks.'   // ← 單句反例
+```
+
+**Pattern C — 完整 TRIGGER/DO NOT TRIGGER**（`claudeApi.ts:183-186`）：
+```typescript
+description:
+    'Build apps with the Claude API or Anthropic SDK.\n' +
+    'TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk`, 
+                   or user asks to use Claude API, Anthropic SDKs, or Agent SDK.\n' +
+    'DO NOT TRIGGER when: code imports `openai`/other AI SDK, 
+                          general programming, or ML/data-science tasks.'
+```
+
+> [!note] 注意：`claude-api` 把 WHEN/WHEN NOT 寫在 `description` 而非 `when_to_use`
+> `description` 會出現在 `skill_listing` 的索引中（每次 API call 注入 ~1% token），所以雙面指引**直接曝露給模型判斷**。如果寫在 `when_to_use` 中可能效果不同（`when_to_use` 通常與 description 併用於 listing）。
+
+#### 為什麼 `claude-api` 特別需要反例？
+
+推測原因（從程式碼線索）：
+- **容易誤觸發**：「Claude API」與 OpenAI/Gemini/其他 LLM SDK 容易混淆
+- **同領域競爭**：任何 AI API 問題都可能讓模型誤以為該呼叫 `claude-api`
+- **範圍明確**：`anthropic` vs `openai` 是二元判斷，適合用 import 名稱劃清界線
+
+反之，`debug`、`verify`、`schedule` 等 skill 的觸發範圍本身就很窄，**加反例反而浪費 Token**。
+
+#### 三種寫法的適用決策樹
+
+```
+ 撰寫新 skill 的 when_to_use
+   │
+   ▼
+ Q1: 此 skill 與其他 skill/預設行為是否**容易混淆**？
+   │
+   ├─ 否 ──► Pattern A：只寫正面（10/12 官方 skill）
+   │         "Use when... Examples: '...', '...'"
+   │
+   └─ 是 ──► Q2: 混淆點是**單一明確類型**嗎？
+             │
+             ├─ 是（例：週期 vs 一次性）──► Pattern B：單句反例
+             │     "When the user wants X.
+             │      Do NOT invoke for Y."
+             │
+             └─ 否（例：競品 SDK、鄰近領域）──► Pattern C：完整雙面
+                   "TRIGGER when: {具體條件}
+                    DO NOT TRIGGER when: {競品/鄰近領域}"
+```
+
+#### 實務建議
+
+| 情況 | 建議 | 原因 |
+|------|------|------|
+| 觸發範圍明確的 skill（debug、format、test） | Pattern A | 反例浪費 Token，不增加辨識度 |
+| 與其他 skill 功能重疊（loop vs schedule） | Pattern B | 一句反例劃清界線 |
+| 與競品 SDK 混淆（anthropic vs openai） | Pattern C | 完整雙面劃清領域 |
+| 新 skill 初版 | Pattern A 起步 | 上線後觀察誤觸發再加反例 |
+
+#### 關鍵釐清
+
+> [!important] 「WHEN NOT 降低誤觸發率」是社群經驗，不是官方主張
+> 
+> - **官方 `skillify.ts` 模板**：只要求 `Use when...` + trigger phrases + examples，沒要求反例
+> - **官方 bundled skills 實際**：83% 不寫反例
+> - **社群文章常強調** WHEN/WHEN NOT description 工程：可能有實測，但非官方要求
+> - **建議**：除非是容易混淆的情境（competitor SDK），否則預設用 Pattern A，**不要過度設計**
+
 ## Skill Hooks 最佳實踐（2026-04-16 追加研究）
 
 > [!info] 來源
