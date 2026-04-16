@@ -41,3 +41,4 @@
 | [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] | Claude Code 進階長文指南：Token 經濟、記憶持久化與並行策略（The Longform Guide to Everything Claude Code） | 2026-01-22 |
 | [[2026-01-17-THE-SHORTHAND-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] | Claude Code 完整速查手冊（The Shorthand Guide to Everything Claude Code） | 2026-01-17 |
 | [[2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK]] | 設計你的蘇格拉底式 AI 策略顧問：從提示工程到深度決策引擎 | 2025-10-16 |
+| [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] | AI 開發者演化：Pere Villega 11 章系列完整整合（從 11 階段演化到 Hetzner 遠端部署） | 2026-04-15 |
