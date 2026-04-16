@@ -1,5 +1,5 @@
 ---
-title: "Claude Code Skill Frontmatter 深度解析：context:fork、agent、hooks 的原始碼原理、最佳實踐與已知問題"
+title: "Claude Code Skill/Plugin 安全機制全解析：Frontmatter 進階欄位 + 命名冒名防護 + 企業 Marketplace 部署"
 date: 2026-04-16
 category: DevTools
 tags:

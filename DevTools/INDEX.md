@@ -2,7 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
-| [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | Skill frontmatter 深度解析：context:fork 隔離原理、agent 工具集控制、hooks 累積生命週期 FAQ | 2026-04-16 |
+| [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | Skill/Plugin 安全機制全解析：frontmatter 進階欄位 + 冒名防護 + 17 項安全檢查 + 企業 Marketplace 部署 | 2026-04-16 |
 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | CLAUDE.md 與 Skills 的熱載入機制：Symlink 修改是否即時生效的原始碼驗證 | 2026-04-14 |
 | [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] | Claude Code Worktree 檔案操作全解析：從原始碼追蹤新增/修改/讀取，到 repo Multi-Repo 整合實戰 | 2026-04-12 |
 | [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] | Claude Code 監控實戰：OpenTelemetry 設定、生產堆疊與團隊數據揭示的 8 個關鍵指標 | 2026-04-11 |
