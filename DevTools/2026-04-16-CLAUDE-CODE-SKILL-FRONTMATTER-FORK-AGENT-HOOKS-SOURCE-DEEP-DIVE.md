@@ -652,6 +652,237 @@ const BLOCKED_OFFICIAL_NAME_PATTERN =
   • 不擋間接變體（my-claude-tools 可以），避免 false positive
 ```
 
+### 九、補遺：其他安全檢查與企業部署機制
+
+#### 9.1 MarketplaceNameSchema 的完整檢查鏈
+
+```typescript
+// schemas.ts:216-246
+const MarketplaceNameSchema = z.string()
+    .min(1, 'Marketplace must have a name')
+    .refine(name => !name.includes(' '), {
+        message: 'Marketplace name cannot contain spaces...'
+    })
+    .refine(name => !name.includes('/') && !name.includes('\\') 
+                  && !name.includes('..') && name !== '.', {
+        message: 'Marketplace name cannot contain path separators...'
+    })
+    .refine(name => !isBlockedOfficialName(name), {
+        message: 'Marketplace name impersonates an official Anthropic/Claude marketplace'
+    })
+    .refine(name => name.toLowerCase() !== 'inline', {
+        message: 'Marketplace name "inline" is reserved for --plugin-dir session plugins'
+    })
+    .refine(name => name.toLowerCase() !== 'builtin', {
+        message: 'Marketplace name "builtin" is reserved for built-in plugins'
+    })
+```
+
+#### 9.2 Plugin Name Schema（相對寬鬆）
+
+```typescript
+// schemas.ts:274-285 — 只擋空格，不擋冒名
+name: z.string()
+    .min(1, 'Plugin name cannot be empty')
+    .refine(name => !name.includes(' '), {...})
+    // ❗ 沒有 isBlockedOfficialName 檢查
+    // ❗ 沒有保留名稱檢查
+```
+
+> [!note] Plugin name vs Marketplace name
+> **Plugin name 的限制比 marketplace name 寬鬆很多**。冒名防護只作用在 marketplace name 層級。這是合理的——攻擊者的威脅向量是「註冊一個假冒官方的 marketplace 來分發惡意 plugin」，而非 plugin 自己的名字。
+
+#### 9.3 Plugin ID 格式驗證
+
+```typescript
+// schemas.ts:1339-1346
+export const PluginIdSchema = z.string()
+    .regex(
+        /^[a-z0-9][-a-z0-9._]*@[a-z0-9][-a-z0-9._]*$/i,
+        'Plugin ID must be in format: plugin@marketplace'
+    )
+```
+
+Plugin ID 的格式：`{plugin-name}@{marketplace-name}`，例如 `formatter@company-tools`。兩邊都只允許字母、數字、`-`、`_`、`.`。
+
+#### 9.4 Path Traversal 保護（`lspPluginIntegration.ts`）
+
+```typescript
+// lspPluginIntegration.ts:30-45 — 解析 LSP 設定時的 sandbox 檢查
+const resolvedFilePath = resolve(pluginPath, relativePath)
+const rel = relative(resolvedPluginPath, resolvedFilePath)
+
+// 如果解析後的路徑逃出 plugin 目錄（以 .. 開頭或是絕對路徑）
+if (rel.startsWith('..') || resolve(rel) === rel) {
+    return null  // 拒絕
+}
+```
+
+Plugin 內部的相對路徑必須真正落在 plugin 目錄內，即使 zod schema 沒擋住 `..`，執行時也會被攔截。
+
+#### 9.5 企業部署關鍵機制：`CLAUDE_CODE_PLUGIN_SEED_DIR`
+
+> [!important] 這是企業 marketplace 部署的**最強武器**
+> `pluginDirectories.ts:85-90` 中的 `getPluginSeedDirs()` 讀取此環境變數，允許企業在容器映像中**預先內建 marketplace 和 plugin 快取**，CC 以**唯讀 fallback layer** 的方式使用，**不需重新 clone**。
+
+**Seed 目錄結構**（與 primary plugins 目錄對應）：
+
+```
+$CLAUDE_CODE_PLUGIN_SEED_DIR/
+  ├── known_marketplaces.json        ← 預註冊的 marketplace 清單
+  ├── marketplaces/
+  │     └── {company-tools}/         ← 預 clone 的 marketplace 內容
+  │           └── .claude-plugin/marketplace.json
+  └── cache/
+        └── {marketplace}/
+              └── {plugin}/
+                    └── {version}/...  ← 預安裝的 plugin 快取
+```
+
+**支援多路徑（PATH-like precedence）**：
+
+```bash
+# Unix：用 ":" 分隔
+export CLAUDE_CODE_PLUGIN_SEED_DIR="/opt/cc-seed-corp:/opt/cc-seed-team"
+
+# Windows：用 ";" 分隔
+# 第一個 seed 命中 marketplace 就贏
+```
+
+#### 9.6 Seed-managed 條目不可被覆蓋
+
+```typescript
+// marketplaceManager.ts:1864-1872
+const oldEntry = config[marketplace.name]
+if (oldEntry) {
+    const seedDir = seedDirFor(oldEntry.installLocation)
+    if (seedDir) {
+        throw new Error(
+            `Marketplace '${marketplace.name}' is seed-managed (${seedDir}). ` +
+            `To use a different source, ask your admin to update the seed, ` +
+            `or use a different marketplace name.`
+        )
+    }
+}
+```
+
+> [!warning] 企業 seed 設定可鎖定名稱
+> 一旦 admin 透過 seed 註冊了 `company-tools` marketplace，使用者**無法**用同名的不同來源覆蓋它（會拋錯）。這是強制的「admin 鎖定」機制。
+
+#### 9.7 Marketplace 自動更新規則
+
+```typescript
+// schemas.ts:47-57
+export function isMarketplaceAutoUpdate(marketplaceName, entry): boolean {
+    return entry.autoUpdate ?? (
+        ALLOWED_OFFICIAL_MARKETPLACE_NAMES.has(normalizedName) &&
+        !NO_AUTO_UPDATE_OFFICIAL_MARKETPLACES.has(normalizedName)
+    )
+}
+
+// knowledge-work-plugins 是唯一預設不自動更新的官方 marketplace
+const NO_AUTO_UPDATE_OFFICIAL_MARKETPLACES = new Set(['knowledge-work-plugins'])
+```
+
+**預設行為**：
+- 官方 marketplace：**預設自動更新**（knowledge-work-plugins 除外）
+- 第三方 marketplace：**預設不自動更新**（需使用者手動或 `autoUpdate: true`）
+
+#### 9.8 Plugin Block by Policy
+
+```typescript
+// pluginPolicy.ts:17-20
+export function isPluginBlockedByPolicy(pluginId: string): boolean {
+    const policyEnabled = getSettingsForSource('policySettings')?.enabledPlugins
+    return policyEnabled?.[pluginId] === false
+}
+```
+
+管理員可透過 `policySettings.enabledPlugins` 的 `false` 值**強制禁用特定 plugin**，使用者在任何 scope 都無法安裝或啟用。
+
+```json
+// /etc/claude-code/managed-settings.json
+{
+  "enabledPlugins": {
+    "malicious-plugin@some-marketplace": false,  // ← 強制禁用
+    "formatter@company-tools": true               // ← 強制啟用
+  }
+}
+```
+
+#### 9.9 官方 Marketplace 自動安裝
+
+```typescript
+// officialMarketplaceStartupCheck.ts:47-51
+export function isOfficialMarketplaceAutoInstallDisabled(): boolean {
+    return isEnvTruthy(
+        process.env.CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL
+    )
+}
+```
+
+預設情況 Claude Code 會嘗試自動安裝 `claude-plugins-official`。企業部署可設 `CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL=1` 停用，只讓員工用公司 marketplace。
+
+#### 9.10 完整的企業部署「黃金設定」
+
+```bash
+# 環境變數
+export CLAUDE_CODE_PLUGIN_SEED_DIR="/opt/cc-company-seed"
+export CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL=1
+
+# Managed settings（/etc/claude-code/managed-settings.json）
+{
+  # 白名單：只允許公司 marketplace
+  "strictKnownMarketplaces": [
+    { "source": "hostPattern", "hostPattern": "*.yourcompany.com" }
+  ],
+  
+  # 預註冊：員工不用手動 add
+  "extraKnownMarketplaces": {
+    "company-tools": {
+      "source": { "source": "github", "repo": "your-company/plugins" }
+    }
+  },
+  
+  # 預啟用特定 plugin
+  "enabledPlugins": {
+    "formatter@company-tools": true,
+    "security-checker@company-tools": true,
+    "legacy-plugin@third-party": false  # 明確禁用
+  },
+  
+  # 封鎖非 plugin 的自訂內容
+  "strictPluginOnlyCustomization": ["skills", "hooks", "mcp"],
+  
+  # 自訂信任訊息
+  "pluginTrustMessage": "Only install plugins from YourCompany-approved sources."
+}
+```
+
+#### 9.11 Plugin 安全檢查完整清單
+
+| # | 檢查項目 | 位置 | 觸發時機 | 行為 |
+|---|---------|------|---------|------|
+| 1 | JSON syntax 有效性 | validatePlugin.ts | 讀取時 | ❌ Error |
+| 2 | Path traversal（`..`） | validatePlugin.ts | 解析時 | ❌ Error |
+| 3 | Plugin name 重複（同 marketplace） | validatePlugin.ts:430 | 驗證時 | ❌ Error |
+| 4 | Plugin name 空格檢查 | schemas.ts:279 | 解析時 | ❌ Error |
+| 5 | **Marketplace name 冒名**（regex） | schemas.ts:235 | 註冊時 | ❌ Error |
+| 6 | **Marketplace name 非 ASCII** | schemas.ts:94 | 註冊時 | ❌ Error |
+| 7 | **Marketplace name 保留字**（inline/builtin） | schemas.ts:239-244 | 註冊時 | ❌ Error |
+| 8 | **保留名稱來源驗證**（github.com/anthropics/*） | marketplaceManager.ts:1851 | 載入後 | ❌ Error |
+| 9 | Plugin ID 格式（`name@mkt`） | schemas.ts:1343 | 解析時 | ❌ Error |
+| 10 | Path sandbox（LSP 設定） | lspPluginIntegration.ts:40 | 載入時 | 回傳 null |
+| 11 | **strictKnownMarketplaces** | marketplaceHelpers.ts:480 | 下載前 | ❌ 擋下載 |
+| 12 | **blockedMarketplaces** | marketplaceHelpers.ts:482 | 下載前 | ❌ 擋下載 |
+| 13 | **strictPluginOnlyCustomization** | pluginOnlyPolicy.ts:19 | 載入時 | ⚠️ 封鎖用戶層 |
+| 14 | **isPluginBlockedByPolicy** | pluginPolicy.ts:17 | 安裝/啟用時 | ❌ 阻斷 |
+| 15 | **Seed-managed 鎖定** | marketplaceManager.ts:1867 | 覆蓋時 | ❌ Error |
+| 16 | Plugin hooks 安全閘 | processSlashCommand.tsx:874 | 註冊 hooks 時 | ⚠️ 非 trusted 跳過 |
+| 17 | Plugin name kebab-case | validatePlugin.ts:260 | 驗證時 | ⚠️ Warning |
+
+（加粗表示**企業管理員可控制**的機制）
+
 ## Skill Hooks 最佳實踐（2026-04-16 追加研究）
 
 > [!info] 來源
