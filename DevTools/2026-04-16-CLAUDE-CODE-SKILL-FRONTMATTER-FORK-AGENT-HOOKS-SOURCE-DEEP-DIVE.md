@@ -1403,6 +1403,7 @@ shell: bash
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Hooks 基礎指南，本文補充 skill hooks 的累積特性與 FAQ
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — 原始碼洩漏解析，涵蓋 Agent Loop 等核心機制
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 七位專家最佳實踐，Skills hooks 在整體 harness 中的定位
+- [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 的 Plugin 啟停控制（enabledPlugins 四層 merge）與 7 個 policy-only 安全閘門
 
 ## References
 

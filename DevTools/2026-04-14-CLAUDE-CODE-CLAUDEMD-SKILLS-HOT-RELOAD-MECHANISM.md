@@ -881,6 +881,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 - [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — 被動上下文（AGENTS.md）vs 按需檢索（Skills）的原始實驗，從機制層面解釋 memoize 全量載入的優勢
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills 的 frontmatter 控制（fork/paths/allowed-tools）與 Subagents 的選擇決策框架
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — Skill frontmatter 進階欄位（context:fork、agent、hooks）的原始碼深度解析與 FAQ
+- [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 五源 merge 與 CLAUDE.md memoize 的關係、Plugin 啟停如何透過 settings 控制
 
 ## References
 
