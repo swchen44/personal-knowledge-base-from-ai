@@ -38,3 +38,4 @@
 | 2026-04-17 20:00 | ingest | conversation research: 反饋系統 + Frustration Detection + EventMetadata 架構 | [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | CodeAnalysis | 8 | 6 |
 | 2026-04-17 22:00 | ingest | conversation research: 社群 CLAUDE.md 迷思核實 + 壓縮重新注入 + paths: 真相 | [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] | AI | 3 | 5 |
 | 2026-04-17 23:00 | update | Skill 壓縮機制 + 7 撰寫技巧 + 指名呼叫 vs 自動發現 + 注意事項 | [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] | AI | 0 | 5 |
+| 2026-04-18 00:00 | ingest | conversation research: Skill 完全指南（綜合 4 篇研究） | [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] | DevTools | 0 | 4 |
