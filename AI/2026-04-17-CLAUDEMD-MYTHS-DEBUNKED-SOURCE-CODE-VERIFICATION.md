@@ -284,6 +284,99 @@ claude --resume
 2. **什麼情況下會失敗？** — (a) `paths:` glob 模式設太窄，規則永遠不觸發；(b) 過度精簡 CLAUDE.md 導致關鍵規則被砍（如專案特有的安全要求）；(c) 依賴壓縮後重新注入，但在 1M context 模型下壓縮很少觸發。
 3. **有沒有更好的替代方案？** — 對於「確保模型遵守規則」的需求，settings.json 中的 `hooks`（`PostToolUse` 自動 lint）比 CLAUDE.md 中的文字規則更可靠——前者是**強制執行**，後者是**建議遵守**。
 
+## 七、Skill 壓縮後的注入機制與撰寫技巧
+
+### 壓縮時 Skill 經歷什麼？
+
+Skill 相關有兩種內容，壓縮時處理方式不同：
+
+| 內容 | 壓縮後行為 | 原因 |
+|------|-----------|------|
+| **skill_listing**（索引：name + desc） | ❌ **不重新注入** | 省 ~4K tokens；模型仍有 SkillTool schema |
+| **invoked_skills**（已呼叫的完整內容） | ✅ **截斷版重新注入** | `createSkillAttachmentIfNeeded()` |
+
+**invoked_skills 預算限制**：
+
+```
+POST_COMPACT_MAX_TOKENS_PER_SKILL = 5,000    ← 每個 skill 截斷上限
+POST_COMPACT_SKILLS_TOKEN_BUDGET = 25,000     ← 所有 skill 總預算
+→ 最多保留 ~5 個 skills
+→ 按呼叫時間排序（最近的優先保留）
+→ 截斷保留頭部，加 "[... skill content truncated for compaction]"
+```
+
+壓縮後的 messages 結構：
+
+```
+messages[0]: <system-reminder>CLAUDE.md + rules</...>   ← prependUserContext 重新注入
+messages[1]: 壓縮摘要
+messages[2]: invoked_skills attachment                   ← 截斷版 skill 內容
+              "The following skills were invoked in
+               this session. Continue to follow
+               these guidelines:
+               ### Skill: kb-create
+               {前 5,000 tokens 的內容}
+               [... skill content truncated...]"
+messages[3]: 最新對話
+```
+
+### Skill 撰寫 7 個技巧
+
+> [!tip] 技巧 1：最重要的指令放在 SKILL.md 前面
+> 壓縮截斷保留**頭部**。如果「必須用繁體中文」寫在第 200 行，壓縮後可能被截斷。把核心規則放在 frontmatter 之後的最前面。
+
+> [!tip] 技巧 2：單個 Skill 控制在 5,000 tokens（~400 行）以內
+> 超過會在壓縮後被截斷。大 skill 考慮拆分，或把參考資料放外部檔案。
+
+> [!tip] 技巧 3：一個 Session 最多 ~5 個 Skill 在壓縮後存活
+> 25K 總預算 ÷ 5K/skill ≈ 5 個。如果某規則需要整個 session 都遵守，放 CLAUDE.md（每次重新注入，不受 5 個限制）。
+
+> [!tip] 技巧 4：壓縮後 skill_listing 消失，模型不再主動觸發
+> Skill 索引不重新注入。解法：在 CLAUDE.md 中寫觸發條件（如「用戶提到『寫知識庫』時，使用 /kb-create」）。
+
+> [!tip] 技巧 5：指名呼叫比自動發現更可靠
+> 在 Skill A 中直接寫 `使用 /skill-B 完成下一步`，而非依賴模型從 skill_listing 自動匹配。原始碼支援 `nested-skill`（`queryDepth > 0`），是正式機制。
+> - 繞過 skill_listing 消失的問題
+> - 消除 description 匹配的不確定性
+> - 壓縮後 invoked_skills 中仍保留指名指令（前提：在前 5K tokens 內）
+
+> [!tip] 技巧 6：同一 Skill 多次呼叫不會重複佔空間
+> `invokedSkills` 是 Map，相同 key 覆蓋。呼叫 10 次只佔 1 份 5K tokens。但會更新 `invokedAt` 時間戳，讓它在排序中更靠前。
+
+> [!tip] 技巧 7：長期規則的最佳存放位置決策
+> ```
+>  這條規則需要...
+>    ├── 每次 API call 都生效？ → CLAUDE.md 或無條件 rules
+>    ├── 只在特定檔案時？ → 有條件 rules（paths:）
+>    ├── 只在特定任務時？ → Skill
+>    ├── 壓縮後必須完整存活？ → CLAUDE.md（永遠在 messages[0]）
+>    └── 需要強制執行？ → Settings hooks（不是建議，是強制）
+> ```
+
+### Skill 撰寫注意事項
+
+| 注意事項 | 影響 | 對策 |
+|---------|------|------|
+| Skill > 5K tokens | 壓縮後尾部被截斷 | 關鍵指令放前面 |
+| Session 用 > 5 個 skill | 最早的被丟棄 | 長期規則放 CLAUDE.md |
+| 壓縮後 skill_listing 消失 | 模型不再主動觸發 | CLAUDE.md 寫觸發條件 / 指名呼叫 |
+| Description > 250 字 | 索引中被截斷 | 250 字以內 |
+| Skill A 指名呼叫 B 在 5K 後 | 壓縮後截斷 | 移到 SKILL.md 前面 |
+| 循環呼叫（A→B→A） | 可能無限循環 | 避免 |
+| Fork skill 指名呼叫 | 子 agent 不一定有 SkillTool | 確認 agent 設定 |
+
+### 指名呼叫 vs 自動發現的比較
+
+```
+ 自動發現（依賴 skill_listing）：
+ 用戶需求 → 模型看索引 → 匹配 description → 決定呼叫
+              壓縮後消失 ❌     可能選錯 ⚠️
+
+ 指名呼叫（Skill 內容直接寫死）：
+ 用戶呼叫 /A → A 內容說「用 /B」→ 模型呼叫 B
+               壓縮後仍在 ✅       零歧義 ✅
+```
+
 ## 相關連結（Related）
 
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — CLAUDE.md 載入時機、@include、Rules 無條件/有條件注入、壓縮後行為的完整原始碼分析
