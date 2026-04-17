@@ -539,6 +539,7 @@ find ~/.claude/projects -name "MEMORY.md"
 - [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 - [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — Worktree 的檔案操作追蹤，與記憶系統的檔案操作可對照參考
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — 第 6 章從實踐者角度介紹 Teresa Torres 三層記憶系統與 Patrick Zandl 的 JSONL 情節記憶，可與本文工具面分析互補
+- [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — memory_survey 作為 transcript 分享觸發器的機制，連接記憶壓縮與反饋收集
 
 ---
 

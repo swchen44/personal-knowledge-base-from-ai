@@ -245,6 +245,7 @@ Team Memory 的設計揭示了一個重要的 **「共享知識 vs 個人偏好�
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 從監控角度看團隊 Claude Code 管理，與本文的記憶系統角度互補
 - [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — 遙測子系統原始碼分析，組織級 Claude Code 管理的另一個面向（監控+指標）
+- [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — 反饋系統中的 memory_survey trigger 與記憶壓縮後調查的機制
 
 ---
 

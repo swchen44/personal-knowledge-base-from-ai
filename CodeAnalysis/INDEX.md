@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | Claude Code 使用者反饋系統深度分析：Frustration Detection 演算法、三管道反饋機制、EventMetadata 傳送架構 | 2026-04-17 |
 | [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] | Claude Code Telemetry 原始碼深度分析：三層 OTel 架構、8 個指標、Span 生命週期與 100 人團隊部署策略 | 2026-04-13 |
 | [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] | Claude Code Plugin 完整生命週期 — 安裝/停用/移除/更新五大操作的檔案影響分析與三種 Scope 比較 | 2026-04-12 |
 | [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] | npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性 | 2026-04-11 |

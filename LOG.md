@@ -35,3 +35,4 @@
 | 2026-04-17 10:00 | update | 第十一章：when_to_use 寫法——官方指引 vs 社群實踐（3 種 Pattern） | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 5 |
 | 2026-04-17 11:00 | ingest | https://perevillega.com/series/ai-developer-evolution/ (11 篇合輯) | [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] | AI | 5 | 6 |
 | 2026-04-17 14:00 | ingest | conversation research: settings 四檔案 + Plugin 關聯 + 企業 policy | [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] | DevTools | 3 | 5 |
+| 2026-04-17 20:00 | ingest | conversation research: 反饋系統 + Frustration Detection + EventMetadata 架構 | [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | CodeAnalysis | 8 | 6 |
