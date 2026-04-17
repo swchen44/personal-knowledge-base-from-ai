@@ -261,6 +261,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — 七位專家的 CLAUDE.md 最佳實踐比較
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — 漸進式揭露（Progressive Disclosure）策略，避免 CLAUDE.md 膨脹
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 原始碼洩漏解析，涵蓋 system prompt 結構
+- [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] — 驗證「砍掉重疊規則」才是 35 行優於 100 行的真正原因
 
 ## References
 

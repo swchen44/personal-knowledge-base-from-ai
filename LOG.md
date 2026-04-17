@@ -36,3 +36,4 @@
 | 2026-04-17 11:00 | ingest | https://perevillega.com/series/ai-developer-evolution/ (11 篇合輯) | [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] | AI | 5 | 6 |
 | 2026-04-17 14:00 | ingest | conversation research: settings 四檔案 + Plugin 關聯 + 企業 policy | [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] | DevTools | 3 | 5 |
 | 2026-04-17 20:00 | ingest | conversation research: 反饋系統 + Frustration Detection + EventMetadata 架構 | [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | CodeAnalysis | 8 | 6 |
+| 2026-04-17 22:00 | ingest | conversation research: 社群 CLAUDE.md 迷思核實 + 壓縮重新注入 + paths: 真相 | [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] | AI | 3 | 5 |

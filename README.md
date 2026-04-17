@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [CLAUDE.md 社群迷思原始碼核實：User Message 注入、Rules 按需載入、壓縮後重新注入的真相](./AI/2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION.md) — 8 項聲明逐條驗證：無條件 rules = CLAUDE.md 同位置、壓縮後 prependUserContext 重新注入、只有 paths: 才是真按需
 - [Claude Code 使用者反饋系統深度分析：Frustration Detection 演算法、EventMetadata 傳送架構](./CodeAnalysis/2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE.md) — 三管道反饋機制（/feedback、0.5% 概率調查、挫折偵測）、Datadog + 1P 雙路徑傳送、多層隱私保護
 - [Claude Code 設定檔完全指南：四檔案差異、五源 merge、Plugin 啟停與企業 Policy](./DevTools/2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE.md) — GlobalConfig vs SettingsSchema、enabledPlugins 四層控制、7 個 policy-only 安全閘門、常見錯誤 FAQ
 - [AI 開發者演化：Pere Villega 11 章系列完整整合](./AI/2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA.md) — 從 11 階段演化（Dismissal→The Matrix）、三大轉折點、CLAUDE.md/記憶/Context 實戰，到 Hetzner + Tailscale + Cloudflare Tunnel 遠端部署

@@ -218,7 +218,8 @@ ln -s CLAUDE.md agents.md
 - [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] — 原始碼級驗證 Karpathy 準則與內建 prompt 的重疊度，支持本文「不要重複內建指令」的論點
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills/Commands/Subagents 完整比較，延伸本文的 Skills 替代方案分析
 - [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] — 學術實證支持 Opalic 的「精簡 CLAUDE.md」主張：冗餘指令讓任務更難而非更易
-- [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — Pere Villega 11 章系列第 5 章實戰版，融合 Boris Cherny / Teresa Torres / Patrick Zandl 三位實踐者的 CLAUDE.md 做法
+- [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — Pere Villega 11 章系列第 5 章實��版，融合 Boris Cherny / Teresa Torres / Patrick Zandl 三位實踐者的 CLAUDE.md 做法
+- [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] — 原始碼驗證 rules 按需注入的真相：只有 paths: 才有效，支持漸進式揭露策略
 
 ## References
 
