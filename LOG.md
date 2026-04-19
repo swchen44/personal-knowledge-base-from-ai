@@ -41,3 +41,4 @@
 | 2026-04-18 00:00 | ingest | conversation research: Skill 完全指南（綜合 4 篇研究） | [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] | DevTools | 0 | 4 |
 | 2026-04-19 10:00 | ingest | https://www.youtube.com/watch?v=rQmTWRu8fJ8 | [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] | AI | 4 | 5 |
 | 2026-04-19 12:00 | ingest | https://www.humanlayer.dev/blog/writing-a-good-claude-md | [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] | AI | 4 | 5 |
+| 2026-04-19 16:00 | ingest | conversation research: plugin.json dependencies + shared skills | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | DevTools | 5 | 5 |

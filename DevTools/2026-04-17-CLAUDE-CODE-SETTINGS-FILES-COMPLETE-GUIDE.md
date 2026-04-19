@@ -440,6 +440,7 @@ claude --setting-sources ""
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — Plugin 安全機制（命名防護、17 項檢查、企業部署），與本文的 settings 控制互補
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — 原始碼洩漏解析，涵蓋 settings 載入的整體架構
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 團隊統一 settings.json 配置遙測環境變數的實際範例
+- [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] — Settings 層級如何控制 plugin 啟用狀態與 dependency 解析
 
 ## References
 

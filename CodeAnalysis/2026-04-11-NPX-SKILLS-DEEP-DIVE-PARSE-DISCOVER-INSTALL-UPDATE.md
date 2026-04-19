@@ -790,6 +790,7 @@ ls -la ~/.claude/skills/
 - [[GERRIT-WORKFLOW]] — Gerrit Server 的 SSH 認證與 git 操作流程
 - [[NPX-SKILLS-CLI]] — `skills` npm 套件的完整指令參考
 - [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
+- [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] — Skills 路徑解析機制的另一個面向：plugin.json 中的 skills 路徑如何被 loader 處理
 
 ---
 

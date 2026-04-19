@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Plugin.json 依賴系統與共享 Skills 原始碼分析：三層驗證、`..` 路徑 workaround、Issue #9444](./DevTools/2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS.md) — 拆解 Schema/Validate/Loader 三層驗證差異、DependencyRefSchema 版本號靜默丟棄、社群 6 種共享資源 workaround 比較
 - [撰寫好的 CLAUDE.md：指令預算、均勻衰減與漸進式揭露](./AI/2026-04-19-WRITING-A-GOOD-CLAUDE-MD.md) — HumanLayer 的 CLAUDE.md 實戰指南：少即是多、邊緣偏差、不要自動生成，<60 行的最高槓桿設定檔
 - [Claude 額度瞬間爆掉？快取失效、尖峰時段與環境膨脹的三個雷](./AI/2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES.md) — Max 快取 1 小時 / Pro 5 分鐘、三個破壞快取行為、/compact 與 /clear 使用時機、環境精簡策略
 - [Skill 完全指南：載入、注入、壓縮到撰寫技巧的全面原始碼研究](./DevTools/2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS.md) — 閉包載入、Token 按需注入（97% 節省）、壓縮後 5K/25K 保留、7 撰寫技巧、指名呼叫 vs 自動發現、10 項注意事項

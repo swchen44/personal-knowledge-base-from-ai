@@ -363,6 +363,7 @@ Write 檔案 ← hook 仍然觸發
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills/Commands/Subagents 完整比較
 - [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] — Karpathy 準則 vs 內建 prompt 的重疊分析
 - [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰，建議把規則從 CLAUDE.md 移到 Skill 降低起始成本
+- [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] — Plugin manifest 的 skills 欄位如何補充預設 skills/ 目錄的載入邏輯
 
 ## References
 
