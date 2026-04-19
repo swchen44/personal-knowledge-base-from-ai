@@ -594,6 +594,7 @@ After:
 - [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] — 逐行比對 Karpathy 準則與 `prompts.ts`，準則 2/3 已內建、1/4 值得加入
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 延伸研究：Skills/Commands/Subagents/Plugins 四機制比較與 description 工程最佳實踐
 - [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] — ETH Zurich 138 實例實證：LLM 生成的 context file 降低成功率 3%，挑戰「越詳細越好」的假設
+- [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰：快取失效、尖峰視窗、環境膨脹三大原因與解法
 
 ## References
 

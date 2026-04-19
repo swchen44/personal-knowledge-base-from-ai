@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude 額度瞬間爆掉？快取失效、尖峰時段與環境膨脹的三個雷](./AI/2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES.md) — Max 快取 1 小時 / Pro 5 分鐘、三個破壞快取行為、/compact 與 /clear 使用時機、環境精簡策略
 - [Skill 完全指南：載入、注入、壓縮到撰寫技巧的全面原始碼研究](./DevTools/2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS.md) — 閉包載入、Token 按需注入（97% 節省）、壓縮後 5K/25K 保留、7 撰寫技巧、指名呼叫 vs 自動發現、10 項注意事項
 - [CLAUDE.md 社群迷思原始碼核實：User Message 注入、Rules 按需載入、壓縮後重新注入的真相](./AI/2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION.md) — 8 項聲明逐條驗證：無條件 rules = CLAUDE.md 同位置、壓縮後 prependUserContext 重新注入、只有 paths: 才是真按需
 - [Claude Code 使用者反饋系統深度分析：Frustration Detection 演算法、EventMetadata 傳送架構](./CodeAnalysis/2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE.md) — 三管道反饋機制（/feedback、0.5% 概率調查、挫折偵測）、Datadog + 1P 雙路徑傳送、多層隱私保護

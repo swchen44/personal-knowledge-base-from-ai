@@ -384,6 +384,7 @@ messages[3]: 最新對話
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Opalic 的漸進式揭露方案，提出「減少常駐、按需載入」策略
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — settings.json hooks 可作為 CLAUDE.md 規則的強制執行替代方案
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Simplicity First 最有效的實測，支持精簡策略
+- [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 從使用者體驗面驗證環境精簡的重要性：CLAUDE.md/rules/MCP 過多直接影響額度消耗
 
 ## References
 

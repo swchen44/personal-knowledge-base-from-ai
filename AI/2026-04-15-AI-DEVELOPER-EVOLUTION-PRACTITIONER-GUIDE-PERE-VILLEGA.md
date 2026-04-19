@@ -1691,6 +1691,7 @@ METR 的研究揭示了一個違反直覺的發現：有經驗的開發者使用
 - [METR Research Paper](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) — AI 工具對有經驗開發者影響的實證研究（19% 慢化發現的來源）
 - [Kent Beck on Software in the Age of AI](https://tidyfirst.substack.com/p/ai-and-the-nature-of-programming) — Kent Beck 關於 90%/10% 轉變的原始論述
 - [Paul Ford: I Paid $150](https://www.ftrain.com/) — 週末 150 美元建出過去需要幾個月的東西
+- [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰指南，從使用者面補充第 9 章的 context 經濟學
 
 ---
 
