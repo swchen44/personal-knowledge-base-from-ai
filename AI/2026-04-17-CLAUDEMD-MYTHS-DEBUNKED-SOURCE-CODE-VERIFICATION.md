@@ -385,6 +385,7 @@ messages[3]: 最新對話
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — settings.json hooks 可作為 CLAUDE.md 規則的強制執行替代方案
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Simplicity First 最有效的實測，支持精簡策略
 - [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 從使用者體驗面驗證環境精簡的重要性：CLAUDE.md/rules/MCP 過多直接影響額度消耗
+- [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 原文：系統提示「毒藥句」的實際影響與精簡策略
 
 ## References
 

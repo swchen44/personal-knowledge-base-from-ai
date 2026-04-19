@@ -133,6 +133,7 @@ CLAUDE.md、rules、MCP 工具設定都會被 Claude Code 主動注入上下文�
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 最佳實踐，支持本影片「精簡 CLAUDE.md」的建議
 - [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] — CLAUDE.md 迷思破解，驗證「CLAUDE.md 該放什麼不該放什麼」
 - [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] — Skill 載入、壓縮、撰寫技巧完整指南，本影片建議「把規則放 Skill」的實作參考
+- [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 的 CLAUDE.md 撰寫指南：指令預算理論支持本影片「精簡環境」的建議
 
 ---
 
