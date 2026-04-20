@@ -9,7 +9,7 @@ tags:
   - #ai/agent-architecture
 source: "https://github.com/anthropics/claude-code/issues/9444"
 source_type: article
-author: "源碼分析 + GitHub Issue #9444 社群討論"
+author: "源碼分析 + GitHub Issue #9444 & #27113 社群討論 + 本地實驗驗證（2026-04-20）"
 status: notes
 links:
   - "[[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]]"
@@ -216,7 +216,190 @@ Plugin A 宣告 dependencies: ["B", "C"]
                      否──► Plugin A 被 demoted
 ```
 
-### 五、GitHub Issue #9444 — 社群痛點與討論
+### 五、Dependencies 實戰寫法與實驗結果（2026-04-20 驗證）
+
+> [!important] 這一節是透過本地實驗驗證的結果，補充上方原始碼分析所得的理論知識。
+
+#### 5.1 正確的依賴宣告位置（關鍵！）
+
+**Dependencies 必須在兩個地方同時宣告，各自負責不同階段：**
+
+| 位置 | 用途 | 時機 | 若缺少 |
+|------|------|------|------|
+| `marketplace.json` 的 entry | install-time 自動安裝閉包 | `claude plugins install` | 安裝時不會自動拉取依賴（但不報錯） |
+| `plugin.json` | load-time demote 驗證 | Claude Code 啟動時 | 啟動後不會檢查依賴是否啟用 |
+
+> [!warning] 常見誤解
+> 只在 `plugin.json` 宣告 `dependencies`，安裝時並**不會**自動安裝依賴。`resolveDependencyClosure`（安裝時的 DFS 遍歷）只讀 marketplace entry 的 `dependencies` 欄位，不讀 plugin 目錄下的 `plugin.json`。
+
+#### 5.2 完整寫法範例 — A → B → C 三層依賴鏈
+
+**目錄結構：**
+
+```
+marketplace-root/
+├── .claude-plugin/
+│   └── marketplace.json       ← marketplace manifest
+├── plugin-a/                  ← 根節點
+│   ├── .claude-plugin/
+│   │   └── plugin.json        ← dependencies: ["plugin-b"]
+│   ├── commands/
+│   │   └── report.md
+│   └── skills/
+│       └── report.md
+├── plugin-b/                  ← 中間節點
+│   ├── .claude-plugin/
+│   │   └── plugin.json        ← dependencies: ["plugin-c"]
+│   ├── commands/
+│   │   └── format.md
+│   └── skills/
+│       └── format.md
+└── plugin-c/                  ← 葉節點（無依賴）
+    ├── .claude-plugin/
+    │   └── plugin.json
+    ├── commands/
+    │   └── greet.md
+    └── skills/
+        └── greet.md
+```
+
+**marketplace.json（dependencies 必須在此宣告，安裝才會自動解析）：**
+
+```json
+{
+  "name": "dep-experiment",
+  "owner": { "name": "swchen" },
+  "plugins": [
+    {
+      "name": "plugin-c",
+      "source": "./plugin-c",
+      "description": "葉節點，無依賴"
+    },
+    {
+      "name": "plugin-b",
+      "source": "./plugin-b",
+      "description": "中間節點，依賴 C",
+      "dependencies": ["plugin-c"]
+    },
+    {
+      "name": "plugin-a",
+      "source": "./plugin-a",
+      "description": "根節點，依賴 B（B 又依賴 C）",
+      "dependencies": ["plugin-b"]
+    }
+  ]
+}
+```
+
+> [!note] source 路徑格式
+> `RelativePath` schema 要求路徑以 `./` 開頭（`"./plugin-a"` ✅，`"plugin-a"` ❌），相對於 marketplace repo root。
+
+**plugin-a/.claude-plugin/plugin.json（load-time 驗證用）：**
+
+```json
+{
+  "name": "plugin-a",
+  "version": "1.0.0",
+  "description": "Root plugin — depends on plugin-b",
+  "dependencies": ["plugin-b"]
+}
+```
+
+**plugin-b/.claude-plugin/plugin.json：**
+
+```json
+{
+  "name": "plugin-b",
+  "version": "1.0.0",
+  "description": "Middle plugin — depends on plugin-c",
+  "dependencies": ["plugin-c"]
+}
+```
+
+**plugin-c/.claude-plugin/plugin.json（葉節點，無依賴）：**
+
+```json
+{
+  "name": "plugin-c",
+  "version": "1.0.0",
+  "description": "Leaf plugin — no dependencies"
+}
+```
+
+#### 5.3 Marketplace 加入與驗證指令
+
+```bash
+# 1. 驗證 marketplace manifest
+claude plugins validate /path/to/marketplace-root
+
+# 2. 加入 marketplace（local directory）
+claude plugins marketplace add /path/to/marketplace-root
+
+# 3. 安裝根 plugin，B 和 C 自動被拉進來
+claude plugins install plugin-a@dep-experiment
+# 輸出：✔ Successfully installed plugin: plugin-a@dep-experiment (scope: user) (+ 2 dependencies)
+
+# 4. 若修改了 marketplace.json，更新快取
+claude plugins marketplace update dep-experiment
+```
+
+#### 5.4 實驗結果 — 三個情境的實際行為
+
+**情境一：安裝根 plugin，自動解析閉包** ✅
+
+```bash
+$ claude plugins install plugin-a@dep-experiment
+Installing plugin "plugin-a@dep-experiment"...
+✔ Successfully installed plugin: plugin-a@dep-experiment (scope: user) (+ 2 dependencies)
+
+$ claude plugins list | grep plugin-[abc]
+  ❯ plugin-a@dep-experiment  Version: 1.0.0  Status: ✔ enabled
+  ❯ plugin-b@dep-experiment  Version: 1.0.0  Status: ✔ enabled
+  ❯ plugin-c@dep-experiment  Version: 1.0.0  Status: ✔ enabled
+```
+
+**情境二：停用中間 plugin，根 plugin 被降級** ✅
+
+```bash
+$ claude plugins disable plugin-b@dep-experiment
+✔ Successfully disabled plugin: plugin-b (scope: user) — warning: required by plugin-a
+
+$ claude plugins list | grep -A4 plugin-a
+  ❯ plugin-a@dep-experiment
+    Status: ✘ failed to load
+    Error: Dependency "plugin-b@dep-experiment" is disabled — enable it or remove the dependency
+```
+
+- 停用時會顯示 `warning: required by plugin-a`（不阻擋，但提醒）
+- 下次 Claude Code 載入時，plugin-a 的 `verifyAndDemote` 偵測到 B 被停用 → 降級為 `failed to load`
+- `fixed-point` 迭代：若 C 也依賴 A，停用 B 會連帶降級 A，進而降級 C
+
+**情境三：製造循環依賴，安裝直接失敗** ✅
+
+在 `marketplace.json` 加入 `plugin-c → plugin-a`（造成 A→B→C→A 循環），然後嘗試全新安裝：
+
+```bash
+$ claude plugins install plugin-a@dep-experiment
+Installing plugin "plugin-a@dep-experiment"...
+✘ Failed to install plugin "plugin-a@dep-experiment":
+  Dependency cycle: plugin-a@dep-experiment → plugin-b@dep-experiment
+                    → plugin-c@dep-experiment → plugin-a@dep-experiment
+```
+
+> [!tip] 循環偵測的前提
+> 循環偵測（cycle detection）只在**安裝時** `resolveDependencyClosure` 的 DFS 遍歷中執行。如果相關 plugins 已全部在 `alreadyEnabled` 集合中，DFS 會跳過它們，循環不會被偵測到。要觸發循環偵測，必須在所有 plugins 尚未安裝的狀態下執行安裝。
+
+#### 5.5 已安裝但 plugin.json 與 marketplace.json 不一致的問題
+
+若只有 `plugin.json` 宣告了 dependencies（marketplace.json 沒有），會出現：
+
+1. 安裝時：只安裝根 plugin，B/C 不會被自動安裝（因為 DFS 找不到依賴）
+2. 載入時：plugin-a 報 `Dependency "plugin-b@dep-experiment" is not found in any configured marketplace`
+3. 現象看起來像「安裝成功但無法載入」
+
+這是一個容易踩坑的地方——`claude plugins validate` 只驗證 manifest 格式，不會警告你兩邊的 dependencies 是否同步。
+
+### 六、GitHub Issue #9444 — 社群痛點與討論
 
 #### 問題核心
 
@@ -578,9 +761,144 @@ B 被停用
 - [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] — Skill 載入、壓縮、撰寫技巧完整指南
 - [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] — Plugin 載入兩次佔用 context 的已知問題
 
+---
+
+## 附錄：社群相關 Issues 分析
+
+### 附錄 A — Issue #9444：Plugin Dependencies 與共享資源（OPEN）
+
+**連結：** [anthropics/claude-code#9444](https://github.com/anthropics/claude-code/issues/9444)
+**狀態：** 🟡 OPEN（2025-10-12 開，截至 2026-04-20 仍未關閉）
+**作者：** @jawhnycooke ｜ **反應：** 43 個 +1 ｜ **留言：** 15 則
+
+#### 碰到什麼問題？
+
+提出者的 marketplace 有 **11 個 plugins**，需要把 **32 個 agents 複製到 7 個 plugins** 中，原因是多個 plugin 需要同樣的 agents：
+
+- `@code-archaeologist` → 被 5 個 plugin 使用（epcc-workflow、documentation、architecture、tdd-workflow、performance）
+- `@security-reviewer` → 被 4 個 plugin 使用
+- `@test-generator` → 被 4 個 plugin 使用
+
+**核心痛點：**
+1. **檔案重複（File Duplication）** — 相同 agent 定義複製多份
+2. **維護負擔（Maintenance Burden）** — 更新時要修改所有副本
+3. **不一致風險（Inconsistency Risk）** — 各副本可能逐漸脫節
+4. **儲存浪費（Storage Waste）** — marketplace 中的重複 agents 佔用空間
+
+#### 建議的解法是什麼？
+
+提出者建議三個機制共同作用：
+
+**1. Plugin manifest 中的 dependencies 宣告**
+
+```json
+{
+  "name": "epcc-workflow",
+  "version": "1.0.0",
+  "dependencies": {
+    "common-core": "^1.0.0",
+    "security-core": "^2.1.0"
+  }
+}
+```
+
+**2. Library 類型 plugin（共享資源庫）**
+
+```json
+{
+  "name": "common-core",
+  "type": "library",
+  "exports": {
+    "agents": ["code-archaeologist", "system-designer", "business-analyst"]
+  }
+}
+```
+
+**3. 安裝時自動解析依賴**
+
+```bash
+/plugin install epcc-workflow@claude-code-plugins
+# 自動執行：
+✓ Installing common-core@1.0.0
+✓ Installing security-core@2.1.0
+✓ Installing epcc-workflow@1.0.0
+```
+
+#### 他想解決什麼問題？
+
+本質上是想實現 **DRY（Don't Repeat Yourself）原則** 在 Claude Code plugin 生態系中的應用——讓 plugin 能像 npm package 一樣透過 dependency 機制共享資源，避免 N 個 plugin 各自維護 N 份相同的 agent 定義。
+
+> [!note] 與現況的差距
+> 截至 2026-04-20，`dependencies` 欄位已存在於 schema 中，但：
+> - 版本約束（`^1.0.0`）被 schema transform 靜默丟棄
+> - `type: "library"` 欄位不存在
+> - `exports` 欄位不存在
+> - 跨 plugin 的 agent 引用（`@code-archaeologist` 解析到 dependency）不存在
+>
+> 也就是說：自動安裝閉包已部分實現（本文第五節驗證），但資源共享/引用機制仍是 OPEN 需求。
+
+---
+
+### 附錄 B — Issue #27113：Project-level 宣告式依賴（CLOSED）
+
+**連結：** [anthropics/claude-code#27113](https://github.com/anthropics/claude-code/issues/27113)
+**狀態：** 🔴 CLOSED（2026-02-20 開，2026-04-06 被機器人關閉為 inactive）
+**作者：** @willmjackson ｜ **反應：** 7 個 +1 ｜ **留言：** 5 則
+
+#### 碰到什麼問題？
+
+作者是小公司 CEO，內部有多個 Claude Code skills（品牌聲音、部署工具等）透過私有 GitHub marketplace 分發。**不同專案需要不同的 plugin 子集**，目前沒有方法讓「專案」宣告自己需要哪些 plugin：
+
+1. **缺少安裝提示（No install prompting）** — 新成員 clone repo 後不會被提示安裝缺少的 skills/plugins，只有在用到時才發現功能不存在
+2. **缺少必要 vs 建議的區分（No required vs. recommended）** — `.claude/settings.json` 的 `enabledPlugins` 若 plugin 未安裝，無任何警告或提示
+3. **Workaround 脆弱** — 目前只能在 `CLAUDE.md` 記載需要安裝的 plugins（Claude 能讀但無法程式化執行），或用 git submodule 管理（複雜且 MCP server 場景失效）
+
+#### 建議的解法是什麼？
+
+在 `.claude/settings.json` 加入宣告式依賴區塊：
+
+```json
+{
+  "dependencies": {
+    "required": [
+      "brand-voice@company-tools",
+      "deployment-tools@company-tools"
+    ],
+    "recommended": [
+      "extension-capture@company-tools"
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "company-tools": {
+      "source": { "source": "github", "repo": "company/claude-plugins" }
+    }
+  }
+}
+```
+
+**預期行為：**
+- `required` 缺少 → 開啟專案時提示安裝（類似 trust prompt 流程）
+- `recommended` 缺少 → 通知使用者一次，可關閉
+- 全部滿足 → 無提示
+
+額外建議：版本釘定、`claude plugins reconcile` CLI 指令、與 org-level provisioning 整合。
+
+#### 他想解決什麼問題？
+
+與 Issue #9444 的角度不同——#9444 關注的是 **plugin 作者的資源共享**（plugin 間的 DRY），而 #27113 關注的是 **專案消費者的 onboarding 體驗**（像 `package.json` 一樣讓 repo 自我宣告依賴，讓新成員 clone 後自動引導安裝）。
+
+> [!note] 為何被關閉？
+> Issue 於 2026-04-06 被 GitHub Actions bot 以「inactive for too long」自動關閉，2026-04-14 被鎖定。官方並未回應或表明是否規劃實作。社群評論（@Techadler）指出版本解析（version pinning）的問題更深——目前 `enabledPlugins` 對每個 project × plugin 組合分開追蹤版本，這在多專案共享同一 user scope plugin 時會造成版本衝突。
+
+> [!warning] 與現況的差距
+> `.claude/settings.json` 目前沒有 `dependencies` 欄位，也沒有「開啟專案時提示安裝」的機制。`enabledPlugins` 只是靜態 flag，缺少的 plugin 只有在 `claude plugins list` 時才看到 `failed to load` 錯誤，而非在開啟專案時主動提示。
+
+---
+
 ## References
 
 - [GitHub Issue #9444 — Support for Plugin Dependencies and Shared Resources](https://github.com/anthropics/claude-code/issues/9444)
+- [GitHub Issue #27113 — Feature: Declarative skill/plugin dependencies at the project level](https://github.com/anthropics/claude-code/issues/27113)
 - 原始碼：`src/utils/plugins/schemas.ts`（Schema 定義）
 - 原始碼：`src/utils/plugins/validatePlugin.ts`（驗證邏輯）
 - 原始碼：`src/utils/plugins/pluginLoader.ts`（Runtime 載入）
