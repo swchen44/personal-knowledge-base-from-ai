@@ -408,6 +408,7 @@ git worktree add ../feature-branch feature-branch
 - [[CLAUDE-HOOKS-SYSTEM]] — PreCompact、SessionComplete、SessionStart 鉤子的深入設定
 - [[MCP-OVERVIEW]] — MCP vs CLI 技能的取捨分析
 - [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 記憶插件的程式碼分析，與本文記憶持久化章節直接相關
+- [[2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE]] — Marketplace 與 Gerrit 的 404 根因分析，與本文 plugin/marketplace 使用情境相關
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — Claude Code 六層記憶架構的原始碼深度解析，驗證本文描述的記憶機制
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — Team Memory 的原始碼分析，延伸本文的團隊協作記憶概念
 - [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Boris Cherny 的 13 個隱藏功能推文串，包含 /teleport、/batch、--bare 等本文未深入的進階技巧

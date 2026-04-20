@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code Marketplace 連線 Gerrit Server 回傳 404 根因分析：parseMarketplaceInput URL 分類邏輯缺陷與完整驗證流程](./CodeAnalysis/2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE.md) — 本地架設 Gerrit 3.11.1 + 原始碼分析 + CLI 實測，定位 URL 不以 .git 結尾時被誤分類為 HTTP GET 導致 404
 - [Plugin.json 依賴系統與共享 Skills 原始碼分析：三層驗證、`..` 路徑 workaround、Issue #9444](./DevTools/2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS.md) — 拆解 Schema/Validate/Loader 三層驗證差異、DependencyRefSchema 版本號靜默丟棄、社群 6 種共享資源 workaround 比較
 - [撰寫好的 CLAUDE.md：指令預算、均勻衰減與漸進式揭露](./AI/2026-04-19-WRITING-A-GOOD-CLAUDE-MD.md) — HumanLayer 的 CLAUDE.md 實戰指南：少即是多、邊緣偏差、不要自動生成，<60 行的最高槓桿設定檔
 - [Claude 額度瞬間爆掉？快取失效、尖峰時段與環境膨脹的三個雷](./AI/2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES.md) — Max 快取 1 小時 / Pro 5 分鐘、三個破壞快取行為、/compact 與 /clear 使用時機、環境精簡策略

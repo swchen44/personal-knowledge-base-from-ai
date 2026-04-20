@@ -43,3 +43,4 @@
 | 2026-04-19 12:00 | ingest | https://www.humanlayer.dev/blog/writing-a-good-claude-md | [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] | AI | 4 | 5 |
 | 2026-04-19 16:00 | ingest | conversation research: plugin.json dependencies + shared skills | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | DevTools | 5 | 5 |
 | 2026-04-20 02:00 | update | 跨 Scope 依賴解析 + verifyAndDemote 完整流程 + Doctor 顯示邏輯 + cascading demotion | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | DevTools | 0 | 5 |
+| 2026-04-20 22:30 | ingest | 本地 Gerrit 實驗 + Claude Code 原始碼分析 | [[2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE]] | CodeAnalysis | 3 | 5 |
