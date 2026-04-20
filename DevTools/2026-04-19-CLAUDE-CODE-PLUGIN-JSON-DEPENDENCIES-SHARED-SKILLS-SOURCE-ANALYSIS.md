@@ -305,6 +305,228 @@ my-plugin/
 > [!note] 自動偵測 vs manifest 宣告
 > Plugin loader 會同時掃描**預設目錄**（`skills/`、`commands/`、`agents/`）與 **manifest 中宣告的額外路徑**。兩者可以並存——manifest 的路徑是「額外的」（in addition to），不是「取代」。
 
+### 八、跨 Scope 安裝的依賴解析 — Plugin A@project 依賴 B@user 能否成功？
+
+> [!important] 結論：**依賴會成功** ✅。`verifyAndDemote` 在做依賴檢查時，已經把所有 scope 的 settings 合併成一個扁平的 `enabledPlugins` map，完全不區分安裝 scope。
+
+#### 問題場景
+
+Plugin A 安裝在 **project** scope（`$project/.claude/settings.json`），依賴 Plugin B。Plugin B 安裝在 **user** scope（`~/.claude/settings.json`）。這樣子依賴檢查是否通過？
+
+#### 完整執行流程追蹤
+
+**步驟 1：Settings Merge（五源合併）**
+
+`pluginLoader.ts:1896-1901` 中，`getSettings_DEPRECATED()` 會合併所有 scope 的設定：
+
+```typescript
+const settings = getSettings_DEPRECATED()
+const enabledPlugins = {
+  ...getAddDirEnabledPlugins(),
+  ...(settings.enabledPlugins || {}),  // 已合併 managed → user → project → local
+}
+```
+
+合併後的 `enabledPlugins` 結果：
+```json
+{
+  "A@my-marketplace": true,   // ← 來自 projectSettings
+  "B@my-marketplace": true    // ← 來自 userSettings
+}
+```
+
+> [!note] 關鍵：settings merge 發生在 plugin loading 之前
+> Settings cascade 的合併順序為 `managed → user → project → local → flag`，後者覆蓋前者。`enabledPlugins` 是所有層級的**聯集**（union），不是覆蓋——因為每個 plugin ID 是獨立的 key。
+
+**步驟 2：Plugin Loading（統一載入）**
+
+`loadAllMarketplacePlugins`（`pluginLoader.ts:1906-1915`）遍歷合併後的 `enabledPlugins`，不管各 plugin 來自哪個 scope，全部載入到同一個 `plugins` 陣列：
+
+```typescript
+const marketplacePluginEntries = Object.entries(enabledPlugins).filter(
+  ([key, value]) => {
+    const isValidFormat = PluginIdSchema().safeParse(key).success
+    if (!isValidFormat || value === undefined) return false
+    const { marketplace } = parsePluginIdentifier(key)
+    return marketplace !== BUILTIN_MARKETPLACE_NAME
+  },
+)
+```
+
+**步驟 3：assemblePluginLoadResult — 合併所有來源**
+
+`pluginLoader.ts:3177-3196` 將 marketplace plugins、session plugins、builtin plugins 全部合併後，才做依賴檢查：
+
+```typescript
+const { plugins: allPlugins, errors: mergeErrors } = mergePluginSources({
+  session: sessionResult.plugins,
+  marketplace: marketplaceResult.plugins,
+  builtin: [...builtinResult.enabled, ...builtinResult.disabled],
+  managedNames: getManagedPluginNames(),
+})
+
+// 依賴檢查在合併之後才執行
+const { demoted, errors: depErrors } = verifyAndDemote(allPlugins)
+```
+
+**步驟 4：verifyAndDemote — Scope 無關的依賴判斷**
+
+`dependencyResolver.ts:177-234` 中的核心邏輯：
+
+```typescript
+export function verifyAndDemote(plugins: readonly LoadedPlugin[]) {
+  const known = new Set(plugins.map(p => p.source))
+  const enabled = new Set(plugins.filter(p => p.enabled).map(p => p.source))
+  // ...
+  for (const p of plugins) {
+    if (!enabled.has(p.source)) continue
+    for (const rawDep of p.manifest.dependencies ?? []) {
+      const dep = qualifyDependency(rawDep, p.source)
+      const isBare = !parsePluginIdentifier(dep).marketplace
+      const satisfied = isBare
+        ? (enabledByName.get(dep) ?? 0) > 0   // 裸名：任何 marketplace 的同名 plugin 啟用即可
+        : enabled.has(dep)                      // 帶 @marketplace：精確匹配
+    }
+  }
+}
+```
+
+判斷過程（以 A 依賴 B 為例）：
+1. `enabled` Set = `{"A@my-marketplace", "B@my-marketplace", ...}`
+2. A 的 dependency `"B"`（裸名）→ `qualifyDependency("B", "A@my-marketplace")` → `"B@my-marketplace"`
+3. `enabled.has("B@my-marketplace")` → **true** ✅
+4. A 不會被 demoted
+
+```
+Settings Merge（五源合併成扁平 map）
+┌─────────────────────────────────────────────┐
+│ managed → user → project → local → flag     │
+│                                             │
+│ enabledPlugins: {                           │
+│   "A@mkt": true,  ← from projectSettings   │
+│   "B@mkt": true,  ← from userSettings      │
+│ }                                           │
+└──────────────┬──────────────────────────────┘
+               │
+               ▼
+    loadAllMarketplacePlugins()
+    （不管 scope，全部載入）
+               │
+               ▼
+    allPlugins = [A(enabled), B(enabled), ...]
+               │
+               ▼
+    verifyAndDemote(allPlugins)
+    ┌──────────────────────────┐
+    │ enabled = {"A@mkt", "B@mkt"} │
+    │                          │
+    │ A depends on "B"         │
+    │ → qualify → "B@mkt"      │
+    │ → enabled.has("B@mkt")   │
+    │ → true ✅ SATISFIED      │
+    └──────────────────────────┘
+               │
+               ▼
+    A 和 B 都正常啟用，Doctor 無錯誤
+```
+
+#### 裸名 vs 帶 @marketplace 的依賴比對
+
+`verifyAndDemote` 對裸名（bare dependency）有特殊處理——這是為了支援 `--plugin-dir`（`@inline`）plugins：
+
+```typescript
+// dependencyResolver.ts:183-194
+const knownByName = new Set(plugins.map(p => parsePluginIdentifier(p.source).name))
+const enabledByName = new Map<string, number>()
+for (const id of enabled) {
+  const n = parsePluginIdentifier(id).name
+  enabledByName.set(n, (enabledByName.get(n) ?? 0) + 1)  // multiset 計數
+}
+```
+
+| dependency 寫法 | 比對方式 | 範例 |
+|------|------|------|
+| `"B"` （裸名） | `enabledByName.get("B") > 0` — 任何 marketplace 的 B 都算 | `B@epic` 或 `B@other` 都滿足 |
+| `"B@my-mkt"` （帶 marketplace） | `enabled.has("B@my-mkt")` — 精確匹配 | 只有 `B@my-mkt` 才算 |
+
+> [!warning] enabledByName 是 multiset
+> 如果 `B@epic` 和 `B@other` 同時啟用，`enabledByName.get("B")` = 2。當 demote 其中一個時，計數減為 1，裸名依賴仍然滿足。只有計數歸零才會觸發 demote。
+
+#### Doctor 如何顯示 Plugin 依賴錯誤
+
+Doctor（`/doctor`）指令**不會自己重新檢查依賴**，它只是讀取 `AppState.plugins.errors` 並顯示：
+
+```tsx
+// Doctor.tsx:457-463
+const pluginsErrors = useAppState(s => s.plugins.errors)
+
+pluginsErrors.length > 0 && (
+  <Box flexDirection="column">
+    <Text bold color="error">Plugin Errors</Text>
+    <Text color="error">└ {pluginsErrors.length} plugin error(s) detected:</Text>
+    {pluginsErrors.map((error, i) => (
+      <Text key={i} dimColor>
+        └ {error.source}: {getPluginErrorMessage(error)}
+      </Text>
+    ))}
+  </Box>
+)
+```
+
+依賴失敗時的錯誤訊息格式（`types/plugin.ts`）：
+
+```typescript
+// 錯誤類型：dependency-unsatisfied
+{
+  type: 'dependency-unsatisfied',
+  source: 'A@my-marketplace',
+  plugin: 'A',
+  dependency: 'B@my-marketplace',
+  reason: 'not-enabled' | 'not-found'
+}
+
+// 顯示訊息
+// not-enabled: Dependency "B@my-marketplace" is disabled — enable it or remove the dependency
+// not-found:   Dependency "B@my-marketplace" is not found in any configured marketplace
+```
+
+> [!tip] Doctor 的 Plugin Errors 區塊
+> Doctor 不做額外的依賴檢查——它只是呈現 `assemblePluginLoadResult` 中已收集的錯誤。如果依賴在載入時就成功了，Doctor 不會顯示任何 plugin error。
+
+#### Fixed-Point 迭代 — 連鎖降級（Cascading Demotion）
+
+`verifyAndDemote` 使用 fixed-point loop（`dependencyResolver.ts:198`）：降級 A 可能導致依賴 A 的 C 也被降級，因此需要反覆迭代直到沒有變化：
+
+```typescript
+let changed = true
+while (changed) {
+  changed = false
+  for (const p of plugins) {
+    if (!enabled.has(p.source)) continue
+    for (const rawDep of p.manifest.dependencies ?? []) {
+      // ... 檢查 dependency 是否 satisfied
+      if (!satisfied) {
+        enabled.delete(p.source)         // 降級此 plugin
+        // 更新 enabledByName 計數
+        changed = true                    // 觸發下一輪迭代
+        break
+      }
+    }
+  }
+}
+```
+
+降級範例：
+```
+A depends on B, C depends on A
+B 被停用
+  → 第 1 輪：A 的 dependency B 不滿足 → A 被 demoted
+  → changed = true，進入第 2 輪
+  → 第 2 輪：C 的 dependency A 不滿足（A 已被 demoted）→ C 被 demoted
+  → changed = true，進入第 3 輪
+  → 第 3 輪：沒有新的 demotion → changed = false → 結束
+```
+
 ## 我的心得（My Takeaways）
 
 1. **三層驗證的分離設計值得學習** — Schema 管格式、Validate 管安全 lint、Loader 管存在性。這讓 runtime 保持韌性（不會因為新欄位或小問題就 crash），同時給開發者提供嚴格的 lint 工具
@@ -315,7 +537,7 @@ my-plugin/
 ## 待補充（Open Questions）
 
 - Plugin 的 `strict: false` 模式具體是如何改變 manifest 解析行為的？marketplace entry 中的欄位如何覆蓋或補充 plugin.json？建議搜尋：`strict false pluginLoader`
-- `verifyAndDemote` 降級後的 plugin 在 UI 上如何呈現？使用者能否看到降級原因？建議搜尋：`demoted plugin UI notification`
+- ~~`verifyAndDemote` 降級後的 plugin 在 UI 上如何呈現？~~ **已解答**：Doctor 讀取 `AppState.plugins.errors`，顯示 `dependency-unsatisfied` 錯誤，區分 `not-enabled`（已載入但停用）和 `not-found`（完全找不到）兩種原因
 - 跨 marketplace 依賴（`allowCrossMarketplaceDependenciesOn`）目前的實際行為是什麼？這個欄位已經存在於 `PluginMarketplaceSchema` 中，是否已有部分實現？建議搜尋：`crossMarketplace dependency resolve`
 - 未來 `CC-993` 版本範圍設計會如何改變現有的 dependency 解析邏輯？transform 丟棄版本號的行為是否會在某個版本被移除？
 - Plugin 的 `userConfig` 中 `sensitive: true` 的值如何在 macOS keychain 中儲存？多個 plugin 共享一個 keychain entry 的 2KB 限制（INC-3028）在實務上是否已造成問題？
