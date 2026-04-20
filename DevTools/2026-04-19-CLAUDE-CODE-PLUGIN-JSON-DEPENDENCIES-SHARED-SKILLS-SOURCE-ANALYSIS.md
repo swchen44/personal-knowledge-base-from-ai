@@ -768,7 +768,7 @@ B 被停用
 ### 附錄 A — Issue #9444：Plugin Dependencies 與共享資源（OPEN）
 
 **連結：** [anthropics/claude-code#9444](https://github.com/anthropics/claude-code/issues/9444)
-**狀態：** 🟡 OPEN（2025-10-12 開，截至 2026-04-20 仍未關閉）
+**狀態：** 🟡 OPEN（2025-10-12 開，截至 2026-04-21 仍未關閉）
 **作者：** @jawhnycooke ｜ **反應：** 43 個 +1 ｜ **留言：** 15 則
 
 #### 碰到什麼問題？
@@ -829,7 +829,7 @@ B 被停用
 本質上是想實現 **DRY（Don't Repeat Yourself）原則** 在 Claude Code plugin 生態系中的應用——讓 plugin 能像 npm package 一樣透過 dependency 機制共享資源，避免 N 個 plugin 各自維護 N 份相同的 agent 定義。
 
 > [!note] 與現況的差距
-> 截至 2026-04-20，`dependencies` 欄位已存在於 schema 中，但：
+> 截至 2026-04-21，`dependencies` 欄位已存在於 schema 中，但：
 > - 版本約束（`^1.0.0`）被 schema transform 靜默丟棄
 > - `type: "library"` 欄位不存在
 > - `exports` 欄位不存在
@@ -837,13 +837,151 @@ B 被停用
 >
 > 也就是說：自動安裝閉包已部分實現（本文第五節驗證），但資源共享/引用機制仍是 OPEN 需求。
 
+#### 社群留言討論
+
+**@burneyhoel（2025-10-19 / 10-20）— `strict: false` 實測**
+
+社群中有人建議「用 `strict: false` + 把資源放 marketplace root 就解決了」，但 @burneyhoel 實測後發現：
+
+```json
+"skills": ["../dep.md"]  // ❌ schema 拒絕：must start with "./"
+```
+
+繞過方式：把 plugin 的 `source` 路徑往上提一層，讓 skills 路徑可以用 `./` 開頭。但：
+- `@skill-name` 呼叫方式**失效** ❌
+- 只能改用 `"use skill X"` 自然語言才有效 ✅
+- 結論：「這是 workaround，不是解法。解法應該要讓 `@` reference 能感知 marketplace context」
+
+**@smar-sean-sekora（2025-11-10）— 多 marketplace 彈性格式**
+
+原提案的 `{"common-core": "^1.0.0"}` 格式假設單一集中式 marketplace，不夠彈性。建議改為支援本地路徑與 git repo 的陣列格式：
+
+```json
+"dependencies": [
+  {
+    "name": "my-plugin",
+    "version": "1.0.0",
+    "source": "./plugins/my-plugin"
+  },
+  {
+    "name": "my-other-plugin",
+    "source": {
+      "type": "git",
+      "url": "https://gitlab.com/team/my-other-plugin.git"
+    }
+  }
+]
+```
+
+**@nsheaps（2025-12-20）— GitHub Actions 風格的 `uses`/`with` 參數化依賴**
+
+最具創意的提案，把「dependency」的概念升級成「可傳參數的可重用模組」，類似 GitHub Actions 的 `uses`/`with`：
+
+```json
+"dependencies": [
+  {
+    "uses": "./plugins/rule-sync",
+    "with": { "ruleRoot": "./rules" }
+  },
+  { "uses": "https://gitlab.com/team/my-other-plugin.git@1.0.1" },
+  { "uses": "githuborg/github-repo" }
+]
+```
+
+相應地，被依賴的 plugin 可以宣告自己是「可重用的」（reusable），並定義接受的輸入參數：
+
+```json
+"reusable": {
+  "inputs": {
+    "rulesRoot": {
+      "type": "path",
+      "required": true,
+      "default": "./rules",
+      "mcp": {
+        "env": { "RULES_ROOT_DIR": "${{ .value }}" }
+      }
+    }
+  }
+}
+```
+
+他的動機是：想做一個「同步規則的 MCP server plugin」+ 「帶規則的 plugin 依賴它」的組合，需要把路徑傳給底層 plugin。
+
+**@jaodsilv（2025-12-21）— Git Submodule 方案**
+
+建議把共享資源作為 git submodule 放在 plugin 目錄內，再用 `./` 路徑引用：
+
+```json
+"skills": ["./{submodulename}/dep.md"]
+```
+
+優點：submodule 版本可控，可用 GitHub Actions 自動更新。缺點：沒人回報實測結果。
+
+**@brandon-fryslie（2026-01-17）— 反對跨 marketplace 依賴**
+
+> 「跨 marketplace 的依賴感覺是個打開就收不回來的潘朵拉盒子，npm（甚至 pip 在 uv 之前）的問題已經夠多了。同一個 marketplace 內的共享資源沒問題，但跨 marketplace 就算了。」
+
+觀點：限制在單一 marketplace 內的依賴是可接受的，但跨 marketplace 依賴帶來的複雜度和 bug 風險不值得。
+
+**@nick-youngblut（2026-02-16）— MCP context 浪費是更大問題**
+
+> 「我整個組織都在迴避使用 plugins，因為 MCP servers 目前不是作為共享資源管理的，這造成大量 context window 浪費，尤其是有大量 plugins 和 MCPs 的情況下。」
+
+他指出：對遠端部署的 MCP，用 URL 就可以判斷冗餘，減少重複應該相對簡單。
+
+**@yurukusa（2026-03-31）— 四種現行 workaround 整理**
+
+```
+Workaround 1 — 共享 skills 目錄
+  my-marketplace/
+  ├── plugins/
+  │   ├── shared-lib/        ← 只有 skills 的共享庫 plugin
+  │   │   └── skills/
+  │   │       ├── common-agents/SKILL.md
+  │   │       └── shared-prompts/SKILL.md
+  │   ├── plugin-a/
+  │   │   └── skills/
+  │   │       └── my-skill/SKILL.md  ← 內文描述「先用 common-agents skill」
+  │   └── plugin-b/
+
+做法：各 plugin 的 SKILL.md 文字描述引用共享 skill 名稱，靠 Claude 自然語言理解。
+```
+
+```bash
+# Workaround 2 — Symlinks
+mkdir -p ~/.claude/shared-resources/
+ln -s ~/.claude/shared-resources/common-agent.md plugins/plugin-a/skills/common/SKILL.md
+ln -s ~/.claude/shared-resources/common-agent.md plugins/plugin-b/skills/common/SKILL.md
+```
+
+```
+Workaround 3 — Monorepo plugin（單一大 plugin）
+  my-plugin/
+  └── skills/
+      ├── shared-utils/    ← 共享工具
+      ├── feature-a/       ← 用 shared-utils
+      └── feature-b/       ← 也用 shared-utils
+把所有功能放同一個 plugin 的不同 skills 子目錄，skills 之間天然共享。
+```
+
+```markdown
+<!-- Workaround 4 — CLAUDE.md 當 dependency resolver -->
+Plugin loading order:
+1. Always load shared-lib skills first
+2. plugin-a and plugin-b depend on shared-lib
+3. When using plugin-a skills, ensure shared-lib skills are available
+```
+
+> [!tip] 社群目前最可行的組合
+> **Workaround 1（共享 lib plugin + 文字引用）+ Workaround 3（monorepo plugin）** 是最不需要黑魔法且在 marketplace 發佈場景也能正常運作的組合。`strict: false` + 提升路徑的方式只適合內部本地開發。
+
 ---
 
 ### 附錄 B — Issue #27113：Project-level 宣告式依賴（CLOSED）
 
 **連結：** [anthropics/claude-code#27113](https://github.com/anthropics/claude-code/issues/27113)
-**狀態：** 🔴 CLOSED（2026-02-20 開，2026-04-06 被機器人關閉為 inactive）
-**作者：** @willmjackson ｜ **反應：** 7 個 +1 ｜ **留言：** 5 則
+**狀態：** 🔴 CLOSED（2026-02-20 開，2026-04-06 被 bot 關閉為 inactive，2026-04-14 鎖定）
+**作者：** @willmjackson ｜ **反應：** 7 個 +1 ｜ **留言：** 5 則（3 則有實質內容）
 
 #### 碰到什麼問題？
 
@@ -883,15 +1021,97 @@ B 被停用
 
 額外建議：版本釘定、`claude plugins reconcile` CLI 指令、與 org-level provisioning 整合。
 
-#### 他想解決什麼問題？
+#### 社群留言討論
 
-與 Issue #9444 的角度不同——#9444 關注的是 **plugin 作者的資源共享**（plugin 間的 DRY），而 #27113 關注的是 **專案消費者的 onboarding 體驗**（像 `package.json` 一樣讓 repo 自我宣告依賴，讓新成員 clone 後自動引導安裝）。
+**@Techadler（2026-03-05）— 版本 pinning 的根本問題（最深入）**
 
-> [!note] 為何被關閉？
-> Issue 於 2026-04-06 被 GitHub Actions bot 以「inactive for too long」自動關閉，2026-04-14 被鎖定。官方並未回應或表明是否規劃實作。社群評論（@Techadler）指出版本解析（version pinning）的問題更深——目前 `enabledPlugins` 對每個 project × plugin 組合分開追蹤版本，這在多專案共享同一 user scope plugin 時會造成版本衝突。
+揭露了一個比原提案更嚴重的底層問題：目前 project-scoped plugin 的版本解析是**各使用者各自在第一次開啟時 pin 住**，導致完全不確定性：
+
+> 「我們的 `installed_plugins.json` 裡同一個 plugin 有 **10 個條目**（各 project 各一份），指向 **4 個不同的 git SHA**。plugin cache 目錄有 **46 個快取版本**，沒有 GC 機制（參見 #15621）。一旦壞掉的 build 被快取，對那個 project 就永遠壞掉了，只能手動 `rm -rf`。」
+
+他的核心診斷：
+
+```
+現況（問題）：
+  開發者 A（週一）→ pin 到 SHA-abc
+  開發者 B（週二）→ pin 到 SHA-def（一小時後的新 commit）
+  結果：同一個 repo，兩人用不同版本的 plugin
+
+期望（目標）：
+  repo 內有 lock file（像 package-lock.json）
+  所有人 clone 後都解析到同一個 SHA
+```
+
+即使開啟 `autoUpdate`，問題依然存在——各人各自獨立拉 latest，不是「同一個 latest」。
+
+他要求的解法比原提案更細緻：
+1. **Repo 內的 lock file** — 所有 team member 解析相同版本
+2. **Resolution strategy 選擇** — "always latest" vs "pin to SHA/tag"
+3. **Cache GC 機制** — 無人引用的舊版本應自動清理（關聯 issue #15621）
+
+**@jaredscheib（2026-03-08）— 範圍擴大：共享所有 CC config**
+
+把問題拉得更大：不只是 plugins，整個 Claude Code 設定（CLAUDE.md、rules、hooks、settings）都需要跨 repo 共享機制。他試過的 workaround 全都有根本缺陷：
+
+| 方法 | 為什麼失敗 |
+|------|---------|
+| SessionStart hook 抓共享檔 | config **在** hook 執行前就載入了，抓來的檔案要下次 session 才生效 |
+| `@path` imports | 需要 approval dialog，在 mobile/web Code mode 不支援 |
+| `additionalDirectories` | 只影響檔案存取，不影響 CLAUDE.md/skill/rule discovery |
+| Vercel `skills` CLI | 只處理 skill 安裝，CLAUDE.md/rules/hooks/settings 不管 |
+
+他的提案——一個在 config 載入**之前**就解析的 `dependencies` 欄位，且支援 `includes` 指定要拉哪些資源：
+
+```json
+{
+  "dependencies": {
+    "team-standards": {
+      "repo": "org/shared-cc-config",
+      "ref": "v1.2.0",
+      "includes": ["CLAUDE.md", ".claude/skills/", ".claude/rules/"]
+    }
+  }
+}
+```
+
+或支援 ESLint-style 的 `extends` preset：
+
+```json
+{
+  "dependencies": {
+    "team-standards": {
+      "repo": "org/shared-cc-config",
+      "ref": "v1.2.0",
+      "extends": "base"
+    }
+  }
+}
+```
+
+**必要條件清單：**
+- Version/hash pinning — 更新不能偷偷改 session context
+- **Pre-config-load 時機** — 必須在 CC 初始化 skills/rules/CLAUDE.md 之前就解析
+- 支援所有平台（desktop、web、mobile Code mode）
+- 優雅降級 — fetch 失敗時用快取版本或繼續執行
+- 模組化 — 依需求 compose，不是全部吃進來
+
+#### 為何被關閉？
+
+Issue 於 2026-04-06 被 GitHub Actions bot 以「inactive for too long」自動關閉，2026-04-14 被鎖定。**官方從未回應**，也未表明是否規劃實作。
 
 > [!warning] 與現況的差距
 > `.claude/settings.json` 目前沒有 `dependencies` 欄位，也沒有「開啟專案時提示安裝」的機制。`enabledPlugins` 只是靜態 flag，缺少的 plugin 只有在 `claude plugins list` 時才看到 `failed to load` 錯誤，而非在開啟專案時主動提示。
+
+#### 兩個 Issues 的角度對比
+
+| 面向 | Issue #9444 | Issue #27113 |
+|------|------------|-------------|
+| 角色 | Plugin **作者** | Plugin **消費者**（專案 repo） |
+| 核心問題 | Plugin 間資源重複 | 新成員 onboarding 不知道裝什麼 |
+| 解法核心 | 共享 library plugin + 自動安裝 | settings.json 宣告式依賴 + 開啟提示 |
+| 版本需求 | semver 解析 | 全 team 一致的 lock file |
+| 範圍 | Plugin agents/skills 共享 | CLAUDE.md / rules / hooks / settings 跨 repo 共享 |
+| 官方回應 | 無（OPEN） | 無（CLOSED by bot）|
 
 ---
 

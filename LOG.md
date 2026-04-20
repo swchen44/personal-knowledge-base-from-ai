@@ -45,3 +45,4 @@
 | 2026-04-20 02:00 | update | 跨 Scope 依賴解析 + verifyAndDemote 完整流程 + Doctor 顯示邏輯 + cascading demotion | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | DevTools | 0 | 5 |
 | 2026-04-20 22:30 | ingest | 本地 Gerrit 實驗 + Claude Code 原始碼分析 | [[2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE]] | CodeAnalysis | 3 | 5 |
 | 2026-04-21 00:00 | update | 補充實戰寫法 + 實驗結果 + Issue #27113 / #9444 附錄 | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | DevTools | 0 | 0 |
+| 2026-04-21 01:00 | update | Issue #9444 + #27113 完整社群留言：strict:false 測試、multi-marketplace 格式、git submodule、lock file、cross-repo 共享提案 | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | DevTools | 0 | 0 |
