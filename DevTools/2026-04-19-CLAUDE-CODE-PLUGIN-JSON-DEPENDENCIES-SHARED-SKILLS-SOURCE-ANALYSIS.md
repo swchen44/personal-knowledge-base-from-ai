@@ -710,6 +710,111 @@ B 被停用
   → 第 3 輪：沒有新的 demotion → changed = false → 結束
 ```
 
+### 九、Headless Mode 的 `--plugin-dir` 依賴解析行為
+
+> [!important] **核心結論**：`--plugin-dir` 指定的 Plugin 若有 `dependencies`，**不會自動載入依賴 Plugin**。缺少依賴的 Plugin 會被 demote（降級停用）。
+
+#### CLI 定義（`src/main.tsx` line 1001-1006）
+
+```typescript
+.option(
+  '--plugin-dir <path>',
+  'Load plugins from a directory for this session only (repeatable: --plugin-dir A --plugin-dir B)',
+  (val: string, prev: string[]) => [...prev, val],
+  [] as string[]
+)
+```
+
+- **可重複使用**：`--plugin-dir /path/A --plugin-dir /path/B`
+- 解析後透過 `setInlinePlugins()` 儲存至全域狀態（`STATE.inlinePlugins`）
+
+#### 載入流程
+
+```
+main.tsx preAction hook
+  │
+  └──► setInlinePlugins(pluginDirPaths)    ← 儲存路徑
+            │
+            ▼
+       pluginLoader.ts:loadSessionOnlyPlugins()   ← 逐目錄載入
+            │   ・讀取每個目錄的 plugin.json
+            │   ・建立 LoadedPlugin（source = "{name}@inline"）
+            ▼
+       mergePluginSources()    ← 合併 inline + marketplace + builtin
+            │
+            ▼
+       verifyAndDemote()       ← 依賴驗證 fixed-point loop
+```
+
+#### Load-Time 依賴驗證：`verifyAndDemote()`
+
+`src/utils/plugins/dependencyResolver.ts` line 177-234
+
+掃描每個 plugin 的 `dependencies` 陣列，若任一依賴不在「已啟用的 plugin 集合」中，該 plugin 被 **demote（降級停用）**。
+
+**Inline Plugin 的依賴比對規則：**
+
+| 依賴寫法 | 比對行為 |
+|---------|---------|
+| `"foo"` | 匹配任何啟用中的 `foo@*`（bare name 比對） |
+| `"foo@marketplace"` | 嚴格匹配 `foo@marketplace` |
+| `"foo@mkt@^1.0"` | version 被靜默丟棄，等同 `"foo@mkt"` |
+
+#### A→B→C 鏈的實際行為
+
+```
+情境：--plugin-dir /path/plugin-a
+plugin-a/plugin.json: { "dependencies": ["plugin-b"] }
+plugin-b 未被載入
+
+啟動時：
+  verifyAndDemote() 第 1 輪：
+    plugin-a 的依賴 plugin-b 不存在於啟用集合
+    → plugin-a 被 demote ❌
+  changed = true → 進入第 2 輪
+  第 2 輪：無新 demotion → 結束
+
+結果：plugin-a 被停用，B 和 C 不會被自動載入
+```
+
+> [!warning] **沒有自動安裝**：`verifyAndDemote()` 只做**存在性確認**，不觸發安裝或解析。遞移（transitive）依賴解析（`resolveDependencyClosure()`）**只在 `plugin install` 指令時執行**，不在 headless 啟動時執行。
+
+#### 兩種解析函式的對比
+
+| 函式 | 使用時機 | 支援遞移 A→B→C | 自動安裝 |
+|------|---------|--------------|---------|
+| `resolveDependencyClosure()` (line 95-159) | `plugin install` 指令 | ✅ 完整 DFS | ✅ |
+| `verifyAndDemote()` (line 177-234) | 每次啟動（load-time） | ❌ 只有一層 | ❌ |
+
+#### 正確使用方式
+
+若 Plugin A 依賴 B，B 依賴 C，使用 `--plugin-dir` 時必須**全部列出**：
+
+```bash
+claude --plugin-dir /path/to/plugin-a \
+       --plugin-dir /path/to/plugin-b \
+       --plugin-dir /path/to/plugin-c \
+       -p "your prompt"
+```
+
+這樣 `verifyAndDemote()` 掃描時，B 和 C 都在啟用集合中，A 的 dependency check 才會通過。
+
+> [!tip] **替代方案**：若 B 和 C 已透過 `plugin install` 安裝並啟用（User 或 Project scope），則 `--plugin-dir` 只需指定 A，B 和 C 會從一般的 plugin 載入流程被找到。
+
+#### 關鍵原始碼位置
+
+| 元件 | 檔案 | 行數 |
+|------|------|------|
+| CLI flag 定義 | `src/main.tsx` | 1001-1006 |
+| Inline plugin 狀態 | `src/bootstrap/state.ts` | 1239-1245 |
+| Session-only plugin 載入 | `src/utils/plugins/pluginLoader.ts` | 2928-2993 |
+| Plugin source 合併 | `src/utils/plugins/pluginLoader.ts` | 3009-3064 |
+| Load-time 依賴驗證呼叫點 | `src/utils/plugins/pluginLoader.ts` | 3189-3196 |
+| `verifyAndDemote()` | `src/utils/plugins/dependencyResolver.ts` | 177-234 |
+| `resolveDependencyClosure()` | `src/utils/plugins/dependencyResolver.ts` | 95-159 |
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **三層驗證的分離設計值得學習** — Schema 管格式、Validate 管安全 lint、Loader 管存在性。這讓 runtime 保持韌性（不會因為新欄位或小問題就 crash），同時給開發者提供嚴格的 lint 工具

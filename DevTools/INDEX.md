@@ -3,7 +3,7 @@
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
 | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | Plugin.json 依賴系統與共享 Skills 原始碼分析：三層驗證機制、實戰寫法（marketplace.json + plugin.json 雙宣告）、實驗結果（A→B→C 鏈）、Issue #9444 / #27113 社群附錄 | 2026-04-19 |
-| [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] | Skill 完全指南：閉包載入、Token 按需注入、壓縮 5K/25K 保留、7 撰寫技巧、指名呼叫 | 2026-04-17 |
+| [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] | Skill 完全指南：閉包載入、Token 按需注入、壓縮 5K/25K 保留、三種附件定義（skill_listing / skill_discovery / invoked_skills）、SkillTool Schema vs skill_listing 釐清、7 撰寫技巧 | 2026-04-17 |
 | [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] | 四個設定檔完全指南：GlobalConfig vs SettingsSchema、五源 merge、Plugin 啟停四層控制、7 個 policy-only 閘門 | 2026-04-17 |
 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | Skill/Plugin 安全機制全解析：frontmatter 進階欄位 + 冒名防護 + 17 項安全檢查 + 企業 Marketplace 部署 | 2026-04-16 |
 | [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] | CLAUDE.md 與 Skills 的熱載入機制：Symlink 修改是否即時生效的原始碼驗證 | 2026-04-14 |

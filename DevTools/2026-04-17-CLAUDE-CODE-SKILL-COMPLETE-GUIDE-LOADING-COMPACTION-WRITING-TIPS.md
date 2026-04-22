@@ -156,6 +156,169 @@ messages[3]: 最新對話
 
 `invokedSkills` 是 Map → 同 key 覆蓋，不重複佔空間。更新 `invokedAt` 讓它在排序中更靠前。
 
+#### 3.6 壓縮時三種 Skill 附件的完整定義與行為（2026-04-22 原始碼驗證）
+
+> [!important] 壓縮涉及三種不同的 skill 相關附件（attachment），它們的定義、內容、觸發時機和壓縮後行為完全不同。
+
+##### `skill_listing` — 靜態可用 Skill 清單
+
+**定義**：系統在每個 turn 開頭檢查所有已載入的 skills，把**尚未送出過**的 skill 名稱 + 描述組成清單，注入到對話中。
+
+**產生函式**：`getSkillListingAttachments()`（`src/utils/attachments.ts` line 2662）
+
+**注入到對話的格式**（`src/utils/messages.ts` line 3769）：
+
+```
+<system-reminder>
+The following skills are available for use with the Skill tool:
+
+- kb-create: 讀取網頁文章或 YouTube 影片，翻譯成台灣繁體中文...
+- commit: Use this skill to create git commits...
+- boris: Claude Code workflow tips from Boris Cherny...
+</system-reminder>
+```
+
+**每條格式**（`src/tools/SkillTool/prompt.ts` line 52-65）：
+
+```
+- {skill.name}: {skill.description} - {skill.whenToUse}
+```
+
+**預算控制**（`formatCommandsWithinBudget()`，`prompt.ts` line 70）：
+- 佔 context window 的一定比例（`SKILL_BUDGET_CONTEXT_PERCENT`）
+- Bundled skills（內建）**永不截斷**
+- User/project/plugin skills 先嘗試完整描述，超出預算則截斷描述，極端情況只保留名稱
+- `sentSkillNames` Map 追蹤已送 skill，避免重複
+
+**壓縮後行為**：❌ **不重新注入**。`postCompactCleanup.ts` line 65-69 明確註解：
+
+```typescript
+// Intentionally NOT calling resetSentSkillNames(): re-injecting the full
+// skill_listing (~4K tokens) post-compact is pure cache_creation.
+```
+
+##### `skill_discovery` — AI 驅動的動態 Skill 推薦
+
+**定義**：根據用戶輸入內容，用 AI（Haiku）**即時判斷哪些 skill 跟當前任務相關**，推薦給模型。
+
+**注入到對話的格式**（`src/utils/messages.ts` line 3544-3550）：
+
+```
+<system-reminder>
+Skills relevant to your task:
+
+- kb-create: 讀取網頁文章或 YouTube 影片...
+
+These skills encode project-specific conventions.
+Invoke via Skill("<name>") for complete instructions.
+</system-reminder>
+```
+
+**壓縮後行為**：❌ 不重新注入（一次性推薦）。
+
+> [!warning] 在 decompiled 版本中，`skill_discovery` 被 `feature('EXPERIMENTAL_SKILL_SEARCH')` 保護，`feature()` 永遠回傳 `false`，所以此功能是死代碼（dead code）。`prefetch.ts` 也是 stub（回傳 `null`）。
+
+##### `invoked_skills` — 已呼叫 Skill 的截斷全文
+
+**定義**：session 中被呼叫過的 skill 完整內容（截斷版），從 `STATE.invokedSkills` 重建。
+
+**注入到對話的格式**（`src/utils/messages.ts` line 3679-3697）：
+
+```
+<system-reminder>
+The following skills were invoked in this session.
+Continue to follow these guidelines:
+
+{截斷後的 skill 全文}
+</system-reminder>
+```
+
+**壓縮後行為**：✅ **重新注入**。`postCompactCleanup.ts` line 17-20：
+
+```typescript
+// Note: We intentionally do NOT clear invoked skill content here.
+// Skill content must survive across multiple compactions so that
+// createSkillAttachmentIfNeeded() can include the full skill text
+// in subsequent compaction attachments.
+```
+
+##### 三種附件對照表
+
+| 面向 | `skill_listing` | `skill_discovery` | `invoked_skills` |
+|------|----------------|-------------------|-------------------|
+| **內容** | 所有可用 skill 的 name + description | AI 篩選的相關 skill 子集 | 已呼叫 skill 的截斷全文 |
+| **觸發** | 每個 turn（有新 skill 時） | Turn 0 + turn 間 prefetch | 壓縮後重建 |
+| **篩選** | 無，列出全部未送過的 | Haiku 模型判斷相關性 | 按 `invokedAt` 排序 |
+| **預算** | context window 比例 | 固定條數 | 5K/個，總 25K |
+| **壓縮後** | ❌ 消失且不重建 | ❌ 消失 | ✅ 截斷重新注入 |
+| **本 repo** | ✅ 活躍 | ❌ 死代碼 | ✅ 活躍 |
+
+#### 3.7 SkillTool Schema 與 skill_listing 的關係
+
+> [!note] 常見誤解
+> 「自訂 skill 是否出現在 API 的 `tools` 陣列中？」——**不是**。
+
+API 的 `tools` 參數中只有**一個**工具叫 `Skill`：
+
+```json
+{
+  "tools": [
+    { "name": "Read", ... },
+    { "name": "Edit", ... },
+    { "name": "Bash", ... },
+    { "name": "Skill",
+      "input_schema": { "skill": "string", "args": "string" }
+    }
+  ]
+}
+```
+
+`Skill` 工具的 prompt（`src/tools/SkillTool/prompt.ts` line 173-195）告訴模型語法和用法，但**不包含具體有哪些 skill 可選**。具體清單完全靠 `skill_listing` 在對話訊息中提供。
+
+```
+SkillTool Schema（tools 參數）     skill_listing（對話訊息）
+┌──────────────────────────┐   ┌──────────────────────────┐
+│ 告訴模型：                │   │ 告訴模型：                │
+│ 「你有 Skill 這個工具」    │   │ 「目前有這些 skill 可選」  │
+│ 「語法：Skill("name")」   │   │ 「kb-create、commit...」  │
+│                          │   │                          │
+│ 每次 API call 都帶  ✅    │   │ 只在對話歷史中  ❌         │
+│ 壓縮不影響               │   │ 壓縮後消失且不重建         │
+└──────────────────────────┘   └──────────────────────────┘
+```
+
+**壓縮後的實際效果**：模型知道「我可以呼叫 `Skill("某個名字")`」，但**不知道可以填什麼名字**——除非用戶明確指名（如 `/kb-create`），或 `invoked_skills` 中的截斷內容提到了其他 skill 名稱。
+
+#### 3.8 壓縮後 `sentSkillNames` 不重置的原始碼證據
+
+兩處程式碼確認這是**刻意設計**：
+
+**`postCompactCleanup.ts` line 65-69**：
+
+```typescript
+// Intentionally NOT calling resetSentSkillNames(): re-injecting the full
+// skill_listing (~4K tokens) post-compact is pure cache_creation. The
+// model still has SkillTool in schema, invoked_skills preserves used
+// skills, and dynamic additions are handled by skillChangeDetector /
+// cacheUtils resets. See compactConversation() for full rationale.
+```
+
+**`compact.ts` line 526-531**：
+
+```typescript
+// Intentionally NOT resetting sentSkillNames: re-injecting the full
+// skill_listing (~4K tokens) post-compact is pure cache_creation with
+// marginal benefit. The model still has SkillTool in its schema and
+// invoked_skills attachment (below) preserves used-skill content.
+```
+
+官方權衡：重新注入 ~4K tokens 的 listing 是「純粹的 cache 建立成本」，而壓縮後模型仍可透過三種途徑呼叫 skill：
+1. **用戶指名**：`/my-skill` → 模型看到文字直接呼叫
+2. **invoked_skills 中的交叉引用**：skill A 內容提到 `/skill-B`
+3. **SkillTool schema 仍在**：模型知道工具存在，只是不知道選項
+
+> [!tip] **實務建議**：在 CLAUDE.md 中寫觸發條件（如「當用戶提到 XX 時，呼叫 `/my-skill`」），壓縮後 CLAUDE.md 會被 `prependUserContext` 重新注入，等於間接恢復了 skill 的可發現性（discoverability）。
+
 ### 四、Skill Frontmatter 完整欄位
 
 ```yaml
