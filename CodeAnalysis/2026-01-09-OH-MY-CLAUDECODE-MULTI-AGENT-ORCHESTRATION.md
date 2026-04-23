@@ -1675,6 +1675,7 @@ Layer 5：狀態持久化
 - [[MULTI-AGENT-ORCHESTRATION]] — Team pipeline 是多代理人編排（Multi-agent Orchestration）的具體實現
 - [[MCP-MODEL-CONTEXT-PROTOCOL]] — OMC 的工具伺服器基於 MCP 協議
 - [[OH-MY-OPENCODE]] — 原始靈感來源，OpenCode 版本的同類工具
+- [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] — 基於 oh-my-opencode 重新設計的 8 代理人內容生產系統，新增信心路由與獨立 CLI
 
 ## References
 

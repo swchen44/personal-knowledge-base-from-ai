@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] | newtype OS — 8 代理人多層編排內容生產系統，含信心路由品質控制與計劃-執行分離架構 | 2026-01-09 |
 | [[2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE]] | Claude Code Marketplace 連線 Gerrit Server 回傳 404 根因分析：parseMarketplaceInput URL 分類邏輯缺陷與完整驗證流程 | 2026-04-20 |
 | [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | Claude Code 使用者反饋系統深度分析：Frustration Detection 演算法、三管道反饋機制、EventMetadata 傳送架構 | 2026-04-17 |
 | [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] | Claude Code Telemetry 原始碼深度分析：三層 OTel 架構、8 個指標、Span 生命週期與 100 人團隊部署策略 | 2026-04-13 |

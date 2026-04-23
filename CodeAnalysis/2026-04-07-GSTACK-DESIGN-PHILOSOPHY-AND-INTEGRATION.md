@@ -655,6 +655,7 @@ ls -la ~/.claude/skills/qa/
 - [[CLAUDE-CODE-SKILL-MODEL]] — Claude Code skill discovery 機制
 - [[PROMPT-AS-CODE-PHILOSOPHY]] — 把 prompt 當程式碼版本控管
 - [[OPENCLAW-ACP-PROTOCOL]] — Agent Communication Protocol
+- [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] — 另一個多代理人編排系統，同樣基於 OpenCode 生態，可比較設計哲學
 
 ---
 

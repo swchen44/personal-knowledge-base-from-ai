@@ -498,6 +498,7 @@ clawteam board attach my-team
 - [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — 同樣解決 Claude Code 多代理問題，但方向相反：OMC 是增強單一 Claude 的能力，ClawTeam 是協調多個獨立代理
 - [[CLAUDE-CODE-SKILLS-ARCHITECTURE]] — ClawTeam 以 Skill 文件注入協調知識的方式與此概念直接相關
 - [[MULTI-AGENT-COORDINATION-PATTERNS]] — ClawTeam 的收件匣模型是 Actor Model 的輕量實作
+- [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] — 與 ClawTeam 相反方向：階層式編排而非去中心化群智，適合需要品質把關的內容生產
 
 ## References
 
