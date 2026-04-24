@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Agent Harness 十二大模組完全解析 — 七大架構抉擇與五大框架比較](./AI/2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE.md) — 從編排迴圈到初始化的十二模組拆解、Anthropic/OpenAI/LangGraph/CrewAI/AutoGen 框架比較、薄 Harness 共同進化趨勢
 - [newtype OS — 多代理人內容生產編排系統深度分析](./CodeAnalysis/2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION.md) — 8 代理人階層式編排、信心路由品質控制、Prometheus/Sisyphus 計劃-執行分離、WeChat 整合
 - [Claude Code Marketplace 連線 Gerrit Server 回傳 404 根因分析：parseMarketplaceInput URL 分類邏輯缺陷與完整驗證流程](./CodeAnalysis/2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE.md) — 本地架設 Gerrit 3.11.1 + 原始碼分析 + CLI 實測，定位 URL 不以 .git 結尾時被誤分類為 HTTP GET 導致 404
 - [Plugin.json 依賴系統與共享 Skills 原始碼分析：三層驗證、`..` 路徑 workaround、Issue #9444](./DevTools/2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS.md) — 拆解 Schema/Validate/Loader 三層驗證差異、DependencyRefSchema 版本號靜默丟棄、社群 6 種共享資源 workaround 比較

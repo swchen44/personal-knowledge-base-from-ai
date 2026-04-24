@@ -134,6 +134,7 @@ Codex 最終達成了端到端的功能開發能力：
 - [[AI-AGENT-ARCHITECTURE]] — 代理人架構設計的通用框架
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發踩坑實錄，以真實案例驗證 Harness 設計中「結構化代理能力」的必要性
 - [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅從學術角度解讀 Harness Engineering，與 OpenAI 的實戰視角互補
+- [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — Agent Harness 十二大模組與七大架構抉擇完全解析，將 Harness 拆解為獨立模組的系統性分析
 
 ---
 

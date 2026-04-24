@@ -226,6 +226,7 @@ Claude 不知道應用的安全邊界或 UX 介面。Bash 工具給 Claude 廣�
 - [[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 的「Agent 用不好是人的問題」與本文「harness 是死重」觀點呼應
 - [[AGENT-HARNESS-DESIGN]] — Anthropic 另一篇關於長時程任務 Agent 設計的文章
 - [[2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK]] — 蘇格拉底式提問框架，與本文「減少結構、讓 AI 自主思辨」的哲學形成互補視角
+- [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — 影片詳解上下文腐爛與四種管理策略，具體化本文的上下文工程概念
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — Claude Code 記憶系統的原始碼分析，驗證本文「Claude 已內建記憶」的主張
 - [[2026-03-26-WRITING-YOUR-FIRST-SIMPLE-AI-AGENT]] — 入門級 Agent 的 5 原則設計，與本文「減少結構」的哲學形成「增加結構 vs 減少結構」的辯證
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發實戰踩坑錄，以「重述（Restatement）」機制驗證本文「Claude 需要明確指引而非過度結構」的觀點
