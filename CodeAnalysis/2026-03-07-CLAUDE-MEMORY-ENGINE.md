@@ -289,6 +289,7 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 - [[CLAUDE-CODE-HOOKS]] — Claude Code Hooks 機制，本系統的基礎設施
 - [[AI-AGENT-MEMORY]] — AI Agent 記憶系統的各種設計模式比較
 - [[PERSONAL-KNOWLEDGE-BASE]] — 個人知識庫系統，與此工具在「知識持久化」目標上互補
+- [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] — 另一個記憶外掛 claude-mem 的深度分析，使用 Agent SDK 壓縮而非 Markdown 儲存
 
 ---
 

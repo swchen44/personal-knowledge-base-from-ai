@@ -327,6 +327,7 @@ open http://localhost:37777
 - [[AI-AGENT-DESIGN]] — Agent 的記憶系統設計原則
 - [[CLAUDE-CODE-SETUP]] — Claude Code 安裝設定（含此插件的安裝步驟）
 - [[PERSONAL-KNOWLEDGE-BASE]] — 個人知識庫建立，claude-mem 的記憶與知識庫的差異與互補
+- [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] — 同一 repo v12.3.9 版本的最新深度分析，含完整架構圖與安裝流程追蹤
 
 ## References
 

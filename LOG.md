@@ -50,3 +50,4 @@
 | 2026-04-22 16:30 | update | 壓縮後三種 Skill 附件完整定義 + SkillTool Schema vs skill_listing 釐清 + sentSkillNames 不重置原始碼證據 | [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] | DevTools | 0 | 0 |
 | 2026-04-23 00:30 | ingest | https://github.com/newtype-01/newtype-os | [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] | CodeAnalysis | 5 | 5 |
 | 2026-04-24 21:00 | ingest | https://www.youtube.com/watch?v=S36ri23-l60 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | AI | 6 | 5 |
+| 2026-04-24 23:00 | ingest | https://github.com/thedotmack/claude-mem | [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] | CodeAnalysis | 5 | 5 |

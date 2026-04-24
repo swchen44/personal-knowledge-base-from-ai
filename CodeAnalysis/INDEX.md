@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] | Claude-Mem v12 深度分析 — 66K stars 的 Claude Code 持久記憶外掛，Hook 驅動 + Agent SDK 壓縮 + 混合搜尋架構 | 2026-04-24 |
 | [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] | newtype OS — 8 代理人多層編排內容生產系統，含信心路由品質控制與計劃-執行分離架構 | 2026-01-09 |
 | [[2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE]] | Claude Code Marketplace 連線 Gerrit Server 回傳 404 根因分析：parseMarketplaceInput URL 分類邏輯缺陷與完整驗證流程 | 2026-04-20 |
 | [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | Claude Code 使用者反饋系統深度分析：Frustration Detection 演算法、三管道反饋機制、EventMetadata 傳送架構 | 2026-04-17 |

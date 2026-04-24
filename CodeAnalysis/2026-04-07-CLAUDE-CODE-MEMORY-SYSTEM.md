@@ -540,6 +540,7 @@ find ~/.claude/projects -name "MEMORY.md"
 - [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — Worktree 的檔案操作追蹤，與記憶系統的檔案操作可對照參考
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — 第 6 章從實踐者角度介紹 Teresa Torres 三層記憶系統與 Patrick Zandl 的 JSONL 情節記憶，可與本文工具面分析互補
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — memory_survey 作為 transcript 分享觸發器的機制，連接記憶壓縮與反饋收集
+- [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] — 第三方記憶外掛 claude-mem 的深度分析，與 Claude Code 內建記憶系統的設計理念對比
 
 ---
 

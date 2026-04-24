@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude-Mem v12 — Claude Code 持久記憶外掛深度分析](./CodeAnalysis/2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE.md) — 66K stars 的 Claude Code 記憶外掛，Hook 驅動 + Agent SDK 壓縮 + 混合搜尋，含完整架構圖與安裝流程追蹤
 - [Agent Harness 十二大模組完全解析 — 七大架構抉擇與五大框架比較](./AI/2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE.md) — 從編排迴圈到初始化的十二模組拆解、Anthropic/OpenAI/LangGraph/CrewAI/AutoGen 框架比較、薄 Harness 共同進化趨勢
 - [newtype OS — 多代理人內容生產編排系統深度分析](./CodeAnalysis/2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION.md) — 8 代理人階層式編排、信心路由品質控制、Prometheus/Sisyphus 計劃-執行分離、WeChat 整合
 - [Claude Code Marketplace 連線 Gerrit Server 回傳 404 根因分析：parseMarketplaceInput URL 分類邏輯缺陷與完整驗證流程](./CodeAnalysis/2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE.md) — 本地架設 Gerrit 3.11.1 + 原始碼分析 + CLI 實測，定位 URL 不以 .git 結尾時被誤分類為 HTTP GET 導致 404
