@@ -1405,6 +1405,61 @@ shell: bash
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 七位專家最佳實踐，Skills hooks 在整體 harness 中的定位
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 的 Plugin 啟停控制（enabledPlugins 四層 merge）與 7 個 policy-only 安全閘門
 
+## 2026-04-25 問題追蹤更新
+
+> [!info] 更新背景
+> 本文發布後，針對文中發現的「Plugin 載入路徑忽略進階 frontmatter 欄位」問題，追蹤 GitHub Issue 及 Changelog 的最新進展。
+
+### Issue #17688 當前狀態
+
+[anthropics/claude-code#17688](https://github.com/anthropics/claude-code/issues/17688)（「Skill-scoped hooks defined in SKILL.md frontmatter are not triggered within plugins」）— 截至 2026-04-25，**issue 仍為 Open 狀態**，未被指派給任何人，也沒有官方正式回應或已合併的修復 PR。
+
+該 issue 於 2026-01-12 由社群用戶回報，標籤為 `bug`、`area:core`、`area:tools`、`has repro`、`platform:macos`，回報時的 Claude Code 版本為 v2.1.5。
+
+### Changelog 中已修復的相關問題
+
+雖然 #17688 尚未關閉，但從 Claude Code 的 [CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) 和 [Releases](https://github.com/anthropics/claude-code/releases) 可以看到，Anthropic 在後續版本中**已逐步修復了多個相關的 frontmatter 問題**：
+
+| 修復項目 | 狀態 |
+|---------|------|
+| Plugin skill hooks 在 YAML frontmatter 中被靜默忽略 | ✅ 已修復 |
+| `context: fork` 和 `agent` frontmatter 欄位不生效 | ✅ 已修復 |
+| frontmatter `name` 是 YAML boolean keyword 時 slash command 壞掉 | ✅ 已修復 |
+| description 中含冒號（colon）導致載入失敗 | ✅ 已修復 |
+
+### 結論
+
+本文最初發現的核心問題（`loadPluginCommands.ts` 和 `loadSkillsDir.ts` 兩條獨立載入路徑未同步更新，導致 plugin skill 的 hooks、context: fork、agent、paths、skillRoot 等進階 frontmatter 欄位被完全忽略）**看起來已被逐步修復**，但 issue #17688 本身尚未被正式關閉。可能原因：
+
+1. 修復分散在多個 PR 中，沒有人回去關閉原始 issue
+2. 可能還有部分邊界情況（edge case）尚未完全解決
+
+> [!tip] 驗證建議
+> 用最新版 Claude Code 重新測試本文中的復現步驟（在 plugin 中定義帶 `hooks:` 的 SKILL.md），確認是否完全修好。若已修復，可在 issue #17688 下留言建議關閉。
+
+### 其他相關 Issue
+
+| Issue | 標題 | 狀態 |
+|-------|------|------|
+| [#25834](https://github.com/anthropics/claude-code/issues/25834) | Plugin agent skills: frontmatter silently fails to inject skill content | Open |
+| [#25795](https://github.com/anthropics/claude-code/issues/25795) | VSCode extension SKILL.md schema missing multiple supported frontmatter fields | Open |
+| [#17564](https://github.com/anthropics/claude-code/issues/17564) | Skill-scoped hooks cannot access skill resources - missing CLAUDE_SKILL_ROOT | Open |
+| [#36135](https://github.com/anthropics/claude-code/issues/36135) | ${CLAUDE_SKILL_DIR} not substituted in SKILL.md frontmatter hook commands | Open |
+| [#19225](https://github.com/anthropics/claude-code/issues/19225) | Stop hooks in Skills never fire | Open |
+
+### 資料來源
+
+- [Issue #17688 - Skill-scoped hooks not triggered within plugins](https://github.com/anthropics/claude-code/issues/17688)
+- [Claude Code CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
+- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
+- [Issue #25834](https://github.com/anthropics/claude-code/issues/25834)
+- [Issue #25795](https://github.com/anthropics/claude-code/issues/25795)
+- [Issue #17564](https://github.com/anthropics/claude-code/issues/17564)
+- [Issue #36135](https://github.com/anthropics/claude-code/issues/36135)
+- [Issue #19225](https://github.com/anthropics/claude-code/issues/19225)
+
+---
+
 ## References
 
 - Claude Code 反編譯原始碼（基於 v2.1.88 source map 洩漏版本）
