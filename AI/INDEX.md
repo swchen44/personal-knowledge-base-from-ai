@@ -3,6 +3,7 @@
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | Agent Harness 十二大模組完全解析：編排迴圈到初始化、五大框架比較、七大架構抉擇 | 2026-04-24 |
+| [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] | 簡立峰談 AI 革命從老闆開始：數據水管、IT 轉型架構師、台灣黃金十年 | 2026-04-20 |
 | [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] | 社群 CLAUDE.md 迷思核實：User Message 注入、無條件 rules = CLAUDE.md、壓縮後重新注入、paths: 才是真按需 | 2026-04-17 |
 | [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] | Skills/Commands/Subagents/Plugins 完整比較：frontmatter 控制矩陣、description 工程、5-8 skills 上限 | 2026-04-16 |
 | [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] | Karpathy 四準則逐條比對 Claude Code prompts.ts：準則 2/3 已內建（浪費 Token），1/4 值得加入 | 2026-01-27 |

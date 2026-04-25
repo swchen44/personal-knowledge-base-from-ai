@@ -52,3 +52,4 @@
 | 2026-04-24 21:00 | ingest | https://www.youtube.com/watch?v=S36ri23-l60 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | AI | 6 | 5 |
 | 2026-04-24 23:00 | ingest | https://github.com/thedotmack/claude-mem | [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] | CodeAnalysis | 5 | 5 |
 | 2026-04-25 10:30 | update | Issue #17688 追蹤查詢結果 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 0 |
+| 2026-04-26 12:00 | ingest | https://www.youtube.com/watch?v=FOLk9tBCXHM | [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] | AI | 5 | 5 |

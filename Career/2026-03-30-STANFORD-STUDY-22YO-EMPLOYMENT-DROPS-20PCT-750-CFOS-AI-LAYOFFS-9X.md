@@ -186,6 +186,7 @@ AI打破後的邏輯：
 - [[DEEPSEEK-ANALYSIS]] — DeepSeek 的組織設計與招募策略
 - [[2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9]] — Meta E9 工程師的觀點：底層技術理解力才是 AI 時代護城河，與本文「判斷力 > 執行力」呼應
 - [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] — HR 觀點佐證本文論點：AI 縮短經驗差距，中階主管面臨重新定位壓力
+- [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談 CEO 層級如何主動擁抱 AI，與本文 CFO 裁員數據形成策略 vs 數據的對照
 
 ## References
 
