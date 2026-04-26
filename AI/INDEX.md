@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] | Claude Skills 實戰手冊：三信號盤點、五類 Description 範例、Subagent 品管、四連 Prompt 工具包 | 2026-04-25 |
 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | Agent Harness 十二大模組完全解析：編排迴圈到初始化、五大框架比較、七大架構抉擇 | 2026-04-24 |
 | [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] | 簡立峰談 AI 革命從老闆開始：數據水管、IT 轉型架構師、台灣黃金十年 | 2026-04-20 |
 | [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] | 社群 CLAUDE.md 迷思核實：User Message 注入、無條件 rules = CLAUDE.md、壓縮後重新注入、paths: 才是真按需 | 2026-04-17 |

@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Skills 實戰手冊 — Description 範例庫、Subagent 架構、除錯 Playbook 與四連 Prompt](./AI/2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS.md) — Gary Chen 的 Skill 完整生命週期手冊，含三信號盤點、五類 Description 範例、三層除錯 Playbook、Subagent 品管架構與 Skill Craftsman Toolkit 四個 Prompt 全文
 - [AI 革命從老闆開始 — 簡立峰：數據水管、IT 轉型架構師、台灣黃金十年](./AI/2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK.md) — 前 Google 台灣董事總經理簡立峰談企業 AI 轉型必須由老闆親自發動，中小企業靠 AI 強化戰鬥力而非降本
 - [Claude-Mem v12 — Claude Code 持久記憶外掛深度分析](./CodeAnalysis/2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE.md) — 66K stars 的 Claude Code 記憶外掛，Hook 驅動 + Agent SDK 壓縮 + 混合搜尋，含完整架構圖與安裝流程追蹤
 - [Agent Harness 十二大模組完全解析 — 七大架構抉擇與五大框架比較](./AI/2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE.md) — 從編排迴圈到初始化的十二模組拆解、Anthropic/OpenAI/LangGraph/CrewAI/AutoGen 框架比較、薄 Harness 共同進化趨勢

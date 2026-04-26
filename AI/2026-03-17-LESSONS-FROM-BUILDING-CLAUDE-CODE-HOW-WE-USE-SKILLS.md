@@ -316,6 +316,7 @@ Skills 是 AI 智能體（AI Agent）極其強大且靈活的工具，但這一�
 - [[2026-03-07-CLAUDE-SKILLS-2.0-THE-SELF-IMPROVING-AI-CAPABILITIES-THAT-ACTUALLY-WORK]] — Skills 2.0 的自動建立、測試、A/B 優化循環，將本文的 skill 設計哲學延伸為自我改善系統
 - [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Claude Code 創始人的 Hooks、Git Worktrees、/batch 實用技巧，與本文 skill 設計互為上下游
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy CLAUDE.md 可透過 Skills 目錄全域安裝，本文的 Skills 設計直接適用
+- [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 完整生命週期手冊，Description 三規則與本文的 Anthropic 團隊經驗互為印證
 
 ## References
 

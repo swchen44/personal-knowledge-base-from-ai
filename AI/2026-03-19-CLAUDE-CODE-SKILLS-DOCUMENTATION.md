@@ -589,6 +589,7 @@ if __name__ == '__main__':
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Vercel 實驗證明 skills 自動觸發 56% 未被調用，提出 /docs/ 引用作為替代方案
 - [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — Vercel 原始實驗：skills 預設行為 0% 改善、56% 未調用，挑戰 skills 自動觸發可靠性
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills vs Commands vs Subagents 完整比較，含 frontmatter 控制矩陣與 description 工程實驗
+- [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 實戰手冊，含 Description 五類範例、三層除錯 Playbook 與完整維護迭代節奏
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — context:fork、agent、hooks 三個進階 frontmatter 欄位的原始碼解析與 FAQ
 
 ## References

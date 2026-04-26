@@ -595,6 +595,7 @@ After:
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 延伸研究：Skills/Commands/Subagents/Plugins 四機制比較與 description 工程最佳實踐
 - [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] — ETH Zurich 138 實例實證：LLM 生成的 context file 降低成功率 3%，挑戰「越詳細越好」的假設
 - [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰：快取失效、尖峰視窗、環境膨脹三大原因與解法
+- [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 製作到維護完整 Playbook，五類 Description 範例庫補充本文的 Skills vs CLAUDE.md 分工策略
 - [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 原文完整筆記：指令預算、均勻衰減、漸進式揭露與邊緣偏差
 
 ## References
