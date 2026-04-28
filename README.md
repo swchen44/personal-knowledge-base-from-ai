@@ -2,7 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
-- [Claude Session Analyzer — Claude Code 對話品質量化分析工具](./CodeAnalysis/2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS.md) — 零依賴 Python 工具，7 階段量化分析思考深度、Read:Edit 比率、行為退化、使用者情緒與 Bedrock 成本估算
+- [Claude Session Analyzer — 程式碼分析 + 30 天真實使用驗證](./CodeAnalysis/2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS.md) — 零依賴 Python 工具深度分析 + 情感分析 100% 誤判驗證 + subagent 美化指標發現 + 三層防線改善方案（多語言/短 prompt 過濾/抽樣驗證）
 - [Claude Code 延伸思考退化量化分析 — Issue #42796](./AI/2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION.md) — AMD AI 資深總監 Stella Laurenzo 的 17,871 thinking blocks 分析：Read:Edit 從 6.6 降至 2.0、成本暴增 122 倍、Anthropic 發佈 postmortem
 - [Claude Code Token 成本計算完整管線研究 — 從 API usage 到 JSONL 事後分析的精確對齊方案](./CodeAnalysis/2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE.md) — 8 核心檔案分析、6 定價層級、JSONL 事後分析 6 個陷阱（天真累加誤差 90%）、完整 Python 分析腳本
 - [Claude Skills 實戰手冊 — Description 範例庫、Subagent 架構、除錯 Playbook 與四連 Prompt](./AI/2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS.md) — Gary Chen 的 Skill 完整生命週期手冊，含三信號盤點、五類 Description 範例、三層除錯 Playbook、Subagent 品管架構與 Skill Craftsman Toolkit 四個 Prompt 全文

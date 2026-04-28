@@ -10,11 +10,12 @@ tags:
 source: "https://github.com/lucemia/claude-session-analyzer"
 source_type: code
 author: "lucemia"
-status: notes
+status: reviewed
 links:
   - "[[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]]"
   - "[[AI-Coding-Assistant-Observability]]"
   - "[[JSONL-Log-Analysis]]"
+  - "[[CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]]"
 github_stars: 6
 github_language: Python
 ---
@@ -383,6 +384,15 @@ sentiment_ratio = round(positive_count / negative_count, 1) if negative_count > 
 
 **設計要點**：使用基於關鍵字的情緒分析（Keyword-based Sentiment Analysis），而非 NLP 模型。這與零依賴的設計決策一致。注意 "no," 帶逗號是刻意的——避免匹配 "node", "notion" 等常見詞。
 
+> [!warning] 真實使用驗證：情感分析的系統性誤判
+> 在 2026-04-29 的 30 天實際使用中，Python 腳本報告情感比率為 0.8:1（66 正面 : 86 負面），結論為「corrective relationship」。但逐句人工驗證後發現 **所有命中均為誤判**：
+> - `broken` (14 次) → 全為 "broken wikilinks" 技術描述
+> - `good` (15 次) → 全為 URL 路徑 `writing-a-good-claude-md`
+> - `wrong` (3 次) → 全為研究修正記錄 "claim was WRONG"
+> - `lazy` (2 次) → 全為 "lazy loading" 技術術語
+>
+> **零個有效情感表達**，結論完全錯誤。詳見下方「真實使用驗證」章節。
+
 ### 5. 報告產生器的品質基準敘事
 
 ```python
@@ -531,6 +541,135 @@ python3 analyze_sessions.py --output cost-review.md
 
 ---
 
+## 真實使用驗證（Real-World Validation）— 2026-04-29
+
+> [!important] 以下為 30 天實際使用後的驗證結果（2026-03-30 ~ 04-29，51 個主 session + 199 個 subagent），揭露了三個結構性問題和一套改善方案。
+
+### 驗證環境
+
+| 指標 | 數值 |
+|------|------|
+| 日期範圍 | 2026-03-30 ~ 2026-04-29 |
+| 主 Session | 51 (14,111 行) |
+| Subagent 檔案 | 199 (16,156 行) |
+| 總 Tool Calls | 10,356 (主 4,234 + 子 6,122) |
+| User Prompts | 1,000 |
+| 總成本 | $2,770 (requestId 去重後) |
+
+### 發現 1：Subagent 混合計算扭曲品質指標
+
+Python 腳本不過濾 subagent 檔案，將所有 JSONL 混合計算。這導致 **Read:Edit 比率被 subagent 美化**：
+
+```
+Read:Edit 比率的三種面貌：
+├─ 1.44  主 Session only（使用者直接體驗到的品質）
+├─ 1.9   Python 混合計算（主+子不區分）← 腳本產出的數字
+└─ 2.17  系統級合計（主+子分開後合計）
+```
+
+**根因**：Subagent 的 Read:Edit = 2.88（研究導向），遠高於主 Session 的 1.44（退化區間）。混合後得到 1.9，看起來「還行」，實際掩蓋了主 session 的品質退化。
+
+**影響量化**：
+
+| 指標 | 主 Session | Subagent | 混合（Python 報告） |
+|------|-----------|----------|------------------|
+| Read:Edit | **1.44** | 2.88 | 1.9 |
+| Research:Mutation | 1.64 | 3.53 | 2.3 |
+| Write % mutations | 16.4% | 11.6% | 15.9% |
+
+### 發現 2：成本存在 46% 重複計算
+
+```
+主 Session 成本:   $2,632.17
+Subagent 成本:     $2,495.23
+原始加總:          $5,127.40
+Python 去重後:     $2,769.96  ← 正確值
+重複比例:          46%
+```
+
+**根因**：主 session 的 usage 紀錄已包含 subagent 消耗的 token（相同 requestId）。分開加總即重複計算。Python 腳本的 **requestId 去重機制是正確做法**。
+
+### 發現 3：情感分析在技術語境完全失效
+
+| Python 報告 | 實際驗證 |
+|------------|---------|
+| 正面 66 次, 負面 86 次 | 有效正面 **0** 次, 有效負面 **0** 次 |
+| 比率 0.8:1 | **N/A（無有效樣本）** |
+| 結論：corrective relationship | **結論完全錯誤** |
+
+逐句檢查 30 天內所有命中（以主 session 的 21 負面 + 15 正面為例）：
+
+| 關鍵字 | 次數 | 實際用途 | 有效情感？ |
+|--------|------|---------|-----------|
+| broken | 14 | "broken wikilinks", "broken YAML" | ❌ 技術描述 |
+| good | 15 | URL `writing-a-good-claude-md` | ❌ URL 路徑 |
+| wrong | 3 | "claim was WRONG" 研究修正 | ❌ 客觀記錄 |
+| lazy | 2 | "lazy loading" 機制討論 | ❌ 技術術語 |
+
+> [!warning] 危險性
+> 0.8:1 這個數字看起來精確（有小數點、有 benchmark 對比），容易被報告讀者當作事實。如果呈交給管理層，可能導致「使用者與 AI 關係不佳」的錯誤結論。**沒有驗證的量化分析比沒有分析更危險。**
+
+### 改善方案：三層防線情感分析
+
+基於真實使用發現，提出以下改善架構：
+
+```
+原始流程：
+  關鍵字匹配 → 計數 → 報告數字 → 結論（可能完全錯誤）
+
+改善後流程：
+  多語言關鍵字 → 短 prompt 過濾 → 計數 → 抽樣列表 → 人工確認 → 結論
+  ├─ 第一層：多語言覆蓋 + 去除技術術語
+  ├─ 第二層：≤50 字 = 即時反應（有效），>50 字 = 設計規劃或貼上內容（排除）
+  └─ 第三層：報告內建抽樣驗證表
+```
+
+#### 第一層：多語言關鍵字支援
+
+使用者的對話混合繁體中文、簡體中文和英文。擴充為三語清單，並**移除高誤判詞**：
+
+| 類別 | 英文 | 繁體中文 | 簡體中文 |
+|------|------|---------|---------|
+| 正面 | great, love, nice, perfect, excellent, wonderful, cool, fantastic | 讚、太棒了、很好、完美、漂亮、厲害、優秀、不錯 | 赞、太棒了、很好、完美、漂亮、厉害、优秀、不错 |
+| 負面 | fuck, shit, damn, terrible, horrible, awful, sloppy | 爛、廢、靠、幹、糟糕、垃圾、難用 | 烂、废、靠、干、糟糕、垃圾、难用 |
+
+**移除清單**：`broken`（wikilinks）、`wrong`（correction log）、`lazy`（lazy loading）、`bad`（太通用）、`good`（URL 路徑常見）
+
+#### 第二層：短 prompt 過濾（1-50 字元）
+
+```
+有效情感 prompt 判定條件：
+1. 長度 1-50 字元 → 使用者親手打的即時反應
+   - ≤ 50 字元：即時糾正、短句回覆、情緒表達
+   - > 50 字元：設計規劃、從別處複製貼上的程式碼/指令
+2. 不含 URL（http://, https://）
+3. 不含程式碼區塊（```）
+4. 不含 frontmatter（---）或 skill 標記
+```
+
+**驗證範例**：
+- "不對" (6字) ← ✅ 即時糾正
+- "stop" (4字) ← ✅ 打斷指令
+- "這什麼爛東西" (14字) ← ✅ 情緒表達
+- "好，繼續" (8字) ← ✅ 正面肯定
+- "Fix all broken wikilinks..." (200字) ← ❌ 排除（技術指令）
+- "Base directory for this skill: ..." (500字) ← ❌ 排除（貼上的 prompt）
+
+#### 第三層：報告內建抽樣驗證表
+
+報告自動產出 10-20 個命中句子供人工快速判讀：
+
+```markdown
+| # | 詞 | 語言 | 長度 | Prompt 片段 | 有效? |
+|---|-----|------|------|------------|-------|
+| 1 | 爛 | zh-TW | 14字 | "這報告太爛了" | ❓ |
+| 2 | broken | en | 85字 | "...fix broken wikilinks..." | ❓ |
+```
+
+讀報告的人花 30 秒掃一眼就能判斷可信度。若有效率 < 50%，情感指標標註為「低信心度」。
+
+---
+
 ## 架構師觀點
 
 ### 優點評分表
@@ -548,23 +687,39 @@ python3 analyze_sessions.py --output cost-review.md
 
 ### 缺點清單
 
+> [!warning] 以下第 4、9、10 項經 2026-04-29 實際使用驗證確認為真實問題。
+
 1. **無測試**：1,348 行的分析邏輯沒有任何單元測試。Pearson 相關係數的手動實作、日期解析、模式匹配都可能有邊界情況 bug。
 2. **記憶體效率**：所有資料都累積在 Python list 中（`thinking_blocks`, `tool_calls`, `user_prompts`, `assistant_texts`, `usage_records`）。對於有數千個 session 的重度使用者，可能消耗大量 RAM。
 3. **單檔結構**：1,348 行的單一 Python 檔案違反了模組化原則。7 個 Phase 應該拆分為獨立模組。
-4. **情緒分析過於簡化**：基於關鍵字的情緒分析會產生誤報。例如 "no" 在 "no problem" 中是正面的，"stop" 在 "stop the server" 中是技術指令而非挫折。（注意：程式碼中 "no," 帶逗號部分緩解了此問題）
+4. **🔴 情緒分析在技術語境完全失效**（已驗證）：不只是「會產生誤報」——在 30 天實測中，**所有 36 個正面/負面命中都是誤判**（broken=wikilinks, good=URL, wrong=研究修正, lazy=lazy loading）。0.8:1 的情感比率結論完全錯誤，但因帶有數字和 benchmark 對比，極易被讀者當事實接受。這不只是準確度問題，是**方法論在此應用場景根本不適用**。
 5. **時區處理不完整**：`parse_timestamp` 移除了時區資訊（`.replace(tzinfo=None)`），所有分析都假設 UTC，但使用者可能在不同時區工作。
 6. **Period Comparison 固定二分法**：只能二等分，無法偵測中間的轉折點。更好的方法是使用滑動窗口或變點偵測（Change Point Detection）。
 7. **期間比較中 edit-without-read 的效能問題**：第 560-589 行的雙迴圈嵌套使用了線性搜尋 `tc_matches`，在大量 session 時可能有 O(n^2) 效能問題。
 8. **無 License 檔案**：README 聲稱 MIT 授權，但 repo 中沒有 LICENSE 檔案，GitHub 也顯示 License: None。
+9. **🔴 不區分主 Session 與 Subagent**（已驗證）：腳本處理所有 JSONL 檔案（含 subagents/ 目錄下的子代理檔），不做任何區分。Subagent 佔 59.1% 的 tool calls 但行為模式完全不同（Read:Edit = 2.88），混合計算導致 Read:Edit 比率從 1.44 被美化到 1.9，掩蓋主 session 的品質退化。
+10. **🔴 僅支援英文關鍵字**（已驗證）：情緒分析和行為偵測的關鍵字清單僅有英文。使用繁體中文或簡體中文的使用者（如本次驗證的台灣使用者），其真實情感表達（「爛」、「廢」、「讚」、「太棒了」）完全不會被偵測到。
 
 ### 改進建議
 
+**原有建議**：
 1. **加入測試**：至少為 `compute_ratios()`, `count_pattern()`, `parse_timestamp()`, Pearson 計算加入單元測試
 2. **串流處理**：改用生成器（generator）逐行處理 JSONL，避免全部載入記憶體
 3. **模組化**：拆分為 `parser.py`, `thinking.py`, `tools.py`, `behavioral.py`, `sentiment.py`, `cost.py`, `report.py`
 4. **增加 `--project` 篩選**：Slash Command 定義中有此選項但 Python 腳本未實作
 5. **加入 JSON 輸出**：除了 Markdown，也支援 `--format json` 以便程式化消費
 6. **加入 LICENSE 檔案**
+
+**基於真實使用的新建議（2026-04-29）**：
+
+| 優先級 | 改進項 | 原因 | 發現來源 |
+|--------|--------|------|---------|
+| P0 | **`--separate-subagents` 模式** — 預設排除 subagent，或至少分開統計主/子指標 | Subagent 佔 59% tool calls，混合計算使 Read:Edit 從 1.44 被美化到 1.9 | 實際驗證 |
+| P0 | **三層防線情感分析** — 多語言關鍵字 + 短 prompt 過濾(1-50字) + 抽樣驗證表 | 30 天內 0 個有效情感樣本，0.8:1 結論完全錯誤 | 實際驗證 |
+| P0 | **移除高誤判關鍵字** — 從清單中移除 broken, wrong, lazy, bad, good | 這些詞在技術對話中幾乎 100% 為技術用語 | 逐句驗證 |
+| P1 | **報告內建 10-20 句抽樣驗證表** — 列出情感命中的原始句子供人工判讀 | 讀者花 30 秒即可判斷結論可信度 | 改善設計 |
+| P1 | **分別報告主/子 session 的 Read:Edit** — 在報告中同時展示兩個面向 | 不同評估目標需要不同指標：使用者體驗 vs 系統效率 | 比較分析 |
+| P2 | **三語關鍵字配置檔** — 外部 config 管理英/繁中/簡中關鍵字，方便依專案調整 | 不同語言使用者的情感表達不同 | 使用者回饋 |
 
 ---
 
@@ -648,17 +803,29 @@ mv analyze-sessions.md ~/.claude/commands/
 
 5. **這是一個 observability 工具**：本質上，這是 AI Coding Assistant 的 observability 層——類似於 Datadog 之於微服務。AI assistant 的品質退化是漸進的、不容易察覺的，需要量化指標來偵測。這個方向值得關注。
 
+### 2026-04-29 真實使用後的追加心得
+
+6. **「看起來精確」是最危險的錯誤形態**：30 天實測的最大教訓不是情感分析「不夠準」，而是它給出了一個帶有小數點、benchmark 對比、敘事解釋的「完整結論」（0.8:1 = corrective relationship），但**每一個支撐這個結論的資料點都是誤判**。在資料分析中，「無法判斷」遠勝於「精確但錯誤」。
+
+7. **Subagent 是看不見的大象**：Subagent 佔 59% 的 tool calls、49% 的成本，但在報告中完全不可見。它的高 Read:Edit (2.88) 美化了整體指標，讓主 session 的退化 (1.44) 被掩蓋。這類似於微服務架構中「一個健康的 sidecar 掩蓋了核心服務的問題」——指標要分層看。
+
+8. **互動式驗證的不可替代性**：Python 腳本能在 2 分鐘產出完整報告，但它無法做到的是「使用者問『這些負面詞的句子是什麼？』」。正是這個互動式追問揭露了情感分析的完全失效。**最佳實踐不是二擇一，而是：Python 產數字 → Claude 驗結論。**
+
+9. **短 prompt 過濾是最巧妙的啟發式**：使用者親手打出來的挫折永遠是短句（"不對"、"stop"、"這什麼爛東西"），貼上的技術指令永遠是長篇。1-50 字元的閾值簡單到幾乎不需要解釋，但能一刀切掉大部分誤判。好的啟發式不需要複雜——它需要洞察。
+
 ---
 
 ## 待補充（Open Questions）
 
 1. **Signature Length 的穩定性**：Anthropic 未來是否可能也遮蔽 signature 欄位？若遮蔽，整個思考深度代理指標將失效。這個風險有多大？
 2. **跨模型比較**：目前的基準值（Read:Edit > 6.0 = Good 等）是基於特定時期的 Claude Opus。當模型版本更新（如從 Opus 3.5 到 Opus 4），這些基準是否需要重新校正？
-3. **情緒分析的誤判率**：基於關鍵字的情緒分析在程式設計語境中有多少誤報？"stop the server"、"no problem"、"bad request" 這類技術用語會污染多少指標？
+3. ~~**情緒分析的誤判率**：基於關鍵字的情緒分析在程式設計語境中有多少誤報？~~ → ✅ **已驗證（2026-04-29）**：30 天實測結果為 **100% 誤判率**（36/36 命中皆為技術用語）。關鍵字情感分析在技術對話語境中完全不適用。已提出三層防線改善方案：多語言關鍵字 + 短 prompt 過濾（1-50 字） + 抽樣驗證表。
 4. **大規模使用者的效能**：對於每天產生 100+ session 的重度使用者（如企業團隊），90 天的資料量可能達到數 GB。目前的全載記憶體策略是否需要重構為串流處理？
 5. **Plugin 安裝機制**：README 提到 `/plugin install session-analyzer from github:lucemia/claude-session-analyzer`，但 Claude Code 的 Plugin 系統是否已正式支援此語法？或者這是規劃中的功能？
-6. **Slash Command 的一致性**：獨立腳本與 Slash Command 的分析方法論是否完全一致？Slash Command 依賴 Claude 的即時解析，可能產生不同的計算結果。
+6. ~~**Slash Command 的一致性**~~ → ⚠️ **部分驗證（2026-04-29）**：Slash Command（Claude 子代理執行分析）與獨立腳本確實產生不同結果。主要差異：(a) Slash Command 排除了 subagent 檔案而 Python 腳本包含；(b) Slash Command 無 requestId 去重導致成本重複計算 46%；(c) Slash Command 可互動驗證結論正確性。兩者各有優勢，建議搭配使用。
 7. **基準值的地域性**：思考深度的每小時變化（如 05:00 UTC 最深、10:00 UTC 最淺）是否反映特定地域的伺服器負載？不同地區的使用者是否需要不同的基準？
+8. **（新）Subagent 成本歸屬**：目前 requestId 去重可避免重複計算，但無法拆分「主 session 的成本」和「subagent 的成本」。如果想分析「哪些 subagent 呼叫最花錢」或「subagent 的 ROI」，需要什麼額外資料結構？搜尋關鍵字：session cost attribution, parent-child token tracking
+9. **（新）短 prompt 過濾的最佳閾值**：1-50 字元的閾值是基於直覺設定。是否有更科學的方法確定最佳切分點？例如分析 prompt 長度分布的雙峰特性，找到自然分界。搜尋關鍵字：bimodal distribution, prompt length analysis
 
 ---
 
@@ -698,6 +865,7 @@ mv analyze-sessions.md ~/.claude/commands/
 
 1. **這個方案最可能在哪裡失敗？**
    - Anthropic 更改 JSONL 格式、移除 signature 欄位、或改變 session 儲存位置。這些都是上游的單點故障，工具作者無法控制。此外，隨著 Claude Code 版本更新，品質基準可能需要重新校正，但目前沒有自動校正機制。
+   - **（2026-04-29 追加）已確認的失敗模式**：情感分析在技術對話中 100% 誤判。Subagent 混合計算掩蓋主 session 品質退化。這兩個問題在工具原始設計中並未預見，因為原始分析（anthropics/claude-code#42796）可能未大量使用 subagent，且對話語言為英文而非中文。
 
 2. **誰最不喜歡這個方案？為什麼？**
    - Anthropic 可能不希望使用者量化偵測品質退化，因為這會產生公關壓力。如果大量使用者都能用數據證明「你的產品在某個時期變差了」，這比主觀抱怨更難反駁。這也是為什麼 thinking content 被遮蔽——減少使用者的可觀測性。
@@ -707,6 +875,10 @@ mv analyze-sessions.md ~/.claude/commands/
    - (b) 加入統計顯著性檢驗，自動偵測變點而非固定二分
    - (c) 加入 PR-level 分析：追蹤每個 PR 的 session 品質，與 PR 被退回/合併的結果關聯
    - (d) 建立跨使用者的匿名基準資料庫，讓個人指標與社群基準對比
+   - **（2026-04-29 追加）**
+   - (e) 實作三層防線情感分析（多語言 + 短 prompt 過濾 + 抽樣驗證表）
+   - (f) 增加 `--separate-subagents` 模式，分開報告主 session 和 subagent 的指標
+   - (g) 在報告中自動對每個「結論型」指標列出 10-20 個原始樣本，內建人工可驗證性
 
 ---
 
