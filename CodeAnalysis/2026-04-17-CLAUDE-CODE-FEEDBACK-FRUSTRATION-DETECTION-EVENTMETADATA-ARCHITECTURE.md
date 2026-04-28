@@ -889,6 +889,7 @@ submitTranscriptShare() → POST /api/claude_code_shared_session_transcripts
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 團隊層級的 OTel 監控部署
 - [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — 遙測系統的安全與隱私爭議
 - [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — 設定檔層級，影響 analytics 停用方式
+- [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — 計費管線中 cost_usd_micros 的來源分析，與 EventMetadata 中的費用數據互補
 
 ## References
 - Claude Code 反編譯原始碼（本地副本）：`/Users/swchen.tw/git/claude-code/`

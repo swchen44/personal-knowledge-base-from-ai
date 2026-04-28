@@ -325,6 +325,7 @@ cd ~/.claude/hooks-repo && npm test
 - [[AI-AGENT-SAFETY]] — AI 代理安全控制模式，含護欄（Guardrail）設計思路
 - [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] — Claude Code Plugin 完整生命週期：安裝/停用/移除/更新的檔案影響分析
 - [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] — claude-mem 是 hooks 系統最大的實際應用案例，展示 5 個 lifecycle hooks 的完整使用
+- [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — Hook 系統可攔截 API 回應建構獨立費用追蹤管線，本文提供完整的計費邏輯參考
 
 ## References
 

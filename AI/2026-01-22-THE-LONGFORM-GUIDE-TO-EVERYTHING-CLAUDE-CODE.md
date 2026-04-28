@@ -413,6 +413,7 @@ git worktree add ../feature-branch feature-branch
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — Team Memory 的原始碼分析，延伸本文的團隊協作記憶概念
 - [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Boris Cherny 的 13 個隱藏功能推文串，包含 /teleport、/batch、--bare 等本文未深入的進階技巧
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 用 OpenTelemetry 監控快取效率與 Token 用量，量化驗證本文的 Token 優化策略
+- [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — Token 計費的原始碼級分析：從 API usage 到 /cost 的完整管線，驗證本文的 Token 經濟學觀點
 
 ## References
 
