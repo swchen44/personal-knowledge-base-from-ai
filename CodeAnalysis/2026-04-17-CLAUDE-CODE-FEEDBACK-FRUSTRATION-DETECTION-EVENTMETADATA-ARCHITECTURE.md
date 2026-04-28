@@ -890,6 +890,8 @@ submitTranscriptShare() → POST /api/claude_code_shared_session_transcripts
 - [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — 遙測系統的安全與隱私爭議
 - [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — 設定檔層級，影響 analytics 停用方式
 - [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — 計費管線中 cost_usd_micros 的來源分析，與 EventMetadata 中的費用數據互補
+- [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] — 使用者挫折情緒的大規模量化案例，正/負面詞彙比從 4.4:1 降至 3.0:1
+- [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — 開源工具含基於關鍵字的情緒分析模組，可與本文的 Frustration Detection 機制對照
 
 ## References
 - Claude Code 反編譯原始碼（本地副本）：`/Users/swchen.tw/git/claude-code/`

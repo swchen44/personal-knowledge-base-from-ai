@@ -789,6 +789,8 @@ if __name__ == "__main__":
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — EventMetadata 傳送架構中的 analytics 事件包含 `cost_usd_micros` 欄位，是另一個費用數據來源
 - [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — Token 經濟學章節涵蓋了使用者視角的成本優化策略（cache hit 最大化、context window 管理）
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — Hook 系統可用於即時攔截 API 回應並建構獨立的費用追蹤管線
+- [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] — 品質退化導致 API 成本從 $345 暴增至 $42,121（122 倍），是成本異常的實際案例
+- [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — 開源的 Session 分析工具，含 Bedrock Opus 成本估算模組
 
 ## References
 

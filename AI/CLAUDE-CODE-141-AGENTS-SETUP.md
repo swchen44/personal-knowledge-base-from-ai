@@ -118,6 +118,7 @@ Each team lives in .claude/teams/<color>-team.yaml with:
 - [[OBSIDIAN-POWER-TIPS]] — knowledge management systems that parallel the .claude/decisions.md shared context pattern
 - [[2026-03-17-NVIDIA-ANNOUNCED-NEMOCLAW-WHAT-NVIDIA-ACTUALLY-SOLVES-FOR-OPENCLAW-USERS-AND-WHAT-IT-DOES-NOT]] — NemoClaw 的跨進程安全治理層，為多代理人系統提供進程外的安全約束機制
 - [[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]] — Jarvis 多代理協調架構，將本文的 domain team 概念實作為 Expert 角色分工
+- [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] — 50+ 並行 agent session 的品質退化量化分析，影響多代理工作流的穩定性
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

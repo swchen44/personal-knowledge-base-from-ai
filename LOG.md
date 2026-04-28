@@ -55,3 +55,5 @@
 | 2026-04-26 12:00 | ingest | https://www.youtube.com/watch?v=FOLk9tBCXHM | [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] | AI | 5 | 5 |
 | 2026-04-26 16:00 | ingest | https://www.patreon.com/posts/claude-skills-ce-156487984 + https://garytalksstuff.com/20260421_skill_promptset_1 | [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] | AI | 6 | 5 |
 | 2026-04-28 08:00 | ingest | conversation research: Token cost calculation pipeline | [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] | CodeAnalysis | 4 | 7 |
+| 2026-04-28 19:30 | ingest | https://github.com/lucemia/claude-session-analyzer | [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] | CodeAnalysis | 4 | 7 |
+| 2026-04-28 19:30 | ingest | https://github.com/anthropics/claude-code/issues/42796 | [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] | AI | 4 | 7 |

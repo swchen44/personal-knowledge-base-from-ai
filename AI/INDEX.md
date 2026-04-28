@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] | Claude Code 延伸思考退化量化分析：Read:Edit 比率從 6.6 降至 2.0、停止鉤子 17 天觸發 173 次、成本暴增 122 倍 | 2026-04-02 |
 | [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] | Claude Skills 實戰手冊：三信號盤點、五類 Description 範例、Subagent 品管、四連 Prompt 工具包 | 2026-04-25 |
 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | Agent Harness 十二大模組完全解析：編排迴圈到初始化、五大框架比較、七大架構抉擇 | 2026-04-24 |
 | [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] | 簡立峰談 AI 革命從老闆開始：數據水管、IT 轉型架構師、台灣黃金十年 | 2026-04-20 |

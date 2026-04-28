@@ -729,6 +729,7 @@ export OTEL_TRACES_EXPORTER=otlp
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — Team Memory 功能與組織級管理的另一個面向
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — 同一遙測系統的反饋/事件層分析：Frustration Detection 演算法、三管道反饋機制、EventMetadata 傳送架構
 - [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — Token 計費管線與 OTel 共享 costCounter/tokenCounter，是同一 STATE 物件的費用面向
+- [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — 開源的 JSONL Session 分析工具，用 signature 長度作為被遮蔽思考深度的代理指標
 
 ## References
 - [Claude Code Monitoring - Anthropic Docs](https://docs.anthropic.com/en/docs/claude-code/monitoring-usage)
