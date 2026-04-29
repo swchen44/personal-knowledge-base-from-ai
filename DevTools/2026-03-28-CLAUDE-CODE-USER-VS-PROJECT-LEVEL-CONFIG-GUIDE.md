@@ -465,6 +465,7 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — symlink 跨工具共享 CLAUDE.md 的實作方式，與配置層級系統的互補應用
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — CLAUDE.md 合併順序（專案規則先、行為原則後）與令牌預算管理的實測建議
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — 四個設定檔完全指南：原始碼級 merge 邏輯、Plugin 啟停控制、企業 policy 欄位
+- [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hooks 設定的 6 層優先順序（policy > user > project > local > plugin > session）與完整 Hook API Schema
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — 設定檔中 feedbackSurveyRate 與 transcriptShareDismissed 的反饋系統機制
 
 ## References

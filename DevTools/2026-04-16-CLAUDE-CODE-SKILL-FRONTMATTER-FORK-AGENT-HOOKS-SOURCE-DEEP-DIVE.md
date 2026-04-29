@@ -1404,6 +1404,7 @@ shell: bash
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — 原始碼洩漏解析，涵蓋 Agent Loop 等核心機制
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 七位專家最佳實踐，Skills hooks 在整體 harness 中的定位
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 的 Plugin 啟停控制（enabledPlugins 四層 merge）與 7 個 policy-only 安全閘門
+- [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hook 系統 24 個事件的完整 Input/Output Schema，補充本文 skill hooks 的底層 query loop 狀態機
 
 ## 2026-04-25 問題追蹤更新
 

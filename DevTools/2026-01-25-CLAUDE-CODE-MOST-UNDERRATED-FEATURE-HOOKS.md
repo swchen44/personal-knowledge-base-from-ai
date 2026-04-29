@@ -276,6 +276,7 @@ Claude Code 等待輸入（權限提示、閒置提示）時推送 Slack 通知�
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — 透過 PostToolUse Hook 自訂 Skill 執行追蹤的具體方案，彌補原生遙測的 Skill 追蹤缺口
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — Hooks/Skills 的載入機制對比：Skills 用 chokidar 熱載入，可對照理解 Hooks 的載入時機
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — Skill hooks 的累積特性、session 生命週期、`once: true` 機制的原始碼驗證
+- [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hook API 原始碼深度解析：24 個事件完整 I/O Schema、query loop 狀態機、Stop Hook 防循環機制
 
 ## References
 
