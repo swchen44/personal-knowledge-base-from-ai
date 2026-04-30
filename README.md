@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code disable-model-invocation 原始碼解析 — Skill 可見性雙道防線與跨系統呼叫限制](./CodeAnalysis/2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS.md) — 兩道防線（模型清單過濾 + validateInput 硬性拒絕）、userInvocable 正交關係、Hook/Command 無法呼叫 Skill 的原因與替代方案
 - [Claude Code Hook API 原始碼深度解析 — 24 個事件、完整 I/O Schema、Query Loop 狀態機](./CodeAnalysis/2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE.md) — 反編譯原始碼追蹤 Hook 系統：6 種 Hook 類型、hookSpecificOutput discriminated union、Stop Hook 防循環機制、10 項 Boundary/Limitation 分析
 - [Claude Session Analyzer — 程式碼分析 + 30 天真實使用驗證](./CodeAnalysis/2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS.md) — 零依賴 Python 工具深度分析 + 情感分析 100% 誤判驗證 + subagent 美化指標發現 + 三層防線改善方案（多語言/短 prompt 過濾/抽樣驗證）
 - [Claude Code 延伸思考退化量化分析 — Issue #42796](./AI/2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION.md) — AMD AI 資深總監 Stella Laurenzo 的 17,871 thinking blocks 分析：Read:Edit 從 6.6 降至 2.0、成本暴增 122 倍、Anthropic 發佈 postmortem

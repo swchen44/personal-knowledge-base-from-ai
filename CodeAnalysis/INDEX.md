@@ -9,6 +9,7 @@
 | [[2026-04-20-CLAUDE-CODE-MARKETPLACE-GERRIT-404-ROOT-CAUSE]] | Claude Code Marketplace 連線 Gerrit Server 回傳 404 根因分析：parseMarketplaceInput URL 分類邏輯缺陷與完整驗證流程 | 2026-04-20 |
 | [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] | Claude Code 使用者反饋系統深度分析：Frustration Detection 演算法、三管道反饋機制、EventMetadata 傳送架構 | 2026-04-17 |
 | [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] | Claude Code Hook API 原始碼深度解析：24 個事件、完整 I/O Schema、Query Loop 狀態機、Stop Hook 防循環與多種 Use Case | 2026-04-29 |
+| [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] | disable-model-invocation 雙道防線解析：模型清單過濾 + validateInput 拒絕、跨 Skill/Hook/Command 呼叫限制與繞過方案 | 2026-04-29 |
 | [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] | Claude Code Telemetry 原始碼深度分析：三層 OTel 架構、8 個指標、Span 生命週期與 100 人團隊部署策略 | 2026-04-13 |
 | [[2026-04-12-CLAUDE-CODE-PLUGIN-LIFECYCLE-INSTALL-DISABLE-REMOVE-UPDATE]] | Claude Code Plugin 完整生命週期 — 安裝/停用/移除/更新五大操作的檔案影響分析與三種 Scope 比較 | 2026-04-12 |
 | [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] | npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性 | 2026-04-11 |

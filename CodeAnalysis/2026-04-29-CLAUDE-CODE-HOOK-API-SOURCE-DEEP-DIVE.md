@@ -975,6 +975,7 @@ export type AggregatedHookResult = {
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 反編譯原始碼的整體概覽
 - [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — settings.json 的層級與優先順序
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — 設定檔完整指南
+- [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — Hook 無法直接呼叫 Skill 的原因分析，與本文 Hook 系統形成互補
 
 ## References
 

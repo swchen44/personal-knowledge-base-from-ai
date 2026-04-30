@@ -59,3 +59,4 @@
 | 2026-04-28 19:30 | ingest | https://github.com/anthropics/claude-code/issues/42796 | [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] | AI | 4 | 7 |
 | 2026-04-29 06:30 | update | case-study-report-comparison.md (真實使用驗證) | [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] | CodeAnalysis | 0 | 9 |
 | 2026-04-29 12:00 | ingest | conversation research: Hook API 原始碼深度解析 | [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] | CodeAnalysis | 5 | 7 |
+| 2026-04-29 14:00 | ingest | conversation research: disable-model-invocation Skill 可見性 | [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] | CodeAnalysis | 5 | 5 |
