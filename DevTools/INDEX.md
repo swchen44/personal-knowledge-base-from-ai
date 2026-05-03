@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] | Plugin 無法安裝 CLAUDE.md/Rules 原始碼驗證：manifest 12 component 無 rules、paths: → globs 命名混淆、#17204/#23478 已知 bug、三種替代方案（Setup Hook / @path / Skill）比較矩陣 | 2026-05-03 |
 | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | Plugin.json 依賴系統與共享 Skills 原始碼分析：三層驗證機制、實戰寫法（marketplace.json + plugin.json 雙宣告）、實驗結果（A→B→C 鏈）、Issue #9444 / #27113 社群附錄 | 2026-04-19 |
 | [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] | Skill 完全指南：閉包載入、Token 按需注入、壓縮 5K/25K 保留、三種附件定義（skill_listing / skill_discovery / invoked_skills）、SkillTool Schema vs skill_listing 釐清、7 撰寫技巧 | 2026-04-17 |
 | [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] | 四個設定檔完全指南：GlobalConfig vs SettingsSchema、五源 merge、Plugin 啟停四層控制、7 個 policy-only 閘門 | 2026-04-17 |

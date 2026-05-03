@@ -865,6 +865,7 @@ claude --plugin-dir /path/to/plugin-a \
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 層級（managed/user/project/local）如何影響 plugin 啟用狀態
 - [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] — Skill 載入、壓縮、撰寫技巧完整指南
 - [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] — Plugin 載入兩次佔用 context 的已知問題
+- [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin manifest 無法安裝 CLAUDE.md/Rules，三種替代方案分析
 
 ---
 

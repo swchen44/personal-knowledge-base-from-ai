@@ -879,6 +879,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md vs Skills 的最佳實踐比較，引用本文的 memoize 與熱載入發現作為技術佐證
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Opalic 的 /docs/ + IMPORTANT 指示句方案，用 Vercel 實驗證明明確引用比 skills 自動觸發更可靠
 - [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — 被動上下文（AGENTS.md）vs 按需檢索（Skills）的原始實驗，從機制層面解釋 memoize 全量載入的優勢
+- [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — @path 引用 Plugin cache 路徑的可行性驗證（expandPath 無限制 + includeExternal = true）
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills 的 frontmatter 控制（fork/paths/allowed-tools）與 Subagents 的選擇決策框架
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — Skill frontmatter 進階欄位（context:fork、agent、hooks）的原始碼深度解析與 FAQ
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 五源 merge 與 CLAUDE.md memoize 的關係、Plugin 啟停如何透過 settings 控制

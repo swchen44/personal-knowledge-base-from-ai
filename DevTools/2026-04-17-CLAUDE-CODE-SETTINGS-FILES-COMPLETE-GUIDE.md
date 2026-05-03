@@ -442,6 +442,7 @@ claude --setting-sources ""
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 團隊統一 settings.json 配置遙測環境變數的實際範例
 - [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] — Settings 層級如何控制 plugin 啟用狀態與 dependency 解析
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Settings hooks 設定的底層消費端：24 個事件的 I/O Schema 與 query loop 狀態機如何處理 Hook 回傳值
+- [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin settings merge 只允許 agent 鍵，無法注入 rules 的原始碼驗證
 
 ## References
 

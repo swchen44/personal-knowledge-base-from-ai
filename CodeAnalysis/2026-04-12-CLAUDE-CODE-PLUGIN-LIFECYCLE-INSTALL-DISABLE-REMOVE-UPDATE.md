@@ -753,6 +753,7 @@ claude /plugin uninstall my-plugin --scope user
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — Hooks 系統的深度分析，plugin hooks 是其擴充形式
 - [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — 同樣以檔案操作角度分析 Claude Code 功能的姊妹文
 - [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] — Plugin 依賴宣告如何影響安裝與停用生命週期
+- [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — 安裝流程為何沒有 postInstall 的延伸分析，三種替代 rules 安裝方案
 
 ## References
 

@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Plugin 無法安裝 CLAUDE.md/Rules — 原始碼驗證與三種替代方案](./DevTools/2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES.md) — Plugin manifest 12 component 無 rules 欄位、paths: → globs 命名混淆、三種替代方案（Setup Hook / @path / Skill）完整比較
 - [打造高效 Claude Code Skill 的七條規則 — 聚焦、角色框架、迷你程式到負面指令](./AI/2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL.md) — Nick Babich 的產品設計師視角：一個 Skill 一個職責、Skill 是迷你程式而非指令集、決策規則填補模糊地帶，含完整 UX Research Analyzer Skill 範例
 - [Claude Code disable-model-invocation 原始碼解析 — Skill 可見性雙道防線與跨系統呼叫限制](./CodeAnalysis/2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS.md) — 兩道防線（模型清單過濾 + validateInput 硬性拒絕）、userInvocable 正交關係、Hook/Command 無法呼叫 Skill 的原因與替代方案
 - [Claude Code Hook API 原始碼深度解析 — 24 個事件、完整 I/O Schema、Query Loop 狀態機](./CodeAnalysis/2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE.md) — 反編譯原始碼追蹤 Hook 系統：6 種 Hook 類型、hookSpecificOutput discriminated union、Stop Hook 防循環機制、10 項 Boundary/Limitation 分析
