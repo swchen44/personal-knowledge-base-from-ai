@@ -1406,6 +1406,7 @@ shell: bash
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 的 Plugin 啟停控制（enabledPlugins 四層 merge）與 7 個 policy-only 安全閘門
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hook 系統 24 個事件的完整 Input/Output Schema，補充本文 skill hooks 的底層 query loop 狀態機
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — disable-model-invocation 與 userInvocable 正交關係解析，補充本文 frontmatter 進階欄位
+- [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Skill 內容層面的七條撰寫規則，與本文的 frontmatter 技術層面互補
 
 ## 2026-04-25 問題追蹤更新
 

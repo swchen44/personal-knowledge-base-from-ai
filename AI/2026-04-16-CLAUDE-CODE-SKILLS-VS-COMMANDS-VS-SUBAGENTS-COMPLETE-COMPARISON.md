@@ -348,6 +348,7 @@ SKILL.md 遵循 [Agent Skills 開放標準](https://agentskills.io)，可跨工�
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — 本文提到的 context:fork 和 agent 欄位的原始碼級深度解析
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Description 三規則 + 三技術陷阱 + Subagent 品管完整架構，與本文的 Subagent 比較互補
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — Skill 可見性控制的原始碼級解析：getSkillToolCommands vs getSlashCommandToolSkills 過濾差異
+- [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Skill 內容撰寫的七條規則，補充本文著重的機制層比較
 
 ## References
 

@@ -597,6 +597,7 @@ After:
 - [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰：快取失效、尖峰視窗、環境膨脹三大原因與解法
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 製作到維護完整 Playbook，五類 Description 範例庫補充本文的 Skills vs CLAUDE.md 分工策略
 - [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 原文完整筆記：指令預算、均勻衰減、漸進式揭露與邊緣偏差
+- [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — 產品設計師視角的七條 Skill 撰寫規則，含完整 UX Research Analyzer Skill 範例
 
 ## References
 

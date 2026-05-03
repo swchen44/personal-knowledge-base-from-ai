@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [打造高效 Claude Code Skill 的七條規則 — 聚焦、角色框架、迷你程式到負面指令](./AI/2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL.md) — Nick Babich 的產品設計師視角：一個 Skill 一個職責、Skill 是迷你程式而非指令集、決策規則填補模糊地帶，含完整 UX Research Analyzer Skill 範例
 - [Claude Code disable-model-invocation 原始碼解析 — Skill 可見性雙道防線與跨系統呼叫限制](./CodeAnalysis/2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS.md) — 兩道防線（模型清單過濾 + validateInput 硬性拒絕）、userInvocable 正交關係、Hook/Command 無法呼叫 Skill 的原因與替代方案
 - [Claude Code Hook API 原始碼深度解析 — 24 個事件、完整 I/O Schema、Query Loop 狀態機](./CodeAnalysis/2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE.md) — 反編譯原始碼追蹤 Hook 系統：6 種 Hook 類型、hookSpecificOutput discriminated union、Stop Hook 防循環機制、10 項 Boundary/Limitation 分析
 - [Claude Session Analyzer — 程式碼分析 + 30 天真實使用驗證](./CodeAnalysis/2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS.md) — 零依賴 Python 工具深度分析 + 情感分析 100% 誤判驗證 + subagent 美化指標發現 + 三層防線改善方案（多語言/短 prompt 過濾/抽樣驗證）

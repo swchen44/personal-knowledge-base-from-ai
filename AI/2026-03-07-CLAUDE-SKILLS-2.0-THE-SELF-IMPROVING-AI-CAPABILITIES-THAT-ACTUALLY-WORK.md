@@ -307,6 +307,7 @@ git push  # 分享給團隊
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 同日期發布的 Skill Eval 實戰文章
 - [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — Claude Memory Engine 的程式碼分析，記憶系統是 Skills 2.0 自我改善的基礎
 - [[2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS]] — 自我進化代理人的核心機制，與 Skills 2.0 的自動建立、測試、優化循環理念相通
+- [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — 靜態 Skill 設計的七條規則，可與本文的自我改進 Skill 理念對比
 
 ## References
 

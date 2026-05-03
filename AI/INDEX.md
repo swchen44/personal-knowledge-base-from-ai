@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] | 打造高效 Claude Code Skill 的七條規則：聚焦、角色框架、迷你程式、I/O 格式、決策規則、領域知識、負面指令 | 2026-04-08 |
 | [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] | Claude Code 延伸思考退化量化分析：Read:Edit 比率從 6.6 降至 2.0、停止鉤子 17 天觸發 173 次、成本暴增 122 倍 | 2026-04-02 |
 | [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] | Claude Skills 實戰手冊：三信號盤點、五類 Description 範例、Subagent 品管、四連 Prompt 工具包 | 2026-04-25 |
 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | Agent Harness 十二大模組完全解析：編排迴圈到初始化、五大框架比較、七大架構抉擇 | 2026-04-24 |

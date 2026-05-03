@@ -528,6 +528,7 @@ Write 檔案 ← hook 仍然觸發
 - [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰，建議把規則從 CLAUDE.md 移到 Skill 降低起始成本
 - [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] — Plugin manifest 的 skills 欄位如何補充預設 skills/ 目錄的載入邏輯
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — disable-model-invocation 雙道防線原始碼解析：模型清單過濾 + validateInput 硬性拒絕，跨 Skill 呼叫限制
+- [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Nick Babich 的七條 Skill 撰寫規則：聚焦、角色框架、迷你程式、I/O 格式、決策規則、領域知識、負面指令
 
 ## References
 
