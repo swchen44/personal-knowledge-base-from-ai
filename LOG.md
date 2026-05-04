@@ -62,3 +62,4 @@
 | 2026-04-29 12:00 | ingest | conversation research: Hook API 原始碼深度解析 | [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] | CodeAnalysis | 5 | 7 |
 | 2026-04-29 14:00 | ingest | conversation research: disable-model-invocation Skill 可見性 | [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] | CodeAnalysis | 5 | 5 |
 | 2026-05-03 10:20 | ingest | https://uxplanet.org/7-rules-for-creating-an-effective-claude-code-skill-2d81f61fc7cd | [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] | AI | 6 | 6 |
+| 2026-05-03 23:00 | ingest | conversation research: Plan Mode vs SuperPowers 原始碼 + 社群調查 | [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] | DevTools | 8 | 5 |

@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Plan Mode vs SuperPowers 衝突深度分析 — 原始碼追蹤 + 社群經驗 + 架構級不相容全解](./DevTools/2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS.md) — EnterPlanMode 攔截機制、Auto Mode 停用 bug、計畫路徑不相容、5 個衝突點與最佳實踐建議
 - [Plugin 無法安裝 CLAUDE.md/Rules — 原始碼驗證與三種替代方案](./DevTools/2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES.md) — Plugin manifest 12 component 無 rules 欄位、paths: → globs 命名混淆、三種替代方案（Setup Hook / @path / Skill）完整比較
 - [打造高效 Claude Code Skill 的七條規則 — 聚焦、角色框架、迷你程式到負面指令](./AI/2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL.md) — Nick Babich 的產品設計師視角：一個 Skill 一個職責、Skill 是迷你程式而非指令集、決策規則填補模糊地帶，含完整 UX Research Analyzer Skill 範例
 - [Claude Code disable-model-invocation 原始碼解析 — Skill 可見性雙道防線與跨系統呼叫限制](./CodeAnalysis/2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS.md) — 兩道防線（模型清單過濾 + validateInput 硬性拒絕）、userInvocable 正交關係、Hook/Command 無法呼叫 Skill 的原因與替代方案

@@ -530,6 +530,7 @@ Write 檔案 ← hook 仍然觸發
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Skill 替代 Rules 的限制分析（1% 預算、壓縮後不重新注入 vs Rules 永遠在場）
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — disable-model-invocation 雙道防線原始碼解析：模型清單過濾 + validateInput 硬性拒絕，跨 Skill 呼叫限制
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Nick Babich 的七條 Skill 撰寫規則：聚焦、角色框架、迷你程式、I/O 格式、決策規則、領域知識、負面指令
+- [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — SuperPowers skill 與 Plan Mode 衝突，說明 skill 如何攔截 EnterPlanMode deferred tool
 
 ## References
 

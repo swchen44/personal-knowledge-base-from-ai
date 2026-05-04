@@ -1408,6 +1408,7 @@ shell: bash
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — disable-model-invocation 與 userInvocable 正交關係解析，補充本文 frontmatter 進階欄位
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Skill 內容層面的七條撰寫規則，與本文的 frontmatter 技術層面互補
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin 無法安裝 CLAUDE.md/Rules 的原始碼驗證，createPluginCommand 缺失問題延伸
+- [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — Plan Mode ToolPermissionContext 與 SuperPowers skill 攔截機制的衝突分析
 
 ## 2026-04-25 問題追蹤更新
 

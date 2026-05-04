@@ -316,6 +316,7 @@ Anthropic 內部員工用 Claude Code 向開源專案提交程式碼時，會自
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — 基於同份洩漏原始碼，深入拆解記憶系統的十大設計細節
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — 基於同份洩漏原始碼，深入分析 Team Memory Server 與 REST API
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — 基於同份原始碼，深入追蹤 CLAUDE.md 與 Skills 的快取與熱載入機制
+- [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — 基於同份原始碼，追蹤 EnterPlanMode/ExitPlanMode 的完整權限狀態機與 SuperPowers 攔截機制
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — 基於同份原始碼，深入分析反饋系統、挫折偵測演算法與 EventMetadata 傳送架構
 
 ## References
