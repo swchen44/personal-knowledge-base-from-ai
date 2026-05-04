@@ -222,6 +222,7 @@ Karpathy 的「AI 精神錯亂」其實是一種認知狀態的描述：**可能
 - [[2026-03-16-SELF-EVOLVING-AGENT-CORE-MECHANISMS]] — 自我進化代理人的核心機制拆解，與 Karpathy Autoresearch 的進化循環直接相關
 - [[2026-03-18-CLAWTEAM-AGENT-SWARM-INTELLIGENCE]] — ClawTeam 蜂群自組織架構的程式碼分析，Karpathy 描述的 Agent Swarm 的具體實作
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy 的 CLAUDE.md 四原則在真實專案中的實測效果與限制分析
+- [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 在 Sequoia AI Ascent 的 Software 3.0 演講，延續本篇的 agent 與鋸齒狀能力主題
 
 ## References
 

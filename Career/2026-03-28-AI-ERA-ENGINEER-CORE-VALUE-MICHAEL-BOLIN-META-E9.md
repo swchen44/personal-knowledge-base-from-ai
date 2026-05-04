@@ -146,6 +146,7 @@ LLM 本質是機率模型，存在「幻覺（hallucination）」問題——生
 - [[2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS]] — 外商 Competency 模型中的思維能力與合作能力，對應本文 E8+ 晉升需要的系統思維
 - [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] — HR Jasmin 從管理面呼應本文觀點：判斷力是 AI 時代最值錢的能力
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談 IT 轉型架構師，與 Bolin 的底層理解力觀點互補
+- [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的「理解無法外包」與 Bolin 的「底層理解力是護城河」形成完美呼應
 
 ---
 

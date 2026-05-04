@@ -258,6 +258,7 @@ LLM 讀取來源
 - [[ARTICLE-TO-PERSONAL-KB-SKILL]] — 我自己的 skill 實作，需要根據本文啟示升級為「ingest + 更新交叉參考」
 - [[MEMEX-VANNEVAR-BUSH]] — Vannevar Bush 1945 年的 Memex 願景原始論文
 - [[OBSIDIAN-AS-IDE]] — Obsidian 作為知識庫 IDE 的使用模式
+- [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 演講中直接提到 LLM 知識庫是「理解無法外包」的實踐工具
 
 ## References
 

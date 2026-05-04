@@ -63,3 +63,4 @@
 | 2026-04-29 14:00 | ingest | conversation research: disable-model-invocation Skill 可見性 | [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] | CodeAnalysis | 5 | 5 |
 | 2026-05-03 10:20 | ingest | https://uxplanet.org/7-rules-for-creating-an-effective-claude-code-skill-2d81f61fc7cd | [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] | AI | 6 | 6 |
 | 2026-05-03 23:00 | ingest | conversation research: Plan Mode vs SuperPowers 原始碼 + 社群調查 | [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] | DevTools | 8 | 5 |
+| 2026-05-05 22:30 | ingest | https://youtube.com/watch?v=96jN2OCOfLs + bnext 中文報導 | [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] | AI | 8 | 6 |

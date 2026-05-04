@@ -137,6 +137,7 @@ curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]] — Opalic 的漸進式揭露方案，與 Karpathy 行為準則可互補：行為約束 + 知識按需載入
 - [[2026-01-27-KARPATHY-GUIDELINES-VS-CLAUDE-CODE-BUILTIN-SYSTEM-PROMPT]] — 逐條比對 Karpathy 準則與 Claude Code 內建 `prompts.ts`，量化覆蓋度並提出精簡策略
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 實戰手冊，原則 vs SOP 的判斷標準與 Karpathy 的行為準則互補
+- [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的品味與設計論點，為其 CLAUDE.md 原則提供更宏觀的脈絡
 
 ---
 

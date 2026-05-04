@@ -282,6 +282,7 @@ Yegge 大膽預測：未來的開發介面將是完全基於對話（conversatio
 - [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — Stanford 實證研究為「何時該用 Multi-Agent」提供定量參考，補充 Yegge 的定性展望
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — Pere Villega 從個人實踐者角度描繪的 11 階段演化與三大轉折點，具體化 Yegge 的宏觀論點
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談 IT 部門應從執行者轉型為架構師，與 Yegge 的工程師角色轉變觀點一致
+- [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 從個人角度闡述 Agentic Engineering，補充 Yegge 的組織角度觀點
 
 ## References
 
