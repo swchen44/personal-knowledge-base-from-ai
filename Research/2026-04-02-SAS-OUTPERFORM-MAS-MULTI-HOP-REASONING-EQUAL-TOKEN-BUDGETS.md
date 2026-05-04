@@ -159,6 +159,7 @@ Stanford 的 Dat Tran 與 Douwe Kiela 提出一個挑戰 Multi-Agent 敘事的�
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 的上下文工程，論文的上下文退化分析提供了理論補充
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — 七大架構抉擇第一條「先榨乾單智能體」，引用本論文的結論作為佐證
 - [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] — 同為「控制變數後重新檢驗常見假設」的研究方法論，context file 版本的 DPI 對照
+- [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的「能 Simple 就 Simple」Multi-Agent 原則，與本研究結論一致
 
 ---
 

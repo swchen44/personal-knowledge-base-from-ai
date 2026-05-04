@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Stanford 兩小時 AI 課精華版 — Augmenting LLMs 五層縱軸 + AI Builder 工具包](./AI/2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT.md) — 縱軸五層（Prompt→Fine-tune→RAG→Agentic→Multi-Agent）、七面之差、護欄三層篩選、Eval 三維度交叉、McKinsey 信用 Memo 案例
 - [從 Vibe Coding 到 Agentic Engineering — Karpathy 的 Software 3.0 宣言、鬼魂心智模型與新時代人才分界線](./AI/2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0.md) — 結合原始演講逐字稿與數位時代中文轉譯，涵蓋 Software 3.0、鋸齒狀智慧、可驗證性、Agent-Native 基建願景與「理解無法外包」
 - [Plan Mode vs SuperPowers 衝突深度分析 — 原始碼追蹤 + 社群經驗 + 架構級不相容全解](./DevTools/2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS.md) — EnterPlanMode 攔截機制、Auto Mode 停用 bug、計畫路徑不相容、5 個衝突點與最佳實踐建議
 - [Plugin 無法安裝 CLAUDE.md/Rules — 原始碼驗證與三種替代方案](./DevTools/2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES.md) — Plugin manifest 12 component 無 rules 欄位、paths: → globs 命名混淆、三種替代方案（Setup Hook / @path / Skill）完整比較

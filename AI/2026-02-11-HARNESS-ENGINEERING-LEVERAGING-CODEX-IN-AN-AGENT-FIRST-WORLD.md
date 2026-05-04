@@ -136,6 +136,7 @@ Codex 最終達成了端到端的功能開發能力：
 - [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅從學術角度解讀 Harness Engineering，與 OpenAI 的實戰視角互補
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — Agent Harness 十二大模組與七大架構抉擇完全解析，將 Harness 拆解為獨立模組的系統性分析
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的 Agentic Engineering 理論框架，與 Harness Engineering 實踐案例互補
+- [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的 Agentic Workflow 框架，OpenAI 零手寫程式碼實踐是其極端案例
 
 ---
 

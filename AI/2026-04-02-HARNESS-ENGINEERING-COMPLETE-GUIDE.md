@@ -212,6 +212,7 @@ Harness Engineering → 建立持續監控與糾偏機制
 - [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — 從 Prompt 工程升級到流程工程的三層式架構，與 Harness Engineering 的系統化思維相通
 - [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅教授的教學版 Harness Engineering，包含情緒向量和口頭回饋等獨特觀點
 - [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — 上下文退化分析為 Harness 的上下文工程層提供理論補充：上下文品質決定 SAS vs. MAS 的最優選擇
+- [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 五層縱軸分類與 Harness Engineering 提供互補的 agentic system 設計視角
 
 ---
 

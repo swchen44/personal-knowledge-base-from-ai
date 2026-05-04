@@ -262,6 +262,7 @@ Harness 如同建築脚手架——臨時基礎設施，大樓建成後拆除。
 - [[2026-03-31-BUILD-CLAUDE-CODE-AGENTS-10-STEP-FRAMEWORK]] — 從零建立 Agent 的實戰框架，可視為本影片理論的實踐版
 - [[2023-10-27-CREWAI-CODE-ANALYSIS]] — CrewAI 程式碼深度分析，對應本影片提到的角色導向多智能體架構
 - [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — 單智能體 vs 多智能體的實證研究，佐證本影片第一大架構抉擇
+- [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 五層分類與 Harness 十二模組互為不同粒度的 agentic system 設計框架
 
 ---
 

@@ -147,6 +147,7 @@ LLM 本質是機率模型，存在「幻覺（hallucination）」問題——生
 - [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] — HR Jasmin 從管理面呼應本文觀點：判斷力是 AI 時代最值錢的能力
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談 IT 轉型架構師，與 Bolin 的底層理解力觀點互補
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的「理解無法外包」與 Bolin 的「底層理解力是護城河」形成完美呼應
+- [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的 Manager 心態與「管邊界不管邏輯」呼應 Bolin 的底層理解力論點
 
 ---
 

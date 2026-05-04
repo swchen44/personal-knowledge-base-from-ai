@@ -269,6 +269,7 @@ Karpathy 坦言自己正在成為系統的瓶頸——資訊仍然必須進入�
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Yegge 的「工程師 → 架構師/調度員」觀點，從組織角度回應 Karpathy 的個人角度
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy 的 CLAUDE.md 原則實測，與本演講的品味/設計論點互補
 - [[2026-03-17-KARPATHYS-AGENTHUB-A-PRACTICAL-GUIDE-TO-BUILDING-YOUR-FIRST-AI-AGENT-SWARM]] — Agent-Native 基礎設施的具體實作，回應本演講的願景
+- [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford AI 課程的五層縱軸框架，與 Karpathy 的鋸齒狀智慧和 Manager 心態互為印證
 
 ## References
 - [原始演講 — Andrej Karpathy: From Vibe Coding to Agentic Engineering (Sequoia Capital AI Ascent 2026)](https://www.youtube.com/watch?v=96jN2OCOfLs)
