@@ -249,3 +249,5 @@ gstack 推薦用 Conductor 做並行開發（作者同時跑 10–15 個任務�
 ## References
 
 - [原始影片 — 三大AI编程框架 - 做对了什么？还可以如何优化？](https://www.youtube.com/watch?v=Y9hR2M4FE4I)
+
+- [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 本文中的 Superpowers TDD 框架在此有更深入的三框架比較

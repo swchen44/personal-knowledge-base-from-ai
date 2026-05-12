@@ -359,3 +359,5 @@ SKILL.md 遵循 [Agent Skills 開放標準](https://agentskills.io)，可跨工�
 - [Extend Claude with Skills — Anthropic 官方文件](https://code.claude.com/docs/en/skills)
 - [Create Custom Subagents — Anthropic 官方文件](https://code.claude.com/docs/en/sub-agents)
 - [AGENTS.md Outperforms Skills in Agent Evals — Jude Gao, Vercel (2026-01)](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
+
+- [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 本文中的 JSack 和 Superpowers 涉及 Skill/Command 邊界，此文有完整比較

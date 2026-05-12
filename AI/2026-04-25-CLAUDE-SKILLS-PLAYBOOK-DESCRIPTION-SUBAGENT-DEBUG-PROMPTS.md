@@ -736,3 +736,5 @@ Apply in this order. After applying, optionally re-run Prompt 3 (Trigger Diagnos
 
 - [Claude Skills 實戰手冊（Patreon）](https://www.patreon.com/posts/claude-skills-ce-156487984)
 - [Skill Craftsman Toolkit（Playbook）](https://garytalksstuff.com/20260421_skill_promptset_1)
+
+- [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 本文的四組 Skill 設計與此 Playbook 的描述規則相互補充

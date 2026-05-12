@@ -310,3 +310,5 @@ Signup flow with 5 steps and unclear progress indicator.
 - [原文](https://uxplanet.org/7-rules-for-creating-an-effective-claude-code-skill-2d81f61fc7cd)
 - [Nick Babich — Claude Code: Practical Guide for Product Designers](https://babich.gumroad.com)
 - [Claude Code Skills 官方文件](https://docs.anthropic.com/en/docs/claude-code/skills)
+
+- [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 本文推薦的 Skill Creator 與 Skill 設計七規則互補
