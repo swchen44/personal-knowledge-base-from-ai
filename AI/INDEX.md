@@ -55,3 +55,4 @@
 | [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] | AI 開發者演化：Pere Villega 11 章系列完整整合（從 11 階段演化到 Hetzner 遠端部署） | 2026-04-15 |
 | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | Matt Pocock 96 分鐘 workshop：5 agent skills 全景 + 日班/夜班工作流 + 28 skills 全 repo 盤點 | 2026-04-24 |
 | [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] | /grill-me：三句話、86K stars，Matt Pocock 最爆紅的 Claude Code Skill 深度剖析 | 2026-03-23 |
+| [[2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS]] | 吳淡如 50 年寫作經驗：AI 寫文 8 大地雷（不是而是、強行昇華、有人說、吊書袋…）與人類 6 項不可取代特質（批判性思維、財商、判斷力…） | 2026-05-13 |

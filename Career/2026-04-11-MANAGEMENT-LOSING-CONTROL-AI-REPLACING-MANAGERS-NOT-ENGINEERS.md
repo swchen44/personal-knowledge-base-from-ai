@@ -109,6 +109,7 @@ AI 可以整理、分析、產出，但它不能替你做一件事：**決定你
 - [[2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH]] — 同作者 HR Jasmin，談方向比努力重要的職場策略
 - [[2025-12-12-WHY-STUCK-AT-SAME-LEVEL-COMPETENCY-THREE-MODELS]] — 同作者 HR Jasmin，外商用職能模型評估人才，與本文的「環境標準在改變」呼應
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談 AI 革命必須從老闆自身開始，與本文「AI 取代管理者」的觀點互為正反面
+- [[2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS]] — 吳淡如同樣強調「判斷力 + 批判性思維」是 AI 時代不可取代的特質，從寫作者視角呼應 HR Jasmin 的管理者觀察
 
 ---
 

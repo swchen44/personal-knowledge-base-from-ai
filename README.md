@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [為什麼你的 AI 文案這麼假？吳淡如：AI 寫文 8 大地雷與人類不可取代的 6 項特質](./AI/2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS.md) — 50 年寫作經驗拆解 AI 文案「乍看華麗、看久反胃」的原因；8 大地雷（不是而是 / 強行昇華 / 有人說 / 吊書袋 …）每條附範例與修正指令；6 項人類不可取代特質（批判性思維 / 判斷力 / 熱度 / 財商 / 自律 / 自信）；附 `ai-writing-deflake` skill
 - [Matt Pocock：AI 編碼完整工作流走查（5 Agent Skills 全景與方法論）](./AI/2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH.md) — 96 分鐘 AI Engineer workshop：grill-me / to-prd / to-issues / tdd / improve-codebase-architecture 五個 skill 串接、日班夜班分工、Tracer Bullet 垂直切片、Memento 模式、28 skills 全 repo 全景表
 - [/grill-me：三句話、86K stars，Matt Pocock 最爆紅的 Claude Code Skill](./AI/2026-03-23-GRILL-ME-SKILL-DEEP-DIVE.md) — 428 bytes 的 skill 拆解 4 句指令設計（relentlessly + design tree + recommended answer + codebase exploration）、與 rubber ducking 的差異、實戰 16–50 題 grilling 數據
 - [Claude Code Headless 模式與 Auto Memory：完整行為分析與禁用方法](./DevTools/2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE.md) — Headless（-p）模式同樣讀取 auto memory；`CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` 阻斷讀取與背景寫入但不攔截模型直接寫入；四種禁用方法完整比較
