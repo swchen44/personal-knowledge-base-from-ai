@@ -882,6 +882,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — @path 引用 Plugin cache 路徑的可行性驗證（expandPath 無限制 + includeExternal = true）
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills 的 frontmatter 控制（fork/paths/allowed-tools）與 Subagents 的選擇決策框架
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — Skill frontmatter 進階欄位（context:fork、agent、hooks）的原始碼深度解析與 FAQ
+- [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] — getMemoryFiles 與 CLAUDE.md 的共用載入路徑，及 headless 模式下的 memory 預取行為
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 五源 merge 與 CLAUDE.md memoize 的關係、Plugin 啟停如何透過 settings 控制
 - [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] — 社群 CLAUDE.md 迷思核實：壓縮後 prependUserContext 重新注入、無條件 rules 與 CLAUDE.md 注入位置相同
 

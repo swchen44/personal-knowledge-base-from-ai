@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] | Headless 模式（-p）完整讀取 auto memory；`CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` 阻斷讀取與背景寫入但不阻止模型直接寫入；四種禁用方法比較 | 2026-05-16 |
 | [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] | Plan Mode vs SuperPowers 衝突深度分析：原始碼追蹤 EnterPlanMode 攔截、Auto Mode 停用、計畫路徑不相容、社群 Issues 與最佳實踐建議 | 2026-05-03 |
 | [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] | Plugin 無法安裝 CLAUDE.md/Rules 原始碼驗證：manifest 12 component 無 rules、paths: → globs 命名混淆、#17204/#23478 已知 bug、三種替代方案（Setup Hook / @path / Skill）比較矩陣 | 2026-05-03 |
 | [[2026-04-19-CLAUDE-CODE-PLUGIN-JSON-DEPENDENCIES-SHARED-SKILLS-SOURCE-ANALYSIS]] | Plugin.json 依賴系統與共享 Skills 原始碼分析：三層驗證機制、實戰寫法（marketplace.json + plugin.json 雙宣告）、實驗結果（A→B→C 鏈）、Issue #9444 / #27113 社群附錄 | 2026-04-19 |

@@ -66,5 +66,6 @@
 | 2026-05-05 22:30 | ingest | https://youtube.com/watch?v=96jN2OCOfLs + bnext 中文報導 | [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] | AI | 8 | 6 |
 | 2026-05-05 23:30 | ingest | https://www.patreon.com/posts/157335306 | [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] | AI | 8 | 6 |
 | 2026-05-12 20:29 | ingest | https://www.youtube.com/watch?v=0BacrKhaRJI | [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] | AI | 5 | 5 |
+| 2026-05-16 00:00 | ingest | conversation — Claude Code headless mode & auto memory analysis | [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] | DevTools | 3 | 4 |
 | 2026-05-17 10:35 | ingest | YouTube `Full Walkthrough: Workflow for AI Coding — Matt Pocock` + 5-agent-skills 文章 + mattpocock/skills repo | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 8 | 7 |
 | 2026-05-17 10:35 | ingest | https://www.aihero.dev/my-grill-me-skill-has-gone-viral + grill-me SKILL.md | [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] | AI | 0 | 6 |
