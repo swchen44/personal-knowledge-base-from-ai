@@ -453,6 +453,59 @@ npx skills@latest add mattpocock/skills
 
 ---
 
+## 對比視角：另一條路線 — Garry Tan 的 Tokenmaxxing + GStack
+
+> [!important] 為什麼要對比閱讀
+> 同樣是「AI 編碼工作流方法論」，YC 總裁 Garry Tan 走的是與 Matt Pocock **截然相反**的路線。把兩者並列閱讀，可以避免被任一單一視角綁架。
+> 詳細剖析請見 [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]。
+
+### 兩條工作流的核心對照
+
+| 維度 | Matt Pocock（5 skills + 日班/夜班） | Garry Tan（Tokenmaxxing + GStack） |
+|------|-------------------------------------|-----------------------------------|
+| **角色定位** | 全職 AI 教師、`.claude/` 開源者 | YC 總裁、兼職 hacker（13 年沒寫 code） |
+| **工作流名稱** | 5 skills pipeline | GStack（Plan-Eng-Review → CEO Plan） |
+| **核心隱喻** | 日班 / 夜班分工（人退 AI 進） | 時間億萬富翁、煮沸海洋（Boil the Ocean） |
+| **Token 觀** | **Memento 模式** — 100K token 後變笨，每 session 清空、節省 system prompt | **Tokenmaxxing** — 不計成本，每天 $500 在 Token 上，用算力換完整 |
+| **Skill 哲學** | **短而精**（grill-me 只有 428 bytes） | **Fat Skills**（Markdown 就是另一種代碼，寫長寫深） |
+| **對齊機制** | `/grill-me` 強迫對話、design tree 遍歷 | CEO Plan / 10x 思考、元提示詞（meta-prompt） |
+| **拆解原則** | Vertical Slices / Tracer Bullets（嚴格） | 80–90% 測試覆蓋率（務實，100% 太冗餘） |
+| **工具偏好** | Claude Code 為主 | Claude Code 規劃 + Codex 主力編程 + Playwright QA |
+| **測試 TDD** | red-green-refactor 一個 test 對一個 impl，禁止 horizontal | 80–90% 覆蓋夠用，重點在 review 環節 |
+| **典型 demo** | Cadence 課程平台遊戲化（垂直切片漸進） | Garry's List（Posterous 第三次重構，1 人 / 5 天 / $200） |
+| **核心金句** | 「不要優化 PRD，QA 才是決勝點」 | 「物理代碼行數毫無意義，邏輯代碼密度才是」 |
+
+### 共同點（兩人都同意）
+
+雖然路線不同，但兩人在以下幾點高度一致：
+
+1. **Human in the Loop 永遠不可替代**：人類負責方向、價值判斷；AI 負責執行
+2. **AI 編碼需要嚴格流程**：不是「prompt 完等結果」，而是有結構的工作流
+3. **Markdown / Skill 是新時代的編程語言**（與 [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0|Karpathy 的 Software 3.0]] 完全同調）
+4. **個人開發者可達團隊級產出**：Matt 的 5 skills、Garry 的 GStack 都是個人實戰累積出來的
+
+### 矛盾如何調和？
+
+> [!tip] Token 觀的衝突其實可以同時擁抱
+> Matt 講的是「**單 session 內**」的 token 管理（每個 session 都 lean、別超過 100K）；
+> Garry 講的是「**整體成本投入**」的態度（不要省 API call、值得就花）。
+> **同時採用**：每個 session 用 Memento 模式維持 lean，但整體不省下開新 session、跑深度研究的成本。
+
+### 該採用哪一套？
+
+| 情境 | 推薦路線 |
+|------|---------|
+| 中等複雜度、需求模糊、要對齊深 | Matt（grill-me 起手） |
+| 個人 hacker、有預算、求速度 | Garry（CEO Plan 起手） |
+| 大型 codebase 重構 | Matt（improve-codebase-architecture） |
+| 從零打造 MVP（Posterous 式） | Garry（Tokenmaxxing） |
+| 嚴謹品質要求（醫療/金融） | Matt（嚴格 vertical TDD） |
+| 創業 demo / hackathon | Garry（80% 覆蓋夠用） |
+| 團隊協作 | Matt（HITL/AFK 標記 + DAG） |
+| 個人 side project | Garry（簡化 review） |
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **「日班 vs 夜班」是這套方法論的精華**，過去看別人講 AI agent 大多停在「給個 prompt 自動做事」這層，Matt 真正回答了「人類什麼時候該退出迴圈」這個問題：對齊 + PRD + 拆 issue 結束後就走人，剩下交給 Ralph Loop。
@@ -488,6 +541,7 @@ npx skills@latest add mattpocock/skills
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — skill 撰寫規則，可印證 Matt 的「短而精」風格
 - [[2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — 其他 AI coding framework 比較，可看 Matt 的 skills 與 Superpowers/GSD 的差異
 - [[2026-03-18-5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — 通用 skill 設計模式
+- [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — **必讀對照**：另一條路線（Tokenmaxxing + GStack），Token 觀與 skill 哲學與本文截然相反
 
 ---
 

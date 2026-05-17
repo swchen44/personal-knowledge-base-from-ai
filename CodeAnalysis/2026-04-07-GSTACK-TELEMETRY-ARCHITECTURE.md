@@ -441,6 +441,7 @@ rm -f ~/.gstack/analytics/.last-sync-time
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — Claude Code 用 OpenTelemetry + Prometheus 實現團隊級遙測監控，與 gstack 的 Supabase 方案形成對比
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — Claude Code 遙測原始碼深度分析，揭示三層架構（Standard/Beta/Perfetto）與 WeakRef Span 管理設計
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — Claude Code 的 Datadog + 1P 雙路徑遙測架構，與 gstack 的 Supabase 方案形成對比
+- [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — Garry Tan 講 GStack 的演化動機與 Conductor 任務隊列管理（48h 13 PR）
 
 ---
 

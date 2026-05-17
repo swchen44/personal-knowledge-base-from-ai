@@ -70,3 +70,5 @@
 | 2026-05-17 10:35 | ingest | YouTube `Full Walkthrough: Workflow for AI Coding — Matt Pocock` + 5-agent-skills 文章 + mattpocock/skills repo | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 8 | 7 |
 | 2026-05-17 10:35 | ingest | https://www.aihero.dev/my-grill-me-skill-has-gone-viral + grill-me SKILL.md | [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] | AI | 0 | 6 |
 | 2026-05-17 13:25 | ingest | https://www.youtube.com/watch?v=eIeqTmCM9Vo (吳淡如 EP5 + NotebookLM 逐字稿) + ai-writing-deflake skill | [[2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS]] | AI | 3 | 7 |
+| 2026-05-17 13:30 | ingest | https://www.youtube.com/watch?v=fmR91KKSEuc (最佳拍檔 — Garry Tan Lightcone 專訪濃縮版) | [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] | AI | 8 | 7 |
+| 2026-05-17 13:30 | update | 在 Matt Pocock 篇加「對比視角：Tokenmaxxing + GStack」章節（對照表 + 共同點 + 矛盾調和 + 該採用哪一套） | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |

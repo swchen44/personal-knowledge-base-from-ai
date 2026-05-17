@@ -568,6 +568,7 @@ bun run eval:select
 - [[LLM-AS-JUDGE-PATTERNS]] — LLM 評 LLM 的常見 pattern 與陷阱
 - [[AI-AGENT-KPI-FRAMEWORK]] — 從本文萃取的 KPI 表格（待寫）
 - [[EVAL-DRIVEN-DEVELOPMENT]] — 把 eval 當 TDD 的工作流
+- [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — Garry Tan 80–90% 測試覆蓋率心法的源頭專訪
 
 ---
 

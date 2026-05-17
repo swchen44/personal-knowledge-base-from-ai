@@ -656,6 +656,7 @@ ls -la ~/.claude/skills/qa/
 - [[PROMPT-AS-CODE-PHILOSOPHY]] — 把 prompt 當程式碼版本控管
 - [[OPENCLAW-ACP-PROTOCOL]] — Agent Communication Protocol
 - [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] — 另一個多代理人編排系統，同樣基於 OpenCode 生態，可比較設計哲學
+- [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — GStack 創造者 Garry Tan 親自講工作流哲學與 400× 邏輯代碼密度的依據
 
 ---
 

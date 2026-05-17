@@ -56,3 +56,4 @@
 | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | Matt Pocock 96 分鐘 workshop：5 agent skills 全景 + 日班/夜班工作流 + 28 skills 全 repo 盤點 | 2026-04-24 |
 | [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] | /grill-me：三句話、86K stars，Matt Pocock 最爆紅的 Claude Code Skill 深度剖析 | 2026-03-23 |
 | [[2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS]] | 吳淡如 50 年寫作經驗：AI 寫文 8 大地雷（不是而是、強行昇華、有人說、吊書袋…）與人類 6 項不可取代特質（批判性思維、財商、判斷力…） | 2026-05-13 |
+| [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] | Garry Tan：400× 生產力的 Tokenmaxxing + GStack（Plan-Eng-Review → CEO Plan）、Posterous 三次重構（1 人/5 天/$200）、Thin Wrappers Fat Skills、邏輯代碼密度、用 Token 買時間 | 2026-05-17 |
