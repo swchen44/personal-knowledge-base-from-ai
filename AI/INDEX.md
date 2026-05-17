@@ -6,6 +6,7 @@
 | [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] | Stanford AI 課精華：縱軸五層（Prompt→Fine-tune→RAG→Agentic→Multi-Agent）、七面之差、護欄三層篩選、Eval 三維度交叉、McKinsey 信用 Memo 案例 | 2026-05-04 |
 | [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] | Karpathy 的 Software 3.0 宣言：鬼魂心智模型、鋸齒狀智慧、Agentic Engineering 與「理解無法外包」（演講 + 中文報導結合版） | 2026-04-29 |
 | [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] | 打造高效 Claude Code Skill 的七條規則：聚焦、角色框架、迷你程式、I/O 格式、決策規則、領域知識、負面指令 | 2026-04-08 |
+| [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] | Superpowers 13 個 skill 實戰詳解（自動 vs 手動觸發、6 核心流程、verification-before-completion 機制）+ 三方對照（Matt/Garry/Jesse），194K stars 最強制流程 | 2026-04-08 |
 | [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] | Claude Code 延伸思考退化量化分析：Read:Edit 比率從 6.6 降至 2.0、停止鉤子 17 天觸發 173 次、成本暴增 122 倍 | 2026-04-02 |
 | [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] | Claude Skills 實戰手冊：三信號盤點、五類 Description 範例、Subagent 品管、四連 Prompt 工具包 | 2026-04-25 |
 | [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] | Agent Harness 十二大模組完全解析：編排迴圈到初始化、五大框架比較、七大架構抉擇 | 2026-04-24 |

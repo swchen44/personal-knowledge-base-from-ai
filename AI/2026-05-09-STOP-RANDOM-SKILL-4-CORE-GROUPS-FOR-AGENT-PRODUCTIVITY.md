@@ -191,6 +191,7 @@ links:
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 釐清 Skill / Command / Subagent 三者邊界，有助於判斷何時用 Skill
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — Matt Pocock 用 6 分類（engineering/productivity/misc/personal/in-progress/deprecated），可與本篇 4 group 框架對照
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — Garry Tan 的 Fat Skills 哲學（Markdown = 代碼）可印證本篇 skill 分類框架的「厚度」維度
+- [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — 本篇將 Superpowers 列入「工程化開發」組，這篇深入講 13 個 skill 怎麼用
 
 ---
 

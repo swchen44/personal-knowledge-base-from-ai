@@ -225,6 +225,7 @@ gstack 推薦用 Conductor 做並行開發（作者同時跑 10–15 個任務�
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — SuperPowers 與原生 Plan Mode 的架構級衝突分析，含原始碼追蹤與社群經驗
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 第四個值得加入的 AI coding framework，Matt Pocock 的 86K stars skills repo
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — Garry Tan 親自談 GStack 起源（Apple Notes 累積到 Plan-Eng-Review 三段式 → CEO Plan / Mega Plan）與 Tokenmaxxing 哲學
+- [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — Superpowers 部分的深度補強：13 skills 完整清單、verification-before-completion 機制、與 Matt/Garry 三方對照表
 
 ---
 

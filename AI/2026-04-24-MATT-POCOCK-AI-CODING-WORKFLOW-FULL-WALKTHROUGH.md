@@ -14,6 +14,8 @@ author: "Matt Pocock"
 status: notes
 links:
   - "[[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]]"
+  - "[[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]"
+  - "[[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]]"
   - "[[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]]"
   - "[[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]]"
   - "[[2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS]]"
@@ -453,56 +455,114 @@ npx skills@latest add mattpocock/skills
 
 ---
 
-## 對比視角：另一條路線 — Garry Tan 的 Tokenmaxxing + GStack
+## 對比視角：三方並列 — Matt Pocock vs Garry Tan vs Jesse Vincent
 
-> [!important] 為什麼要對比閱讀
-> 同樣是「AI 編碼工作流方法論」，YC 總裁 Garry Tan 走的是與 Matt Pocock **截然相反**的路線。把兩者並列閱讀，可以避免被任一單一視角綁架。
-> 詳細剖析請見 [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]。
+> [!important] 為什麼要三方對比閱讀
+> 同樣是「AI 編碼工作流方法論」，2026 年最有影響力的三套方案各自代表了**完全不同的設計哲學**。把三者並列閱讀，能跳出單一視角綁架。
+> - **Matt Pocock**（本文）— 5 skills + 日班/夜班分工
+> - **Garry Tan**（YC 總裁）— Tokenmaxxing + GStack 400× 生產力 → [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]
+> - **Jesse Vincent / obra**（194K stars）— Superpowers 13 個自動/手動觸發 skill → [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]]
 
-### 兩條工作流的核心對照
+### 三方核心對照
 
-| 維度 | Matt Pocock（5 skills + 日班/夜班） | Garry Tan（Tokenmaxxing + GStack） |
-|------|-------------------------------------|-----------------------------------|
-| **角色定位** | 全職 AI 教師、`.claude/` 開源者 | YC 總裁、兼職 hacker（13 年沒寫 code） |
-| **工作流名稱** | 5 skills pipeline | GStack（Plan-Eng-Review → CEO Plan） |
-| **核心隱喻** | 日班 / 夜班分工（人退 AI 進） | 時間億萬富翁、煮沸海洋（Boil the Ocean） |
-| **Token 觀** | **Memento 模式** — 100K token 後變笨，每 session 清空、節省 system prompt | **Tokenmaxxing** — 不計成本，每天 $500 在 Token 上，用算力換完整 |
-| **Skill 哲學** | **短而精**（grill-me 只有 428 bytes） | **Fat Skills**（Markdown 就是另一種代碼，寫長寫深） |
-| **對齊機制** | `/grill-me` 強迫對話、design tree 遍歷 | CEO Plan / 10x 思考、元提示詞（meta-prompt） |
-| **拆解原則** | Vertical Slices / Tracer Bullets（嚴格） | 80–90% 測試覆蓋率（務實，100% 太冗餘） |
-| **工具偏好** | Claude Code 為主 | Claude Code 規劃 + Codex 主力編程 + Playwright QA |
-| **測試 TDD** | red-green-refactor 一個 test 對一個 impl，禁止 horizontal | 80–90% 覆蓋夠用，重點在 review 環節 |
-| **典型 demo** | Cadence 課程平台遊戲化（垂直切片漸進） | Garry's List（Posterous 第三次重構，1 人 / 5 天 / $200） |
-| **核心金句** | 「不要優化 PRD，QA 才是決勝點」 | 「物理代碼行數毫無意義，邏輯代碼密度才是」 |
+| 維度 | **Matt Pocock** | **Garry Tan** | **Jesse Vincent（Superpowers）** |
+|------|----------------|--------------|----------------------------------|
+| **角色定位** | 全職 AI 教師、`.claude/` 開源者 | YC 總裁、兼職 hacker（13 年沒寫 code） | 長期 dev tools 開源開發者 |
+| **Repo Stars** | 86K | 不公開（個人） | **194K（最高）** |
+| **工作流名稱** | 5 skills pipeline | GStack（Plan-Eng-Review → CEO Plan） | Superpowers（Design→Plan→Test→Quality）|
+| **Skill 數量** | 28（含停用，每天用 5） | 23 個專家角色 | 13（6 核心 + 7 輔助） |
+| **核心隱喻** | 日班 / 夜班分工 | 時間億萬富翁、煮沸海洋 | Skills = Superpowers |
+| **觸發機制** | 主要手動 `/skill-name` | 手動斜槓 `/CEO review` 等 | **自動 + 手動雙軌**（4 自動 / 9 手動）最強制 |
+| **強制力** | 中（靠人記得 invoke） | 弱（靠自律） | **最強**（verification 阻止 AI 自我聲稱完成） |
+| **Token 觀** | **Memento 模式**（每 session 清空、節省） | **Tokenmaxxing**（不計成本、$500/天） | 未明確表態（中性） |
+| **Skill 哲學** | 短而精（grill-me 428 bytes） | Fat Skills（Markdown = 代碼） | 6 核心 + 7 輔助分層 |
+| **對齊機制** | `/grill-me` design tree 遍歷 | CEO Plan / 10x 元提示詞 | `brainstorming`（自動觸發）|
+| **計畫產物** | PRD 用 issue tracker；完成即刪 | CEO Plan 文件 + Office Hour 對話 | **強制檔案化** `docs/superpowers/specs/` + `plans/` |
+| **拆解原則** | Vertical Slices / Tracer Bullets | 80–90% 覆蓋夠用 | 計畫文件拆步驟 + sub-agent 並行 |
+| **測試 TDD** | red-green-refactor 一個對一個（禁 horizontal） | 80–90% 覆蓋夠 | **強制 TDD**（自動觸發） + verification 強制證據 |
+| **工具偏好** | 主要 Claude Code | Claude Code + Codex + Playwright | **7 個 harness 全支援**（CC/Codex/Cursor/Gemini/OpenCode/Droid/Copilot） |
+| **doc rot 立場** | 完成後刪 PRD（避免誤導未來 AI） | 不在意 | **保留 specs**（給接手人） |
+| **典型 demo** | Cadence 課程遊戲化 | Garry's List（Posterous 第三次重構，1 人/5 天/$200） | 廣告回傳功能（卡卡實戰） |
+| **核心金句** | 「不要優化 PRD，**QA 才是決勝點**」 | 「物理代碼行數毫無意義，**邏輯代碼密度**才是」 | 「Skills 不是讓 AI 變聰明，是讓 AI **變靠譜**」 |
 
-### 共同點（兩人都同意）
+### 三人共同點
 
-雖然路線不同，但兩人在以下幾點高度一致：
+雖然路線各異，三人在以下幾點高度一致：
 
 1. **Human in the Loop 永遠不可替代**：人類負責方向、價值判斷；AI 負責執行
 2. **AI 編碼需要嚴格流程**：不是「prompt 完等結果」，而是有結構的工作流
 3. **Markdown / Skill 是新時代的編程語言**（與 [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0|Karpathy 的 Software 3.0]] 完全同調）
-4. **個人開發者可達團隊級產出**：Matt 的 5 skills、Garry 的 GStack 都是個人實戰累積出來的
+4. **個人開發者可達團隊級產出**：三人都從個人實戰累積出方法論
+
+### 三人最大歧見（值得辨識）
+
+| 議題 | Matt Pocock | Garry Tan | Jesse Vincent |
+|------|------------|-----------|---------------|
+| **Token 該怎麼花？** | 節省（lean session）| **不計成本**（Boil the Ocean） | 不表態 |
+| **計畫文件保留？** | **刪除**（避免 doc rot） | 中性 | **保留**（給接手人） |
+| **觸發 skill 該強制嗎？** | 中（依賴使用者） | 弱（靠自律） | **強**（自動觸發 + verification 把關）|
+| **多 harness 支援？** | 主 Claude Code | 主 CC+Codex | **7 harness 全支援** |
+| **TDD 嚴格度？** | **嚴格 vertical** | 80–90% 覆蓋夠 | **強制**（但允許靈活）|
+
+### 設計取向地圖（哲學定位）
+
+```
+              強制 / 紀律 high
+                    │
+                    │
+                Superpowers ★   ←── 4 自動 skill + verification
+                    │           不准 AI 自我聲稱完成
+                    │
+                    │
+    Matt Pocock ●   │   ● GStack
+                    │
+                    │
+              鬆散 / 自由 high
+        ←───────────────────────►
+       人類驅動                AI 驅動
+       （/grill-me             （AI AFK + CEO Plan
+        每步等對齊）            一次 review 多步）
+```
 
 ### 矛盾如何調和？
 
-> [!tip] Token 觀的衝突其實可以同時擁抱
-> Matt 講的是「**單 session 內**」的 token 管理（每個 session 都 lean、別超過 100K）；
-> Garry 講的是「**整體成本投入**」的態度（不要省 API call、值得就花）。
-> **同時採用**：每個 session 用 Memento 模式維持 lean，但整體不省下開新 session、跑深度研究的成本。
+> [!tip] 三者可以同時使用（且互相強化）
+>
+> **Token 觀**：Matt 講的是「**單 session 內**」要 lean（每 session 清空、不超過 100K）；Garry 講的是「**整體成本投入**」不要省。**同時採用**：每個 session 維持 lean，但整體不省下開新 session 跑深度研究的成本。
+>
+> **計畫文件**：Matt 反對 doc rot、Jesse 力推保留。**折衷**：把 specs/plans 標註 status（active / archived），完成的 archived 用 LLM 主動 ignore（folder 加 `.aiignore` 之類）。
+>
+> **強制度**：Superpowers 的 verification 機制最強，可作為「最後一關」普遍套用；中間階段選 Matt 的精緻 grill-me 或 Garry 的快速 CEO Plan。
 
-### 該採用哪一套？
+### 該採用哪一套？（升級版三方推薦）
 
-| 情境 | 推薦路線 |
-|------|---------|
-| 中等複雜度、需求模糊、要對齊深 | Matt（grill-me 起手） |
-| 個人 hacker、有預算、求速度 | Garry（CEO Plan 起手） |
-| 大型 codebase 重構 | Matt（improve-codebase-architecture） |
-| 從零打造 MVP（Posterous 式） | Garry（Tokenmaxxing） |
-| 嚴謹品質要求（醫療/金融） | Matt（嚴格 vertical TDD） |
-| 創業 demo / hackathon | Garry（80% 覆蓋夠用） |
-| 團隊協作 | Matt（HITL/AFK 標記 + DAG） |
-| 個人 side project | Garry（簡化 review） |
+| 情境 | 推薦 |
+|------|------|
+| **新手 / 想最少思考就上手** | **Superpowers**（4 自動 skill 把關，AI 沒法偷懶）|
+| **中等複雜度、需求模糊、要對齊深** | Matt（grill-me 起手深度問答）|
+| **個人 hacker、有預算、求速度** | Garry（CEO Plan + Tokenmaxxing）|
+| **大型 codebase 重構** | Matt（improve-codebase-architecture）|
+| **從零打造 MVP** | Garry（Tokenmaxxing 全速）|
+| **嚴謹品質要求（醫療/金融）** | Matt TDD + **Superpowers verification 雙保險** |
+| **創業 demo / hackathon** | Garry（80% 覆蓋夠用）|
+| **團隊協作 / 多 harness 混用** | **Superpowers**（7 harness 全支援 + 強制流程）|
+| **教學 / 訓練新人 AI workflow** | **Superpowers**（文件最齊全、流程最清晰）|
+| **個人 side project** | Garry（簡化 review）或 **Superpowers**（更穩）|
+
+### 終極建議：可以全部裝、按情境切換
+
+```
+日常 baseline：Superpowers（自動把關）
+  │
+  ├─ 需求很模糊 ────► 切 Matt grill-me 做深度對齊
+  │
+  ├─ 趕 demo / hackathon ──► 切 Garry CEO Plan 全速
+  │
+  ├─ 大型重構 ──────► Matt /improve-codebase-architecture
+  │
+  └─ 最後一關 ──────► Superpowers verification-before-completion
+                      （永遠用這個把關，最強制）
+```
 
 ---
 
@@ -541,7 +601,8 @@ npx skills@latest add mattpocock/skills
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — skill 撰寫規則，可印證 Matt 的「短而精」風格
 - [[2026-03-25-THREE-AI-CODING-FRAMEWORKS-SUPERPOWERS-GSD-GSTACK]] — 其他 AI coding framework 比較，可看 Matt 的 skills 與 Superpowers/GSD 的差異
 - [[2026-03-18-5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — 通用 skill 設計模式
-- [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — **必讀對照**：另一條路線（Tokenmaxxing + GStack），Token 觀與 skill 哲學與本文截然相反
+- [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — **三方對照 #2**：另一條路線（Tokenmaxxing + GStack），Token 觀與 skill 哲學與本文截然相反
+- [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — **三方對照 #3**：最強制 + 多 harness 的 Superpowers（194K stars），自動觸發 + verification-before-completion 機制最值得借鏡
 
 ---
 

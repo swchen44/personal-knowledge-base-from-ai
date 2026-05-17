@@ -375,6 +375,7 @@ if (restoreMode === 'auto' && !isAutoModeGateEnabled()) {
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 原始碼分析基礎
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hook API 分析，Plan Mode 未來可能的整合接口
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 最佳實踐，含 Skills 按需載入比較
+- [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — Superpowers 完整 13 skill 走查可幫助理解為何與 Plan Mode 衝突（自動觸發機制與 Plan Mode 攔截機制競爭）
 
 ## References
 

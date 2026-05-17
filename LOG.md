@@ -73,3 +73,5 @@
 | 2026-05-17 13:30 | ingest | https://www.youtube.com/watch?v=fmR91KKSEuc (最佳拍檔 — Garry Tan Lightcone 專訪濃縮版) | [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] | AI | 8 | 7 |
 | 2026-05-17 13:30 | update | 在 Matt Pocock 篇加「對比視角：Tokenmaxxing + GStack」章節（對照表 + 共同點 + 矛盾調和 + 該採用哪一套） | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |
 | 2026-05-17 13:50 | fix | typo 修正：JSack → GStack（9 處正文 + INDEX 摘要 + README Recent Notes） | [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] | AI | 0 | 0 |
+| 2026-05-17 16:15 | ingest | https://juejin.cn/post/7625943321220005903 (掘金/卡卡) + https://github.com/obra/superpowers (194K stars) | [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] | AI | 6 | 7 |
+| 2026-05-17 16:15 | update | 升級 Matt Pocock 篇「對比視角」為三方（Matt/Garry/Jesse），新增三方核心對照表、最大歧見表、設計取向地圖、終極建議切換流程 | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |
