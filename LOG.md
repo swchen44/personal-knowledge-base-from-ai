@@ -72,3 +72,4 @@
 | 2026-05-17 13:25 | ingest | https://www.youtube.com/watch?v=eIeqTmCM9Vo (吳淡如 EP5 + NotebookLM 逐字稿) + ai-writing-deflake skill | [[2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS]] | AI | 3 | 7 |
 | 2026-05-17 13:30 | ingest | https://www.youtube.com/watch?v=fmR91KKSEuc (最佳拍檔 — Garry Tan Lightcone 專訪濃縮版) | [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] | AI | 8 | 7 |
 | 2026-05-17 13:30 | update | 在 Matt Pocock 篇加「對比視角：Tokenmaxxing + GStack」章節（對照表 + 共同點 + 矛盾調和 + 該採用哪一套） | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |
+| 2026-05-17 13:50 | fix | typo 修正：JSack → GStack（9 處正文 + INDEX 摘要 + README Recent Notes） | [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] | AI | 0 | 0 |
