@@ -276,6 +276,7 @@ Signup flow with 5 steps and unclear progress indicator.
 - [[2026-04-17-CLAUDE-CODE-SKILL-COMPLETE-GUIDE-LOADING-COMPACTION-WRITING-TIPS]] — Skill 載入/壓縮機制的原始碼研究，驗證本文「Token 效率」建議的技術基礎
 - [[2026-03-07-CLAUDE-SKILLS-2.0-THE-SELF-IMPROVING-AI-CAPABILITIES-THAT-ACTUALLY-WORK]] — Skill 2.0 的自我改進機制，可與本文的靜態 Skill 設計方法對比
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 實戰手冊，與本文的規則導向方法形成互補
+- [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — grill-me 用 4 句話印證「短而精」是 effective skill 的關鍵
 
 ---
 

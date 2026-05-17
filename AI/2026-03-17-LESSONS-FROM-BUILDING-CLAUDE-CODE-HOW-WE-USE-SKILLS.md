@@ -317,6 +317,7 @@ Skills 是 AI 智能體（AI Agent）極其強大且靈活的工具，但這一�
 - [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]] — Claude Code 創始人的 Hooks、Git Worktrees、/batch 實用技巧，與本文 skill 設計互為上下游
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy CLAUDE.md 可透過 Skills 目錄全域安裝，本文的 Skills 設計直接適用
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 完整生命週期手冊，Description 三規則與本文的 Anthropic 團隊經驗互為印證
+- [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — Anthropic 官方 skill 設計觀點 vs Matt Pocock 個人實戰風格的對照
 
 ## References
 

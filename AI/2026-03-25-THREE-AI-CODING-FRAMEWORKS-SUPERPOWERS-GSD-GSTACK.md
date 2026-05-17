@@ -223,6 +223,7 @@ gstack 推薦用 Conductor 做並行開發（作者同時跑 10–15 個任務�
 - [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — gstack prompt-as-code 設計哲學的程式碼分析
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — gstack telemetry 子系統的程式碼分析
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — SuperPowers 與原生 Plan Mode 的架構級衝突分析，含原始碼追蹤與社群經驗
+- [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 第四個值得加入的 AI coding framework，Matt Pocock 的 86K stars skills repo
 
 ---
 

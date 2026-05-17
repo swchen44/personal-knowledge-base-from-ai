@@ -303,6 +303,7 @@ ADK 的 `SkillToolset` 和漸進式揭露（progressive disclosure）機制，�
 - [[CLAUDE-CODE-SKILLS]] — Claude Code 中 skill 的實際應用案例
 - [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] — npx skills CLI 深度分析，展示 Rust CLI 與 npx skills 的雙軌 skill 載入架構
 - [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — 薄路由厚能力的三層式架構，將本文的 5 種設計模式放入組織級 Agent/Skill/Standard 框架
+- [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — Matt Pocock 的 5 skills 是 design pattern 在 Claude Code skill 上的活範例
 
 ## References
 

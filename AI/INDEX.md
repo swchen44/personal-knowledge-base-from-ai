@@ -53,3 +53,5 @@
 | [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] | Claude 額度瞬間爆掉？快取失效、尖峰時段與環境膨脹的三個雷與解法 | 2026-04-18 |
 | [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] | 撰寫好的 CLAUDE.md：HumanLayer 的指令預算理論、均勻衰減、漸進式揭露與邊緣偏差 | 2026-04-19 |
 | [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] | AI 開發者演化：Pere Villega 11 章系列完整整合（從 11 階段演化到 Hetzner 遠端部署） | 2026-04-15 |
+| [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | Matt Pocock 96 分鐘 workshop：5 agent skills 全景 + 日班/夜班工作流 + 28 skills 全 repo 盤點 | 2026-04-24 |
+| [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] | /grill-me：三句話、86K stars，Matt Pocock 最爆紅的 Claude Code Skill 深度剖析 | 2026-03-23 |

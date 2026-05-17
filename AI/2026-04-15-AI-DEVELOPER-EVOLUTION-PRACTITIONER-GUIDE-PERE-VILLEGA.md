@@ -1693,6 +1693,7 @@ METR 的研究揭示了一個違反直覺的發現：有經驗的開發者使用
 - [Paul Ford: I Paid $150](https://www.ftrain.com/) — 週末 150 美元建出過去需要幾個月的東西
 - [[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]] — 額度管理實戰指南，從使用者面補充第 9 章的 context 經濟學
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 五層縱軸框架從另一個角度描述 Traditional → Agentic 的開發者演化
+- [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — Matt Pocock 的 5 skills 是 Pere Villega 提到的「Tracer Bullet / 垂直切片」實踐版本
 
 ---
 

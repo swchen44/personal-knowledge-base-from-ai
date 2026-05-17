@@ -140,6 +140,7 @@ gemini extensions install https://github.com/obra/superpowers
 - [[CLAUDE-CODE-HOOKS]] — 底層機制：Superpowers 技能的自動觸發依賴 hooks 系統；了解 hooks 才能深入自訂技能行為
 - [[AI-AGENT-MEMORY]] — 更廣泛的代理人記憶架構研究；Superpowers 用技能文件做為「記憶」的外化形式
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — Plan Mode vs SuperPowers 衝突深度分析：EnterPlanMode 攔截機制、Auto Mode 停用、計畫檔案路徑不相容
+- [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 另一個 TDD-first 的 AI coding 工作流，與 Matt Pocock 的 /tdd skill 對照
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

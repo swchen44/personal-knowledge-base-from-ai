@@ -2,6 +2,8 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Matt Pocock：AI 編碼完整工作流走查（5 Agent Skills 全景與方法論）](./AI/2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH.md) — 96 分鐘 AI Engineer workshop：grill-me / to-prd / to-issues / tdd / improve-codebase-architecture 五個 skill 串接、日班夜班分工、Tracer Bullet 垂直切片、Memento 模式、28 skills 全 repo 全景表
+- [/grill-me：三句話、86K stars，Matt Pocock 最爆紅的 Claude Code Skill](./AI/2026-03-23-GRILL-ME-SKILL-DEEP-DIVE.md) — 428 bytes 的 skill 拆解 4 句指令設計（relentlessly + design tree + recommended answer + codebase exploration）、與 rubber ducking 的差異、實戰 16–50 題 grilling 數據
 - [別再亂裝 Skill！四組頂級 Agent Skill 才是生產力上限](./AI/2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY.md) — 四組平台無關 Skill：原能力（Skill Creator + f skills）、工程化（Superpowers + JSack）、前端設計（frontend design + UX Pro Max）、內容創作（寶玉老師組）
 - [Stanford 兩小時 AI 課精華版 — Augmenting LLMs 五層縱軸 + AI Builder 工具包](./AI/2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT.md) — 縱軸五層（Prompt→Fine-tune→RAG→Agentic→Multi-Agent）、七面之差、護欄三層篩選、Eval 三維度交叉、McKinsey 信用 Memo 案例
 - [從 Vibe Coding 到 Agentic Engineering — Karpathy 的 Software 3.0 宣言、鬼魂心智模型與新時代人才分界線](./AI/2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0.md) — 結合原始演講逐字稿與數位時代中文轉譯，涵蓋 Software 3.0、鋸齒狀智慧、可驗證性、Agent-Native 基建願景與「理解無法外包」

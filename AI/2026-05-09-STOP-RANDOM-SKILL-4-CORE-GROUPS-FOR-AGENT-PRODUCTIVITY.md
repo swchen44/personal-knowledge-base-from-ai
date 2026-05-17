@@ -189,6 +189,7 @@ links:
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Skill 設計規則，與 Skill Creator 的使用方法互補
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — Skill 評估框架，可用來驗證本文推薦的 Skill 是否適合自己場景
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 釐清 Skill / Command / Subagent 三者邊界，有助於判斷何時用 Skill
+- [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — Matt Pocock 用 6 分類（engineering/productivity/misc/personal/in-progress/deprecated），可與本篇 4 group 框架對照
 
 ---
 
