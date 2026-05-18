@@ -277,6 +277,7 @@ Garry Tan 認為我們正處於 AI 時代的 **Homebrew Computer Club** 階段�
 - [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 另一個 skill 分類框架，可與 GStack 對照
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — Matt Pocock 的「對齊優先」與 Garry Tan 的「CEO Plan 元提示」可對照
 - [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — 三方對照之三：Superpowers（最強制 + 多 harness），與本篇 GStack 的設計哲學對照
+- [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — GStack 的 CEO Plan 是另一種「替代 Plan Mode」的方式，可與本研究的 grill-me 三模式對照
 
 ---
 

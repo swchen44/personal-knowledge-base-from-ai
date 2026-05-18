@@ -432,6 +432,7 @@ copilot plugin install superpowers
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Superpowers 13 skill 都遵循這些規則，可印證「短而精」原則
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — `brainstorming` 與 grill-me 解決同個問題（深度對齊）但實作風格不同
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Software 3.0 願景的具體實踐之一
+- [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — Superpowers brainstorming vs Matt Pocock grill-me 對照：機制衝突 vs 概念競爭
 
 ---
 

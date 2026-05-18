@@ -376,6 +376,7 @@ if (restoreMode === 'auto' && !isAutoModeGateEnabled()) {
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hook API 分析，Plan Mode 未來可能的整合接口
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 最佳實踐，含 Skills 按需載入比較
 - [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — Superpowers 完整 13 skill 走查可幫助理解為何與 Plan Mode 衝突（自動觸發機制與 Plan Mode 攔截機制競爭）
+- [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — 本篇的姊妹研究：分析 Matt Pocock grill-me 與 Plan Mode 為何**不衝突**（對照本篇 Superpowers 的 5 個機制衝突），含三種共存模式 A/B/C
 
 ## References
 

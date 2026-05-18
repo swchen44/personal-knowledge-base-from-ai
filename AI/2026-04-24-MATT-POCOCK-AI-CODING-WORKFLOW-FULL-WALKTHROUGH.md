@@ -603,6 +603,7 @@ npx skills@latest add mattpocock/skills
 - [[2026-03-18-5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — 通用 skill 設計模式
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — **三方對照 #2**：另一條路線（Tokenmaxxing + GStack），Token 觀與 skill 哲學與本文截然相反
 - [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — **三方對照 #3**：最強制 + 多 harness 的 Superpowers（194K stars），自動觸發 + verification-before-completion 機制最值得借鏡
+- [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — grill-me 與 Plan Mode 共存研究：補充本工作流中「grill-me 不攔截 EnterPlanMode」的關鍵差異與 3 種使用模式
 
 ---
 

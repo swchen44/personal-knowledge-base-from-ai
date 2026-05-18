@@ -75,3 +75,5 @@
 | 2026-05-17 13:50 | fix | typo 修正：JSack → GStack（9 處正文 + INDEX 摘要 + README Recent Notes） | [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] | AI | 0 | 0 |
 | 2026-05-17 16:15 | ingest | https://juejin.cn/post/7625943321220005903 (掘金/卡卡) + https://github.com/obra/superpowers (194K stars) | [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] | AI | 6 | 7 |
 | 2026-05-17 16:15 | update | 升級 Matt Pocock 篇「對比視角」為三方（Matt/Garry/Jesse），新增三方核心對照表、最大歧見表、設計取向地圖、終極建議切換流程 | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |
+| 2026-05-18 09:10 | ingest | conversation research: grill-me + Plan Mode 衝突 / 共存外部討論盤點（WebSearch + rcanand + Issue #1260 + Superpowers v4.3.0 blog） | [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] | AI | 8 | 7 |
+| 2026-05-18 11:00 | ingest | 本地 code research: gbrain + gbrain-evals 方法論深度分析 + Jarvis Integration Test 對照 backlog | [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] | CodeAnalysis | 8 | 7 |

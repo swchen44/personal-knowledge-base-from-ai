@@ -142,6 +142,7 @@ gemini extensions install https://github.com/obra/superpowers
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — Plan Mode vs SuperPowers 衝突深度分析：EnterPlanMode 攔截機制、Auto Mode 停用、計畫檔案路徑不相容
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 另一個 TDD-first 的 AI coding 工作流，與 Matt Pocock 的 /tdd skill 對照
 - [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — Superpowers 13 個 skill 的實戰詳解版（自動 vs 手動觸發、6 核心流程、三方對照），補充本筆記的概念性介紹
+- [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — grill-me 結構性對照：為何 brainstorming 與 Plan Mode 機制衝突，grill-me 卻沒有
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
