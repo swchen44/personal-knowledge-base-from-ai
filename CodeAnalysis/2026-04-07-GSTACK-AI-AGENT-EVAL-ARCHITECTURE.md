@@ -571,6 +571,7 @@ bun run eval:select
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — Garry Tan 80–90% 測試覆蓋率心法的源頭專訪
 
 ---
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain-evals 是另一套成熟的 agent eval 方法論，含 12 節 spec-first 報告模板與多 adapter 對照組設計
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

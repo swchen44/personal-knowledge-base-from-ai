@@ -659,6 +659,7 @@ ls -la ~/.claude/skills/qa/
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — GStack 創造者 Garry Tan 親自講工作流哲學與 400× 邏輯代碼密度的依據
 
 ---
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain docs/ethos/THIN_HARNESS_FAT_SKILLS 與 gstack 同源設計哲學；對 eval 方法論的影響在本筆記第 4.4 節展開
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

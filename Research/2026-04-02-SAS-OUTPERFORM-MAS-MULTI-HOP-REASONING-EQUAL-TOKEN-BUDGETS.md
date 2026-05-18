@@ -162,6 +162,7 @@ Stanford 的 Dat Tran 與 Douwe Kiela 提出一個挑戰 Multi-Agent 敘事的�
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的「能 Simple 就 Simple」Multi-Agent 原則，與本研究結論一致
 
 ---
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain-evals 的「multi-adapter 對照組 + per-question-type breakdown」是另一種 agent 比較方法論，與本論文的 SAS vs MAS 對照可互補閱讀
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

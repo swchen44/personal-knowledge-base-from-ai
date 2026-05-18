@@ -292,6 +292,7 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 - [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] — 另一個記憶外掛 claude-mem 的深度分析，使用 Agent SDK 壓縮而非 Markdown 儲存
 
 ---
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain 是給外部 agent 平台用的長期記憶層；與 Claude Code 原生記憶系統的 brain-ops READ-ENRICH-WRITE 迴圈做設計哲學對照
 
 ## References
 

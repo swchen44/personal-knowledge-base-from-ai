@@ -710,3 +710,7 @@ echo "0 3 * * * cd /workspace-shared && repo sync -j8" | crontab -
 - **證據**：LanceDB 的「語意搜尋」（「上次 wifi coredump 的修法是什麼？」）被列為 Git 記憶系統做不到的新能力——但目前 Phase 1 的目標是完成基本連通，LanceDB 的向量索引在韌體工程師的實際查詢場景中是否有足夠的召回率（recall）？是否有對工程 log 和程式碼摘要的向量化效果的實驗數據？
 - **觀點**：框架選擇了「每個 Expert 是 OpenClaw 的一個獨立 Agent」的設計——另一種可能是「單一 Agent 搭配豐富的 skills」（更接近現在的 Claude Code + connsys-jarvis 設計）。在什麼條件下，「多 Agent 隔離」比「單 Agent 豐富技能」更優？記憶隔離的邊界如何在韌體工程師的日常工作中實際體現？
 - **後果**：OpenClaw daemon 常駐在開發機上，開放 Slack/Teams 頻道接收任何已授權帳號的指令——若一個合法帳號（如工程師的手機）被社交工程攻擊（如偽造的「請幫我 push 這個緊急修復」訊息），Expert 執行惡意任務的最壞情境是什麼？soul.md 的禁止規則和 skill 的 must-never 約束在這個情境下是否足夠作為安全防線？
+
+## 相關連結（Related）
+
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain-evals 的 sealed qrels / multi-adapter / structured judge evidence / NDJSON resume 等設計可借鏡到 Jarvis Integration Test，含三步走實施 backlog

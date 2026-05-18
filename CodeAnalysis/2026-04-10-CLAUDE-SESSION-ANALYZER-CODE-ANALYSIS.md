@@ -837,6 +837,7 @@ mv analyze-sessions.md ~/.claude/commands/
 - [[JSONL-Log-Analysis]] — JSONL 格式日誌分析的通用技術
 
 ---
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — Jarvis L7 KPI 用的 framework-session-analyzer-tool 可能與本工具同源；gbrain 評估方法論研究中標註為「最值得 gbrain 反向借鏡」的 Jarvis 獨有設計
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

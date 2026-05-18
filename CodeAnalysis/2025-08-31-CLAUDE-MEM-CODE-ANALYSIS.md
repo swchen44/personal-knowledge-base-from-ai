@@ -328,6 +328,7 @@ open http://localhost:37777
 - [[CLAUDE-CODE-SETUP]] — Claude Code 安裝設定（含此插件的安裝步驟）
 - [[PERSONAL-KNOWLEDGE-BASE]] — 個人知識庫建立，claude-mem 的記憶與知識庫的差異與互補
 - [[2026-04-24-CLAUDE-MEM-V12-PERSISTENT-MEMORY-PLUGIN-DEEP-DIVE]] — 同一 repo v12.3.9 版本的最新深度分析，含完整架構圖與安裝流程追蹤
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain 與 claude-mem 同為 persistent memory 但設計取向不同：gbrain 走 PGLite + 知識圖層 + multi-adapter eval，claude-mem 走 6 hooks + Agent SDK 壓縮
 
 ## References
 

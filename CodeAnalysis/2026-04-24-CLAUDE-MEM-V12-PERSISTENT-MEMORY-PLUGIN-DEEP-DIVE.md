@@ -606,6 +606,7 @@ open http://127.0.0.1:37777
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — Claude Code 記憶系統整體架構
 - [[2026-04-08-CLAUDE-CODE-TEAM-MEMORY-DEEP-DIVE]] — 團隊記憶深度分析
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — Claude Code hooks 系統分析，claude-mem 的基礎設施
+- [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain 是另一套 persistent memory 系統，採 MCP server + hybrid search + auto knowledge graph 路線；與 claude-mem 的 hook-driven 路線是兩種不同哲學
 
 ## References
 - [GitHub Repo](https://github.com/thedotmack/claude-mem)
