@@ -455,6 +455,135 @@ npx skills@latest add mattpocock/skills
 
 ---
 
+## 進階：Issue Tracker 支援與「寫檔」擴充機制
+
+> [!important] 補充研究（2026-05-18 加入）
+> 釐清三個常見疑問：(1) grill-me 結果如何寫到 issue tracker？(2) 支援哪些 tracker？(3) 如何擴充新 tracker，能不能直接請 AI 寫檔？
+
+### 釐清：grill-me 本身**不寫檔**
+
+`/grill-me` 是 4 句指令的**純對話** skill，**不碰任何 tracker 也不寫任何檔案**：
+
+```markdown
+Interview me relentlessly about every aspect of this plan until we reach a shared understanding.
+Walk down each branch of the design tree, resolving dependencies between decisions one-by-one.
+For each question, provide your recommended answer.
+Ask the questions one at a time.
+If a question can be answered by exploring the codebase, explore the codebase instead.
+```
+
+「寫到 tracker」是後續兩個 skill 的工作：
+- **`/to-prd`** — 從 grilling 對話合成 PRD，**透過 CLI 發到 tracker**
+- **`/to-issues`** — 把 PRD 拆成 vertical-slice issues，**逐個發到 tracker**
+
+→ 詳見 [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH|grill-me 與 Plan Mode 共存研究]]。
+
+### 支援的 4 種 Issue Tracker
+
+來源：[setup-matt-pocock-skills/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md) + [Matt Pocock 推文](https://x.com/mattpocockuk/status/2049155323047407869)。
+
+| Tracker | 機制 | 適用 |
+|---------|------|------|
+| **GitHub**（預設） | `gh issue create --title ... --body ...` CLI | 有 GitHub remote 的 repo |
+| **GitLab** | [`glab issue create ...`](https://gitlab.com/gitlab-org/cli) CLI | gitlab.com 或自簽 GitLab |
+| **Local markdown** | 寫到 `.scratch/<feature>/<NN>-<slug>.md` 檔案 | 個人 side project、沒有 remote、不想 cloud sync |
+| **Other**（Jira / Linear / 任何系統） | 使用者用一段話描述工作流，存為 freeform prose | 任何外部系統 |
+
+**預設規則**：`setup-matt-pocock-skills` 會先檢查 `git remote -v`——指向 GitHub 就推薦 GitHub、指向 GitLab 就推薦 GitLab，其他就讓使用者選。
+
+### 解耦關鍵：三個中介設定檔
+
+`setup-matt-pocock-skills` 的產出**不是寫死在 skill 代碼裡**，而是三個 markdown 設定檔：
+
+```
+docs/agents/
+├── issue-tracker.md   ← 告訴其他 skill 怎麼跟 tracker 互動（gh/glab/檔案/自訂）
+├── triage-labels.md   ← 5 個 canonical roles 對應到實際 label 字串
+└── domain.md          ← CONTEXT.md / ADRs 的位置
+```
+
+外加在 `CLAUDE.md` 或 `AGENTS.md` 寫入 `## Agent skills` 區塊指向這三個檔案。
+
+每個 tracker 對應一個 seed template：
+- `issue-tracker-github.md`
+- `issue-tracker-gitlab.md`
+- `issue-tracker-local.md`
+- （Other 從零寫）
+
+**`/to-prd`、`/to-issues`、`/triage` 等 skill 都讀 `docs/agents/issue-tracker.md`**，因此**換 tracker 不需改 skill 本身**——這是非常乾淨的解耦設計。
+
+### 如何擴充支援新的 Issue Tracker
+
+#### 方法 A：用「Other」選項（**零代碼擴充**，推薦）
+
+```
+跑 /setup-matt-pocock-skills
+└─ Section A 選 "Other"
+   └─ 用一段話描述你的 tracker 工作流，例如：
+      「我們用 Linear，所有 issue 都丟到 ENG team；
+       CLI 是 `linear-cli create-issue --team ENG --title ... --body ...`；
+       狀態 label 用 Triage / In Review / Ready / Done / Cancelled」
+   └─ setup 把這段話原樣存到 docs/agents/issue-tracker.md
+   └─ 之後 /to-prd / /to-issues 讀這份文件，照你描述呼叫對應 CLI
+```
+
+- ✅ **完全不改 skill 代碼、不需 fork**
+- ⚠️ 每個 repo 都要重描述一次（除非做成個人 dotfile 模板）
+
+#### 方法 B：在 mattpocock/skills fork 加新 seed template（**永久內建**）
+
+想讓「Linear」變成預設選項：
+1. 在 `skills/engineering/setup-matt-pocock-skills/` 新增 `issue-tracker-linear.md`，內含 Linear CLI 用法、API 規範、典型呼叫範例
+2. 修改 `setup-matt-pocock-skills/SKILL.md`：
+   - Section A 選項列表加入 `Linear`
+   - Step 4「Write」加入 Linear 的處理分支
+3. （選）送 PR 給上游 mattpocock/skills
+
+- ✅ 之後所有 repo 都能直接選 Linear
+- ⚠️ 要 fork、要維護
+
+#### 方法 C：自寫 skill 取代 /to-prd / /to-issues
+
+想完全自訂行為（如直接呼叫公司內部 API 而非 CLI）：完全跳過 to-prd / to-issues，自寫 `/my-to-issues` skill 執行你想要的寫檔/送 API 邏輯。grill-me 仍然能用（它不依賴 to-prd / to-issues）。
+
+### 「請他做寫檔也是可以的嗎」— Yes，三條路徑
+
+對「能不能讓 AI 在 grill-me 對話完後直接寫檔」這個問題，答案是 **完全可以**：
+
+| 路徑 | 做法 | 適用 |
+|-----|------|------|
+| **A. 走完整 Matt Pocock 流程** | `/grill-me` → `/to-prd` → `/to-issues`（透過 `gh`/`glab` 寫 tracker） | 團隊協作、有 issue tracker 制度 |
+| **B. 對話完直接請 AI 寫純 markdown**（**最輕量**） | 對話對齊完直接說：「把剛剛的對齊結果寫成 `./design-notes/x.md`」——不需要 to-prd / to-issues / setup 任何 skill | 個人筆記、side project、寫文章 |
+| **C. 選 Local markdown tracker** | setup 時選 Local markdown，所有 issue 都變成 `.scratch/<feature>/` 下的檔案 | 想要 to-prd / to-issues 的結構但不想 cloud sync |
+
+**最簡單的就是路徑 B**——grill-me 是純對話 skill，後面要怎麼處理產出 100% 你決定。不一定要進整套 Matt Pocock 工作流。
+
+### Quick reference：完整時序
+
+```
+[使用者]
+   │
+   ▼
+/setup-matt-pocock-skills    ← 一次性 setup（產 docs/agents/*.md）
+   │
+   ▼ （之後每個 feature 都跑這個流程）
+/grill-me <brief>            ← 純對話對齊（不寫檔、不碰 tracker）
+   │
+   ▼
+/to-prd                      ← 合成 PRD → 讀 docs/agents/issue-tracker.md
+   │                            → 呼叫對應 CLI 或寫 .scratch/
+   ▼
+/to-issues                   ← 拆 vertical slices → 同樣方式寫到 tracker
+   │                            （Publish in dependency order 才能引用真實 issue ID）
+   ▼
+[實作 issues]
+```
+
+> [!tip] 對個人 KB 工作流的最佳化
+> 個人 ingestion / 寫作場景**不需要跑完整流程**。`/grill-me` 對齊後直接走**路徑 B**（請 AI 寫純 markdown）即可。to-prd / to-issues 是設計給「團隊協作 + issue tracker 制度」用的，個人單機沒必要。
+
+---
+
 ## 對比視角：三方並列 — Matt Pocock vs Garry Tan vs Jesse Vincent
 
 > [!important] 為什麼要三方對比閱讀
