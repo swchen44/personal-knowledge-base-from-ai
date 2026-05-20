@@ -82,7 +82,7 @@ links:
 | 2 | **TUI 渲染** | ratatui（Rust，編譯型，零 GC） | ink + React（Node.js，runtime 渲染） |
 | 3 | **LLM Provider 抽象** | `model-provider` crate 統一介面；支援 ChatGPT API、Ollama、LM Studio、AWS Bedrock | Anthropic 自家為主；近期才補上 OpenAI 等第三方支援（Claude Agent SDK / 環境變數切換） |
 | 4 | **Auth 機制** | Device Code OAuth + PKCE → `~/.codex/login.toml`；或 API key | API key（ANTHROPIC_API_KEY）/ OAuth 登入 Claude Pro/Max 帳號 |
-| 5 | **Session 儲存** | `~/.codex/sessions/`（rollout）；`--ephemeral` 可關閉 | `~/.claude/projects/{cwd-hash}/{session-id}.jsonl`，預設持久化 |
+| 5 | **Session 儲存** | `~/.codex/sessions/rollout-{ISO8601}-{UUID}.jsonl` + `history.jsonl`（全域）+ `session_index.jsonl` + SQLite sidecar；**主檔為 JSONL**；`--ephemeral` 可關閉 | `~/.claude/projects/{cwd-hash}/{session-id}.jsonl`，**也是 JSONL**，預設持久化 |
 | 6 | **Tool / Function call 系統** | `tools` crate（4k LoC）+ `core-skills` + 內建 shell/file/web 工具 + dynamic_tool + mcp_tool | 內建 Bash/Read/Write/Edit/Glob/Grep/Task/WebFetch/WebSearch + Skill + Subagent + MCP tool |
 | 7 | **Sandbox / 權限模型** | ★★ Starlark 規則引擎 `execpolicy` + **OS 原生沙盒**（macOS Seatbelt / Linux Bubblewrap+Landlock / Windows RestrictedToken）；3 mode：`read-only` / `workspace-write` / `danger-full-access` | ★ settings.json 中 allow/deny 規則 + 對話式 approval 提示；無 OS 級沙盒；採用 IPC 進程隔離 |
 | 8 | **MCP 整合** | 原生 client + **可當 server**（`codex mcp-server`）；雙向 | client 為主，近期 Plugin marketplace 整合 MCP；可透過 MCP server 暴露但較不顯眼 |
@@ -153,14 +153,41 @@ links:
 
 ### 5️⃣ Session / 對話歷史儲存
 
-**Codex** — `~/.codex/sessions/` 儲存 rollout（涵蓋 `codex-rs/rollout/`、`rollout-trace/`、`thread-store/`、`message-history/` 多個 crate）。`codex exec --ephemeral` 可關閉持久化。`memories` crate 處理跨 session 記憶（在 `workspace-write` mode 自動加入 writable roots）。
+> [!important] **兩家都用 JSONL** — 這是先前版本筆記中遺漏的事實。差別在「平鋪 vs 嵌套目錄」與「主檔之外的 sidecar」。
 
-**Claude Code** — `~/.claude/projects/{cwd-hash-encoded}/{session-id}.jsonl` 儲存每次對話。一個 JSON-Lines 檔案對應一個 session，包含完整訊息、tool 呼叫、權限決定、token 用量。`/resume` 可恢復；`/clear` 可清空當前 session。
+**Codex** — 四層儲存體系（由 `codex-rs/rollout/`、`message-history/`、`thread-store/`、`state-db` 多個 crate 協作）：
+
+| # | 路徑 | 格式 | 用途 |
+|---|------|------|------|
+| 1 | `~/.codex/sessions/rollout-{ISO8601}-{UUID}.jsonl` | **JSONL** | 主 session log；每行一個 `RolloutItem`（SessionMeta / TurnContext / ResponseItem / EventMsg / Compacted）|
+| 2 | `~/.codex/history.jsonl` | JSONL `{session_id, ts, text}` | 全域訊息歷史，跨 session 累積 |
+| 3 | `~/.codex/session_index.jsonl` | JSONL `{id, thread_name, updated_at}` | Session 索引（append-only） |
+| 4 | SQLite state DB | SQLite | metadata 與 metrics 的 sidecar（**不存對話內容**） |
+
+來源證據：`rollout/src/recorder.rs` 直接寫明「Rollouts are recorded as JSONL and can be inspected with `jq` / `fx`」。
+持久化模式有 `Limited`（預設）/ `Extended`（後者會把 `ExecCommandEnd.aggregated_output` 截到 10K bytes，並清空 stdout/stderr 避免爆炸）。
+`codex exec --ephemeral` 可關閉持久化。封存路徑：`~/.codex/sessions/archived_sessions/`。
+
+**Claude Code** — `~/.claude/projects/{cwd-hash-encoded}/{session-id}.jsonl` 儲存每次對話。一個 JSONL 檔對應一個 session，包含完整訊息、tool 呼叫、權限決定、token 用量。`/resume` 可恢復；`/clear` 可清空當前 session。
+
+**對比小表**：
+
+| 維度 | Codex | Claude Code |
+|------|-------|-------------|
+| 主檔格式 | JSONL | JSONL |
+| 目錄結構 | 平鋪（檔名含 ISO8601 + UUID） | 嵌套（`{cwd-hash}/{session-id}.jsonl`） |
+| 一檔範圍 | 一個 session 一檔 | 一個 session 一檔 |
+| 全域歷史 | `~/.codex/history.jsonl` 跨 session 累積 | 無對應檔案（每個 session 獨立） |
+| 索引 | `session_index.jsonl` + SQLite sidecar | 靠目錄 + 檔名（cwd-hash 自動分組） |
+| Ephemeral | `codex exec --ephemeral` 一鍵關閉 | 無 ephemeral flag；需手動刪檔或 `/clear` |
+| Resume | `RolloutRecorderParams::Resume { path }` | `/resume` slash command |
+| 持久化篩選 | `EventPersistenceMode::{Limited, Extended}` | 預設全寫；by-event truncation 較少 |
 
 **影響**：
-- 兩者都預設持久化；Codex 提供清楚的 ephemeral opt-out flag，Claude Code 需要主動 `/clear` 或刪檔
-- Claude Code JSONL 格式對外部分析工具（如本 KB 的 claude-mem、session-analyzer 等）友善（可直接 stream parse）；參見 [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]]
-- Codex session 結構更分層（rollout vs thread vs message-history），對複雜分析有利但學習成本高
+- 兩者主檔皆為 JSONL，**外部分析工具對兩家都友善**（可 stream parse）；參見 [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]]
+- Codex 多了「跨 session 全域 history.jsonl + SQLite 索引 sidecar」，適合長期累積 + 快速 thread 列表查詢
+- Claude Code 用目錄結構（cwd-hash）天然分組，但跨 session 累積分析需要自己拼接
+- 用 `--ephemeral` 是 Codex 的 privacy advantage（一鍵不落地）；Claude Code 沒有對應 flag
 
 ### 6️⃣ Tool / Function call 系統
 

@@ -307,6 +307,61 @@ const PLATFORM_PACKAGE_BY_TARGET = {
 };
 ```
 
+### Session Log 格式（Rollout JSONL）
+
+> [!important] **Codex 的 session log 是 JSONL**，與 Claude Code 同格式但結構分層更多。
+
+來源證據：`codex-rs/rollout/src/recorder.rs` 的 doc comment 直接寫明：
+
+```rust
+/// Writes canonical session rollout items to JSONL.
+///
+/// Rollouts are recorded as JSONL and can be inspected with tools such as:
+///
+/// ```ignore
+/// $ jq -C . ~/.codex/sessions/rollout-2025-05-07T17-24-21-5973b6c0-94b8-487b-a530-2aeb6098ae0e.jsonl
+/// $ fx ~/.codex/sessions/rollout-2025-05-07T17-24-21-5973b6c0-94b8-487b-a530-2aeb6098ae0e.jsonl
+/// ```
+```
+
+**四層 session 儲存體系**（從原始碼定位）：
+
+| # | 路徑 | 格式 | 用途 | 寫入者 |
+|---|------|------|------|--------|
+| 1 | `~/.codex/sessions/rollout-{ISO8601}-{UUID}.jsonl` | **JSONL**（每行一個 `RolloutItem`）| 主 session log；可 replay / inspect | `rollout::recorder::RolloutRecorder`（背景 tokio task + mpsc channel） |
+| 2 | `~/.codex/history.jsonl` | **JSONL** schema：`{"session_id":"<uuid>","ts":<unix_seconds>,"text":"<message>"}` | 全域 message history（跨 session）| `message-history` crate；用 `O_APPEND` 單次 `write(2)` 確保 PIPE_BUF 內原子寫 |
+| 3 | `~/.codex/session_index.jsonl` | **JSONL** schema：`{"id":<ThreadId>,"thread_name":<name>,"updated_at":<RFC3339>}` | Session 索引（thread 名稱對應 UUID）| `rollout::session_index`（append-only，從尾掃到頭取最新） |
+| 4 | `~/.codex/`（state DB，路徑由 `state_db` crate 管理）| **SQLite** | Sidecar metadata（thread metadata、sqlite_metrics）；不存對話內容，只存索引與 metrics | `codex-state::StateRuntime`；啟動時從 JSONL backfill |
+
+**`RolloutItem` 的型別變體**（每行 JSONL 物件的可能種類，取自 `rollout/src/policy.rs`）：
+
+```rust
+RolloutItem::SessionMeta(_)         // session 中繼資料（首行）
+RolloutItem::TurnContext(_)         // turn 上下文
+RolloutItem::ResponseItem(...)      // LLM 回應，子型別包含：
+    //   ResponseItem::Message        ← 對話訊息
+    //   ResponseItem::Reasoning      ← reasoning 過程
+    //   ResponseItem::LocalShellCall ← shell tool call
+    //   ResponseItem::FunctionCall   ← function tool call
+    //   ResponseItem::ToolSearchCall ← tool search
+    //   ResponseItem::FunctionCallOutput
+    //   ResponseItem::CustomToolCall / CustomToolCallOutput
+    //   ResponseItem::WebSearchCall
+    //   ResponseItem::ImageGenerationCall
+    //   ResponseItem::Compaction / ContextCompaction
+RolloutItem::EventMsg(...)          // 事件訊息（如 ExecCommandEnd）
+RolloutItem::Compacted(_)           // 壓縮標記
+```
+
+**持久化模式**（`policy.rs::EventPersistenceMode`）：
+- `Limited`（預設）：精簡寫入
+- `Extended`：寫入更多 event；其中 `ExecCommandEnd.aggregated_output` 會被截斷到 10,000 bytes、`stdout/stderr/formatted_output` 直接清空（避免日誌爆炸）
+
+**封存與 resume**：
+- 封存：`~/.codex/sessions/archived_sessions/`
+- Resume：`RolloutRecorderParams::Resume { path }` 從現有 rollout 接續
+- Source 標籤：`SessionSource::{Cli, VSCode, Custom("atlas"), Custom("chatgpt")}`
+
 ## 安裝流程（Installation Flow）
 
 > [!info] 追蹤層級
@@ -366,7 +421,11 @@ brew install --cask codex
 | `~/.codex/config.toml` | TOML 檔 | 使用者層設定（首次執行或登入後建立） |
 | `~/.codex/login.toml` | TOML 檔 | ChatGPT OAuth 授權 token（device code flow 完成後寫入） |
 | `~/.codex/memories/` | 目錄 | 跨 session 記憶；`workspace-write` 模式下自動加入 writable roots |
-| `~/.codex/sessions/` | 目錄 | session rollout 持久化（`codex exec --ephemeral` 可關閉） |
+| `~/.codex/sessions/rollout-{ISO8601}-{UUID}.jsonl` | **JSONL 檔** | 每次 session 的完整 rollout，含所有 LLM 訊息、tool call、event；可用 `jq` / `fx` 直接 inspect |
+| `~/.codex/sessions/archived_sessions/` | 目錄 | 已封存（archived）的 session rollout |
+| `~/.codex/history.jsonl` | **JSONL 檔** | 全域訊息歷史，每行 schema：`{"session_id":"<uuid>","ts":<unix_seconds>,"text":"<message>"}`；跨 session 累積，有 `max_bytes` 軟硬上限（軟限 80%） |
+| `~/.codex/session_index.jsonl` | **JSONL 檔** | Session 索引（append-only），每行 schema：`{"id":<ThreadId>,"thread_name":<name>,"updated_at":<RFC3339>}`；後寫的覆蓋前寫的，解析時從尾掃到頭 |
+| `~/.codex/state.db`（推斷路徑） | SQLite | Sidecar metadata DB（thread metadata、sqlite_metrics）；啟動時從 JSONL backfill；不存對話內容，只存索引 |
 | `~/.codex/requirements.toml` | TOML 檔（選用） | admin 強制設定，含 `allow_managed_hooks_only` |
 
 ### 環境變數
