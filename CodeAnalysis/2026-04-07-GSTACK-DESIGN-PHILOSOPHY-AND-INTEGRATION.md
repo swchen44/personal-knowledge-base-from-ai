@@ -660,6 +660,8 @@ ls -la ~/.claude/skills/qa/
 
 ---
 - [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain docs/ethos/THIN_HARNESS_FAT_SKILLS 與 gstack 同源設計哲學；對 eval 方法論的影響在本筆記第 4.4 節展開
+- [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — gstack 中 Codex 作為被整合 host 之一，本筆記提供 Codex 原始碼層面的完整架構分析（103 個 crate、execpolicy、OS 沙盒），可深入了解 gstack 如何適應 Codex 的 skill discovery 模式
+- [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — gstack 同時支援 Codex 與 Claude Code，這篇深度對比可解釋為何同一 plugin 系統需要為兩種 host 採用不同的 symlink 策略
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

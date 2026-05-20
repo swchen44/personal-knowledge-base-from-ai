@@ -2,6 +2,8 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] | OpenAI Codex CLI vs Anthropic Claude Code 深度對比：10 個架構維度 + 5 個體驗維度 + 決策矩陣；Codex 的 Starlark execpolicy + OS 原生沙盒 vs Claude Code 的對話式 approval + 5 種擴充面 | 2026-05-20 |
+| [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] | OpenAI Codex CLI 程式碼深度分析：103 個 Rust crate、Node dispatcher + Rust binary、execpolicy（Starlark）、三平台原生沙盒（Seatbelt/Bubblewrap/Windows）、雙向 MCP、ChatGPT OAuth | 2026-05-20 |
 | [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] | gbrain 與 gbrain-evals AI agent eval 方法論深度研究：sealed qrels + multi-adapter + LLM-as-judge with structured evidence；含 Jarvis Integration Test 三步走借鏡 backlog | 2026-05-17 |
 | [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] | Claude Session Analyzer 深度分析 + 真實使用驗證：情感分析 100% 誤判、subagent 美化指標、三層防線改善方案 | 2026-04-10 |
 | [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] | Claude Code Token 成本計算完整管線研究：從 API usage 到 JSONL 事後分析，含 6 個陷阱與 90% 誤差實測 | 2026-04-28 |

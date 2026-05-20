@@ -838,6 +838,7 @@ mv analyze-sessions.md ~/.claude/commands/
 
 ---
 - [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — Jarvis L7 KPI 用的 framework-session-analyzer-tool 可能與本工具同源；gbrain 評估方法論研究中標註為「最值得 gbrain 反向借鏡」的 Jarvis 獨有設計
+- [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — Codex 的 session 結構（rollout / thread-store / message-history 三層 crate）與 Claude Code 的 JSONL 平鋪格式對比；本工具的 JSONL 解析方法在 Codex 端需要重新適配
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

@@ -317,3 +317,4 @@ LLM 自動生成的 AGENTS.md 檔案在所有測試配置中，平均**降低**�
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]]：漸進式揭露的原則與本研究高度一致。上下文檔案中的冗餘資訊不僅無效，還會增加成本與推理負擔。
 - [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]]：單一 agent 在等量 token 預算下優於多 agent 系統。本研究的成本數據進一步強調了 token 效率的重要性——上下文檔案造成的 14-22% token 增加在 multi-agent 場景下會被放大。
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]]：Pere Villega 系列第 5 章直接引用本研究，作為「自動生成 CLAUDE.md 傷害效能」的主要實證支柱。
+- [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]]：OpenAI Codex 也採用 `AGENTS.md` 約定（codex-rs/AGENTS.md 內含明確工程紀律與規範），本筆記的研究結論對 Codex 用戶同樣適用——AGENTS.md 的價值在於是否填補真正的知識缺口。

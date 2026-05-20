@@ -791,6 +791,7 @@ if __name__ == "__main__":
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — Hook 系統可用於即時攔截 API 回應並建構獨立的費用追蹤管線
 - [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] — 品質退化導致 API 成本從 $345 暴增至 $42,121（122 倍），是成本異常的實際案例
 - [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — 開源的 Session 分析工具，含 Bedrock Opus 成本估算模組
+- [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — Codex 的 token / 計費結構對比；已知 [Issue #19996](https://github.com/openai/codex/issues/19996) 反映 Codex 反覆啟動觸發大量 token，可與本文 Claude Code 的 token pipeline 互相對照
 
 ## References
 

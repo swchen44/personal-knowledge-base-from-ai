@@ -78,3 +78,5 @@
 | 2026-05-18 09:10 | ingest | conversation research: grill-me + Plan Mode 衝突 / 共存外部討論盤點（WebSearch + rcanand + Issue #1260 + Superpowers v4.3.0 blog） | [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] | AI | 8 | 7 |
 | 2026-05-18 11:00 | ingest | 本地 code research: gbrain + gbrain-evals 方法論深度分析 + Jarvis Integration Test 對照 backlog | [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] | CodeAnalysis | 8 | 7 |
 | 2026-05-18 12:00 | update | 在 Matt Pocock 篇新增「進階：Issue Tracker 支援與寫檔擴充」章節（4 種 tracker / 三個中介設定檔解耦 / 三種擴充方法 ABC / 寫檔三條路徑 ABC / Quick reference 時序圖） | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |
+| 2026-05-20 22:30 | ingest | 本地 code research: ~/git/codex_play/codex (openai/codex@1392a2a) + 第三方對比文章彙整 | [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] | CodeAnalysis | 5 | 7 |
+| 2026-05-20 22:30 | ingest | 本地 code research + 第三方對比文章（Northflank/Composio/DataCamp/NxCode 2026） | [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] | CodeAnalysis | 5 | 6 |

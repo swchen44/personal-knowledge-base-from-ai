@@ -283,6 +283,7 @@ Yegge 大膽預測：未來的開發介面將是完全基於對話（conversatio
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — Pere Villega 從個人實踐者角度描繪的 11 階段演化與三大轉折點，具體化 Yegge 的宏觀論點
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談 IT 部門應從執行者轉型為架構師，與 Yegge 的工程師角色轉變觀點一致
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 從個人角度闡述 Agentic Engineering，補充 Yegge 的組織角度觀點
+- [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — Codex 的「雙向 MCP」（既是 client 也是 server）正是 Yegge 預見的「Agent-for-Agents」模式落地實作；工程師未來需熟悉至少兩家 agent 平台的取捨
 
 ## References
 
