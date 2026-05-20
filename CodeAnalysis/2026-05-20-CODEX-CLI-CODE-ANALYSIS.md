@@ -702,6 +702,7 @@ codex mcp list
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Claude Code 的 Hook API 設計，可與本文 hooks crate 對照
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — Codex 也有 `otel` crate，兩家 OTel 策略可對照
 - [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] — Codex 也用 `AGENTS.md` 約定，本筆記中亦多次引用
+- [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — 本筆記的「Hook 系統 + Skills 搜尋路徑」延伸文，含 9 種 hook event 完整 input/output schema 與 6 條 skill root 路徑地圖
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

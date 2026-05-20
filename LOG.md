@@ -80,3 +80,4 @@
 | 2026-05-18 12:00 | update | 在 Matt Pocock 篇新增「進階：Issue Tracker 支援與寫檔擴充」章節（4 種 tracker / 三個中介設定檔解耦 / 三種擴充方法 ABC / 寫檔三條路徑 ABC / Quick reference 時序圖） | [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] | AI | 0 | 0 |
 | 2026-05-20 22:30 | ingest | 本地 code research: ~/git/codex_play/codex (openai/codex@1392a2a) + 第三方對比文章彙整 | [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] | CodeAnalysis | 5 | 7 |
 | 2026-05-20 22:30 | ingest | 本地 code research + 第三方對比文章（Northflank/Composio/DataCamp/NxCode 2026） | [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] | CodeAnalysis | 5 | 6 |
+| 2026-05-20 23:30 | ingest | 本地 code research: ~/git/codex_play/codex hooks/ + core-skills/ + protocol.rs + 18 個自動產 JSON schema fixture | [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] | CodeAnalysis | 4 | 7 |

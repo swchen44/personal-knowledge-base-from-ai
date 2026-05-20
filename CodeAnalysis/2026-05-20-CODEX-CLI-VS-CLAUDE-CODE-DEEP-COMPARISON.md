@@ -406,6 +406,7 @@ args = ["-y", "@modelcontextprotocol/server-filesystem", "/path"]
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — Claude Code 的 feedback 架構；Codex 也有 `feedback` crate
 - [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — Claude Code session JSONL 解析；對照本文「Session 儲存」維度
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — 多 agent 時代的工程師角色；本文「雙向 MCP」呼應此趨勢
+- [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex Hook 系統與 Skills 搜尋路徑的原始碼層級規格；對應本文「Hook / 擴充機制」與「Skills」維度的完整事實細節
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
