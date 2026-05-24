@@ -784,6 +784,7 @@ if __name__ == "__main__":
 - 團隊訂閱（Pro/Team/Enterprise）方案是否有不同的 token 計費邏輯？
 
 ## 相關連結（Related）
+- [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] — RTK 從工具輸出源頭減少 token 浪費，可作為本篇 token 成本事後計算管線的前置治理層。
 
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — 本文的計費管線與 OTel 遙測管線共享 `costCounter` 和 `tokenCounter`，是同一個 state 物件的兩個面向
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — EventMetadata 傳送架構中的 analytics 事件包含 `cost_usd_micros` 欄位，是另一個費用數據來源

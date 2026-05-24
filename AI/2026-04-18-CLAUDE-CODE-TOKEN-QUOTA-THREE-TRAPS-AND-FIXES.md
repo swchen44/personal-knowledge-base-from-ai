@@ -128,6 +128,7 @@ CLAUDE.md、rules、MCP 工具設定都會被 Claude Code 主動注入上下文�
 - 影片提到尖峰時段縮減額度視窗——這個「縮減」的比例是多少？是固定比例還是動態調整？（建議搜尋：`Anthropic rate limit peak hours window reduction 2026`）
 
 ## 相關連結（Related）
+- [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] — RTK 直接針對工具輸出與 log 膨脹做壓縮，是降低 token quota 消耗的工具層方案。
 
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — 第 9 章「上下文視窗的實戰求生術」，從技術面分析 autocompact 與 context 經濟學
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 最佳實踐，支持本影片「精簡 CLAUDE.md」的建議

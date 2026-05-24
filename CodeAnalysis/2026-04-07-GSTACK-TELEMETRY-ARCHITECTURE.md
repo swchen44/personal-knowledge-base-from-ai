@@ -434,6 +434,7 @@ rm -f ~/.gstack/analytics/.last-sync-time
 - edge function 沒有 idempotency key，重複送同一筆事件會造成重複計算。若要加入 idempotency，Supabase 端的 UNIQUE constraint 應該加在哪個欄位？（建議搜尋：`supabase idempotency unique constraint insert edge function`）
 
 ## 相關連結（Related）
+- [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] — RTK 的 tee recovery、tracking DB 與 log dedupe 可與 gstack 的 append-only telemetry/outbox pattern 對照。
 
 - [[CLAUDE-SKILL-ARCHITECTURE]] — gstack 的 skill 為何是獨立 process
 - [[SUPABASE-EDGE-FUNCTIONS]] — Deno edge function 的部署模型
