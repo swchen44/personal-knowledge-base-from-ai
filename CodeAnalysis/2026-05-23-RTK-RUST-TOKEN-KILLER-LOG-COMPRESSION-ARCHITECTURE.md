@@ -598,6 +598,53 @@ RTK_DISABLED=1 git status
 2. 成功路徑只輸出 final state；失敗路徑輸出 top-N unique failures + full raw path。
 3. 把噪音規則外部化成 `.rtk/filters.toml` 這類資料檔，等模式穩定後再升級成程式碼 parser。
 
+## FAQ — RTK 怎麼先被呼叫？
+
+> [!faq]- RTK 是怎麼做到先呼叫自己的指令？
+> RTK 不是在作業系統（Operating System）層攔截所有 shell command。它靠的是 AI coding agent 的「執行工具前」整合點：hook、plugin API，或 prompt-level rules。核心流程是：agent 想執行 `git status` → integration 先拿到 command string → 呼叫 `rtk rewrite "git status"` → RTK 回傳 `rtk git status` → agent 實際執行改寫後的命令。
+
+> [!faq]- 所以真正的核心是 hook 嗎？
+> 不是。真正的核心是 `rtk rewrite`，rewrite 規則集中在 Rust binary 裡。Hook、plugin、rules file 都只是 adapter。它們的職責是解析各 agent 的 payload、呼叫 `rtk rewrite`、再用該 agent 支援的格式把 command 改回去。
+
+> [!faq]- OpenCode 沒有 shell hook，那它怎麼攔截？
+> OpenCode 用 TypeScript plugin，不是 shell hook。`hooks/opencode/rtk.ts` 註冊 `tool.execute.before` event，只處理 `bash` / `shell` tool，讀取 `args.command`，執行 `rtk rewrite ${command}`。如果回傳 rewritten command，就直接把 `args.command` mutate 成新值。因此 OpenCode 是「plugin 事件前置改寫」，不是 OS hook，也不是 shell alias。
+
+```typescript
+return {
+  "tool.execute.before": async (input, output) => {
+    const tool = String(input?.tool ?? "").toLowerCase()
+    if (tool !== "bash" && tool !== "shell") return
+
+    const command = (args as Record<string, unknown>).command
+    if (typeof command !== "string" || !command) return
+
+    const result = await $`rtk rewrite ${command}`.quiet().nothrow()
+    const rewritten = String(result.stdout).trim()
+    if (rewritten && rewritten !== command) {
+      ;(args as Record<string, unknown>).command = rewritten
+    }
+  },
+}
+```
+
+> [!faq]- Codex CLI 也會被透明攔截嗎？
+> 目前不是。RTK 對 Codex CLI 的整合是 `rtk init --codex` 寫入 `AGENTS.md` / `RTK.md`，屬於 prompt-level guidance。也就是提醒模型「請優先用 `rtk <cmd>`」，但沒有 guaranteed interception。模型可能遵守，也可能忘記。
+
+> [!faq]- 哪些 agent 是真正透明改寫？
+> Claude Code、Cursor、Gemini 走 full hook；OpenCode、Hermes、Pi、OpenClaw 走 plugin / extension API。這些都能在 command 執行前改寫。Cline、Windsurf、Codex、Kilo Code、Antigravity 則主要是 rules file / instruction，屬於 guidance，不是硬性攔截。
+
+| 類型 | 例子 | 是否真正攔截 | 機制 |
+|------|------|--------------|------|
+| Full hook | Claude Code、Cursor、Gemini | 是 | Agent hook API 在 tool execution 前改寫 command |
+| Plugin / extension | OpenCode、Hermes、Pi、OpenClaw | 是 | Plugin event 中原地 mutate command |
+| Rules / instructions | Codex、Cline、Windsurf、Kilo、Antigravity | 否 | 提示模型優先使用 `rtk` |
+
+> [!faq]- 所有作業系統通通可以用嗎？
+> 要分成「RTK binary 可用」與「透明自動改寫可用」。手動執行 `rtk git status` 這種 binary usage 在 Windows、macOS、Linux 都可以。透明 shell hook 則依 agent 與 OS 而定：RTK 文件明確說 shell hook 需要 Unix shell；native Windows 會 fallback 到 prompt-level instructions。若要 Windows 上有完整 hook 行為，官方建議使用 WSL。
+
+> [!faq]- 如果 hook / plugin 出錯，會不會擋住原命令？
+> RTK 的設計目標是 fail open。找不到 `rtk`、payload 格式不符、`rtk rewrite` 出錯，adapter 應讓原始 command 照常執行。這符合 RTK 的 fail-safe 原則：省 token 不能犧牲命令可執行性。
+
 ## 待補充（Open Questions）
 
 - RTK `0.40.0` 是否已正式 release？公開 GitHub 搜尋快照仍顯示 v0.39.0 latest，需查 GitHub Releases 或 tag。建議搜尋：`rtk-ai rtk v0.40.0 release`
