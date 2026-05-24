@@ -83,3 +83,4 @@
 | 2026-05-20 23:30 | ingest | 本地 code research: ~/git/codex_play/codex hooks/ + core-skills/ + protocol.rs + 18 個自動產 JSON schema fixture | [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] | CodeAnalysis | 4 | 7 |
 | 2026-05-24 17:16 | ingest | 本地 code research: /Users/swchen.tw/git/rtk_plan/rtk (rtk-ai/rtk@805caf7) + GitHub repo 快照 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 4 | 6 |
 | 2026-05-25 00:00 | update | 補充 FAQ：RTK 如何先被呼叫、OpenCode plugin 攔截方式、Codex prompt-level 限制、跨 OS 支援差異 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 0 | 0 |
+| 2026-05-25 00:10 | update | 補充 RTK Hook / Plugin 實作對照表：source path、file name、語言、安裝位置、實作方法與透明改寫能力 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 0 | 0 |

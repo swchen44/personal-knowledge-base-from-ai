@@ -639,6 +639,28 @@ return {
 | Plugin / extension | OpenCode、Hermes、Pi、OpenClaw | 是 | Plugin event 中原地 mutate command |
 | Rules / instructions | Codex、Cline、Windsurf、Kilo、Antigravity | 否 | 提示模型優先使用 `rtk` |
 
+### RTK Hook / Plugin 實作對照表（Source Map）
+
+| Agent / 目標 | Source code 位置 | 檔名 | 實作語言 | 安裝後位置 / 設定檔 | 實作方法 | 是否透明改寫 |
+|--------------|------------------|------|----------|----------------------|----------|--------------|
+| Claude Code | `src/hooks/init.rs`、`src/hooks/hook_cmd.rs`、`src/hooks/constants.rs`；legacy artifact 在 `hooks/claude/` | `init.rs`、`hook_cmd.rs`、`constants.rs`、`rtk-rewrite.sh` | Rust；legacy shell 為 Bash + jq | `~/.claude/settings.json` 的 `hooks.PreToolUse`，命令為 `rtk hook claude`；另寫 `~/.claude/RTK.md` 與 `~/.claude/CLAUDE.md` reference | `rtk init -g` patch `settings.json`，在 Bash tool 執行前讀 JSON，改寫 `tool_input.command`，輸出 `hookSpecificOutput.updatedInput` | 是 |
+| Cursor | `src/hooks/init.rs`、`src/hooks/hook_cmd.rs`；legacy artifact 在 `hooks/cursor/` | `init.rs`、`hook_cmd.rs`、`rtk-rewrite.sh` | Rust；legacy shell 為 Bash + jq | `~/.cursor/hooks.json` 或 Cursor hook 設定，命令為 `rtk hook cursor` | Cursor `preToolUse` hook 讀 `tool_input.command`，回傳 `updated_input.command`；沒有 rewrite 時回 `{}` | 是 |
+| Gemini CLI | `src/hooks/hook_cmd.rs`、`src/hooks/init.rs` | `hook_cmd.rs`、`init.rs` | Rust | `~/.gemini/` hook 設定；常數為 `BeforeTool` / `rtk-hook-gemini.sh` | Gemini `BeforeTool` hook 只處理 `run_shell_command`，輸出 `{"decision":"allow","hookSpecificOutput":{"tool_input":{"command":...}}}` | 是 |
+| VS Code Copilot Chat | `src/hooks/hook_cmd.rs` | `hook_cmd.rs` | Rust | 由 `rtk init --global --copilot` 註冊 preToolUse | 自動偵測 snake_case `tool_name` / `tool_input.command` 格式，回傳 Claude-like `updatedInput` | 是 |
+| GitHub Copilot CLI | `src/hooks/hook_cmd.rs` | `hook_cmd.rs` | Rust | 由 `rtk init --global --copilot` 註冊 | Copilot CLI 不支援直接 `updatedInput`，RTK 回傳 `permissionDecision: "deny"` 與建議命令，讓 agent retry | 半透明；不是原地改寫 |
+| OpenCode | `hooks/opencode/rtk.ts`；installer 在 `src/hooks/init.rs` | `rtk.ts`、`init.rs` | TypeScript plugin | `~/.config/opencode/plugins/rtk.ts` | OpenCode plugin 註冊 `tool.execute.before`，只處理 `bash` / `shell` tool，呼叫 `rtk rewrite` 後 mutate `args.command` | 是 |
+| Pi coding agent | `hooks/pi/rtk.ts`；installer 在 `src/hooks/init.rs` | `rtk.ts`、`init.rs` | TypeScript extension | project-local `.pi/extensions/rtk.ts` 或 global `~/.pi/agent/extensions/rtk.ts` | Pi extension 監聽 `tool_call` event，用 `isToolCallEventType("bash", event)` guard，呼叫 `rtk rewrite` 後 mutate `event.input.command` | 是 |
+| Hermes | `hooks/hermes/rtk-rewrite/__init__.py`、`hooks/hermes/rtk-rewrite/plugin.yaml`；installer 在 `src/hooks/init.rs` | `__init__.py`、`plugin.yaml`、`init.rs` | Python plugin + YAML manifest | `~/.hermes/plugins/rtk-rewrite/`，並 patch `~/.hermes/config.yaml` 的 `plugins.enabled` | Hermes Python plugin 在 terminal tool 執行前讀 mutable payload，呼叫 `rtk rewrite` 後 mutate `command`；fail open | 是 |
+| OpenClaw | `openclaw/index.ts`、`openclaw/openclaw.plugin.json` | `index.ts`、`openclaw.plugin.json` | TypeScript plugin | 透過 `openclaw plugins install ./openclaw` 安裝 | OpenClaw plugin 使用 `before_tool_call` 類型 hook，委派 `rtk rewrite` 後改寫 command | 是 |
+| Codex CLI | `hooks/codex/rtk-awareness.md`；installer 在 `src/hooks/init.rs` | `rtk-awareness.md`、`init.rs` | Markdown instructions + Rust installer | `$CODEX_HOME/RTK.md` / `$CODEX_HOME/AGENTS.md`，未設定則 `~/.codex/` | `rtk init --codex` 寫 awareness document 與 `@RTK.md` reference；沒有程式化 hook，只靠模型遵守 instructions | 否；prompt-level guidance |
+| Cline / Roo Code | `hooks/cline/rules.md`；installer 在 `src/hooks/init.rs` | `rules.md`、`init.rs` | Markdown rules + Rust installer | project root `.clinerules` | 寫入自訂規則，要求模型偏好 `rtk <cmd>` | 否；prompt-level guidance |
+| Windsurf | `hooks/windsurf/rules.md`；installer 在 `src/hooks/init.rs` | `rules.md`、`init.rs` | Markdown rules + Rust installer | project root `.windsurfrules` | 寫入 workspace-scoped rules，要求 Cascade 優先用 `rtk` | 否；prompt-level guidance |
+| Kilo Code | `hooks/kilocode/rules.md`；installer 在 `src/hooks/init.rs` | `rules.md`、`init.rs` | Markdown rules + Rust installer | `.kilocode/rules/rtk-rules.md` | 寫入 Kilo Code rules directory，提示 shell commands 要 prefix `rtk` | 否；prompt-level guidance |
+| Google Antigravity | `hooks/antigravity/rules.md`；installer 在 `src/hooks/init.rs` | `rules.md`、`init.rs` | Markdown rules + Rust installer | `.agents/rules/antigravity-rtk-rules.md` | 寫入 Antigravity rules directory，提示優先使用 `rtk` | 否；prompt-level guidance |
+
+> [!note] 表格解讀
+> `src/hooks/init.rs` 負責「安裝 / 移除 / patch 設定檔」，`src/hooks/hook_cmd.rs` 負責 Rust-native hook processor，`hooks/*` 則是各 agent 的外部 artifact 或 rules。真正的 rewrite 規則仍集中在 `src/discover/registry.rs`，各 integration 不應複製 rewrite logic。
+
 > [!faq]- 所有作業系統通通可以用嗎？
 > 要分成「RTK binary 可用」與「透明自動改寫可用」。手動執行 `rtk git status` 這種 binary usage 在 Windows、macOS、Linux 都可以。透明 shell hook 則依 agent 與 OS 而定：RTK 文件明確說 shell hook 需要 Unix shell；native Windows 會 fallback 到 prompt-level instructions。若要 Windows 上有完整 hook 行為，官方建議使用 WSL。
 
