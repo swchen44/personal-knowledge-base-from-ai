@@ -793,6 +793,7 @@ description: 一個用來示範 Codex skill 掃描的最小 skill；當你提到
 - **Q7：`MAX_SCAN_DEPTH=6` 是否含 SKILL.md 本身？** 影響 monorepo 中 skill 放在 `apps/x/y/.agents/skills/z/` 這種深層位置時能否被找到（搜尋：`codex skill scan depth limit`）
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 - [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] — RTK 展示了 hook rewrite 如何把 shell command 在進入模型上下文前改寫與壓縮，可對照 Codex hook / skill 搜尋路徑限制。
 
 - [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — Codex CLI 主筆記；本文是其「Hook + Skills」面向的深度補完

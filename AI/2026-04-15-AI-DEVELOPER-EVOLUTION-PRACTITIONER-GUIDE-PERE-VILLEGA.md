@@ -1685,6 +1685,7 @@ METR 的研究揭示了一個違反直覺的發現：有經驗的開發者使用
 ---
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [How I Use Claude Code](https://www.perevillega.com/posts/how-i-use-claude-code) — Pere Villega 的個人使用方式總覽，系列的實踐基礎
 - [On Code and Vibe Coding](https://www.perevillega.com/posts/on-code-and-vibe-coding) — 對「氛圍編碼（Vibe Coding）」現象的批判性分析

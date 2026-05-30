@@ -649,6 +649,7 @@ ls -la ~/.claude/skills/qa/
 - gstack 的 `learnings.jsonl` 系統讓 skill 可以從之前的執行紀錄學習。但 learnings 是 per-project 的，對新 project 來說這些知識無法遷移。有沒有跨 project 的 learnings 共享機制？（建議搜尋：`gstack learnings cross project transfer knowledge`）
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 觀測子系統的設計（同一個 repo 的另一面）
 - [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — E2E 測試與 KPI 設計

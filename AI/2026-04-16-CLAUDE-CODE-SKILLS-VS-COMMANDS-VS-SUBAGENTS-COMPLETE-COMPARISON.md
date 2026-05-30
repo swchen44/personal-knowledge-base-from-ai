@@ -337,6 +337,7 @@ SKILL.md 遵循 [Agent Skills 開放標準](https://agentskills.io)，可跨工�
 3. **有沒有更好的替代方案？** — 對於「需要按條件載入不同知識」的場景，CLAUDE.md 的 `@import` + 子目錄 CLAUDE.md 可能比 Skills 更可靠（100% 被讀取 vs 56% 未觸發）。權衡：佔用更多啟動 context 但可靠性更高。適合在「可靠性 > token 效率」的場景使用。
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code Skills 官方文件完整筆記，本文的基礎架構定義來源
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 最佳實踐全攻略，Skills 與 CLAUDE.md 的分工策略

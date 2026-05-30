@@ -1670,6 +1670,7 @@ Layer 5：狀態持久化
 - `omc autoresearch` 的「keep/discard/reset」決策是由人類決定還是由 AI evaluator 自動決定？若由 AI 決定，評估器（evaluator）的提示詞設計如何影響結果品質？（建議搜尋：`autonomous research loop AI evaluator design prompt engineering`）
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [[CLAUDE-CODE-HOOKS]] — OMC 深度依賴 Claude Code Hook 系統
 - [[MULTI-AGENT-ORCHESTRATION]] — Team pipeline 是多代理人編排（Multi-agent Orchestration）的具體實現

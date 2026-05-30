@@ -13,13 +13,14 @@ source_type: code
 author: "Microsoft（Yifan Yang 等 15 位作者）"
 status: notes
 links:
-  - "[[2026-05-15-DSPY-PROMPT-OPTIMIZATION-FRAMEWORK]]"
-  - "[[2026-05-12-REFLEXION-SELF-IMPROVING-AGENTS]]"
-  - "[[2026-05-18-AGENTIC-REINFORCEMENT-LEARNING-SURVEY]]"
-  - "[[2026-05-20-LLM-AS-JUDGE-EVALUATION-PATTERNS]]"
-  - "[[2026-05-10-CONTEXT-ENGINEERING-FOR-AGENTS]]"
-  - "[[2026-04-18-CLAUDE-AGENT-SDK-DEEP-DIVE]]"
-  - "[[2026-05-02-LANGGRAPH-MULTI-AGENT-ARCHITECTURE]]"
+  - "[[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]]"
+  - "[[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]]"
+  - "[[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]]"
+  - "[[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]]"
+  - "[[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]]"
+  - "[[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]]"
+  - "[[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]]"
+  - "[[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]]"
 github_stars: 2982
 github_language: Python
 paper: "https://arxiv.org/abs/2605.23904"
@@ -488,13 +489,14 @@ python scripts/eval_only.py \
 3. **有沒有更好的替代方案？** — 無量化分數時用 **LLM-as-judge + 人評**；預算有限時用**手工 prompt engineering / few-shot exemplars**；想要更省的自動優化可用 **DSPy / GEPA / TextGrad**（論文的比較對象）。當你「有清楚評分 + 願花算力 + 想要可複現的單調改善」時，才選 SkillOpt 範式。
 
 ## 相關連結（Related）
-- [[2026-05-15-DSPY-PROMPT-OPTIMIZATION-FRAMEWORK]] — 同為「自動優化 LLM 提示/管線」的框架；DSPy 用編譯器思維，SkillOpt 用 DL 訓練隱喻，是同問題的不同範式
-- [[2026-05-12-REFLEXION-SELF-IMPROVING-AGENTS]] — Reflexion 用語言回饋自我改進，是 SkillOpt「textual gradient = 反思批判」的思想前身
-- [[2026-05-18-AGENTIC-REINFORCEMENT-LEARNING-SURVEY]] — RL 改權重 vs SkillOpt 改文字技能；可對照「凍結模型只優化提示」與「真正 RL」的取捨
-- [[2026-05-20-LLM-AS-JUDGE-EVALUATION-PATTERNS]] — SkillOpt 的驗證閘門需可量化評分；無 ground-truth 的開放任務正需 LLM-as-Judge 來補位
-- [[2026-05-10-CONTEXT-ENGINEERING-FOR-AGENTS]] — 「技能文件」本質是一種被優化的 context；SkillOpt 把情境工程從手工升級為可訓練
-- [[2026-04-18-CLAUDE-AGENT-SDK-DEEP-DIVE]] — SkillOpt 以 claude-agent-sdk 作為 Claude target/optimizer 後端，可對照 SDK 的 skill 機制
-- [[2026-05-02-LANGGRAPH-MULTI-AGENT-ARCHITECTURE]] — 同屬 Agent 框架；可對照「多代理人協調」與「單代理人技能優化」兩種強化路線
+- [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — 相關主題：Claude Code Skill/Plugin 安全機制全解析：Frontmatter 進階欄位 + 命名冒名防護 + 企業 Marketplace 部署
+- [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] — 相關主題：npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性
+- [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — 相關主題：gstack 設計哲學與多 Agent 整合架構 — Plugin、Symlink、Headless 全解
+- [[2026-01-09-OH-MY-CLAUDECODE-MULTI-AGENT-ORCHESTRATION]] — 相關主題：oh-my-claudecode — Claude Code 多代理人編排系統深度分析
+- [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 相關主題：Claude Code 擴充機制完整比較：Skills vs Commands vs Subagents vs Plugins 最佳實踐與實驗數據
+- [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — 相關主題：Codex Hook 系統參數與 Skills 搜尋路徑 — 原始碼層級深度規格
+- [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — 相關主題：AI 開發者演化：實踐者指南全系列（Pere Villega 11 章全文翻譯）
+- [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — 相關主題：Codex CLI vs Claude Code 深度對比 — 兩大終端機 AI Coding Agent 的架構與體驗
 
 ## References
 - [GitHub Repo — microsoft/SkillOpt](https://github.com/microsoft/SkillOpt)

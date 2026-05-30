@@ -1396,6 +1396,7 @@ shell: bash
 3. **有沒有更好的替代方案？** — 對於持續性自動化，settings.json hooks 更適合（session 啟動即生效、不需要先呼叫 skill）。Skill hooks 更適合「可選的、情境性的」自動化。
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — Skills 的載入時機、快取機制、Token 注入層完整分析，本文聚焦 frontmatter 進階欄位
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills/Commands/Subagents 完整比較，本文深入 fork/agent 的內部實作

@@ -785,6 +785,7 @@ ls -la ~/.claude/skills/
 - `owner/repo` 簡寫格式永遠被解析為 GitHub，這表示在只有 Gerrit/GitLab 的環境中，所有 skill 安裝都需要完整 URL。這個行為是否有計劃改進（例如加入 `--provider` 旗標）？（建議搜尋：`npx skills add provider flag gitlab gerrit shorthand`）
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [[CLAUDE-CODE-SKILL-SYSTEM]] — Claude Code 的 skill 系統如何讀取 `.claude/skills/` 目錄
 - [[GERRIT-WORKFLOW]] — Gerrit Server 的 SSH 認證與 git 操作流程

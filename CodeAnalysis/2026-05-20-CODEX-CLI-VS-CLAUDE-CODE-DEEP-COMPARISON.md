@@ -397,6 +397,7 @@ args = ["-y", "@modelcontextprotocol/server-filesystem", "/path"]
 - **Q6：兩家如何處理「執行了 30 分鐘的長任務」？** Codex Cloud Tasks 可丟到雲端跑；Claude Code 純 local，是否會 time out？
 
 ## 相關連結（Related）
+- [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt：把 Agent 技能當神經網路訓練的文字空間優化器（驗證閘門/minibatch 反思/學習率裁剪）
 
 - [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — 本筆記中 Codex 端的所有事實依據，含原始碼路徑與設計細節
 - [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — gstack 將 Codex 與 Claude Code 列為 8 個 agent 之一進行整合，可看跨工具 plugin 設計
