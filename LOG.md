@@ -87,3 +87,4 @@
 | 2026-05-30 08:33 | ingest | https://www.youtube.com/watch?v=t5CtfUWJjm4 | [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] | DevTools | 3 | 5 |
 | 2026-05-30 15:55 | ingest | https://getmoshi.app/docs | [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] | DevTools | 8 | 7 |
 | 2026-05-30 16:44 | ingest | github.com/microsoft/SkillOpt + arXiv:2605.23904 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 8 | 6 |
+| 2026-05-31 07:02 | enrich | YouTube g8Ik-0aYfiQ (Jim AI Notebook 科普影片) | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 0 | +1 |

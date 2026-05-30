@@ -10,7 +10,7 @@ tags:
   - research/paper
 source: "https://github.com/microsoft/SkillOpt"
 source_type: code
-author: "Microsoft（Yifan Yang 等 15 位作者）"
+author: "Microsoft Research × 上海交通大學、復旦大學、同濟大學（Yifan Yang 等 15 位作者）"
 status: notes
 links:
   - "[[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]]"
@@ -31,6 +31,7 @@ paper: "https://arxiv.org/abs/2605.23904"
 > - 程式碼：`microsoft/SkillOpt`（Python，~19,555 行，MIT，2,982 stars，2026-05-08 建立）
 > - 論文：*SkillOpt: Executive Strategy for Self-Evolving Agent Skills*（arXiv:2605.23904，2026-05-22）
 > - **命名小註**：repo 對外叫 **SkillOpt**，但程式碼內部處處是舊代號 **ReflACT**（`ReflACTTrainer`、「6-stage ReflACT pipeline」），兩者指同一系統。
+> - **作者單位**：據中文科普影片（Jim AI Notebook）指出，SkillOpt 為 **Microsoft 與上海交通大學、復旦大學、同濟大學** 的合作研究（本筆記原僅標註 Microsoft，已補）。
 
 ## 摘要（Summary）
 
@@ -459,6 +460,7 @@ python scripts/eval_only.py \
 - 跨**模型**遷移時，被遷移的技能是針對哪個 target 訓練的、是否各自重訓？表格給了 +15.2 但機制細節不足（建議搜尋：`SkillOpt cross-model transfer`）。
 - `replace/delete` 因 anchor 對不上而「靜默跳過」的比率有多高？這對最終技能品質影響多大？（需讀 `steps/*/` 的 per-edit report）
 - 對**無自動評分**的開放式任務（寫作、規劃），SkillOpt 是否有 LLM-as-judge 變體把 hard 分數換成裁判分？（建議搜尋：`SkillOpt LLM judge open-ended`）
+- **作者單位待獨立核實**：「Microsoft + 上海交大 + 復旦 + 同濟」目前僅來自中文科普影片（Jim AI Notebook），補充當下 arXiv abs 頁回 500 無法驗證（建議：直接讀 arXiv:2605.23904 PDF 第一頁的 affiliation 區塊確認）。
 
 ---
 
@@ -488,6 +490,18 @@ python scripts/eval_only.py \
 2. **什麼情況下會失敗？** — (a) benchmark 無自動可量化分數；(b) selection set 太小/雜訊大；(c) optimizer_model 太弱，編輯破壞性或 anchor 對不上而靜默失效；(d) 預算不足以承受每步多次 LLM；(e) 任務分布與驗證分布不一致。
 3. **有沒有更好的替代方案？** — 無量化分數時用 **LLM-as-judge + 人評**；預算有限時用**手工 prompt engineering / few-shot exemplars**；想要更省的自動優化可用 **DSPy / GEPA / TextGrad**（論文的比較對象）。當你「有清楚評分 + 願花算力 + 想要可複現的單調改善」時，才選 SkillOpt 範式。
 
+## 影片補充（中文科普視角｜Jim AI Notebook, 2026-05-28）
+
+> [!info] 為什麼補這段
+> 用 NotebookLM 抽取這支 10 分鐘科普影片「當 Prompt 變成可訓練模型：SkillOpt 重新定義提示詞工程」的逐字稿後，與本筆記比對：影片在**機制細節、benchmark 數字、與 TextGrad/GEPA/DSPy 的比較、限制與成本**上都比本筆記淺（這些本筆記已涵蓋且更深），但它提供了三個值得補進來的**框架性洞察**。
+
+1. **定位：prompt 從「手工藝（craft）」走向「科學（science）」** — 影片主張「手動調 prompt 的時代要結束了」，把 SkillOpt 視為提示詞工程從「憑直覺手寫」轉為「可量化迭代優化」的分水嶺。（此為評論者的詮釋框架，非論文原話。）
+2. **小模型可追上大模型** — 影片點出：小模型套上 SkillOpt 優化後的 skill，表現可逼近甚至超越「未優化的大模型」。本筆記的 benchmark 表其實已佐證這點（例：Qwen3.5-4B 在 ALFWorld **+50.7**、平均 **+19.2**），值得當成一句明確的洞察。
+3. **對日常寫 prompt 的實務啟示** — (a) 為任務建一個小型「**驗證題庫**」，才能客觀判斷 prompt 變好或變壞；(b) **小步快跑**：一次只改幾條規則、馬上測分；(c) **角色轉變**：未來「prompt 工程師」的工作可能從「手寫 prompt」轉為「**設計優化流程 + 準備驗證資料**」。
+
+> [!warning] 影片的侷限（故無需從它補充的部分）
+> 該影片屬科普介紹，**未**與 TextGrad/GEPA/DSPy 做比較、**未**談優化的運算成本／token 消耗與過擬合風險——這些本筆記的「架構師觀點」與「方案批判三問」已涵蓋。簡言之：**本篇的核心重點沒有漏，影片補的是「科普框架 + 作者單位」這層。**
+
 ## 相關連結（Related）
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — 相關主題：Claude Code Skill/Plugin 安全機制全解析：Frontmatter 進階欄位 + 命名冒名防護 + 企業 Marketplace 部署
 - [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] — 相關主題：npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性
@@ -502,4 +516,5 @@ python scripts/eval_only.py \
 - [GitHub Repo — microsoft/SkillOpt](https://github.com/microsoft/SkillOpt)
 - [論文 — SkillOpt: Executive Strategy for Self-Evolving Agent Skills (arXiv:2605.23904)](https://arxiv.org/abs/2605.23904)
 - [專案頁](https://microsoft.github.io/SkillOpt/)
-- [Demo 影片](https://youtu.be/JUBMDTCiM0M)
+- [Demo 影片（官方）](https://youtu.be/JUBMDTCiM0M)
+- [中文科普解說 — 「當 Prompt 變成可訓練模型：SkillOpt 重新定義提示詞工程」（Jim AI Notebook, 2026-05-28）](https://www.youtube.com/watch?v=g8Ik-0aYfiQ)
