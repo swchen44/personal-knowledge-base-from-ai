@@ -51,7 +51,23 @@ links:
 | **Codex 可以用嗎？** | ✅ 可以，官方明列支援 |
 | **Claude 可以用嗎？** | ✅ 可以（**Claude Code**），官方明列支援 |
 | **Windows / Mac / Linux 可以用嗎？** | **Host 端**：Mac、Linux、VPS、homelab ✅；**Windows 文件未明確列出** ⚠️。**手機端**：iOS 與 Android ✅ |
-| **要錢嗎？** | 有 **免費版（Free）** 與 **付費 Pro 版**；部分個人化（personalization）功能為 Pro 限定。**確切價格官方文件未列出**（見 Open Questions） |
+| **要錢嗎？** | **有免費版（Free），核心功能免費可用**；**Pro（付費）** 才解鎖每日重度使用的進階功能（見下表）。確切金額官網未公開標價（見 Open Questions） |
+
+### 免費版 vs Pro（Free vs Pro）
+
+| 功能 | Free | Pro |
+|------|:----:|:---:|
+| 基本 SSH 終端機、操控 agent | ✅ | ✅ |
+| 推播通知 / Inbox 事件 | ✅ | ✅ |
+| **mosh**（網路切換時連線存活） | — | ✅ |
+| **tmux pairing**（tmux 配對整合） | — | ✅ |
+| **image paste**（貼圖進 prompt） | — | ✅ |
+| 自訂主題／字型（custom themes/fonts） | — | ✅ |
+| 無限儲存主機（unlimited saved hosts） | — | ✅ |
+| Apple Watch 動作 | — | ✅ |
+
+> [!info] 資料來源
+> Free/Pro 功能差異整理自官網與第三方介紹（getmoshi.app、App Store、評測文章）。**官網未公開具體訂閱金額**，實際價格請以 App Store／Google Play 內顯示為準。
 
 ### 支援的 AI 編碼代理人（Supported Agents）
 
@@ -121,7 +137,7 @@ Moshi 可遠端驅動以下 agent（也支援一般 shell）：
 
 ## 待補充（Open Questions）
 
-- **Pro 版確切價格是多少？** 是月費還是一次性買斷？免費版有哪些功能上限？（建議搜尋：`getmoshi.app pricing`、`Moshi app Pro subscription price`）
+- **Pro 版確切價格是多少？** 已知 Pro 解鎖 mosh／tmux pairing／image paste／自訂主題／無限主機／Apple Watch；但**確切金額（月費？年費？買斷？）官網未標價**，需到 App Store／Play 確認。（建議搜尋：`getmoshi.app pricing`、`Moshi app Pro subscription price`）
 - **Windows host 到底支不支援？** 透過 WSL2 + SSH 是否可行？（建議搜尋：`getmoshi Moshi Windows WSL host`）
 - **連線安全模型細節**：除了 SSH key，是否支援憑證輪替、2FA、或零信任（zero-trust）連線？
 - **moshi-hook 對各家 agent 的整合深度**：Claude Code 的 hook 與 Codex 的整合是否一致，還是各 agent 支援程度不同？
