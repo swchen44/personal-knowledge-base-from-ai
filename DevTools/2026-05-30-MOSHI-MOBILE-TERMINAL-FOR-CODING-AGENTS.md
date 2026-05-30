@@ -128,6 +128,95 @@ Moshi 可遠端驅動以下 agent（也支援一般 shell）：
 > [!important] 心智模型（Mental Model）
 > 把 Moshi 想成「行動控制面」。運算、工具、git 憑證、agent 程序，全部留在你連回去的那台 host。Moshi 不託管你的程式碼。
 
+## 語音輸入（Voice & Dictation）
+
+> [!info] 資料來源
+> 以下整理自官方 /docs 主頁的 Voice 段落（`getmoshi.app/docs/voice` 專頁因連線問題本次未能抓取，更細的設定步驟見 Open Questions）。
+
+Moshi 讓你用「講」的方式驅動終端機，支援三種辨識引擎（dictation engine）：
+
+| 辨識引擎 | 處理位置 | 特性 |
+|---------|---------|------|
+| **Apple SpeechAnalyzer** | 裝置端（on-device） | iOS 內建、隱私佳、免網路 |
+| **本地 Whisper（local Whisper）** | 裝置端（on-device） | 開源模型、離線可用 |
+| **雲端引擎（hosted cloud engine）** | 雲端 | 可能辨識更準，但語音會送出 |
+
+### 兩種語音模式
+
+```text
+┌─────────────────────────────────────────────┐
+│  Chat mode（聊天模式）                         │
+│  語音 → 先組成 prompt（可檢視/修改）→ 再送出     │
+│  適合：給 agent 下完整指令，避免講錯直接執行      │
+├─────────────────────────────────────────────┤
+│  Command mode（命令模式）                      │
+│  語音 → 直接打進 shell（即時輸入）              │
+│  適合：快速打指令、檔名、短字串                  │
+└─────────────────────────────────────────────┘
+```
+
+> [!tip] 可執行建議
+> 重視隱私就選 **Apple SpeechAnalyzer** 或 **本地 Whisper**（語音不出裝置）；要對 agent 下長 prompt 時用 **Chat mode** 先檢視再送，避免語音辨識錯字直接被執行。
+
+## 貼圖到 Prompt（Image Paste）
+
+> [!info] 資料來源
+> 整理自官方 /docs 主頁的 Image paste 段落（`getmoshi.app/docs/image-paste` 專頁本次未能抓取，圖片實際存放位置／保留時間見 Open Questions）。
+
+**運作方式**：在 prompt 中直接貼上**截圖、照片、或剪貼簿圖片**，Moshi 會把圖片轉成一個 **可抓取的 URL（fetchable URL）** 交給 agent —— agent 就能讀取該圖。
+
+```text
+ 手機端                         host 上的 agent
+   │                                │
+   │ 貼上截圖/照片/剪貼簿圖片         │
+   │──── Moshi 產生 fetchable URL ──►│
+   │                                │── 透過 URL 抓取圖片 ──►（讀圖）
+   │                                │
+   ✗ 不需 scp　✗ host 不留暫存檔
+```
+
+> [!tip] 為什麼方便
+> 傳統做法要把圖 `scp` 到 host、再在 prompt 裡指路徑、用完還要清暫存檔。Moshi 直接給 agent 一個 URL，**省去 scp 與暫存檔清理**。相關開關位於 Settings 的「檔案分享（file sharing）」。
+
+> [!warning] 資安考量
+> 「可抓取的 URL」代表圖片被放到某處供 agent 抓取。**該 URL 的存放位置、保留時間、存取權限官方主頁未交代**（見 Open Questions）—— 貼含機敏資訊的截圖前請留意。
+
+## 安裝與設定細節（Installation & Setup）
+
+### 完整建議設定流程
+
+```text
+ 在 host（你的 Mac / Linux / VPS / homelab）上：
+   1. 安裝 mosh 與 tmux
+        └─ mosh：網路切換/斷線時連線仍存活
+        └─ tmux：App 退背景時 agent 仍繼續跑（long-lived workspace）
+   2. （選用）安裝 moshi-hook —— 有用 coding agent 才需要
+        └─ 把 agent 事件（approval / session / tool / turn）送進 App Inbox
+
+ 在手機 App（iOS / Android）上：
+   3. 新增一個連線（connection），用 SSH key 驗證
+   4. 把 tmux 設為長期工作區
+   5. 開啟推播通知（push notifications）
+```
+
+### 連線（Connection）儲存的設定欄位
+
+Home 的每個 saved connection 會記住：
+
+| 欄位 | 說明 |
+|------|------|
+| host / port | 目標主機位址與埠 |
+| username | 登入帳號 |
+| auth mode | 驗證方式（建議 SSH key） |
+| transport preference | 傳輸偏好（SSH vs mosh） |
+| mosh / SSH routing | mosh 或 SSH 的路由設定 |
+
+> [!important] 三件事缺一不可的理由
+> - **mosh** → 讓終端在網路切換時不斷線；
+> - **tmux** → 讓 agent 在 App 切到背景時繼續執行；
+> - **moshi-hook** → 讓 Moshi 知道何時該通知你（approval 等）。
+> 三者組合起來，才有「手機 babysit 長任務」的完整體驗。
+
 ## 我的心得（My Takeaways）
 
 - 這正好補上 [[CLAUDE-CODE-WORKFLOW-TIPS]] 裡「長時間 agent 任務需要 babysit」的缺口 —— 用手機 babysit，而不是綁在筆電前。
