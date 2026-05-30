@@ -21,3 +21,4 @@
 | [[2026-03-02-PSA-CLAUDE-CODE-PLUGINS-LOADING-TWICE-KILLING-CONTEXT]] | PSA：你的 Claude Code 外掛（Plugin）可能一直重複載入，正在耗盡你的上下文視窗（Context Window） | 2026-03-02 |
 | [[2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP]] | 2 分鐘啟用 Claude Code LSP：你可能錯過的最重要升級 | 2026-02-28 |
 | [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] | Claude Code 最被低估的功能：Hooks 完整指南 | 2026-01-25 |
+| [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] | Debug Tuboshu 用手搖店成長比喻，拆解 AI 生成 SaaS 從能動到能撐住流量所需的後端擴展路徑 | 2026-05-24 |

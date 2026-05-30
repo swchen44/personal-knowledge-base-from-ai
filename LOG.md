@@ -84,3 +84,4 @@
 | 2026-05-24 17:16 | ingest | 本地 code research: /Users/swchen.tw/git/rtk_plan/rtk (rtk-ai/rtk@805caf7) + GitHub repo 快照 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 4 | 6 |
 | 2026-05-25 00:00 | update | 補充 FAQ：RTK 如何先被呼叫、OpenCode plugin 攔截方式、Codex prompt-level 限制、跨 OS 支援差異 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 0 | 0 |
 | 2026-05-25 00:10 | update | 補充 RTK Hook / Plugin 實作對照表：source path、file name、語言、安裝位置、實作方法與透明改寫能力 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 0 | 0 |
+| 2026-05-30 08:33 | ingest | https://www.youtube.com/watch?v=t5CtfUWJjm4 | [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] | DevTools | 3 | 5 |

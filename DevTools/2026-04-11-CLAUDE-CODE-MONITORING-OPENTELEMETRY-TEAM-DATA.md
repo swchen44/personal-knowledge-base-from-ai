@@ -295,6 +295,7 @@ export OTEL_TRACES_EXPORTER=otlp
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — 使用者反饋系統分析：EventMetadata 從 logEvent 到 Datadog/1P 的完整資料流
 
 ---
+- [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] — 呼應本篇的瓶頸診斷觀點：沒有監控與指標，就很難知道 AI 生成系統上線後慢在哪裡。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

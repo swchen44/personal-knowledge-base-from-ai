@@ -292,6 +292,7 @@ decisions made, and open questions.
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — Agent 開發三個月踩坑復盤，揭示教科書式架構到有效架構的真實演化過程
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — 同作者 Reza 對 Karpathy CLAUDE.md 的實測，展示 CLAUDE.md 合併順序與令牌預算管理
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Skills + context:fork 如何部分取代 Subagents 的實戰比較與決策流程圖
+- [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] — 補充 AI-assisted development 進入生產環境時，需要明確邊界、權限與工作流，而不只是生成能跑的功能。
 
 ## References
 
