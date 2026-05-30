@@ -34,3 +34,4 @@
 | [[2026-01-08-CLAUDE-CODE-SCHEDULER-CODE-ANALYSIS]] | claude-code-scheduler — Claude Code 跨平台定時任務排程系統深度分析 | 2026-01-08 |
 | [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] | claude-mem — Claude Code 跨 Session 持久記憶系統深度分析 | 2025-08-31 |
 | [[2023-10-27-CREWAI-CODE-ANALYSIS]] | CrewAI — 多代理人協作編排框架深度分析 | 2023-10-27 |
+| [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | 把 Agent 技能當神經網路訓練的文字空間優化器（內部代號 ReflACT）：minibatch 反思 + 驗證閘門 + 學習率裁剪，52/52 best-or-tied | 2026-05-22 |

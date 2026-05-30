@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [SkillOpt — 把 Agent 技能當神經網路訓練的文字空間優化器（程式碼×論文）](./CodeAnalysis/2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS.md) — Microsoft 的 self-evolving agent skills 框架，用驗證閘門讓提示自我演化可靠單調上升（52/52 best-or-tied）
 - [Moshi — 從手機遠端操控 AI 編碼代理人的行動終端機](./DevTools/2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS.md) — iOS/Android App，從手機操控 Claude Code、Codex 等 agent
 - [為什麼 AI 寫的網站一上線就掛：後端擴展與系統瓶頸入門](./DevTools/2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING.md) — Debug Tuboshu 用手搖店成長比喻，拆解 AI 生成 SaaS 從能動到能撐住流量所需的後端擴展路徑
 - [RTK Rust Token Killer — Log 壓縮與 AI Agent 輸出治理架構深度分析](./CodeAnalysis/2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE.md) — 本地 `rtk-ai/rtk@805caf7` 原始碼分析：hook rewrite、dedicated command modules、TOML filters、tee recovery、tracking DB 與 log dedupe；萃取「先分類再壓縮、先保證可恢復再省 token」的核心精神，並提出 update RTK / 高噪音 log 的具體縮減策略

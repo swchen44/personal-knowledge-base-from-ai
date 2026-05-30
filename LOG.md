@@ -86,3 +86,4 @@
 | 2026-05-25 00:10 | update | 補充 RTK Hook / Plugin 實作對照表：source path、file name、語言、安裝位置、實作方法與透明改寫能力 | [[2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE]] | CodeAnalysis | 0 | 0 |
 | 2026-05-30 08:33 | ingest | https://www.youtube.com/watch?v=t5CtfUWJjm4 | [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] | DevTools | 3 | 5 |
 | 2026-05-30 15:55 | ingest | https://getmoshi.app/docs | [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] | DevTools | 8 | 7 |
+| 2026-05-30 16:44 | ingest | github.com/microsoft/SkillOpt + arXiv:2605.23904 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 7 | 6 |
