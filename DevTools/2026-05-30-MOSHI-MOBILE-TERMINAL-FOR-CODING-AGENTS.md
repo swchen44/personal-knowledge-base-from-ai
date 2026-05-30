@@ -131,77 +131,109 @@ Moshi 可遠端驅動以下 agent（也支援一般 shell）：
 ## 語音輸入（Voice & Dictation）
 
 > [!info] 資料來源
-> 以下整理自官方 /docs 主頁的 Voice 段落（`getmoshi.app/docs/voice` 專頁因連線問題本次未能抓取，更細的設定步驟見 Open Questions）。
+> 整理自官方專頁 `getmoshi.app/docs/voice`（page 12/32）。設定入口：**Settings → Speech**。
 
-Moshi 讓你用「講」的方式驅動終端機，支援三種辨識引擎（dictation engine）：
+Moshi 能把語音轉成終端機輸入，最適合用在：對 agent 下自然語言 prompt、打短 shell 指令、以及不想跟手機鍵盤搏鬥時編輯文字。
 
-| 辨識引擎 | 處理位置 | 特性 |
-|---------|---------|------|
-| **Apple SpeechAnalyzer** | 裝置端（on-device） | iOS 內建、隱私佳、免網路 |
-| **本地 Whisper（local Whisper）** | 裝置端（on-device） | 開源模型、離線可用 |
-| **雲端引擎（hosted cloud engine）** | 雲端 | 可能辨識更準，但語音會送出 |
+### 三種辨識引擎（Speech Engines）
 
-### 兩種語音模式
+| 引擎 | 處理位置 | 重點 | 計費 |
+|------|---------|------|------|
+| **Apple（SpeechAnalyzer）** | 裝置端（on-device），iOS 26+ | 不出手機、免下載模型、支援裝置上最快；舊版 iOS 不顯示此選項 | 免費 |
+| **Whisper（whisper.cpp）** | 裝置端，需下載模型 | 全 iOS 版本可用、可完全離線；模型從「小型純英文」到「大型多語言」，越大越準但越佔空間／越慢；模型存裝置可移除 | 免費 |
+| **Cloud（雲端託管）** | Moshi 雲端 | 通常**辨識最準**、免下載；但需註冊 push token，且**有額度限制（metered）** | **Free 每日小額度、Pro 較大額度**（設定畫面顯示剩餘/總額度） |
+
+> [!warning] 隱私
+> 只有 **Cloud** 會把語音送出裝置；**Apple** 與 **Whisper** 完全在裝置端處理。處理機敏內容時優先選後兩者。
+
+### 語言（Language）
+可設「自動偵測」或「固定某語言」。常切換語言用自動；引擎一直認錯時改固定。Apple 與 Cloud 一律有語言選單；**Whisper 只有在選多語言模型時**才有（純英文模型只轉英文）。
+
+### 兩種模式：Chat mode 開/關
 
 ```text
-┌─────────────────────────────────────────────┐
-│  Chat mode（聊天模式）                         │
-│  語音 → 先組成 prompt（可檢視/修改）→ 再送出     │
-│  適合：給 agent 下完整指令，避免講錯直接執行      │
-├─────────────────────────────────────────────┤
-│  Command mode（命令模式）                      │
-│  語音 → 直接打進 shell（即時輸入）              │
-│  適合：快速打指令、檔名、短字串                  │
-└─────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│ Chat mode = OFF（命令模式）                              │
+│  語音 → 直接以「鍵盤輸入」串進終端機                       │
+│  搭配 Auto-send → 轉完自動按 Enter                       │
+│  適合：shell 指令、REPL、tmux 操作、短字串                │
+├────────────────────────────────────────────────────────┤
+│ Chat mode = ON（聊天/組稿模式）                          │
+│  語音 + 打字 + 圖片附件 → 在終端機上方的 composer 一起組稿 │
+│  點送出才整包送給 agent；送出前可改錯字、補句、貼圖        │
+│  適合：對 Claude Code / Codex / Gemini 等下完整 prompt    │
+└────────────────────────────────────────────────────────┘
 ```
 
-> [!tip] 可執行建議
-> 重視隱私就選 **Apple SpeechAnalyzer** 或 **本地 Whisper**（語音不出裝置）；要對 agent 下長 prompt 時用 **Chat mode** 先檢視再送，避免語音辨識錯字直接被執行。
+> [!tip] 怎麼選
+> 工作多是 shell/tmux → 關 Chat mode；多在跟 agent 對話 → 開 Chat mode（送出前可檢視，避免語音錯字直接被執行）。
 
-## 貼圖到 Prompt（Image Paste）
+### 其他
+- **Auto-send**：聽寫結束後自動送出；想先檢視就關掉。
+- **Transcription history（逐字稿歷史）**：保留近期聽寫，方便「長 prompt 小修改」或「把類似指令送到另一個 session」。
+- **實務技巧**：短 prompt 用 push-to-talk；打程式碼類文字時「把標點唸出來」；破壞性指令送出前先看過；離開快網路前先下載好要用的 Whisper 模型。
+
+## 貼圖／貼檔到 Prompt（Image & File Paste）
 
 > [!info] 資料來源
-> 整理自官方 /docs 主頁的 Image paste 段落（`getmoshi.app/docs/image-paste` 專頁本次未能抓取，圖片實際存放位置／保留時間見 Open Questions）。
+> 整理自官方專頁 `getmoshi.app/docs/image-paste`。觸發捷徑為 **Ctrl+V**（被當成跨平台的通用貼上鍵）。
 
-**運作方式**：在 prompt 中直接貼上**截圖、照片、或剪貼簿圖片**，Moshi 會把圖片轉成一個 **可抓取的 URL（fetchable URL）** 交給 agent —— agent 就能讀取該圖。
+### 附件來源（Add attachment 面板）
+從終端機工具列的「附加」鍵叫出，提供：
+
+| 來源 | 說明 |
+|------|------|
+| **Camera** | 即時拍照 |
+| **Photo** | 從 iOS 相簿選（含截圖） |
+| **Files** | iOS 文件選擇器：PDF、壓縮檔、log、設定檔等 |
+| **Clipboard** | **只有在 iOS 偵測到可用剪貼簿內容時才出現**（空的或不支援的格式會自動隱藏） |
+
+### 檔案怎麼傳、存哪裡（重要修正）
+
+> [!important] 實際行為：會寫入 host
+> 終端機的貼圖/貼檔流程，是把內容**透過 SCP 複製到 host 的 `~/.moshi/uploads/`**，然後把該檔的**本機路徑（local file path，不是 URL）**交給 agent。
+> - **Chat mode 開**：路徑附到 composer 訊息。
+> - **Chat mode 關**：路徑直接貼進終端機游標處。
 
 ```text
- 手機端                         host 上的 agent
-   │                                │
-   │ 貼上截圖/照片/剪貼簿圖片         │
-   │──── Moshi 產生 fetchable URL ──►│
-   │                                │── 透過 URL 抓取圖片 ──►（讀圖）
-   │                                │
-   ✗ 不需 scp　✗ host 不留暫存檔
+ 手機端                          host（你的開發機）
+   │                                 │
+   │ 附加 截圖/照片/檔案              │
+   │──── SCP 複製 ──────────────────►│  ~/.moshi/uploads/xxxx.png
+   │                                 │
+   │   把「本機路徑」給 agent ───────►│  agent 用一般檔案存取讀取
 ```
 
-> [!tip] 為什麼方便
-> 傳統做法要把圖 `scp` 到 host、再在 prompt 裡指路徑、用完還要清暫存檔。Moshi 直接給 agent 一個 URL，**省去 scp 與暫存檔清理**。相關開關位於 Settings 的「檔案分享（file sharing）」。
+> [!warning] 兩個注意點
+> 1. **檔案會累積在 `~/.moshi/uploads/`**：可從 Moshi 的 **Files 畫面**（有縮圖）管理，或用 SSH 自行刪除——機敏截圖記得清。
+> 2. **Remote clipboard**：若開啟此選項，圖片的絕對路徑也會被送到 host 的剪貼簿，方便在桌面端貼上。
+> 3. 部分 agent 需要你在訊息裡**明確指示**配合該檔案路徑，才會正確讀圖。
 
-> [!warning] 資安考量
-> 「可抓取的 URL」代表圖片被放到某處供 agent 抓取。**該 URL 的存放位置、保留時間、存取權限官方主頁未交代**（見 Open Questions）—— 貼含機敏資訊的截圖前請留意。
+> [!note] 與「語音 Chat mode 附圖」的差異
+> 在語音 Chat mode 內附圖時，官方描述是「送一段 **short URL** 讓 agent 抓取、**不寫入 host**」；而上面終端機的 image paste 則是 **SCP 進 `~/.moshi/uploads/`、給本機路徑**。兩條路徑的落地方式不同，使用時留意。
 
 ## 安裝與設定細節（Installation & Setup）
 
-### 完整建議設定流程
+> [!info] 文件結構
+> 官方 docs 的 Start 區有「**Install and prepare a host**」與「**Run your first session**」兩頁；Connections 區另有「Connections and authentication」「Tailscale」；Multiplexer 區涵蓋 tmux / Zellij / Herdr。以下為建議起手式。
+
+### 建議設定流程
 
 ```text
- 在 host（你的 Mac / Linux / VPS / homelab）上：
+ 在 host（Mac / Linux / VPS / homelab）：
    1. 安裝 mosh 與 tmux
         └─ mosh：網路切換/斷線時連線仍存活
-        └─ tmux：App 退背景時 agent 仍繼續跑（long-lived workspace）
-   2. （選用）安裝 moshi-hook —— 有用 coding agent 才需要
+        └─ tmux：App 退背景時 agent 繼續跑（long-lived workspace）
+   2. （用 coding agent 才需要）安裝 moshi-hook
         └─ 把 agent 事件（approval / session / tool / turn）送進 App Inbox
 
- 在手機 App（iOS / Android）上：
-   3. 新增一個連線（connection），用 SSH key 驗證
+ 在手機 App（iOS / Android）：
+   3. 新增連線（connection），用 SSH key 驗證
    4. 把 tmux 設為長期工作區
    5. 開啟推播通知（push notifications）
 ```
 
 ### 連線（Connection）儲存的設定欄位
-
-Home 的每個 saved connection 會記住：
 
 | 欄位 | 說明 |
 |------|------|
@@ -211,11 +243,14 @@ Home 的每個 saved connection 會記住：
 | transport preference | 傳輸偏好（SSH vs mosh） |
 | mosh / SSH routing | mosh 或 SSH 的路由設定 |
 
-> [!important] 三件事缺一不可的理由
-> - **mosh** → 讓終端在網路切換時不斷線；
-> - **tmux** → 讓 agent 在 App 切到背景時繼續執行；
-> - **moshi-hook** → 讓 Moshi 知道何時該通知你（approval 等）。
-> 三者組合起來，才有「手機 babysit 長任務」的完整體驗。
+> [!tip] 連線進階
+> 文件另列出 **Tailscale** 作為連線方式之一——若 host 在 NAT/防火牆後、沒有公開 IP，用 Tailscale 這類 mesh VPN 會比開埠轉發更省事。多工器除了 tmux 也支援 **Zellij** 與 **Herdr**。
+
+> [!important] 三件套缺一不可的理由
+> - **mosh** → 終端在網路切換時不斷線；
+> - **tmux** → agent 在 App 切背景時繼續執行；
+> - **moshi-hook** → Moshi 知道何時該通知你（approval 等）。
+> 三者組合，才有「手機 babysit 長任務」的完整體驗。
 
 ## 我的心得（My Takeaways）
 
