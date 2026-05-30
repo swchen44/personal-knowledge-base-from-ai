@@ -22,3 +22,4 @@
 | [[2026-02-28-2-MINUTE-CLAUDE-CODE-UPGRADE-LSP]] | 2 分鐘啟用 Claude Code LSP：你可能錯過的最重要升級 | 2026-02-28 |
 | [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] | Claude Code 最被低估的功能：Hooks 完整指南 | 2026-01-25 |
 | [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] | Debug Tuboshu 用手搖店成長比喻，拆解 AI 生成 SaaS 從能動到能撐住流量所需的後端擴展路徑 | 2026-05-24 |
+| [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] | 用手機遠端操控 Claude Code/Codex 等 AI 編碼代理人的 iOS/Android 終端機 App | 2026-05-30 |

@@ -267,3 +267,5 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 - [Karpathy Guidelines CLAUDE.md](https://github.com/forrestchang/andrej-karpathy-skills/blob/main/CLAUDE.md)（GitHub 34K stars）
 - Claude Code 反編譯原始碼 `src/constants/prompts.ts`（`getSimpleDoingTasksSection()`, `codeStyleSubitems`）
+
+- [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] — 行動端遠端操控 AI 編碼代理人的工具（Moshi）

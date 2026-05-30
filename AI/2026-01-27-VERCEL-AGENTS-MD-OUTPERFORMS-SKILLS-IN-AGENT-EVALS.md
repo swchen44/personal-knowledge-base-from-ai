@@ -204,3 +204,5 @@ npx @next/codemod@canary agents-md
 ## References
 
 - [AGENTS.md Outperforms Skills in Our Agent Evals — Jude Gao, Vercel (2026-01-27)](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
+
+- [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] — 行動端遠端操控 AI 編碼代理人的工具（Moshi）

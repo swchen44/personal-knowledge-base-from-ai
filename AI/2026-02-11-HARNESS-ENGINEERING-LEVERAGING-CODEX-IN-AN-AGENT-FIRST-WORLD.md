@@ -176,3 +176,5 @@ Codex 最終達成了端到端的功能開發能力：
 - [OpenAI Introduces Harness Engineering - InfoQ](https://www.infoq.com/news/2026/02/openai-harness-engineering-codex/)
 - [Unlocking the Codex harness: how we built the App Server | OpenAI](https://openai.com/index/unlocking-the-codex-harness/)
 - [Unrolling the Codex agent loop | OpenAI](https://openai.com/index/unrolling-the-codex-agent-loop/)
+
+- [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] — 行動端遠端操控 AI 編碼代理人的工具（Moshi）

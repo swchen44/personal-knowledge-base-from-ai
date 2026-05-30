@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Moshi — 從手機遠端操控 AI 編碼代理人的行動終端機](./DevTools/2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS.md) — iOS/Android App，從手機操控 Claude Code、Codex 等 agent
 - [為什麼 AI 寫的網站一上線就掛：後端擴展與系統瓶頸入門](./DevTools/2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING.md) — Debug Tuboshu 用手搖店成長比喻，拆解 AI 生成 SaaS 從能動到能撐住流量所需的後端擴展路徑
 - [RTK Rust Token Killer — Log 壓縮與 AI Agent 輸出治理架構深度分析](./CodeAnalysis/2026-05-23-RTK-RUST-TOKEN-KILLER-LOG-COMPRESSION-ARCHITECTURE.md) — 本地 `rtk-ai/rtk@805caf7` 原始碼分析：hook rewrite、dedicated command modules、TOML filters、tee recovery、tracking DB 與 log dedupe；萃取「先分類再壓縮、先保證可恢復再省 token」的核心精神，並提出 update RTK / 高噪音 log 的具體縮減策略
 - [Codex Hook 系統參數與 Skills 搜尋路徑 — 原始碼層級深度規格](./CodeAnalysis/2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE.md) — 從 `codex-rs/hooks/` + `core-skills/` 原始碼 + 18 個自動產出的 JSON schema fixture，整理出 **9 種 hook event 的完整 input/output 規格**（PreToolUse / PermissionRequest / PostToolUse / PreCompact / PostCompact / SessionStart / SubagentStart / UserPromptSubmit / Stop）+ **3 種 handler type**（Command/Prompt/Agent）+ **6 條 skill root 搜尋路徑**（`{project}/skills/` → `~/.codex/skills/` (deprecated) → `~/.agents/skills/` (推薦) → `~/.codex/skills/.system/` → `/etc/codex/skills/` → plugin paths + cwd 向上找 `.agents/skills/`）+ `SKILL.md` 與 `agents/openai.yaml` 結構 + MAX_SCAN_DEPTH=6 等掃描限制
