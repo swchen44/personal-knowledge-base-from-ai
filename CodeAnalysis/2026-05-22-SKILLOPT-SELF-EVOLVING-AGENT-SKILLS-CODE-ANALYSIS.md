@@ -406,17 +406,62 @@ envs/<bench>/adapter.py:rollout(skill, item)  × split
 | 元件 | 設定 | SearchQA | Spreadsheet | LiveMath |
 |---|---|---|---|---|
 | 學習率（learning rate） | lr=4（預設） | **87.1** | **77.5** | **61.3** |
-| 學習率 | 不用 lr | 84.6 | 75.7 | 57.3 |
+| 學習率 | dynamic lr（動態） | 85.8 | 71.8 | 54.0 |
+| 學習率 | 不用 lr（unbounded） | 84.6 | 75.7 | 57.3 |
 | Rejected buffer | 有 buffer | 87.1 | 77.5 | 61.3 |
 | Rejected buffer | 無 buffer | 85.5 | 72.9 | 58.9 |
 | 更新記憶（meta+slow） | 兩者皆有 | 87.1 | 77.5 | 61.3 |
+| 更新記憶 | 只去掉 meta skill | 85.1 | 75.7 | 58.1 |
 | 更新記憶 | 兩者皆無 | 86.3 | **55.0** | 59.7 |
 
-→ 「更新記憶」對 Spreadsheet 影響最大（77.5 → 55.0，掉 22.5），顯示 slow/meta 更新在程式生成類任務最關鍵；rejected buffer 與 lr 各貢獻數個百分點。
+→ 「更新記憶」對 Spreadsheet 影響最大（77.5 → 55.0，掉 22.5），顯示 slow/meta 更新在程式生成類任務最關鍵；rejected buffer 與 lr 各貢獻數個百分點。**詳細逐項拆解見下方「6.2 Ablation 深入」。**
 
 **遷移（Transfer）**：跨模型 **+15.2**（GPT-5.4 的 LiveMath 技能 → GPT-5.4-nano，零樣本）；跨 harness **+31.8**（Codex 上訓的 SpreadsheetBench 技能 → Claude Code）。
 
 ![跨 epoch 的訓練/驗證趨勢：slow/meta 更新平滑掉步級雜訊，分數穩定上升](assets/2026-05-22-SKILLOPT/epoch-trends.png)
+
+## 6.2 Ablation 深入（逐項拆解每個設計貢獻多少）
+
+> [!info] 來源
+> 取自論文 §6.2 Ablations（arXiv:2605.23904v2 HTML 全文），含 Table 2（超參數 sweep）、Table 3（元件消融）、Table 6（成本）。實驗設定：在 **SearchQA / SpreadsheetBench / LiveMath** 上、以 **GPT-5.4 同時當 optimizer 與 agent**，回報驗證集準確率（validation accuracy）。論文影片特別推薦這節，因為它把「哪些設計真的重要」講得最清楚。
+
+### 消融的兩組七個維度
+
+§6.2 把設計拆成兩組來測：
+
+- **Table 2 — 五個超參數軸**：① rollout batch 大小、② reflection minibatch 大小、③ 訓練證據量（training evidence）、④ 文字學習率 `L_t`、⑤ 學習率排程（schedule）。
+- **Table 3 — 兩個關鍵元件**：⑥ rejected-edit buffer、⑦ epoch 級 slow/meta update。
+
+### 逐項發現（論文原文重點，台灣繁體中文整理）
+
+1. **Batch / minibatch（①②）** — rollout batch 越大、optimizer 每步看到的證據越多，三個任務都變好（他們用「算力放得下的最大 batch」）。反思 minibatch 則要**取中庸**：太小漏掉跨軌跡（cross-trajectory）的共通樣式、太大會稀釋訊號。
+2. **文字學習率 `L_t`（④）** — 在 **{1, 2, 4, 8, 16}** 上掃描：**小到中等預算都有競爭力，但極大預算會破壞訓練穩定**——「單一步改太多，結果直接被驗證閘門打回」。預設 **`L_t = 4`**。
+3. **排程 schedule（⑤）** — **constant（固定）就又簡單又強**；衰減排程（早期大步、後期小步）在部分任務略好但差異很小，主結果採 constant。
+4. **Rejected-edit buffer（⑥）** — 拿掉 buffer（optimizer 看不到最近被退回的編輯）→ **準確率下降、收斂變慢**，因為它會一再提出「已經失敗過的編輯變體」。**這個 buffer 在訓練後期最有用**：簡單的進步已被吃光、避免重蹈覆轍才關鍵。
+5. **Slow/meta update（⑦）** — 關掉 epoch 級整併 → **最終準確率下降、且各 epoch 之間變異變大**，**在 SpreadsheetBench 尤其明顯**（整併能防止技能隨著變長而漂移 drift）。**技能越長、編輯越多的任務，影響越大。**
+
+> [!important] §6.2 的核心結論（Takeaways，論文原話精神）
+> 「SkillOpt **對大多數超參數都很穩健**（batch / minibatch / schedule 怎麼設都行）。**真正最關鍵的只有兩個**：**有界的文字學習率**（讓更新穩定）與 **epoch 級整併**（防止漂移）。**而這兩者，正是讓整個過程『像在訓練』而不是『隨手改寫（ad-hoc rewriting）』的關鍵零件。**」
+> → 換句話說：SkillOpt 的真正貢獻不是「用 LLM 改 prompt」，而是「**把 prompt 自我演化馴化成一個穩定、可收斂的優化過程**」——而 §6.2 用消融證明了這一點。
+
+### Table 6 — 成本與技能精簡度（回答「訓練要花多少」）
+
+> [!success] 這張表回答了本筆記原本的 Open Question：訓練成本到底多少
+> 數據為各 benchmark 的：初始/最終技能 token 數、最終**被接受的編輯數（Edits）**、訓練總 token、與每分增益成本（Cost/pt）。
+
+| Benchmark | 初始技能(tok) | 最終技能(tok) | 接受編輯數 | 訓練總 token | 每分增益成本(Cost/pt) |
+|---|---|---|---|---|---|
+| SearchQA | 16 | 857 | 4 | 213.8M | 37.9M |
+| SpreadsheetBench | 224 | 1,995 | 4 | 21.4M | 0.6M |
+| OfficeQA | 145 | 883 | 1 | 20.8M | 1.1M |
+| DocVQA | 81 | 959 | 3 | 188.2M | 46.4M |
+| LiveMath | 154 | 379 | 1 | 23.2M | 3.6M |
+| ALFWorld | 516 | 1,321 | 2 | 59.3M | 15.9M |
+
+兩個值得記住的事實：
+
+- **最終技能極精簡**：成品只有 **379–1,995 token**，而且**只保留 1–4 個被接受的核心編輯**——印證影片「最強 skill 常只留 1–4 個核心修改」與 §6.2「小步走最穩」。
+- **成本差異極大**：訓練總 token 從 20.8M 到 213.8M；**每分增益成本** SpreadsheetBench 最便宜（**0.6M**），DocVQA 最貴（**46.4M**），相差約 **77 倍**——選任務／選 benchmark 對 CP 值影響巨大。部署本身則零額外成本（技能就是一段 prompt）。
 
 ## 快速上手（Quick Start）
 
@@ -454,7 +499,7 @@ python scripts/eval_only.py \
 
 ## 待補充（Open Questions）
 
-- 訓練一份技能到收斂的**實際 token/金錢成本**是多少？repo/論文未給每次 run 的呼叫次數與費用（建議搜尋：`SkillOpt training cost tokens`、issue 區 `cost`）。
+- ~~訓練一份技能到收斂的實際 token 成本是多少？~~ **已由 §6.2 Table 6 解答**（見上）：訓練總 token 20.8M–213.8M、每分增益成本 0.6M–46.4M token、最終技能僅 1–4 個編輯/379–1,995 token。**仍待釐清**：換算成實際金額（取決於 optimizer/agent 模型單價）、以及 wall-clock 時間（影片稱「幾小時到一天」但論文未給精確值）。
 - 專案頁表格的 Codex/Claude Code Avg（+21.8／+18.6）與摘要頭條（+24.8／+19.1）為何不同？是 v1→v2 改版、還是不同子集平均？（需比對 arXiv v1 vs v2）
 - selection set（gate 用來評分的集合）多大？`evaluate_gate` 用點估計，論文是否對其大小/雜訊做敏感度分析？（建議搜尋：`SkillOpt selection set size ablation`）
 - 跨**模型**遷移時，被遷移的技能是針對哪個 target 訓練的、是否各自重訓？表格給了 +15.2 但機制細節不足（建議搜尋：`SkillOpt cross-model transfer`）。

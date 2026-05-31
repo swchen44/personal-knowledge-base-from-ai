@@ -89,3 +89,4 @@
 | 2026-05-30 16:44 | ingest | github.com/microsoft/SkillOpt + arXiv:2605.23904 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 8 | 6 |
 | 2026-05-31 07:02 | enrich | YouTube g8Ik-0aYfiQ (Jim AI Notebook 科普影片) | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 0 | +1 |
 | 2026-05-31 09:35 | enrich | YouTube g8Ik-0aYfiQ 完整逐字稿(使用者提供) | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 0 | +0 |
+| 2026-05-31 10:22 | enrich | arXiv:2605.23904v2 §6.2 Ablations + Table 6 成本 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 0 | -1 |
