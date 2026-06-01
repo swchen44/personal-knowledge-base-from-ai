@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [把最無聊的重複流程交給 AI：從 Human SOP 變成 Agentic Workflow 的 Prompt 工具包](./AI/2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT.md) — Gary Chen：模型已非瓶頸，瓶頸是你講不清楚；四步把 Human SOP 拆成可 debug 的 agentic workflow，含配套五步 Prompt 工具包原文與我的分析
 - [SkillsBench — 第一個評測「Agent 用 skill 用得多好」的基準（程式碼分析）](./CodeAnalysis/2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS.md) — benchflow-ai 的 gym-style skill 評測基準，與 SkillOpt 互補（產生 vs 評測）
 - [高中生學測國寫材料包：33 本延伸閱讀書單與新竹市立圖書館館藏對應](./Education/2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY.md) — 對應吳寧老師說明會的 SDGs ／ 思辨／抒情／理財四大主題；含 OPAC 查詢腳本、69 本可借副本、8 分館取書打勾清單與三條跑館動線
 - [SkillOpt — 把 Agent 技能當神經網路訓練的文字空間優化器（程式碼×論文）](./CodeAnalysis/2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS.md) — Microsoft 的 self-evolving agent skills 框架，用驗證閘門讓提示自我演化可靠單調上升（52/52 best-or-tied）

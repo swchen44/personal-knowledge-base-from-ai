@@ -151,6 +151,7 @@ links:
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy 的 AI 工具配置哲學在 CLAUDE.md 中的具體實踐與實測結果
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 簡立峰談老闆即 AI 使用者，一人公司模式是此理念的極致體現
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的 Software 3.0 宣言，與本篇的知識庫實踐互為印證
+- [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 「把判斷沉澱進 workflow 而非鎖在腦袋」呼應一人公司把經驗系統化的核心主張
 
 ---
 

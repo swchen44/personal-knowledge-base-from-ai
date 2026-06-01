@@ -59,3 +59,4 @@
 | [[2026-05-13-WHY-YOUR-AI-COPY-LOOKS-FAKE-8-AI-WRITING-PITFALLS]] | 吳淡如 50 年寫作經驗：AI 寫文 8 大地雷（不是而是、強行昇華、有人說、吊書袋…）與人類 6 項不可取代特質（批判性思維、財商、判斷力…） | 2026-05-13 |
 | [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] | Garry Tan：400× 生產力的 Tokenmaxxing + GStack（Plan-Eng-Review → CEO Plan）、Posterous 三次重構（1 人/5 天/$200）、Thin Wrappers Fat Skills、邏輯代碼密度、用 Token 買時間 | 2026-05-17 |
 | [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] | 外部無人專文討論 grill-me + Plan Mode 衝突；綜合 Superpowers brainstorming 公開討論推論：grill-me 不攔截/不寫檔，與 Plan Mode 可共存；三種共存模式 A/B/C | 2026-05-18 |
+| [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] | Gary Chen：前沿模型已非瓶頸，瓶頸是你講不清楚；用四步（標準化→拆節點→雙向迭代→接 MCP/HITL）把 Human SOP 拆成 agentic workflow，先求一致再談全自動，角色升級成 process owner。含配套五步 Prompt 工具包原文 | 2026-05-25 |

@@ -244,6 +244,7 @@ links:
 - [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — Stanford 論文以 DPI 理論證明 Sub-Agent 冗餘可能只是浪費令牌，為本文踩坑經驗提供理論支撐
 - [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] — 用信心路由（Confidence Router）應對 Agent 品質問題的實作範例
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的七面之差與護欄三層篩選，為 Agent 實戰痛苦提供結構化解方
+- [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 「看了教程仍做不對」的根因即默會知識未外化，本篇用「從成品反推判斷」給出解法
 
 ## References
 - [YouTube 影片](https://www.youtube.com/watch?v=eWFKPPgHMCw)

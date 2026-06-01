@@ -93,3 +93,4 @@
 | 2026-05-31 07:42 | ingest | 對話研究：吳寧老師高中國文說明會 + 新竹市立圖書館 OPAC（webpac.hccg.gov.tw）查詢 33 本書 × 8 分館 | [[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]] | Education | 1 | 7 |
 | 2026-06-02 06:25 | ingest | github.com/benchflow-ai/skillsbench (本地 clone) | [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | CodeAnalysis | 1 | 5 |
 | 2026-06-02 06:42 | enrich | SkillOpt vs SkillsBench 七維度深度比對(實測檔案) | [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | CodeAnalysis | 0 | +0 |
+| 2026-06-02 07:14 | ingest | Patreon ba-zui-wu-liao-159637740 + garytalksstuff 20260525_sopflow_promptset_1（使用者提供全文） | [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] | AI | 6 | 6 |
