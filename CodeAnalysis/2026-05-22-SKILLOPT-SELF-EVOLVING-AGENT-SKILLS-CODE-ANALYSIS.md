@@ -13,6 +13,7 @@ source_type: code
 author: "Microsoft Research × 上海交通大學、復旦大學、同濟大學（Yifan Yang 等 15 位作者）"
 status: notes
 links:
+  - "[[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]]"
   - "[[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]]"
   - "[[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]]"
   - "[[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]]"
@@ -32,6 +33,9 @@ paper: "https://arxiv.org/abs/2605.23904"
 > - 論文：*SkillOpt: Executive Strategy for Self-Evolving Agent Skills*（arXiv:2605.23904，2026-05-22）
 > - **命名小註**：repo 對外叫 **SkillOpt**，但程式碼內部處處是舊代號 **ReflACT**（`ReflACTTrainer`、「6-stage ReflACT pipeline」），兩者指同一系統。
 > - **作者單位**：據中文科普影片（Jim AI Notebook）指出，SkillOpt 為 **Microsoft 與上海交通大學、復旦大學、同濟大學** 的合作研究（本筆記原僅標註 Microsoft，已補）。
+
+> [!tip] 互補工具：SkillsBench（評測場）
+> SkillOpt 是「skill 的**訓練器**」，[[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS|SkillsBench]] 是「skill 的**考場**」——一個產生 skill、一個評測 agent 用 skill 用得多好，是同一條 skill 生命週期的上下游、**互補非競品**。SkillOpt 訓練出的 `best_skill.md` 可丟進 SkillsBench 的 94 個跨領域任務做「有/無 skill」對照，正好補上 SkillOpt「對自己 selection set 過擬合」的風險（用第三方 benchmark 驗泛化）。兩者也共享同一個深層觀念：**用一個客觀、可自動判定的閘門抵抗 LLM 自我合理化**（SkillOpt = 驗證分數須嚴格上升；SkillsBench = oracle 須 100% + outcome 測試）。詳見 SkillsBench 筆記的「與 SkillOpt 的比較」。
 
 ## 摘要（Summary）
 
@@ -562,6 +566,7 @@ python scripts/eval_only.py \
 > - **模型版本**：影片口播稱 GPT-5.5（使用者註記疑為 GPT-4.5）；本筆記 benchmark 採官方專案頁的 **GPT-5.5** 命名（與 5.4／5.2 同一家族、內部一致），精確版本仍以論文 PDF 為準。
 
 ## 相關連結（Related）
+- [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] — **互補核心**：SkillsBench 是評測「agent 用 skill」的基準；SkillOpt 產生 skill、它評測 skill，上下游關係（見上方「互補工具」callout）
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — 相關主題：Claude Code Skill/Plugin 安全機制全解析：Frontmatter 進階欄位 + 命名冒名防護 + 企業 Marketplace 部署
 - [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] — 相關主題：npx skills 深度分析 — parseSource 解析、discoverSkills 搜尋、安裝更新機制與 Gerrit Server 相容性
 - [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — 相關主題：gstack 設計哲學與多 Agent 整合架構 — Plugin、Symlink、Headless 全解

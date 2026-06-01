@@ -35,3 +35,4 @@
 | [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] | claude-mem — Claude Code 跨 Session 持久記憶系統深度分析 | 2025-08-31 |
 | [[2023-10-27-CREWAI-CODE-ANALYSIS]] | CrewAI — 多代理人協作編排框架深度分析 | 2023-10-27 |
 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | 把 Agent 技能當神經網路訓練的文字空間優化器（內部代號 ReflACT）：minibatch 反思 + 驗證閘門 + 學習率裁剪，52/52 best-or-tied | 2026-05-22 |
+| [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | 第一個評測「agent 用 skill 用得多好」的基準：94+5 個 Harbor 任務、oracle 100%+outcome 測試、47K skill 生態研究；與 SkillOpt 互補(產生 vs 評測) | 2025-12-29 |

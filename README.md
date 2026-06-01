@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [SkillsBench — 第一個評測「Agent 用 skill 用得多好」的基準（程式碼分析）](./CodeAnalysis/2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS.md) — benchflow-ai 的 gym-style skill 評測基準，與 SkillOpt 互補（產生 vs 評測）
 - [高中生學測國寫材料包：33 本延伸閱讀書單與新竹市立圖書館館藏對應](./Education/2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY.md) — 對應吳寧老師說明會的 SDGs ／ 思辨／抒情／理財四大主題；含 OPAC 查詢腳本、69 本可借副本、8 分館取書打勾清單與三條跑館動線
 - [SkillOpt — 把 Agent 技能當神經網路訓練的文字空間優化器（程式碼×論文）](./CodeAnalysis/2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS.md) — Microsoft 的 self-evolving agent skills 框架，用驗證閘門讓提示自我演化可靠單調上升（52/52 best-or-tied）
 - [Moshi — 從手機遠端操控 AI 編碼代理人的行動終端機](./DevTools/2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS.md) — iOS/Android App，從手機操控 Claude Code、Codex 等 agent
