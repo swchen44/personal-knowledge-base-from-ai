@@ -282,7 +282,7 @@ bench eval create -t tasks/my-task -a claude-agent-acp -s tasks/my-task/environm
 ## 待補充（Open Questions）
 
 - SkillsBench 官方的 RQ1 對照數據（有 skill vs 無 skill 的通過率差）何時公開、差多少？（建議搜尋：`skillsbench.ai results`、HuggingFace `benchflow/skillsbench`）
-- 它能否直接拿來評測 **SkillOpt 訓練出的 `best_skill.md`**？格式（SKILL.md vs SkillOpt 的單一 md）相容性如何？（需比對 `agentskills.io` spec）
+- ~~它能否直接拿來評測 SkillOpt 的 `best_skill.md`？格式相容性如何？~~ **已查證（見「七個維度比對 ②」）**：不相容、需加殼（補 frontmatter + 改名 SKILL.md + 拆 references）。**仍待實測**：加殼後實際跑一個任務的「有/無 skill」對照，看 SkillOpt 風格的 skill 在 SkillsBench 任務上是否真有增益。
 - 設計目標 SOTA「<50%」（README）與「<39%」（RQ 文件）哪個是最終標準？兩份文件不一致。
 - 94 任務裡有多少實際附了 `environment/skills/`（可做有/無 skill 對照）？本次未逐一清點。
 - BenchFlow SDK 與 Harbor 格式的關係、與其他 agent eval 框架（如 [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE|gstack eval]]）的差異為何？（建議搜尋：`BenchFlow Harbor task format`）
@@ -305,14 +305,73 @@ bench eval create -t tasks/my-task -a claude-agent-acp -s tasks/my-task/environm
 | **技術棧** | Python 3.10、自寫訓練迴圈 | Python 3.12、uv、BenchFlow SDK、Daytona |
 | **目標模型** | GPT-5.x / Qwen | Claude Opus 4.5 / GPT-5.2 / MiniMax M2.1 / GLM-4.7 |
 | **誰跟它正面比** | TextGrad / GEPA / DSPy / EvoSkill（都是 optimizer） | 其他 agent/skill eval（如 Harbor 生態、gstack eval） |
+| **skill 格式** | 純 markdown、無 frontmatter、檔名 `initial/best_skill.md` | **`SKILL.md` + YAML frontmatter(name/description) + references/**（不相容，須加殼） |
+| **skill 數量觀** | 一次優化**單一** skill | 刻意 **composition**：73/101 任務附 2+ skill（最多 7 個） |
+| **評分訊號** | (hard, soft) 連續/可平滑 → 供優化 | pytest pass/fail outcome → 供評測 |
+| **任務交集** | 6 benchmark | 99 任務，與 SkillOpt **零重疊**（可當 OOD 考場） |
 
-> [!tip] 兩者如何串起來用
-> 1. 用 **SkillOpt** 把一份 skill 在訓練驗證集上練到收斂 → 得到 `best_skill.md`。
-> 2. 把這份 skill 放進 **SkillsBench** 的 `environment/skills/`，在它的 94 個任務上跑「有 skill vs 無 skill」對照 → 得到**獨立、跨領域的泛化成效**。
-> 3. 這正好補上 SkillOpt 的一個風險（對自己的 selection set 過擬合）——用第三方 benchmark 驗證才知道 skill 是否真泛化。
+### 七個維度的深度比對（皆有實證）
 
-> [!warning] 共同的深層觀念
-> 兩者都靠「一個**客觀、可自動判定的閘門**」抵抗 LLM 的自我合理化：SkillOpt 是「驗證分數須嚴格上升才接受編輯」，SkillsBench 是「oracle 須 100% 通過 + outcome 測試」。這也呼應 [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS|SkillOpt]] 影片補充的範式轉移金句：「**驗證集設計會變成新的核心技能**」——而 SkillsBench 做的，本質就是把「驗證集設計」工程化、規模化。
+> [!info] 方法
+> 以下逐項比對皆來自實際讀檔：SkillOpt（`/tmp/kb-code-SkillOpt` clone + arXiv v2 全文）、SkillsBench（`~/git/skillsbench_play/skillsbench`）。每點標注「本筆記能驗到的證據」。
+
+#### ① 生命週期位置：產生 vs 評測（互補的根本）
+
+SkillOpt 的 §3.6「Harness-Agnostic Deployment」明說：訓練出的 skill 是 agent 的**外部凍結狀態**，部署時就是一段 prompt、零額外推論成本。SkillsBench 則在 `environment/skills/` 放 skill、用 `-s` 餵給 agent 跑分。**一個產出 artifact，一個消費 artifact**——天生上下游。
+
+#### ② 格式相容性：⚠️ **不能直接互通（重要發現）**
+
+| | SkillOpt 產物 | SkillsBench 要求 |
+|---|---|---|
+| 檔名 | `best_skill.md` / `initial.md` | **`SKILL.md`**（CONTRIBUTING 標 REQUIRED） |
+| YAML frontmatter | **無**（六個 env 的 initial.md 全是純 `# 標題` 開頭，已逐一驗證） | **有**：`name` + `description` 必填（agentskills.io spec） |
+| 結構 | 單一扁平 md（規則條列） | 資料夾：`SKILL.md` + `references/` + 可選 `scripts/` |
+
+→ **SkillOpt 的 skill 不能原樣丟進 SkillsBench**，需要「加殼」：補 frontmatter（name/description）、改名 SKILL.md、（可選）拆出 references。這是把「理論互補」落地時的真實摩擦點。實測範例：SkillsBench 的 `modal-gpu/SKILL.md` 開頭就是 `---\nname: modal-gpu\ndescription: ...\n---`，SkillOpt 的 `alfworld/skills/initial.md` 開頭則是 `# ALFWorld Embodied Agent Skill`。
+
+#### ③ 任務/benchmark 重疊度：**幾乎零重疊（適合當中立測試場）**
+
+- SkillOpt 6 個 benchmark：SearchQA、SpreadsheetBench、DocVQA、LiveMath、OfficeQA、ALFWorld。
+- SkillsBench 99 個任務：citation-check、financial-modeling-qa、drone-planning-control、fix-erlang-ssh-cve … 名稱**與 SkillOpt 完全不交集**（連 spreadsheet/alfworld/docvqa 字串都搜不到；只有 `*-search`、`*-qa` 字面巧合，內容不同）。
+- → **正因零重疊**，SkillsBench 可當 SkillOpt skill 的「**out-of-distribution 第三方考場**」，避開「在自己訓練過的 benchmark 上自評」的偏誤。
+
+#### ④ Skill 數量觀：單一優化 vs 多 skill 組合（立場相反）
+
+- SkillOpt 一次只優化**一份**技能文件（single skill document）。
+- SkillsBench 刻意要 **composition**：實測 **73/101 個任務附了 2+ 個 skill**（最多 `video-silence-remover` 附 **7 個**、`travel-planning`/`drone-planning-control` 各 6 個），設計目標明寫「2+ skills、SOTA <50%」（RQ 文件甚至寫 3+ skills、<39%）。
+- → SkillOpt 解「**把一個 skill 練好**」，SkillsBench 考「**會不會把多個 skill 串起來用**」——這是 SkillOpt 目前**沒有**處理的維度，反而點出它的延伸方向。
+
+#### ⑤ 評分機制：連續量化 vs 二元 outcome
+
+- SkillOpt：`utils/scoring.py` 的 `compute_score` 回傳 **(hard, soft)**——hard 可為 0/1 或平滑連續值（smoothed reward），soft 為輔助分；驅動 textual gradient 與驗證閘門。
+- SkillsBench：`tests/test_outputs.py` 跑 **pytest → CTRF JSON**，本質是 **pass/fail outcome**（測最終產物如 `/root/answer.json` 對不對）。
+- → SkillOpt 需要**可微/可比的連續訊號**來「優化」；SkillsBench 只需**能判對錯**來「評測」。這解釋了為何 SkillOpt 依賴「可量化自動評分器」，而 SkillsBench 容得下更開放的任務（只要寫得出 oracle 與測試）。
+
+#### ⑥ 「驗證」角色不同，但哲學同源
+
+- SkillOpt 的 validation gate 在**訓練迴圈內**當煞車（每次編輯都比分、不過就退）。
+- SkillsBench 的 oracle 100% + outcome test 在**評測時**當品質閘門（確保題目有解、只認結果）。
+- → 角色不同（一個在 train-time、一個在 eval-time），但**同一個信念**：用客觀可自動判定的閘門抵抗 LLM 自我合理化。呼應 [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS|SkillOpt]] 影片金句「**驗證集設計會變成新的核心技能**」——SkillsBench 本質就是把「驗證集設計」工程化、規模化。
+
+#### ⑦ 學到的 skill 長什麼樣（風格巧合）
+
+SkillOpt 論文 Figure 4 的「學到的規則」全是**程序性紀律**（procedural discipline），例：
+> SpreadsheetBench：「檢視 workbook 結構與公式，然後把求值後的靜態值寫滿整個目標範圍，而非依賴 Excel 重算。」
+> ALFWorld：「維護 horizon-aware 的 visited/frontier 帳本，重複同型失敗後改變搜尋策略，拿到目標前別回訪終點。」
+
+而 SkillsBench 的人寫 skill（如 `modal-gpu`）也是同款**程序性 how-to**（怎麼設定 Modal、選 GPU、下載資料）。→ 兩邊對「好 skill = 程序性知識而非實例答案」的認知一致；差別只在 **SkillOpt 是機器自動演化出這種紀律，SkillsBench 是人手寫**。
+
+### 三句話總結這次比對
+
+1. **互補不重疊**：產生器 vs 評測器、6 benchmark vs 99 任務零交集——拼起來是完整 skill 技術棧。
+2. **落地有摩擦**：SkillOpt 產物要「加 frontmatter + 改名 SKILL.md + 拆 references」才能進 SkillsBench，不能即插即用。
+3. **SkillsBench 暴露 SkillOpt 的兩個盲點**：(a) 對自身 benchmark 過擬合的風險（用零重疊任務驗）、(b) 不處理 multi-skill composition（73/101 任務需要）。
+
+> [!tip] 可操作的串接流程（已驗證格式落差）
+> 1. SkillOpt 訓出 `best_skill.md`（純 md，無 frontmatter）。
+> 2. **加殼**：在開頭補 `---\nname: <slug>\ndescription: <一句說明>\n---`、改名為 `SKILL.md`、放進 `tasks/<id>/environment/skills/<slug>/`。
+> 3. `bench eval create -t tasks/<id> -a <agent> -s .../skills/` 跑「有/無 skill」對照 → 得到 OOD 泛化數據。
+> 4. 若要測 composition，再放第 2、3 個 skill 進同一 `skills/` 目錄。
 
 ---
 

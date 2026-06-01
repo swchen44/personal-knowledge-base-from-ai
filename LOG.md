@@ -92,3 +92,4 @@
 | 2026-05-31 10:22 | enrich | arXiv:2605.23904v2 §6.2 Ablations + Table 6 成本 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | CodeAnalysis | 0 | -1 |
 | 2026-05-31 07:42 | ingest | 對話研究：吳寧老師高中國文說明會 + 新竹市立圖書館 OPAC（webpac.hccg.gov.tw）查詢 33 本書 × 8 分館 | [[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]] | Education | 1 | 7 |
 | 2026-06-02 06:25 | ingest | github.com/benchflow-ai/skillsbench (本地 clone) | [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | CodeAnalysis | 1 | 5 |
+| 2026-06-02 06:42 | enrich | SkillOpt vs SkillsBench 七維度深度比對(實測檔案) | [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | CodeAnalysis | 0 | +0 |

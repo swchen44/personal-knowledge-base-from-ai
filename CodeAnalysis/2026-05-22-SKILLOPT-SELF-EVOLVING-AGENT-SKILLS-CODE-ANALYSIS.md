@@ -35,7 +35,8 @@ paper: "https://arxiv.org/abs/2605.23904"
 > - **作者單位**：據中文科普影片（Jim AI Notebook）指出，SkillOpt 為 **Microsoft 與上海交通大學、復旦大學、同濟大學** 的合作研究（本筆記原僅標註 Microsoft，已補）。
 
 > [!tip] 互補工具：SkillsBench（評測場）
-> SkillOpt 是「skill 的**訓練器**」，[[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS|SkillsBench]] 是「skill 的**考場**」——一個產生 skill、一個評測 agent 用 skill 用得多好，是同一條 skill 生命週期的上下游、**互補非競品**。SkillOpt 訓練出的 `best_skill.md` 可丟進 SkillsBench 的 94 個跨領域任務做「有/無 skill」對照，正好補上 SkillOpt「對自己 selection set 過擬合」的風險（用第三方 benchmark 驗泛化）。兩者也共享同一個深層觀念：**用一個客觀、可自動判定的閘門抵抗 LLM 自我合理化**（SkillOpt = 驗證分數須嚴格上升；SkillsBench = oracle 須 100% + outcome 測試）。詳見 SkillsBench 筆記的「與 SkillOpt 的比較」。
+> SkillOpt 是「skill 的**訓練器**」，[[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS|SkillsBench]] 是「skill 的**考場**」——一個產生 skill、一個評測 agent 用 skill 用得多好，是同一條 skill 生命週期的上下游、**互補非競品**。兩者 6 benchmark vs 99 任務**零重疊**，所以 SkillsBench 可當 SkillOpt 產物的 **OOD 第三方考場**，補上「對自己 selection set 過擬合」的風險。
+> **但落地有摩擦（實測）**：SkillOpt 產物是**無 frontmatter 的純 markdown**，SkillsBench 要 **`SKILL.md` + YAML frontmatter**——不能即插即用，要加殼（補 name/description、改名、拆 references）。另一個 SkillsBench 暴露的盲點：它 73/101 任務要 **multi-skill composition**，而 SkillOpt 只優化單一 skill。完整七維度比對見 [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS|SkillsBench 筆記]] 的「與 SkillOpt 的比較」。
 
 ## 摘要（Summary）
 
