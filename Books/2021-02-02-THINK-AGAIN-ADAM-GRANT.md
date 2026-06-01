@@ -391,6 +391,7 @@ Adam Grant 在官方網站提供一份自我評估測驗，測量你目前的「
 - [[GROWTH-MINDSET]] — Carol Dweck 的成長型思維，與本書的「重新學習（unlearning）」概念互補
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 談技術典範轉移，與本書「不讓過去選擇綁架未來」的主題相呼應
 - [[MOTIVATIONAL-INTERVIEWING]] — 動機式訪談的完整技術手冊
+- [[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]] — 高中生學測國寫材料包書單，含哲學思辨類延伸閱讀，可作為「重新思考」的青年版實踐路徑
 
 ## References
 
