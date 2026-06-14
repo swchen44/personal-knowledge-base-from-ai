@@ -1,5 +1,5 @@
 ---
-title: "Loop Engineering（迴圈工程）三方觀點綜合分析：從 ReAct 學理、產品原語到實作紀律"
+title: "Loop Engineering（迴圈工程）綜合分析：上游源頭 Rahul 原文 × 三個下游觀點（學理／產品原語／實作紀律）"
 date: 2026-06-07
 category: AI
 tags:
@@ -10,7 +10,7 @@ tags:
   - meta/comparative-analysis
 source: "https://addyosmani.com/blog/loop-engineering/"
 source_type: article
-author: "Addy Osmani / MindStudio / lunkerchen（綜合三來源）"
+author: "Sai Rahul（源頭）/ Addy Osmani / MindStudio / lunkerchen（綜合四來源）"
 status: notes
 links:
   - "[[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]]"
@@ -21,6 +21,7 @@ links:
   - "[[CLAUDE-MEMORY-ENGINE]]"
 multi_source: true
 sources_compared:
+  - "https://x.com/sairahul1/article/2064277888216555684"  # 上游源頭
   - "https://addyosmani.com/blog/loop-engineering/"
   - "https://www.mindstudio.ai/blog/what-is-loop-engineering-ai-coding-agents"
   - "https://github.com/lunkerchen/loop-engineering-skill"
@@ -28,12 +29,16 @@ sources_compared:
 
 ## 摘要（Summary）
 
-「迴圈工程（Loop Engineering）」是 2026 年中浮現的一個概念轉向：**你不再親自提示（prompt）代理人的每一步，而是設計一套會自己提示代理人的系統。** 本筆記綜合並交叉比較三個來源——Addy Osmani 的部落格文章（實踐者兼懷疑論者觀點）、MindStudio 的教學文（學理 + 廠商觀點）、以及 lunkerchen 的 `loop-engineering-skill` GitHub repo（可執行的實作紀律）——三者各站在不同抽象層，恰好構成一個從**學理 → 產品原語 → 實作紀律**的完整堆疊。
+「迴圈工程（Loop Engineering）」是 2026 年中浮現的一個概念轉向：**你不再親自提示（prompt）代理人的每一步，而是設計一套會自己提示代理人的系統。** 本筆記交叉比較四個來源：**上游源頭** Sai Rahul 的 X 長文《Loops: What Every AI Engineer Needs to Know in 2026》（普及與綜合者），以及三個**下游觀點**——Addy Osmani 的部落格（實踐者兼懷疑論者）、MindStudio 的教學文（學理 + 廠商）、lunkerchen 的 `loop-engineering-skill` GitHub repo（可執行的實作紀律）。四者恰好構成一個從**源頭框架 →（學理 / 產品原語 / 實作紀律）三向擴散**的傳承樹。
 
-核心結論：三者在「迴圈是什麼、需要哪些零件」上高度互補；但在**「驗證的最終責任歸誰」與「成本是該抽象掉還是該正面管理」**這兩點上存在真實張力。Addy 的警句最值得記住：「**Build the loop. Stay the engineer.**（設計迴圈，但仍要當那個工程師。）」
+> [!important] 補記（本次更新）：找到了共同上游源頭
+> 原筆記留有一條 Open Question：「三來源共同引用的 Rahul《Loops 2026》原文在哪？」——**已找到並納入**（見下方〈源頭考據〉一節）。關鍵證據：repo 的 `SKILL.md` 明確標註 inspired by Rahul，且其分層路由點名的 DeepSeek / Kimi / MiniMax **直接繼承自 Rahul 的成本論述**；Addy 文與 Rahul 文更有**近乎逐字的重疊段落**。Rahul 是這波概念的「中央散播節點」。
 
-> [!important] 一句話定位三來源
-> - **MindStudio** 回答「迴圈是什麼」（WHAT / WHY，根在學術界的 ReAct）
+核心結論：四者在「迴圈是什麼、需要哪些零件」上高度互補（六原語 + 五階段幾乎是共識）；但在**「驗證的最終責任歸誰」與「成本是該抽象掉還是該正面管理」**兩點上存在真實張力。Addy 的警句最值得記住：「**Build the loop. Stay the engineer.**（設計迴圈，但仍要當那個工程師。）」——而這句話其實源自 Rahul 的「build it like someone who intends to stay the engineer」。
+
+> [!important] 一句話定位四來源
+> - **Sai Rahul（源頭）** 把 Steinberger / Cherny 的兩則推文「翻譯成完整心智模型」，並補上**成本經濟學**——其餘三者都是它的下游分流
+> - **MindStudio** 回答「迴圈是什麼」（WHAT / WHY，往上接到學術界的 ReAct）
 > - **Addy Osmani** 回答「迴圈由哪些已上市的產品原語組成」（生態系層，工具中立）
 > - **lunkerchen repo** 回答「怎麼把迴圈做出來、為什麼會壞」（實作 + 失敗模式 + 程式碼）
 
@@ -52,6 +57,166 @@ sources_compared:
 | 對人的角色 | 強調「人仍是天花板與最終驗證者」 | 幾乎不談（強調可自動化、無程式碼）| 強調 maker≠checker，但偏向自動化驗證 |
 | License / 形態 | 文章 | 文章（含 FAQ）| MIT，含 3 支 bash script |
 
+> [!note] 上表是「三個下游觀點」的橫向比較；它們共同的**上游源頭**是下一節分析的 Rahul 原文。
+
+---
+
+## 源頭考據：Sai Rahul 的原始框架與傳承樹
+
+> [!important] 這一節是本筆記的更新重點。前一版把 Rahul 列為待查；現已取得原文（[X 長文](https://x.com/sairahul1/article/2064277888216555684)），並確認它是整波「Loop Engineering」論述的**中央散播節點**。
+
+### 傳承樹（Lineage）
+
+```
+        Peter Steinberger（OpenClaw→OpenAI）："Stop prompting. Design loops."
+        Boris Cherny（Claude Code）："My job is to write loops."
+                          │  （兩則推文，原始火花）
+                          ▼
+        ┌─────────────────────────────────────────────┐
+        │  Sai Rahul《Loops 2026》X 長文（源頭/普及者）   │
+        │  把兩則推文「翻譯成完整心智模型」               │
+        │  6 building blocks · 5 stages · open/closed    │
+        │  + 成本經濟學（中國 LLM 是解方）                │
+        └───────┬───────────────┬───────────────┬───────┘
+                │               │               │
+        近乎逐字重疊        概念對齊         明確標註 inspired by
+                ▼               ▼               ▼
+        ┌──────────────┐ ┌──────────────┐ ┌──────────────────┐
+        │ Addy Osmani  │ │ MindStudio   │ │ lunkerchen repo  │
+        │ 生態系/產品   │ │ 學理(ReAct)  │ │ 實作/Hermes/碼   │
+        └──────────────┘ └──────────────┘ └──────────────────┘
+                                │
+                          往上接學術源頭
+                                ▼
+                ReAct（Reason+Act, Princeton+Google）
+```
+
+### 三項傳承證據（為何斷定 Rahul 是源頭）
+
+1. **repo 明確標註。** `loop-engineering-skill` 的 `README.md` 開宗明義：「Inspired by Rahul's "Loops: What Every AI Engineer Needs to Know in 2026"」。其 SKILL.md 的 token 成本數字（50K–200K / 500K–2M）、分層路由點名的 **DeepSeek V4 Flash / Kimi / MiniMax**，全都直接搬自 Rahul——這解答了原 Open Question「repo 的 token 數字與模型名稱從哪來」。
+2. **Addy 與 Rahul 近乎逐字重疊。** 兩篇都用同樣的 Steinberger/Cherny 引言、同樣的「每天早上 triage 迴圈」例子，結尾更幾乎一字不差：Rahul「build it like someone who intends to stay the engineer」↔ Addy「Build the loop. Stay the engineer.」；「兩個人造一模一樣的迴圈會得到完全相反的結果」這段在兩文都出現。傳承關係明確（共同推文源 + 高度互文）。
+3. **六原語清單同源。** Rahul 的「6 building blocks」與 Addy / repo 的清單**完全相同且同序**（Automations → Worktrees → Skills → Plugins → Subagents → Memory），且每條都附「它在 5 階段裡觸發哪一步」的對應——這個「原語 ↔ 階段」對應正是 Rahul 的原創編排。
+
+### Rahul 獨有、其他三者較弱的三項貢獻
+
+> [!info] 為什麼仍值得單獨讀 Rahul：他補上了下游各自省略的「為什麼負擔得起」與「先做哪種」。
+
+**(A) 成本經濟學 + 中國 LLM 是解方（最鮮明的原創角度）**
+
+Rahul 把「成本」當成全文的**第一個**段落，而非附註。他直言這是「沒人先告訴你的隱藏障礙」：
+
+> 「Loops are not hard to design. They are hard to afford.（迴圈不難設計，難在負擔得起。）」
+
+他的數字與解方（repo 的成本章節即源自此）：
+
+| 規模 | Token 消耗 |
+|------|-----------|
+| 單代理人中型編碼任務 | 50,000–200,000 tokens |
+| 艦隊迴圈（orchestrator + 3 專家）| 500,000–2,000,000 tokens |
+| 每日排程迴圈 | 每週數百萬 tokens |
+
+解方是**中國前沿模型**——DeepSeek V4、Kimi、MiniMax 讓迴圈「在經濟上可行」。他特別點名 DeepSeek V4：**1M 上下文視窗、384K 最大輸出、Flash + Pro、極低 token 定價、高併發（Flash 達 2500 requests）**，並下了金句：「**1.7 billion tokens for \$20**，你終於負擔得起造一個迴圈。」
+
+> [!warning] 偏誤提醒
+> 此段帶有明顯的「中國模型推廣」傾向（數字與定價皆為自述、未引第三方評測）。可信的部分是**論點結構**（成本是真實障礙、便宜前沿模型改變方程式）；不可盡信的是**具體數字與模型優劣排名**。
+
+**(B) Open Loop vs Closed Loop——「2026 最重要的實務區分」**
+
+| 類型 | 特性 | 預算 | Rahul 的建議 |
+|------|------|------|-------------|
+| **Open Loop（開環）** | 探索性、自由漫遊、能做出你沒完整 spec 的東西 | 燒錢兇（「眼睛流淚」）| 對標準鬆散的專案會變「slop machine」；90% 沒有無限預算的人「還不實用」|
+| **Closed Loop（閉環）** | 有界、人先設計好端到端路徑 + 每步 eval gate | 一般預算可負擔 | **先從閉環開始**，建好品質閘門後再開放 |
+
+repo 的「Open/Closed 兩種迴圈類型」即直接繼承這組區分，但 Rahul 把它和**預算**綁在一起講，更務實。
+
+**(C) Prompt Engineer vs Loop Engineer——明確的技能斷層表**
+
+| | Prompt Engineer | Loop Engineer |
+|---|----------------|---------------|
+| 核心 | 寫更好的指令（語言技巧）| 設計更好的回饋循環（軟體工程技巧）|
+| 產出 | 更好的單次輸出 | 可靠、已驗證的結果 |
+| 誰是回饋循環 | **你**（每次手動 review）| **系統**（自我檢查、自我修正）|
+| 一句話 | "Write me a function" | "Write → test → fix until green" |
+| 付費對象 | 單次輸出 | 已驗證的結果 |
+
+> [!quote] Rahul 的定錨句
+> 「Prompt engineers ask AI for output. Loop engineers design systems that produce verified outcomes.（提示工程師向 AI 要產出；迴圈工程師設計能產出『已驗證結果』的系統。）」「One reliable loop is worth a thousand perfect prompts.（一個可靠的迴圈，勝過一千個完美的提示。）」
+
+### Rahul 的四個實戰迴圈範本（程式碼完整保留）
+
+Rahul 給了四個可直接套用的迴圈骨架，這是其他三者都沒有的「即用範本」：
+
+```plaintext
+The Coding Loop
+Read VISION.md + ARCHITECTURE.md
+↓
+Plan the next change
+↓
+Edit the code
+↓
+Run tests automatically
+↓
+If tests fail → read error → fix → retest
+↓
+If tests pass → summarize changes
+↓
+Stop
+```
+
+```plaintext
+The Research Loop
+Define research question
+↓
+Search for sources
+↓
+Summarize findings
+↓
+Verify claims against sources
+↓
+Compare conflicting information
+↓
+Synthesize final answer
+↓
+Stop when confidence threshold met
+```
+
+```plaintext
+The Content Loop
+Topic + audience + goal defined
+↓
+Draft created
+↓
+Critique agent reviews draft
+↓
+Rewrite based on critique
+↓
+Score against success criteria
+↓
+If score passes → publish
+↓
+If score fails → rewrite again
+```
+
+```plaintext
+The Sales Outreach Loop
+ICP (Ideal Customer Profile) defined
+↓
+Find leads matching profile
+↓
+Enrich with company data
+↓
+Qualify against criteria
+↓
+Personalize message
+↓
+Quality review
+↓
+Send or escalate to human
+```
+
+> [!tip] 共同骨架
+> Rahul 點破四者其實是同一副骨架：**Goal → Action → Check → Fix → Repeat until done。** 換掉「Action」與「Check」的內容，就是不同領域的迴圈。
+
 ---
 
 ## 關鍵洞察（Key Insights）
@@ -62,6 +227,7 @@ sources_compared:
 - **maker ≠ checker 是迴圈能無人值守的唯一理由。** repo 把它寫成硬規則：Worker（context A）與 Verifier（context B）必須是**獨立 API 呼叫、無共享歷史**——「繼承了 worker 上下文的 verifier，也繼承了它的盲點」。這正是 Claude Code `/goal` 底層在做的事。參見 [[2026-03-30-BORIS-CHERNY-HIDDEN-CLAUDE-CODE-FEATURES]]。
 - **「迴圈是 harness 的上一層樓。」** Addy 明言 loop engineering 坐落在 agent harness engineering 之上——harness 是單一代理人運行的環境，loop 是讓它「按時觸發、生小幫手、自我餵食」的那一層。參見 [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]]、[[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]]。
 - **記憶必須在磁碟上，不在上下文裡。** 三者都強調：模型每次 run 之間會遺忘，所以「做完什麼、下一步什麼」要存成 Markdown / Linear 板 / 狀態檔。repo 更進一步——**存的是「規則」不是「日誌」**。參見 [[CLAUDE-MEMORY-ENGINE]]。
+- **真正的障礙不是智力，是 token 成本。** 這是源頭 Rahul 最被低估、卻被下游淡化的洞察：「迴圈不難設計，難在負擔得起。」開環（open loop）燒錢兇到「90% 沒有無限預算的人還不實用」——所以務實路線是**先做閉環（closed loop）**，用便宜前沿模型，建好品質閘門再開放。參見 [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]。
 
 ---
 
@@ -134,10 +300,11 @@ DISCOVER ─► PLAN ─► EXECUTE ─► VERIFY ─► ITERATE（或 DONE）
 > - **Addy**：「**Verification is still on you.**」一個無人值守的迴圈，也是一個無人值守地在犯錯的迴圈。自動 verifier 只是讓「它說完成了」這句話更有份量，但「done 是一個主張、不是一個證明」。
 > - **判讀**：兩者不矛盾於技術（都要 maker≠checker），但矛盾於**態度**。repo 解決「機器如何自查」，Addy 提醒「人不能因此交出判斷力」——他稱失去判斷的姿態為 **cognitive surrender（認知投降）**。
 
-> [!warning] 張力二：成本——抽象掉，還是正面管理？
-> - **MindStudio**：基礎設施（重試、限流、狀態管理）「跟實際邏輯無關」，應交給平台（賣點：`@mindstudio-ai/agent` SDK）。**淡化成本**。
-> - **repo**：把成本當一級設計議題——明列「單代理人中型任務 50K–200K tokens、艦隊迴圈 + 3 專家 500K–2M、每日排程迴圈每週數百萬」，並用**分層模型路由（Tiered Routing）**正面管理。
+> [!warning] 張力二：成本——抽象掉，還是正面管理？（四來源在此分歧最大）
+> - **Rahul（源頭）**：成本是**全文第一章**、是「沒人先說的隱藏障礙」。解方＝中國前沿模型（DeepSeek V4 / Kimi / MiniMax），「1.7B tokens for \$20」。最積極面對成本，但帶中國模型推廣偏誤。
+> - **repo**：把成本當一級設計議題——明列「單代理人中型任務 50K–200K tokens、艦隊迴圈 + 3 專家 500K–2M、每日排程迴圈每週數百萬」，並用**分層模型路由（Tiered Routing）**正面管理。**此數字與模型清單即承自 Rahul。**
 > - **Addy**：居中但偏警戒——「你絕對**必須**小心 token 成本，用量模式落差極大」。參見 [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]、[[2026-04-18-CLAUDE-CODE-TOKEN-QUOTA-THREE-TRAPS-AND-FIXES]]。
+> - **MindStudio**：基礎設施（重試、限流、狀態管理）「跟實際邏輯無關」，應交給平台（賣點：`@mindstudio-ai/agent` SDK）。**淡化成本**——與 Rahul 恰成兩極。
 
 > [!warning] 張力三：廠商視角的偏誤（Vendor Bias）
 > - **MindStudio**：目的是賣平台，因此論述傾向「迴圈很難、基礎設施很煩、交給我們」。
@@ -324,9 +491,11 @@ done
 
 ## 待補充（Open Questions）
 
-- repo 引用的「Rahul《Loops: What Every AI Engineer Needs to Know in 2026》」原文在哪？三來源共同的上游似乎是它，值得追。建議搜尋關鍵字：`Rahul Loops AI Engineer 2026`、`reach_vb loops five things`。
+- ~~repo 引用的「Rahul《Loops 2026》」原文在哪？~~ ✅ **已解決（本次更新）**：原文為 [Sai Rahul 的 X 長文](https://x.com/sairahul1/article/2064277888216555684)，已納入〈源頭考據〉一節；它是三個下游來源的共同上游。
+- ~~repo 的 token 數字與「DeepSeek V4 Flash / MiniMax」模型清單從哪來？~~ ✅ **部分解決**：直接承自 Rahul 原文的成本章節。但**仍未解**：Rahul 的數字本身是量測還是估計？「Fable 5」對應 2026 年哪個實際模型？建議搜尋：`DeepSeek V4 1M context pricing benchmark`、`Hermes agent Fable 5 model`。
 - 自動 verifier 與 worker 用**同一基礎模型不同 context**時，能否真正避免「共享盲點」？有沒有實證評測顯示獨立 context 比 self-critique 抓錯率高多少？建議搜尋：`verifier shared context blind spot eval`、`self-critique vs independent verifier LLM`。
-- repo 的 token 成本數字（單代理 50K–200K、艦隊 500K–2M）是量測還是估計？「Fable 5」「DeepSeek V4 Flash」「MiniMax」這些模型層級對應到 2026 年實際哪些模型？建議搜尋：`Hermes agent Fable 5 model`、`Nous Research loop cost benchmark`。
+- **新增**：Rahul 與 Addy 的高度互文，究竟是誰引用誰、還是兩人同時取材自 Steinberger 的推文串？兩篇的發布先後與引用方向值得考據。建議搜尋：`steipete loops tweet`、`addyosmani loop engineering sairahul`。
+- **新增**：Rahul 強推中國 LLM（DeepSeek/Kimi/MiniMax）作為迴圈成本解方，這個成本優勢在 2026 下半年是否仍成立？西方前沿模型降價後，此論點會不會失效？
 - Codex App 與 Claude Code 的六原語對照，在本文發布後是否仍成立？兩產品會持續趨同還是分化？建議追蹤兩者 changelog。
 - MindStudio 的 `@mindstudio-ai/agent` SDK「120+ typed capabilities」在真實多代理迴圈中的可靠性與鎖定風險如何？是否有第三方評測？
 - 「迴圈工程會不會只是 agent harness engineering 的行銷重新包裝？」Addy 自己把它定位為 harness 的上一層，但兩者邊界在實作上是否真的可分？
@@ -345,6 +514,7 @@ done
 
 ## References
 
+- 【上游源頭】[Loops: What Every AI Engineer Needs to Know in 2026 — Sai Rahul (@sairahul1)](https://x.com/sairahul1/article/2064277888216555684)（X 長文，本波論述的中央散播節點）
 - [Loop Engineering — Addy Osmani](https://addyosmani.com/blog/loop-engineering/)（2026-06-07）
 - [What Is Loop Engineering? The New Meta for AI Coding Agents — MindStudio](https://www.mindstudio.ai/blog/what-is-loop-engineering-ai-coding-agents)
 - [loop-engineering-skill — lunkerchen (GitHub, MIT)](https://github.com/lunkerchen/loop-engineering-skill)（repo 建立 2026-06-10，SKILL v1.1.0）

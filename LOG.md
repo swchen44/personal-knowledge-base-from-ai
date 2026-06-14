@@ -95,3 +95,4 @@
 | 2026-06-02 06:42 | enrich | SkillOpt vs SkillsBench 七維度深度比對(實測檔案) | [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | CodeAnalysis | 0 | +0 |
 | 2026-06-02 07:14 | ingest | Patreon ba-zui-wu-liao-159637740 + garytalksstuff 20260525_sopflow_promptset_1（使用者提供全文） | [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] | AI | 6 | 6 |
 | 2026-06-14 01:25 | ingest | 3 來源綜合：Loop Engineering（addyosmani + mindstudio + lunkerchen/loop-engineering-skill） | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 7 | 6 |
+| 2026-06-15 10:00 | update | 補上游源頭 Rahul《Loops 2026》原文（x.com/sairahul1） | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 0 | 8 |

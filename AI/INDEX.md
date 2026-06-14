@@ -60,4 +60,4 @@
 | [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] | Garry Tan：400× 生產力的 Tokenmaxxing + GStack（Plan-Eng-Review → CEO Plan）、Posterous 三次重構（1 人/5 天/$200）、Thin Wrappers Fat Skills、邏輯代碼密度、用 Token 買時間 | 2026-05-17 |
 | [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] | 外部無人專文討論 grill-me + Plan Mode 衝突；綜合 Superpowers brainstorming 公開討論推論：grill-me 不攔截/不寫檔，與 Plan Mode 可共存；三種共存模式 A/B/C | 2026-05-18 |
 | [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] | Gary Chen：前沿模型已非瓶頸，瓶頸是你講不清楚；用四步（標準化→拆節點→雙向迭代→接 MCP/HITL）把 Human SOP 拆成 agentic workflow，先求一致再談全自動，角色升級成 process owner。含配套五步 Prompt 工具包原文 | 2026-05-25 |
-| [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | Loop Engineering 三來源（Addy Osmani／MindStudio／lunkerchen repo）綜合比較：學理→產品原語→實作紀律，含互補與互斥分析 | 2026-06-07 |
+| [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | Loop Engineering 四來源綜合：源頭 Sai Rahul ×（Addy／MindStudio／lunkerchen repo）三下游；含傳承樹、成本經濟學、互補與互斥分析 | 2026-06-07 |
