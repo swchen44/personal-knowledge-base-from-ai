@@ -183,6 +183,7 @@ AgentHub 最重要的貢獻不在程式碼本身，而在**概念框架**：當�
 - [[2026-02-24-GITAGENT-GIT-NATIVE-AI-AGENT-STANDARD]] — gitagent 同樣以 Git 為核心的 Agent 標準，與 AgentHub 的 git-native 理念相通
 - [[2026-03-29-CONNSYS-JARVIS-AGENTHUB-INTEGRATION-DESIGN]] — AgentHub 實戰應用：Jarvis Expert 如何整合 DAG 協作處理韌體工程的四種工作流
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的 Agent-Native 基礎設施願景，AgentHub 是此願景的具體實作
+- [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 的 Fleet Loop（orchestrator→specialists→subagents）與本文的 agent swarm 同構
 
 ## References
 

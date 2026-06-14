@@ -206,6 +206,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — 從十二模組維度拆解 Agent Harness，與本文五層模型互為補充的分類框架
 - [[2026-04-15-CLAUDE-MD-BEST-PRACTICES-EXPERT-GUIDE-SKILLS-VS-CLAUDEMD]] — CLAUDE.md 與 Skills 的按需載入比較，含 token 效率實驗數據與混合架構設計
 - [[2026-04-12-HARNESS-ENGINEERING-HUNGYI-LEE-NTU-LLM-GUIDANCE]] — 李宏毅的三大控制面向（認知框架、工具、工作流程）與 Anthropic 五層 Harness 的對照
+- [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 六原語盤點與「五層只出三層」的分層盤點法同源，互為對照
 
 ---
 

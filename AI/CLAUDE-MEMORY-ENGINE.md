@@ -1121,6 +1121,7 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 - [[AI-CONTEXT-WINDOW]] — Context 壓縮問題是這套工具存在的根本原因
 - [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — claude-mem 的程式碼深度分析，同為 Claude Code 記憶插件但以不同方式解決相同問題
 - [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — 同一專案 Claude Memory Engine 的另一份程式碼分析，從 hooks + markdown 架構切入
+- [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 第六原語 Memory；可延伸到「Memory as Rules, not Logs」的記憶設計
 
 ---
 
