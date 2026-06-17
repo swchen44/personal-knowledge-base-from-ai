@@ -247,80 +247,91 @@ repo 的「Open/Closed 兩種迴圈類型」即直接繼承這組區分，但 Ra
 > [!quote] Rahul 的定錨句
 > 「Prompt engineers ask AI for output. Loop engineers design systems that produce verified outcomes.（提示工程師向 AI 要產出；迴圈工程師設計能產出『已驗證結果』的系統。）」「One reliable loop is worth a thousand perfect prompts.（一個可靠的迴圈，勝過一千個完美的提示。）」
 
-### Rahul 的四個實戰迴圈範本（程式碼完整保留）
+### Rahul 的四個實戰迴圈範本（Mermaid 流程圖 + 適用情境）
 
-Rahul 給了四個可直接套用的迴圈骨架，這是其他三者都沒有的「即用範本」：
+Rahul 給了四個可直接套用的迴圈骨架，這是其他三者都沒有的「即用範本」。以下用 **Mermaid 流程圖**呈現（Obsidian 原生支援），節點文字保留 Rahul 英文原文，菱形是停止／回跳的判斷閘門——能清楚看出「迴圈回跳」的箭頭。每張圖後附**實際 use case**。
 
-```plaintext
-The Coding Loop
-Read VISION.md + ARCHITECTURE.md
-↓
-Plan the next change
-↓
-Edit the code
-↓
-Run tests automatically
-↓
-If tests fail → read error → fix → retest
-↓
-If tests pass → summarize changes
-↓
-Stop
+**① The Coding Loop（編碼迴圈）**
+
+```mermaid
+flowchart TD
+    A["Read VISION.md + ARCHITECTURE.md"] --> B["Plan the next change"]
+    B --> C["Edit the code"]
+    C --> D["Run tests automatically"]
+    D --> E{"Tests pass?"}
+    E -- "No" --> F["Read error → fix"]
+    F --> D
+    E -- "Yes" --> G["Summarize changes"]
+    G --> H(["Stop"])
 ```
 
-```plaintext
-The Research Loop
-Define research question
-↓
-Search for sources
-↓
-Summarize findings
-↓
-Verify claims against sources
-↓
-Compare conflicting information
-↓
-Synthesize final answer
-↓
-Stop when confidence threshold met
+> [!example] 🎯 適用 use case
+> 自動修 bug、TDD 紅綠循環、CI 失敗自動修復、相依套件升級後修壞掉的測試、重構後跑回歸測試。**停止條件最明確（測試全綠 + lint 乾淨）**，因此是四者中最適合「閉環（closed loop）、無人值守」的一種——正是 repo `dev-loop.sh` 實作的那個迴圈（見下方〈實作紀律〉）。
+
+**② The Research Loop（研究迴圈）**
+
+```mermaid
+flowchart TD
+    A["Define research question"] --> B["Search for sources"]
+    B --> C["Summarize findings"]
+    C --> D["Verify claims against sources"]
+    D --> E["Compare conflicting information"]
+    E --> F["Synthesize final answer"]
+    F --> G{"Confidence threshold met?"}
+    G -- "No" --> B
+    G -- "Yes" --> H(["Stop"])
 ```
 
-```plaintext
-The Content Loop
-Topic + audience + goal defined
-↓
-Draft created
-↓
-Critique agent reviews draft
-↓
-Rewrite based on critique
-↓
-Score against success criteria
-↓
-If score passes → publish
-↓
-If score fails → rewrite again
+> [!example] 🎯 適用 use case
+> 競品 / 技術選型調研、文獻回顧、盡職調查（due diligence）、**事實查核**（例如我剛幫你查 Addy Osmani 的職稱就是跑這個迴圈）、市場分析。關鍵在「Confidence threshold（信心門檻）」這個停止條件，以及「Verify claims against sources / Compare conflicting information」兩步——少了它就會變成幻覺製造機。屬**半開環**（探索性、可能多輪 search），對應 superpowers 的 deep-research 模式。
+
+**③ The Content Loop（內容迴圈）**
+
+```mermaid
+flowchart TD
+    A["Topic + audience + goal defined"] --> B["Draft created"]
+    B --> C["Critique agent reviews draft"]
+    C --> D["Rewrite based on critique"]
+    D --> E["Score against success criteria"]
+    E --> F{"Score passes?"}
+    F -- "No" --> C
+    F -- "Yes" --> G(["Publish"])
 ```
 
-```plaintext
-The Sales Outreach Loop
-ICP (Ideal Customer Profile) defined
-↓
-Find leads matching profile
-↓
-Enrich with company data
-↓
-Qualify against criteria
-↓
-Personalize message
-↓
-Quality review
-↓
-Send or escalate to human
+> [!example] 🎯 適用 use case
+> 部落格 / 行銷文案、技術文件、社群貼文、電子報、發布稿。其中「Critique agent reviews draft」正是 **maker≠checker** 用在內容領域的實作。停止條件是「Score passes（評分過關）」——**前提是 success criteria 必須先定義清楚**（如可讀性分數、字數、語氣檢核表），否則迴圈不知何時該停。屬閉環。
+
+**④ The Sales Outreach Loop（業務開發迴圈）**
+
+```mermaid
+flowchart TD
+    A["ICP (Ideal Customer Profile) defined"] --> B["Find leads matching profile"]
+    B --> C["Enrich with company data"]
+    C --> D["Qualify against criteria"]
+    D --> E{"Qualified?"}
+    E -- "No" --> B
+    E -- "Yes" --> F["Personalize message"]
+    F --> G["Quality review"]
+    G --> H{"Pass review?"}
+    H -- "No" --> F
+    H -- "Yes" --> I(["Send"])
+    H -- "borderline" --> J(["Escalate to human"])
 ```
+
+> [!example] 🎯 適用 use case
+> 名單開發（lead gen）、潛客資格審查、個人化開發信、ABM（account-based marketing，目標客戶行銷）。它是四者中**唯一內建 human-in-the-loop**（Send **or escalate to human**）的——因為對外觸及風險高，品質審查沒過就升級給真人，而非自動寄出。適合**半自動**而非全自動運行。
+
+### 四個迴圈一覽：停止條件、迴圈類型與代表 use case
+
+| 迴圈 | 核心停止條件 | 迴圈類型 | 代表 use case |
+|------|------------|---------|--------------|
+| ① Coding | 測試全綠 + lint 乾淨 | 閉環、可無人值守 | 自動修 bug、CI 修復、重構回歸 |
+| ② Research | 信心門檻達標（多源交叉驗證）| 半開環（探索性）| 競品調研、盡職調查、事實查核 |
+| ③ Content | 評分過關（需先定義 criteria）| 閉環 | 文案、技術文件、電子報 |
+| ④ Sales | 通過品質審查，否則升級給人 | 半自動（human-in-loop）| 名單開發、個人化開發信、ABM |
 
 > [!tip] 共同骨架
-> Rahul 點破四者其實是同一副骨架：**Goal → Action → Check → Fix → Repeat until done。** 換掉「Action」與「Check」的內容，就是不同領域的迴圈。
+> Rahul 點破四者其實是同一副骨架：**Goal → Action → Check → Fix → Repeat until done。** 換掉「Action」與「Check」的內容，就是不同領域的迴圈。對照四張圖會發現：差別只在「菱形閘門問什麼」（測試過？信心夠？評分過？資格符合／審查過？）與「回跳到哪一步」。
 
 ---
 
