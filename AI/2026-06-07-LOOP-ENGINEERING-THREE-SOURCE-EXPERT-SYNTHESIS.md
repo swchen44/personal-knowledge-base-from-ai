@@ -1,5 +1,5 @@
 ---
-title: "Loop Engineering（迴圈工程）綜合分析：上游源頭 Rahul 原文 × 三個下游觀點（學理／產品原語／實作紀律）"
+title: "Loop Engineering（迴圈工程）綜合分析：以最佳拍档影片為主敘事線 × 上游源頭 Rahul × 三個下游觀點"
 date: 2026-06-07
 category: AI
 tags:
@@ -8,9 +8,13 @@ tags:
   - ai/agentic-workflow
   - tools/claude-code
   - meta/comparative-analysis
-source: "https://addyosmani.com/blog/loop-engineering/"
-source_type: article
-author: "Sai Rahul（源頭）/ Addy Osmani / MindStudio / lunkerchen（綜合四來源）"
+source: "https://www.youtube.com/watch?v=KgiwIEBeOHw"
+source_type: video
+channel: "最佳拍档（Best Partners TV，@bestpartners）"
+duration: "18:32"
+transcript_method: youtube-transcript-api
+video_published: 2026-06-16
+author: "最佳拍档／大飛（影片，主敘事線）· Sai Rahul（源頭）· Addy Osmani · MindStudio · lunkerchen（綜合五來源）"
 status: notes
 links:
   - "[[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]]"
@@ -19,9 +23,11 @@ links:
   - "[[2026-03-17-KARPATHYS-AGENTHUB-A-PRACTICAL-GUIDE-TO-BUILDING-YOUR-FIRST-AI-AGENT-SWARM]]"
   - "[[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]"
   - "[[CLAUDE-MEMORY-ENGINE]]"
+  - "[[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]]"
 multi_source: true
 sources_compared:
-  - "https://x.com/sairahul1/article/2064277888216555684"  # 上游源頭
+  - "https://www.youtube.com/watch?v=KgiwIEBeOHw"            # 中文導讀（影片，主敘事線；忠實轉述 Addy）
+  - "https://x.com/sairahul1/article/2064277888216555684"   # 上游源頭
   - "https://addyosmani.com/blog/loop-engineering/"
   - "https://www.mindstudio.ai/blog/what-is-loop-engineering-ai-coding-agents"
   - "https://github.com/lunkerchen/loop-engineering-skill"
@@ -29,18 +35,101 @@ sources_compared:
 
 ## 摘要（Summary）
 
-「迴圈工程（Loop Engineering）」是 2026 年中浮現的一個概念轉向：**你不再親自提示（prompt）代理人的每一步，而是設計一套會自己提示代理人的系統。** 本筆記交叉比較四個來源：**上游源頭** Sai Rahul 的 X 長文《Loops: What Every AI Engineer Needs to Know in 2026》（普及與綜合者），以及三個**下游觀點**——Addy Osmani 的部落格（實踐者兼懷疑論者）、MindStudio 的教學文（學理 + 廠商）、lunkerchen 的 `loop-engineering-skill` GitHub repo（可執行的實作紀律）。四者恰好構成一個從**源頭框架 →（學理 / 產品原語 / 實作紀律）三向擴散**的傳承樹。
+「迴圈工程（Loop Engineering）」是 2026 年中浮現的一個概念轉向：**你不再親自提示（prompt）代理人的每一步，而是設計一套會自己提示代理人的系統。** 本筆記以中國 YouTube 頻道「最佳拍档」的中文導讀影片《什麼是循環工程 Loop Engineering》（主持人「大飛」，2026-06-16）為**主敘事線**，疊上先前已攝入的四個文字來源的**深度比較**：上游源頭 Sai Rahul 的 X 長文、Addy Osmani 的部落格、MindStudio 教學文、lunkerchen 的 `loop-engineering-skill` GitHub repo。影片是最易懂的入口骨架；四來源提供它沒講到的源頭考據、實作程式碼與學理脈絡。
 
-> [!important] 補記（本次更新）：找到了共同上游源頭
-> 原筆記留有一條 Open Question：「三來源共同引用的 Rahul《Loops 2026》原文在哪？」——**已找到並納入**（見下方〈源頭考據〉一節）。關鍵證據：repo 的 `SKILL.md` 明確標註 inspired by Rahul，且其分層路由點名的 DeepSeek / Kimi / MiniMax **直接繼承自 Rahul 的成本論述**；Addy 文與 Rahul 文更有**近乎逐字的重疊段落**。Rahul 是這波概念的「中央散播節點」。
+> [!important] 影片定位：它是 Addy 文章的「忠實中文轉述」，不是獨立新觀點
+> 影片開宗明義即說「結合谷歌雲 AI 總監 Addy Osmani 的一篇深度分析」。其內容（五模組 + 記憶、`/loop`、`/goal`、獨立 verifier、每天早上 triage 迴圈、三大隱憂、收尾金句）幾乎與 Addy 部落格逐段對應，是**既有材料的中文化子集**——與我們既有四來源**沒有任何事實衝突**。它的價值在於：①把抽象概念講成最好懂的中文敘事；②是這波論述「跨語言二次傳播」的活樣本（傳承樹再多一層）。
 
-核心結論：四者在「迴圈是什麼、需要哪些零件」上高度互補（六原語 + 五階段幾乎是共識）；但在**「驗證的最終責任歸誰」與「成本是該抽象掉還是該正面管理」**兩點上存在真實張力。Addy 的警句最值得記住：「**Build the loop. Stay the engineer.**（設計迴圈，但仍要當那個工程師。）」——而這句話其實源自 Rahul 的「build it like someone who intends to stay the engineer」。
+> [!info] 名詞查證：影片把 Addy 稱為「谷歌雲 AI 總監」是**正確的**
+> 我原本以為 Addy Osmani 是 Google Chrome DevRel 主管而想糾正影片，但查他本人官網（addyosmani.com）親述：「a **director at Google Cloud AI**, focused on Gemini, Vertex AI, and the Agent Development Kit (ADK)」。他已從 Chrome 轉到 **Google Cloud AI 總監（Director, Google Cloud AI）**——影片無誤，是我過時。此處記錄查證過程以免知識庫沿用錯誤。
 
-> [!important] 一句話定位四來源
-> - **Sai Rahul（源頭）** 把 Steinberger / Cherny 的兩則推文「翻譯成完整心智模型」，並補上**成本經濟學**——其餘三者都是它的下游分流
+核心結論：五個來源在「迴圈是什麼、需要哪些零件」上高度互補（六原語 + 五階段幾乎是共識）；但在**「驗證的最終責任歸誰」與「成本是該抽象掉還是該正面管理」**兩點上存在真實張力。最值得記住的警句（影片與 Addy 都以此收尾）：「**設計迴圈，但要以工程師的身份去搭建，而不是做一個只會按下啟動鍵的人。**」——這句話其實源自源頭 Rahul 的「build it like someone who intends to stay the engineer」。
+
+> [!important] 一句話定位五來源
+> - **最佳拍档影片（主敘事線）** 把 Addy 的分析「講成最好懂的中文」——本筆記的入口骨架，但內容是 Addy 的轉述
+> - **Sai Rahul（源頭）** 把 Steinberger / Cherny 的兩則推文「翻譯成完整心智模型」，並補上**成本經濟學**——其餘來源都是它的下游分流
 > - **MindStudio** 回答「迴圈是什麼」（WHAT / WHY，往上接到學術界的 ReAct）
 > - **Addy Osmani** 回答「迴圈由哪些已上市的產品原語組成」（生態系層，工具中立）
 > - **lunkerchen repo** 回答「怎麼把迴圈做出來、為什麼會壞」（實作 + 失敗模式 + 程式碼）
+
+---
+
+## 影片導讀：最佳拍档《什麼是循環工程》逐段精華
+
+> [!note] 本節是「主敘事線」——依影片實際講述順序，用台灣繁體中文重述其論證流程；深一層的源頭考據、程式碼、學理對照見後續各節。影片術語以台灣慣用譯名呈現（簡體稿原文：循环工程→迴圈工程、子Agent→子代理人）。
+
+### 開場：一個矽谷新概念
+
+影片從矽谷 AI 圈的新名詞「迴圈工程」切入，引用兩位重量級人物的相同訊息：
+
+> [!quote] 兩個原始火花
+> - **Peter Steinberger（OpenClaw 開發者）**：「你不應該再去手動提示 Coding Agent，你應該設計讓 Agent 自動運行的迴圈。」
+> - **Boris Cherny（Anthropic／Claude Code 負責人）**：「我現在已經不手動提示 Claude 了，而是有很多迴圈在後台運行，負責提示 Claude、判斷下一步。我的核心工作就是編寫這些迴圈。」
+
+影片並點名 **Andrej Karpathy 的 AutoResearch** 也是同一思路——把人從迴圈裡抽離、讓系統自主運行、盡量提升 token 吞吐量、讓人不再成為瓶頸。參見 [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]]。
+
+### 什麼是迴圈工程？
+
+影片給的定義最白話：**用你設計的系統，去替代你自己對 Agent 的提示與調度。** 這裡的「迴圈」可理解為一個**遞迴的目標（recursive goal）**——你只定義最終目的，AI 就反覆迭代執行，直到目標完成。一套完整迴圈大概由**五個基本模組 + 一個獨立記憶載體**組成，而 Claude Code 與 OpenAI Codex **兩款主流工具現在都已完整具備**。
+
+> [!warning] 影片誠實點出的兩個早期問題
+> 1. **token 成本**：不同使用模式下消耗差異極大，預算有限就必須謹慎規劃迴圈邏輯。
+> 2. **程式碼品質下滑**：AI 生成程式碼越來越粗糙的擔憂並非空穴來風，在**無人值守**的迴圈裡這問題更突出。
+
+### 概念定位：迴圈工程在「Harness 的上一層樓」
+
+影片釐清三個相近概念的關係：
+
+```
+工廠模型（Factory Model）           ← 一整套「構建軟體」的系統
+        ▲
+迴圈工程（Loop Engineering）        ← 跑在計時器上、自主生成子代理人、自我驅動
+        ▲
+Agent Harness Engineering          ← 為「單個」Agent 搭建的運行環境框架
+```
+
+> [!tip] 一年前 vs 現在（影片最有感的一段）
+> 一年前你想跑自動迴圈，得自己寫一大堆 bash 腳本、長期維護、而且只能自己用、很難遷移；**現在這些核心能力已直接內建到主流產品**。Steinberger 總結的迴圈清單幾乎與 Codex 功能一一對應，也與 Claude Code 高度重合——「當你意識到不同工具底層架構完全一致時，就不會再糾結選哪款工具，只要設計一套通用迴圈邏輯，哪款工具都能跑。」
+
+### 五大模組 + 記憶（影片逐一拆解）
+
+**① 自動化（Automations）— 整個迴圈的「心跳」**
+讓迴圈成為「真正的迴圈」而非一次性手動運行。Codex 在自動化分頁建任務（選專案、提示詞、頻率、本地或後台工作樹），有問題進「分類收件匣」、沒問題自動歸檔；OpenAI 內部就用它做每日 issue 分類、CI 失敗彙總、commit 簡報、排查上週 bug，且**自動化可直接呼叫 Skill**（不必把整串指令貼進定時任務）。Claude Code 則用排程 + 鉤子（hooks）+ `/loop` + 定時任務 + GitHub Actions 達成同一件事。
+
+> [!important] 會話內的關鍵：`/goal` 與「寫的人 ≠ 判斷完成的人」
+> `/loop` 是按固定節奏重複；`/goal` 則**持續運行直到你設定的條件真正達成**，且每一輪結束後由**一個獨立的小模型**檢查目標是否完成——也就是說「寫程式碼的 Agent」和「判斷有沒有寫完的 Agent」不是同一個。你只要給類似「保證 auth 模組所有測試通過、且 lint 沒問題」這種停止條件，就能放手。Codex 也有同名 `/goal`（跨多輪、可暫停／恢復／清除）。
+
+**② 工作樹（Worktrees）— 解決多 Agent 並行的檔案衝突**
+同時跑多個 Agent，很容易多個 Agent 改同一個檔案而撞在一起（等同兩個工程師沒溝通就改同一行）。Git 工作樹建立獨立工作目錄、跑在單獨分支、共享同一倉庫歷史，從物理層面隔離。Codex 內建、Claude Code 用 `--worktree` 參數 + 子 Agent 工作樹隔離（任務結束自動清理）。
+
+> [!warning] 編排稅（Orchestration Tax）：人才是真正的瓶頸
+> 影片強調：工作樹只解決「機械層面」的檔案衝突，但整個流程的瓶頸**依然是人本身**——你一天能認真審核多少份程式碼產出，才是你實際能跑多少個 Agent 的上限，而不是工具能同時跑多少線程。
+
+**③ 技能（Skills）— 不必每次開新會話都重講一遍專案**
+兩款工具的 Skill 同格式：一個資料夾放一份說明文檔（指令 + 元資料）＋ 可選腳本／參考／資源。Codex 用符號／指令主動呼叫，或在任務描述與 Skill 描述匹配時自動觸發（**所以描述要簡潔準確，而非花俏**）。
+
+> [!note] 關鍵術語：意圖債（Intent Debt）
+> Agent 每次開新會話都是從零開始，你沒講清楚的地方它就用「自信的猜測」填補，而這些猜測常與專案實際要求有偏差。Skill 就是把規則、約定、構建步驟、甚至「過往踩過的坑」正式寫下來一次，讓 Agent 每次運行都讀得到——沒有 Skill，迴圈每跑一次就把整個專案從零重新推導。
+
+**④ 外掛與連接器（Plugins / Connectors）** 與 **⑤ 子代理人（Subagents）**
+> [!info] 影片在此處較簡略，深層細節見後文
+> 逐字稿在「技能」與「三大隱憂」之間略過了 Plugins／Subagents 的展開。依其上游 Addy 原文補齊：**Plugins/Connectors**（建於 MCP 之上）讓迴圈能讀 issue tracker、查資料庫、打 staging API、發 Slack——這是「能自己開 PR、連 Linear 票、CI 綠燈就通知」與「只會說『這是修正』」的差別；**Subagents** 則是「讓做的人遠離檢查的人」（寫程式碼的模型太寬容地給自己打分，需要另一個不同指令、有時不同模型的 Agent 來抓它說服自己接受的錯）。完整對照見下方〈六大原語與五階段〉表。
+
+**⑥ 記憶（Memory）— 迴圈的脊椎**
+一個 Markdown 檔、一塊 Linear 板，任何活在「單次對話之外」的載體。模型每次 run 之間會遺忘，但記憶檔記著「試過什麼、什麼通過、什麼還沒解決」，明早的 run 就能接著今天停下的地方繼續。
+
+### 收尾：迴圈改變工作形態，但沒把人剔除
+
+影片用三個「會隨迴圈變強而**更突出**、而非更容易解決」的問題收束——這三點與 Addy 原文完全一致：
+
+| # | 問題 | 影片原話精華 |
+|---|------|------------|
+| 1 | **驗證責任最終在你身上** | 無人值守運行的迴圈，同時是一個無人值守犯錯的迴圈。把驗證子 Agent 與生成 Agent 分開，只是讓「完成」的結論更有參考性，但「完成」仍只是一個聲明、不是嚴格驗證的結論。你的工作依然是交付「你親自確認過可運行」的程式碼。|
+| 2 | **理解債（Comprehension Debt）** | 迴圈產出越快，你沒親手寫的程式碼累積越多，「實際存在的程式碼」與「你真正理解的內容」差距越大。唯一解法：認真讀迴圈生成的每一份程式碼。參見 [[CLAUDE-MEMORY-ENGINE]]。|
+| 3 | **認知投降（Cognitive Surrender）** | 最舒服的狀態往往最危險——迴圈能自走時，人很容易不再主動思考、照單全收。設計迴圈「既可以是提升效率的解藥，也可以是讓你能力退化的加速劑」，同樣的動作帶來相反結果。|
+
+> [!quote] 影片的定錨結語
+> 「兩個人搭建出完全一樣的迴圈，可能得到截然相反的結果。一個用它在自己深度理解的工作上提升效率，另一個用它逃避對工作內容的理解。迴圈本身分辨不出這兩者，但你自己可以。」「Cherny 的意思不是程式設計師的工作變簡單了，而是**工作的槓桿點轉移了**——以前你的槓桿來自寫好提示詞，現在來自設計好一套能持續運行的系統。」「你可以去搭建你的迴圈，但要以一個工程師的身份去搭建，而不是做一個只會按下啟動鍵的人。」
 
 ---
 
@@ -57,7 +146,7 @@ sources_compared:
 | 對人的角色 | 強調「人仍是天花板與最終驗證者」 | 幾乎不談（強調可自動化、無程式碼）| 強調 maker≠checker，但偏向自動化驗證 |
 | License / 形態 | 文章 | 文章（含 FAQ）| MIT，含 3 支 bash script |
 
-> [!note] 上表是「三個下游觀點」的橫向比較；它們共同的**上游源頭**是下一節分析的 Rahul 原文。
+> [!note] 上表是「三個下游**文字**觀點」的橫向比較；本筆記主線的影片是 Addy 欄的中文轉述（不另列欄）。三者共同的**上游源頭**是下一節分析的 Rahul 原文。
 
 ---
 
@@ -84,12 +173,17 @@ sources_compared:
         ┌──────────────┐ ┌──────────────┐ ┌──────────────────┐
         │ Addy Osmani  │ │ MindStudio   │ │ lunkerchen repo  │
         │ 生態系/產品   │ │ 學理(ReAct)  │ │ 實作/Hermes/碼   │
-        └──────────────┘ └──────────────┘ └──────────────────┘
-                                │
-                          往上接學術源頭
-                                ▼
-                ReAct（Reason+Act, Princeton+Google）
+        └──────┬───────┘ └──────┬───────┘ └──────────────────┘
+               │ 中文二次傳播      │ 往上接學術源頭
+               ▼                 ▼
+   ┌────────────────────────┐   ReAct（Reason+Act,
+   │ 最佳拍档影片（本筆記主線）│   Princeton+Google）
+   │ 大飛・中文導讀・忠實轉述  │
+   └────────────────────────┘
 ```
+
+> [!note] 傳承樹的最底層是本筆記的主敘事線
+> 「最佳拍档」影片是 Addy 部落格的**中文二次傳播**——它讓這套概念跨越語言抵達中文觀眾。本筆記刻意以它為入口骨架（好懂），再往上回溯到 Addy（產品原語）、Rahul（源頭框架 + 成本）、MindStudio（ReAct 學理）、repo（實作程式碼）。
 
 ### 三項傳承證據（為何斷定 Rahul 是源頭）
 
@@ -456,6 +550,8 @@ done
 2. **六原語清單可直接當我自己的 Loop 自評表。** 我可以拿 Automations / Worktrees / Skills / Plugins / Subagents / Memory 六格，逐格檢查自己現有的 Claude Code 工作流缺哪一塊——這比抽象口號實用得多。對照 [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] 的「五層只出三層」盤點法。
 3. **「Memory as Rules, not Logs」是最被低估的一招。** 我目前的知識庫多半在存「發生了什麼」，而 repo 提醒我該存「下次該遵守什麼規則」。這正好可以回饋到我自己的 auto-memory 機制。
 4. **Addy 的警句是定錨。** 「兩個人造一模一樣的迴圈會得到完全相反的結果。一個用它在自己深刻理解的工作上跑更快，另一個用它來逃避理解工作本身。迴圈分不出差別，你分得出。」——這句話該貼在每個 cron 旁邊。
+5. **影片是「最好懂的入口」，但別停在影片。** 最佳拍档的中文導讀把概念講得極清楚，適合第一次接觸時建立直覺；但它是 Addy 的轉述、是材料的子集——真正的深度（源頭 Rahul 的成本經濟學、repo 的 Worker/Verifier 程式碼、ReAct 學理）在影片裡是看不到的。這本身就是「理解債」的微型示範：看完影片以為懂了，其實只摸到傳承樹的最底層。
+6. **跨語言傳播是個值得追蹤的訊號。** 一個矽谷概念在 Addy 發文後數日就出現高品質中文導讀（影片 2026-06-16，Addy 文 2026-06-07），說明這類「迴圈工程」論述的擴散極快。對我自己的知識庫策略而言：抓到源頭（Rahul）比抓到任一下游轉述都更有價值。
 
 ---
 
@@ -466,7 +562,7 @@ done
 | 認知層次 | 核心目的 | 對本文的具體應用 |
 |---------|---------|--------------|
 | **記憶（被動）** | 確認資訊存在，確立基礎知識 | 必記術語：①迴圈工程（Loop Engineering）②ReAct（Reason+Act）③六原語（Automations/Worktrees/Skills/Plugins/Subagents/Memory）④五階段（DISCOVER→PLAN→EXECUTE→VERIFY→ITERATE）⑤5 大殺手（Context Collapse / No Self-Correction / No Verifier / No Guardrails / No Memory）|
-| **理解（半被動）** | 解釋概念含義與關聯 | 迴圈工程＝把槓桿點從「寫 prompt」移到「設計會自走的回饋系統」。它座落於 harness 之上；學理源於 ReAct；落地靠六原語；可靠性靠 maker≠checker 的獨立驗證。三來源是同一概念的三個抽象切面。|
+| **理解（半被動）** | 解釋概念含義與關聯 | 迴圈工程＝把槓桿點從「寫 prompt」移到「設計會自走的回饋系統」。它座落於 harness 之上；學理源於 ReAct；落地靠六原語；可靠性靠 maker≠checker 的獨立驗證。五個來源（影片中文導讀＋源頭 Rahul＋Addy／MindStudio／repo 三下游）是同一概念在不同語言與抽象層的切面。|
 | **分析（主動）** | 檢驗論點、找出假設 | 關鍵假設：①「獨立 context 的 AI verifier 可信到能無人值守」——Addy 質疑此假設（done 是主張非證明）。②MindStudio 假設「成本可被平台抽象掉」——repo 用實際 token 數字反駁。③六原語清單假設 Codex 與 Claude Code 會持續趨同，若產品分化此對照即失效。|
 | **應用（主動）** | 將知識轉為行動 | ①用六原語表盤點自己的 Claude Code 工作流缺口。②把 `route_task` 的分層路由套到自己的多代理腳本，驗證步驟才上 Opus。③在知識庫導入「Memory as Rules」——失敗後抽一條通用規則而非存日誌。|
 | **評估（主動）** | 判斷方案優劣與取捨 | 何時該建迴圈 vs 直接 prompt？評估：迴圈在「你深刻理解、且有可測終止條件（測試/lint）」的重複性工作上收益最大；在探索性、需求未定、或你不熟的領域，直接 prompt 反而更安全（避免 comprehension debt 與 cognitive surrender）。MindStudio 的無程式碼平台適合非工程師起步，但會犧牲對成本與終止邏輯的掌控。|
@@ -499,6 +595,8 @@ done
 - Codex App 與 Claude Code 的六原語對照，在本文發布後是否仍成立？兩產品會持續趨同還是分化？建議追蹤兩者 changelog。
 - MindStudio 的 `@mindstudio-ai/agent` SDK「120+ typed capabilities」在真實多代理迴圈中的可靠性與鎖定風險如何？是否有第三方評測？
 - 「迴圈工程會不會只是 agent harness engineering 的行銷重新包裝？」Addy 自己把它定位為 harness 的上一層，但兩者邊界在實作上是否真的可分？
+- **新增（影片）**：最佳拍档影片的逐字稿在「Skills」與「三大隱憂」之間略過了 Plugins／Subagents 的展開——這是逐字稿擷取不全，還是影片本身就壓縮了？若要完整中文版，需重看影片 8:00–13:00 段補齊。建議行動：直接看影片該段落確認。
+- **新增（影片）**：影片屬「中文二次傳播」，但它**沒有**提到源頭 Rahul、也沒提 token 成本的中國 LLM 解方——是大飛刻意省略（避免推廣爭議），還是他只讀了 Addy 沒讀 Rahul？這影響我們判斷中文圈對此概念的理解完整度。
 
 ---
 
@@ -514,6 +612,7 @@ done
 
 ## References
 
+- 【主敘事線・影片】[什麼是循環工程 Loop Engineering | … | Addy Osmani — 最佳拍档（Best Partners TV）](https://www.youtube.com/watch?v=KgiwIEBeOHw)（2026-06-16，時長 18:32，主持人大飛；Addy 部落格的中文導讀）
 - 【上游源頭】[Loops: What Every AI Engineer Needs to Know in 2026 — Sai Rahul (@sairahul1)](https://x.com/sairahul1/article/2064277888216555684)（X 長文，本波論述的中央散播節點）
 - [Loop Engineering — Addy Osmani](https://addyosmani.com/blog/loop-engineering/)（2026-06-07）
 - [What Is Loop Engineering? The New Meta for AI Coding Agents — MindStudio](https://www.mindstudio.ai/blog/what-is-loop-engineering-ai-coding-agents)
