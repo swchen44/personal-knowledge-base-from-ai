@@ -97,3 +97,4 @@
 | 2026-06-14 01:25 | ingest | 3 來源綜合：Loop Engineering（addyosmani + mindstudio + lunkerchen/loop-engineering-skill） | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 7 | 6 |
 | 2026-06-15 10:00 | update | 補上游源頭 Rahul《Loops 2026》原文（x.com/sairahul1） | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 0 | 8 |
 | 2026-06-18 11:00 | rewrite | 以最佳拍档 YouTube 影片(KgiwIEBeOHw)為主敘事線改寫；整合既有四來源 | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 0 | 9 |
+| 2026-06-18 11:40 | fix | 重抓帶時間戳逐字稿，補齊影片 Plugins/Subagents(9:59-13:17)；更正先前「逐字稿略過」的錯誤判斷 | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 0 | 8 |
