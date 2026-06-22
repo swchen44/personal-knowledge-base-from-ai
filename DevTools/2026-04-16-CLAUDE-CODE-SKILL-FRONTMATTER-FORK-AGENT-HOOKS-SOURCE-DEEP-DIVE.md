@@ -29,6 +29,7 @@ links:
 - **`agent:` 欄位控制五個維度**：模型、工具集（白名單/黑名單）、CLAUDE.md 是否載入、effort、permission mode。Explore agent 用 Haiku + 唯讀工具 + 省略 CLAUDE.md
 - **Skill hooks 在呼叫後持續存在直到 session 結束**：不是一次性的，不會在呼叫其他 skill 時消失。多個 skill 的 hooks 會累積。唯一清除時機是 `once: true`（成功後移除）或 session 結束
 - **Hooks 有四種類型**：`command`（Shell）、`prompt`（LLM 評估）、`http`（Webhook）、`agent`（代理人驗證器），全部支援 `if` 條件過濾和 `once` 一次性執行
+- **`description` 技術上可換行但慣例該寫一行**（見〈2026-06-22 追加研究〉）：frontmatter 用完整 YAML parser（`Bun.YAML.parse`）解析，多行合法且不破壞按需載入；但清單是 line-based（`- name: desc` 逐行 join）又有 250 字／1% context 截斷。真正會壞的是**裸換行導致 YAML 解析失敗 → description 整段丟失 → 退回抓正文第一行**。想換行請用 `>` 摺疊，勿用裸換行
 
 ## 詳細內容（Details）
 
@@ -1466,6 +1467,171 @@ shell: bash
 
 ---
 
+## 2026-06-22 追加研究：`description` 欄位能否換行？會不會破壞按需載入？
+
+> [!info] 研究背景
+> 常聽到「SKILL.md 的 `description` 必須寫成一行」這個說法。本次直接追蹤反編譯原始碼的 frontmatter 解析鏈與按需載入（on-demand loading）的清單組裝邏輯，釐清：**(1) `description` 技術上能不能換行？(2) 換行會不會導致技能無法被按需載入？** 結論：能換行，但「一行」是有實質理由的慣例，且**錯誤的換行寫法會讓 description 整段丟失**。
+
+### 先講三句話結論
+
+1. **技術上 `description` 可以換行** —— frontmatter 用的是**真正的 YAML 解析器**（`Bun.YAML.parse`，fallback 為 `yaml` 套件），YAML 原生支援多行字串（block scalar `|`、`>` 或引號跨行）。
+2. **正確寫法的換行不會讓技能「無法被按需載入」** —— 技能仍會被解析、列入清單、可被 invoke。
+3. **但「description 必須一行」這個說法有道理**，原因有二（見下），且**不合法的換行寫法會導致 YAML 解析失敗、description 被丟掉**。
+
+### 一、為什麼能換行：解析層用的是完整 YAML parser
+
+`src/utils/frontmatterParser.ts` 的 `parseFrontmatter()` 把 `---...---` 之間整段文字丟給 YAML 解析器：
+
+```typescript
+// src/utils/frontmatterParser.ts:123
+export const FRONTMATTER_REGEX = /^---\s*\n([\s\S]*?)---\s*\n?/
+
+// src/utils/frontmatterParser.ts:130
+export function parseFrontmatter(markdown, sourcePath) {
+  const match = markdown.match(FRONTMATTER_REGEX)
+  if (!match) return { frontmatter: {}, content: markdown }
+  const frontmatterText = match[1] || ''
+  const content = markdown.slice(match[0].length)
+  try {
+    const parsed = parseYaml(frontmatterText)   // ← 完整 YAML 解析
+    ...
+  } catch {
+    // 失敗 → quoteProblematicValues() 加引號重試 → 仍失敗只記 warn log
+  }
+}
+```
+
+```typescript
+// src/utils/yaml.ts:9
+export function parseYaml(input) {
+  if (typeof Bun !== 'undefined') return Bun.YAML.parse(input)  // Bun 內建
+  return require('yaml').parse(input)                            // fallback
+}
+```
+
+YAML 完整支援多行，所以下面這寫法合法、會被解析成一個含 `\n` 的字串：
+
+```yaml
+---
+name: my-skill
+description: >
+  這是第一段說明，
+  會被摺疊（fold）成同一行。
+---
+```
+
+而且把 description 轉成字串的 `coerceDescriptionToString()` **只做 `.trim()`，只去頭尾空白、不移除內部換行**：
+
+```typescript
+// src/utils/frontmatterParser.ts:304
+export function coerceDescriptionToString(value, ...) {
+  if (value == null) return null
+  if (typeof value === 'string') return value.trim() || null   // ← 內部 \n 保留
+  ...
+}
+```
+
+→ 所以若用 `|`（literal block）保留換行，內部 `\n` 會原封不動留進 description。
+
+### 二、為什麼按需載入仍然正常運作
+
+按需載入的本質：**啟動時只把各技能的 `description` 組成一份清單**注入 context，讓模型判斷該不該叫某技能；**技能正文（SKILL.md body）只有在真的 invoke 時才載入**。description 有沒有換行，不影響「這技能有沒有被解析出來、有沒有進清單、能不能被 invoke」。
+
+```
+SKILL.md 載入
+  │
+  ▼
+parseFrontmatter() ── YAML parse ──► description（可含 \n）
+  │
+  ▼
+組裝技能清單（每技能一行）  ──► 注入 system reminder / Skill tool prompt
+  │                                （這就是「按需發現」的依據）
+  ▼
+模型判斷 → 命中才 invoke ──► 此時才載入完整 SKILL.md body
+```
+
+### 三、但「一行」有兩個真實理由
+
+#### 理由 1：清單是「逐行、一技能一行」的格式
+
+清單組裝是逐行 join 的，description 內含 `\n` 會把這份排版從中間撐開：
+
+```typescript
+// src/utils/messages.ts:3544（skill_discovery 注入）
+const lines = attachment.skills.map(s => `- ${s.name}: ${s.description}`)
+// ... `${lines.join('\n')}`
+
+// src/tools/SkillTool/prompt.ts:65
+return `- ${cmd.name}: ${getCommandDescription(cmd)}`
+```
+
+若 `description` 自帶換行，後續幾行就不再長得像 `- name: ...` 條目，破壞 line-based 清單結構，反而可能干擾模型比對。這是「description 該是一行」的核心原因 —— **它要塞進一個逐行列舉的清單裡**。
+
+#### 理由 2：有長度上限與 token 預算截斷
+
+```typescript
+// src/tools/SkillTool/prompt.ts:29
+export const MAX_LISTING_DESC_CHARS = 250          // 每條 listing 硬上限 250 字，超過截斷加 …
+
+// src/tools/SkillTool/prompt.ts:21
+export const SKILL_BUDGET_CONTEXT_PERCENT = 0.01   // 整份清單只佔 context window 的 1%
+```
+
+清單總量被限制在 context 的 1%（預設約 8000 字），超過會動態壓縮、甚至非 bundled 技能只剩名稱。換行不會被特別 strip，卻佔字數又破壞排版，等於浪費這份本來就很省的「發現預算」。
+
+### 四、真正會「壞掉」的情況：換行寫錯導致 description 丟失
+
+最危險的不是「換行」本身，而是**用了不合法的 YAML 多行寫法**（直接按 Enter、沒用 `|`/`>`、縮排也不對）：
+
+```yaml
+description: 第一行
+第二行沒縮排   # ← 這會讓 YAML 解析失敗
+```
+
+此時 `parseFrontmatter()` 走進 `catch`：先 `quoteProblematicValues()` 加引號重試，若仍失敗 → **只記一條 warn log，frontmatter 變成空物件 `{}`**。後果是 `description` 取不到，於是 fallback 去抓 markdown 正文第一行當描述：
+
+```typescript
+// src/skills/loadSkillsDir.ts（parseSkillFrontmatterFields）
+const validatedDescription = coerceDescriptionToString(frontmatter.description, ...)
+const description =
+  validatedDescription ??
+  extractDescriptionFromMarkdown(markdownContent, descriptionFallbackLabel)  // ← fallback
+
+// src/utils/markdownConfigLoader.ts:52
+export function extractDescriptionFromMarkdown(content, defaultDescription) {
+  // 取正文第一個非空行，去掉 # 標題前綴，限 100 字（超過截斷加 ...）
+}
+```
+
+→ 你精心寫的 description 整段被丟掉、換成正文第一行 —— **這才是真正會傷害「按需載入準確度」的情形**（模型看到的是錯的描述）。
+
+### 五、實務寫法建議
+
+| 寫法 | 結果 | 評價 |
+|------|------|------|
+| 單行 `description: ...` | ✅ 解析正常、符合清單格式 | **最推薦** |
+| YAML `>` 摺疊多行 | ✅ 可解析，摺疊後變單行（內部換行→空格） | 安全，想換行時用這個 |
+| YAML `\|` 字面多行 | ⚠️ 可解析，但 `\n` 留進清單破壞逐行排版 | 不建議 |
+| 裸換行、無 `\|`/`>`、縮排錯 | ❌ YAML 解析失敗 → description 丟失 → 退回抓正文第一行 | **絕對避免** |
+
+> [!tip] 一句話結論
+> 解析層吃得下多行，但清單是 line-based 的、又有 250 字／1% context 的截斷。想跨行又要安全，**用 `>`（摺疊成一行）而非 `|`，更不要裸換行**。維持單行永遠是最穩的選擇。
+
+### 六、本次研究涉及的原始碼位置
+
+| 功能 | 檔案:行 |
+|------|---------|
+| Frontmatter regex 與解析 | `src/utils/frontmatterParser.ts:123` / `:130` |
+| YAML 解析包裝（Bun.YAML / yaml） | `src/utils/yaml.ts:9` |
+| description 字串化（只 trim） | `src/utils/frontmatterParser.ts:304` |
+| frontmatter 欄位解析 + fallback | `src/skills/loadSkillsDir.ts`（parseSkillFrontmatterFields） |
+| 正文第一行 fallback（限 100 字） | `src/utils/markdownConfigLoader.ts:52` |
+| listing 硬上限 250 字 | `src/tools/SkillTool/prompt.ts:29` |
+| 清單 1% context 預算 | `src/tools/SkillTool/prompt.ts:21` |
+| skill_discovery 逐行注入格式 | `src/utils/messages.ts:3544` |
+
+---
+
 ## References
 
 - Claude Code 反編譯原始碼（基於 v2.1.88 source map 洩漏版本）
@@ -1481,4 +1647,9 @@ shell: bash
   - `src/tools/AgentTool/built-in/exploreAgent.ts` — Explore agent 定義
   - `src/schemas/hooks.ts` — Hook 四種類型的 Zod schema
   - `src/entrypoints/agentSdkTypes.js` — 31 種 hook 事件列表
+  - `src/utils/frontmatterParser.ts` — `parseFrontmatter()` / `FRONTMATTER_REGEX` / `coerceDescriptionToString()`（2026-06-22 追加研究）
+  - `src/utils/yaml.ts` — `parseYaml()`：Bun.YAML / yaml 套件包裝（2026-06-22 追加研究）
+  - `src/utils/markdownConfigLoader.ts` — `extractDescriptionFromMarkdown()` 正文第一行 fallback（2026-06-22 追加研究）
+  - `src/tools/SkillTool/prompt.ts` — `MAX_LISTING_DESC_CHARS=250` / 1% context 預算 / 清單格式化（2026-06-22 追加研究）
+  - `src/utils/messages.ts:3544` — skill_discovery 逐行注入格式（2026-06-22 追加研究）
 - [Claude Code Skills 官方文件](https://docs.anthropic.com/en/claude-code/skills)
