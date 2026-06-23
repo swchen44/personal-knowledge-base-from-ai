@@ -1,5 +1,5 @@
 ---
-title: "程式碼知識圖譜兩雄對決：codebase-memory-mcp-pro vs CodeGraph 深度分析與比較"
+title: "程式碼知識圖譜深度對決：DeusData codebase-memory-mcp（上游）vs CodeGraph，再剖析 win4r fork 的改動"
 date: 2026-06-24
 category: CodeAnalysis
 tags:
@@ -7,108 +7,122 @@ tags:
   - ai/agent
   - tools/mcp
   - code-knowledge-graph
-  - devtools
-source: "https://github.com/win4r/codebase-memory-mcp-pro"
+  - fork-analysis
+source: "https://github.com/DeusData/codebase-memory-mcp"
 source_type: code
-author: "win4r（DeusData fork） / Colby McHenry"
+author: "DeusData（上游）/ Colby McHenry（CodeGraph）/ win4r（fork）"
 status: notes
 links:
   - "[[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]]"
   - "[[CLAUDE-MEMORY-ENGINE]]"
   - "[[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]]"
-github_stars: "codegraph 53.7k / codebase-memory-mcp-pro 73"
+github_stars: "codegraph 53.7k / DeusData 上游 12.8k / win4r fork 73"
 github_language: "C / TypeScript"
 sources_compared:
-  - "https://github.com/win4r/codebase-memory-mcp-pro"
+  - "https://github.com/DeusData/codebase-memory-mcp"
   - "https://github.com/colbymchenry/codegraph"
+  - "https://github.com/win4r/codebase-memory-mcp-pro"
 ---
 
 ## 摘要（Summary）
 
-這篇筆記深度拆解兩個「程式碼知識圖譜（Code Knowledge Graph）MCP server」，並做正面比較。兩者要解決**同一個痛點**：AI 編碼代理（Claude Code、Cursor、Codex…）理解大型 codebase 時，靠 `grep` / `Read` 一個一個檔案翻找，造成**大量工具呼叫**與**爆量 token 消耗**。兩者的共同解法也一樣：**預先把程式碼解析成 AST → 抽出節點（function/class/route）與邊（calls/imports/…）→ 存成可查詢的圖 → 透過 MCP 工具讓代理一次問到位**。
+這篇筆記做兩件事，順序很重要：
 
-但兩者的設計哲學南轅北轍：
+1. **先把「上游原版」`DeusData/codebase-memory-mcp` 和 `CodeGraph` 正面比較** —— 因為使用者最初給的 `win4r/codebase-memory-mcp-pro` 其實是 DeusData 的 fork，拿 fork 去比不公平，要比就比原始引擎。
+2. **再從 git diff 解剖 win4r fork 改了什麼** —— 看它「想強化什麼、發現了什麼問題」，並把研究結果疊加上去。
 
-- **`codebase-memory-mcp-pro`（win4r fork）** — Pure C 寫的「**查詢引擎派**」。內建完整的 openCypher 查詢語言、14 個 MCP 工具、11 信號語意相似度搜尋、158 種語言、團隊共享壓縮工件。追求**最大查詢表達力**。
-- **`CodeGraph`（Colby McHenry）** — TypeScript/Node 寫的「**單一工具、代理導向派**」。預設只暴露 `codegraph_explore` 一個工具、刻意**不做向量/語意**（只要結構精確邊）、靠檔案監控自動增量同步、框架感知（25+ 框架）動態分派合成。追求**貼合代理實際行為**。
+三個專案要解決**同一個痛點**：AI 編碼代理（Claude Code、Cursor、Codex…）理解大型 codebase 時靠 `grep` / `Read` 一個一個翻檔案，造成**大量工具呼叫**與**爆量 token**。共同解法也一樣：**AST → 抽節點（function/class/route）與邊（calls/imports/…）→ 存成可查詢的圖 → 用 MCP 工具讓代理一次問到位**。
 
-> [!important] 一句話總結差異
-> **memory-mcp-pro 給你一把瑞士刀（Cypher + 14 工具 + 語意搜尋），CodeGraph 給你一個按鈕（explore）。** 前者賭「代理會聰明地組合查詢」，後者賭「少即是多，代理只想問一句話」。
+| 專案 | 角色 | 語言 | ⭐ | 建立 | 一句話定位 |
+|------|------|------|-----|------|-----------|
+| **DeusData/codebase-memory-mcp** | 上游原版 | Pure C | 12.8k | 2026-02-24 | 14 工具 + Cypher 查詢引擎，158 語言、零依賴靜態二進位 |
+| **CodeGraph**（colbymchenry） | 獨立競品 | TypeScript | **53.7k** | 2026-01-18 | 單一 `codegraph_explore` 工具、結構精確、自動同步、框架感知 |
+| **win4r/codebase-memory-mcp-pro** | DeusData 的 fork | Pure C | 73 | 2026-06-21 | 提前整合 10 個上游 PR + **自創 `explore` 工具補上代理易用性** |
+
+> [!important] 本篇最關鍵的發現
+> **win4r fork 之所以存在，正是因為「拿 cbm 去打 codegraph 會輸」。** fork 內藏的 `bench/BASELINE.md` 是一份白紙黑字的 head-to-head benchmark（cbm-pro vs codegraph 0.9.9，在真實 iOS Swift repo 上跑），明確記錄上游在三個維度輸給 codegraph，然後逐項把它補平、補超。換句話說，**使用者現在做的這個比較，win4r 早就做過，而且把結論變成了程式碼。**
+
+> [!warning] 對前一版筆記的更正
+> 前一版我把 `explore` 工具當成 codebase-memory-mcp「家族」的核心特色。經 diff 查證：**上游 DeusData 根本沒有 `explore` 工具（只有 14 個工具）；`explore` 是 win4r fork 新增的第 15 個工具**（純新增 +333 行、0 刪除）。本版已更正歸屬。
 
 ---
 
 ## 關鍵洞察（Key Insights）
 
-- **同源異流**：兩者都是「AST → graph → MCP」管線，但 memory-mcp-pro 把圖當**資料庫**（暴露 Cypher 讓你查），CodeGraph 把圖當**內部結構**（只暴露一個高階 explore）。這是「資料庫 vs 應用」的經典張力 — 參見 [[CLAUDE-MEMORY-ENGINE]] 對「記憶該存什麼、怎麼取」的討論。
-- **語意 vs 結構之爭**：memory-mcp-pro 用 11 種本地信號算 `SEMANTICALLY_RELATED` 邊（無外部 embedding model）；CodeGraph **刻意拒絕語意相似度**，主張「精確 AST 邊 > 語義近似」以避免幻覺。這是兩種對「什麼叫理解程式碼」的根本世界觀。
-- **動態分派是試金石**：`handlers[action.type]()`、React `setState→render`、Celery `task.delay()` 這類**靜態追不到**的呼叫，CodeGraph 用 25+ 個框架專屬合成器補上（標記 `provenance: heuristic`），這是它最硬的工程護城河；memory-mcp-pro 則靠 9 語言 Hybrid LSP 補型別解析，路線不同。
-- **成熟度天差地遠**：CodeGraph 53.7k stars、v1.0 已發佈、217 open issues（活躍）；memory-mcp-pro 73 stars、2026-06-21 才建立的 fork。star 數不等於技術優劣，但決定了「踩到坑時有沒有人陪你」。
-- **Pure C 的賭注**：memory-mcp-pro 用零依賴 C 換取「單一靜態二進位 + 秒級索引百萬行」，代價是維護成本極高（手寫記憶體/字串管理）；CodeGraph 用 Node 內建 `node:sqlite`（無原生編譯）換取可維護性與快速迭代。
+- **上游 vs codegraph 是「查詢引擎 vs 單一按鈕」之爭**：上游給 14 個工具 + 完整 openCypher 查詢語言（最大表達力，但代理要會選工具、會寫 Cypher）；codegraph 只給一個 `codegraph_explore`（最低摩擦，賭「代理只想問一句話」）。參見 [[CLAUDE-MEMORY-ENGINE]] 對「記憶該存什麼、怎麼取」的同型張力。
+- **語意 vs 結構的世界觀差異**：上游用 11 種本地信號算 `SEMANTICALLY_RELATED` 邊（無外部 embedding model）；codegraph **刻意拒絕語意相似度**，主張「精確 AST 邊 > 語義近似」以避免幻覺。
+- **codegraph 的護城河是動態分派合成**：`handlers[action.type]()`、React `setState→render`、Celery `task.delay()` 這類靜態追不到的呼叫，codegraph 用 25+ 個框架專屬合成器補上（標 `provenance: heuristic`）。上游靠 9 語言 Hybrid LSP 補型別解析，路線不同。
+- **fork 的改動主軸是「向 codegraph 看齊代理易用性」**：win4r 透過 benchmark 發現上游三個落後點 —— (a) 拿不到 one-call 的「源碼+影響範圍」（要 3 次呼叫），(b) Swift 型別全壓成 `Class`，(c) 同名節點重複發射。逐一補上後，agent-use 綜合分從 ~75 拉到 ~85（codegraph 79）。
+- **成熟度三級跳**：codegraph 53.7k ⭐、上游 12.8k ⭐、fork 73 ⭐（且**不發佈預編譯二進位，要自己 build**）。star 數不等於技術優劣，但決定踩坑時有沒有人陪。
 
 ---
 
 ## 詳細內容（Details）
 
-### 〈A〉codebase-memory-mcp-pro — Pure C 查詢引擎
-
-> [!info] 身世
-> 它是 `DeusData/codebase-memory-mcp`（MIT）的社群 fork，由 @win4r 維護，整合了上游未合併的 9 個 PR（增量索引 CALLS 邊修正、Cypher 聚合修復、Swift 型別細化、blast radius 深度等）。2026-06-21 建立，73 stars。
+### 〈A〉上游 DeusData/codebase-memory-mcp — Pure C 查詢引擎
 
 #### Why / What
-- **Why**：file-by-file 探索 token 爆炸（README 宣稱 412K tokens vs 圖查詢 3.4K tokens），且 grep 精準度低。
-- **What**：高速知識圖譜引擎，秒級索引百萬行（宣稱 Linux kernel 28M LOC 約 3 分鐘），對外暴露 14 個 MCP 工具給 11 種編碼代理。
-- **技術棧**：**Pure C**，零外部執行時依賴，內嵌（vendored）SQLite3 + tree-sitter（158 語言 grammar）+ yyjson + xxhash + zstd + 可選 libgit2 + mimalloc。
+- **Why**：file-by-file 探索 token 爆炸、grep 精準度低。
+- **What**：高速知識圖譜引擎，宣稱秒級索引百萬行（README：158 語言、sub-ms 查詢、99% 少 token、單一靜態二進位零依賴）。對外 **14 個 MCP 工具**給 11 種編碼代理。
+- **技術棧**：**Pure C**，內嵌（vendored）SQLite3 + tree-sitter（158 語言 grammar）+ yyjson + xxhash + zstd + 可選 libgit2 + mimalloc。
 
 #### How — 核心機制
-- **儲存**：`~/.cache/codebase-memory-mcp/<project>.db`（SQLite，in-memory + WAL）。節點有 `Function/Method/Class/Route/Resource…` 等 label，邊有 26 種類型（`CALLS/IMPORTS/DATA_FLOWS/SEMANTICALLY_RELATED/HTTP_CALLS…`）。
-- **索引管線**（`src/pipeline/`，39 個 pass）：definitions → k8s → LSP cross-dispatch → calls → usages → semantic → 預 dump（decorator/route/similarity/semantic/complexity）。檔案 >50K 時走平行管線。
-- **Hybrid LSP**（9 語言：Python/TS/JS/PHP/C#/Go/C/C++/Java/Kotlin/Rust）做跨檔案型別解析，捕捉 generics、class hierarchy、import→定義。
-- **11 信號語意相似度**（`src/semantic/`，**無外部 embedding model**）：TF-IDF、Random Indexing、MinHash、API/Type/Decorator signature、AST 結構輪廓、Data Flow、Graph Diffusion、Halstead-Lite。閾值 0.75 才發 `SEMANTICALLY_RELATED` 邊。
-- **查詢**：核心是 `src/cypher/`（15 萬行 C！）自實作的 openCypher 讀子集，把 `MATCH...WHERE...RETURN` 轉成 SQL。
-- **團隊共享**：可匯出 `.codebase-memory/graph.db.zst`（zstd -9，8–13:1 壓縮）commit 進 git，隊友 clone 後免重索引。
+- **儲存**：`~/.cache/codebase-memory-mcp/<project>.db`（SQLite，in-memory + WAL）。節點有 `Function/Method/Class/Route/Resource…` label，邊有 26 種類型（`CALLS/IMPORTS/DATA_FLOWS/SEMANTICALLY_RELATED/HTTP_CALLS…`）。
+- **索引管線**（`src/pipeline/`，多 pass）：definitions → k8s → Hybrid LSP cross-dispatch → calls → usages → semantic → 預 dump（decorator/route/similarity/semantic/complexity）。檔案 >50K 走平行管線。
+- **Hybrid LSP**（9 語言：Python/TS/JS/PHP/C#/Go/C/C++/Java/Kotlin/Rust）做跨檔案型別解析。
+- **11 信號語意相似度**（`src/semantic/`，**無外部 embedding model**）：TF-IDF、Random Indexing、MinHash、API/Type/Decorator signature、AST 結構輪廓、Data Flow、Graph Diffusion、Halstead-Lite，閾值 0.75 才發 `SEMANTICALLY_RELATED` 邊。
+- **查詢**：核心是 `src/cypher/`（自實作的 openCypher 讀子集，把 `MATCH...WHERE...RETURN` 轉成 SQL）。
+- **團隊共享**：可匯出 `.codebase-memory/graph.db.zst`（zstd -9，8–13:1）commit 進 git，隊友 clone 免重索引。
 
-#### 14 個 MCP 工具（節選）
+#### 上游 14 個 MCP 工具（實測 grep 自 `src/mcp/mcp.c`）
+`index_repository`、`search_graph`、`query_graph`、`trace_path`、`get_code_snippet`、`search_code`、`get_graph_schema`、`get_architecture`、`detect_changes`、`manage_adr`、`ingest_traces`、`list_projects`、`index_status`、`delete_project`。
 
-| 工具 | 功能 |
-|------|------|
-| `explore` | 【主工具】一次回傳 callers + callees + 源碼 |
-| `query_graph` | 原生 openCypher 查詢 |
-| `trace_path` | BFS 呼叫鏈追蹤（inbound/outbound，depth 1–5） |
-| `search_graph` | BM25 + regex + 11 信號 vector 搜尋 |
-| `detect_changes` | git diff → blast radius（影響的符號 + 遞移呼叫者） |
-| `get_architecture` | Leiden 社群偵測做模組聚類 |
-| `manage_adr` | Architecture Decision Records CRUD |
+> [!warning] 上游沒有 one-call 探索工具
+> 要拿到「目標源碼 + 誰呼叫它（blast radius）」，上游得**組合 3 次呼叫**：`get_code_snippet` + `trace_path` + `query_graph`。這正是 codegraph 用 1 次 `explore` 就做到、而上游輸掉的地方（見〈C〉）。
 
 ---
 
 ### 〈B〉CodeGraph — 單一工具、代理導向
 
-> [!info] 身世
-> 由 Colby McHenry 開發，TypeScript（約 5.9 萬行）。v1.0.0 於 2026-06-12 發佈。**53,668 stars / 3,284 forks / 217 open issues** — 是程式碼圖譜領域的主流明星專案。
-
 #### Why / What
 - **Why**：AI 代理一次流程常需 20+ 次 Read/Grep，重複探索、token 昂貴。
-- **What**：本地優先（local-first）程式碼智慧引擎，宣稱跨 7 個真實 repo 平均**工具呼叫減 58%、執行時間快 22%、token 成本降 35%**、檔案讀取趨近 0。
-- **技術棧**：TypeScript + Node.js 22.5+，用 Node 內建 `node:sqlite`（WAL + FTS5，**無原生編譯依賴**）、`web-tree-sitter`（WASM）、commander、@clack/prompts。自實作 MCP stdio transport（無外部 MCP SDK）。
+- **What**：本地優先程式碼智慧引擎，宣稱跨 7 個真實 repo 平均**工具呼叫減 58%、執行時間快 22%、token 成本降 35%**、檔案讀取趨近 0。v1.0.0 於 2026-06-12 發佈。
+- **技術棧**：TypeScript + Node.js 22.5+，用 Node 內建 `node:sqlite`（WAL + FTS5，**無原生編譯依賴**）、`web-tree-sitter`（WASM）、commander。自實作 MCP stdio transport。
 
 #### How — 核心機制
-- **三階段**：
-  1. **Extraction**：tree-sitter（WASM）解析 → 22 個語言提取器抽符號 → 寫 `nodes`/`edges`/`unresolved_refs` 表。`.vue/.svelte/.astro/.liquid` 有專屬提取器。
-  2. **Resolution**：解 `unresolved_refs`，策略優先序 = Import 解析 → 名稱比對 → **框架模式**（Django/Express/NestJS/Spring/Rails…），並**合成動態分派邊**（React `setState→render`、JSX、Celery/Sidekiq/Spring events、React Native ↔ ObjC 橋接、C 函式指標）。合成邊標 `provenance: heuristic`。
-  3. **Query**：FTS5 搜尋初始符號集 → `GraphTraverser.traverseBFS()` 遍歷 → `ContextBuilder` 組成 Markdown（源碼 + 呼叫流程 + blast radius）。
-- **儲存**：`.codegraph/codegraph.db`（SQLite WAL + FTS5）。**刻意不用向量、不用 Neo4j** — 主張結構精確 > 語意近似、簡化安裝。
-- **自動同步**：`FileWatcher`（FSEvents/inotify/ReadDirectoryChangesW）+ 防抖（預設 2s）增量重索引；編輯中的檔案在回應裡標 ⚠️ staleness warning。
-- **守護進程**：Direct(stdio) / Proxy(socket) / Daemon(背景) 三模式，共用單一 SQLite + watcher，PPID 監控防孤兒進程。
+- **三階段**：(1) **Extraction**：tree-sitter（WASM）→ 22 語言提取器抽符號 → 寫 `nodes`/`edges`/`unresolved_refs`。(2) **Resolution**：解 `unresolved_refs`，優先序 = Import → 名稱比對 → **框架模式**（Django/Express/NestJS/Spring/Rails…），並**合成動態分派邊**（React `setState→render`、JSX、Celery/Sidekiq、React Native↔ObjC 橋接、C 函式指標）。(3) **Query**：FTS5 找初始符號 → `GraphTraverser.traverseBFS()` → `ContextBuilder` 組 Markdown。
+- **儲存**：`.codegraph/codegraph.db`（SQLite WAL + FTS5）。**刻意不用向量、不用 Neo4j**。
+- **自動同步**：`FileWatcher`（FSEvents/inotify/ReadDirectoryChangesW）+ 防抖增量重索引；編輯中的檔案標 ⚠️ staleness warning。
+- **守護進程**：Direct / Proxy / Daemon 三模式，PPID 監控防孤兒進程（Windows 上曾有黑色 console 閃爍 issue #485/#510）。
+- **工具哲學**：**預設只暴露 `codegraph_explore`**，其餘需 `CODEGRAPH_MCP_TOOLS` 開啟。信條：「一個工具做好一件事」、「即使出錯也回 success 形狀」（避免代理放棄使用）。
 
-#### MCP 工具哲學
-- **預設只暴露 `codegraph_explore` 一個工具**（query + 可選 projectPath），其餘（`node/search/callers/callees/impact/files/status`）需用 `CODEGRAPH_MCP_TOOLS` 環境變數開啟。
-- 設計信條：**「一個工具做好一件事」**、**「即使出錯也回 success 形狀」**（沒索引的專案回傳指引而非 `isError`，避免代理放棄使用）。
+---
+
+### 主比較矩陣：上游 DeusData vs CodeGraph
+
+| 維度 | DeusData/codebase-memory-mcp（上游） | CodeGraph | 誰勝 |
+|------|--------------------------------------|-----------|------|
+| 實作語言 | Pure C（零依賴） | TypeScript / Node | 各有取捨 |
+| 儲存 | SQLite（in-mem + WAL）+ 可選 zstd 工件 | SQLite（WAL + FTS5） | 平 |
+| 查詢介面 | **openCypher** + 14 工具 | 主要 1 個 `explore`（其餘需開啟） | 表達力→上游；易用→codegraph |
+| one-call「源碼+影響範圍」 | ❌ 要 3 次呼叫組合 | ✅ 1 次 `explore` | **CodeGraph** |
+| 語意搜尋 | ✅ 11 信號（無 embedding） | ❌ 刻意不做 | 看世界觀 |
+| 型別/跨檔案解析 | Hybrid LSP（9 語言） | Import + 名稱比對 + 框架模式 | 平（路線不同） |
+| 動態分派合成 | ⚠️ 弱 | ✅ **25+ 框架合成器** | **CodeGraph** |
+| 語言數 | **158** | 20+ | 上游 |
+| 框架感知路由 | 部分（route_match pass） | ✅ **17+ 框架** | CodeGraph |
+| 自動同步 | watcher（git polling） | ✅ **native FS 事件 + 防抖** | CodeGraph |
+| 團隊共享圖 | ✅ commit `.db.zst` | ❌ 各自索引 | 上游 |
+| Swift 型別保真度 | ⚠️ 全壓成 `Class` | ✅ struct/enum/protocol 區分 | **CodeGraph** |
+| 成熟度 | 12.8k ⭐ | **53.7k ⭐ / v1.0** | CodeGraph |
+| 安裝心智負擔 | 預編譯一行腳本 | `npm i -g`（含綑綁 Node） | 平 |
+
+> [!important] 觀點：互補多於互斥
+> 兩者是「兩種代理-codebase 介面的押注」。codegraph 押「低摩擦、結構精確、一句話拿一包」；上游押「圖資料庫級的查詢自由（Cypher）與語意召回」。**今天就要上線給團隊** → codegraph（成熟、自動同步、動態分派、53.7k 驗證）；**研究型程式碼分析 / 自訂圖查詢** → 上游（Cypher + 11 信號語意 + 158 語言）。
 
 ---
 
 ### 系統架構圖（System Architecture，Mermaid）
-
-兩者高層結構同形，差異在「對外介面寬度」與「語意層的有無」：
 
 ```mermaid
 flowchart TB
@@ -116,12 +130,12 @@ flowchart TB
         AG["MCP Client"]
     end
 
-    subgraph CMP["codebase-memory-mcp-pro (Pure C)"]
+    subgraph CMP["DeusData codebase-memory-mcp (Pure C) — 上游"]
         direction TB
-        M1["MCP server<br/>14 tools (stdio JSON-RPC)"]
+        M1["MCP server<br/>14 tools (stdio JSON-RPC)<br/>(無 explore)"]
         C1["Cypher 查詢引擎<br/>openCypher→SQL"]
         S1["Semantic 11 信號層<br/>(無 embedding model)"]
-        P1["Pipeline 39 passes<br/>+ Hybrid LSP (9 語言)"]
+        P1["Pipeline + Hybrid LSP (9 語言)"]
         DB1[("SQLite 圖<br/>~/.cache/.../proj.db")]
         M1 --> C1 --> DB1
         M1 --> S1 --> DB1
@@ -141,45 +155,13 @@ flowchart TB
         W2 --> E2
     end
 
-    AG -->|"query_graph / trace_path / explore..."| M1
-    AG -->|"codegraph_explore"| M2
+    AG -->|"query_graph / trace_path / 組合 3 呼叫..."| M1
+    AG -->|"codegraph_explore (1 呼叫)"| M2
 ```
-
-> [!note] 讀圖重點
-> memory-mcp-pro 多了一條 **Semantic 信號層** 與一個完整 **Cypher 引擎**（對外開放查詢語言）；CodeGraph 多了一個 **FileWatcher 自動同步** 與一個厚重的 **框架合成 Resolution 層**。兩者都把 SQLite 當底層儲存。
-
----
-
-### 索引流程圖（Indexing Flowchart，Mermaid）
-
-```mermaid
-flowchart TD
-    Start["掃描檔案樹<br/>(.gitignore 過濾)"] --> Parse["tree-sitter 解析 AST"]
-    Parse --> Extract["抽出 nodes + 候選 edges"]
-    Extract --> Branch{"哪個專案?"}
-
-    Branch -- "memory-mcp-pro" --> L1["Hybrid LSP 跨檔案型別解析 (9 語言)"]
-    L1 --> Calls1["CALLS / USES_TYPE / DATA_FLOWS 邊"]
-    Calls1 --> Sem["11 信號 SEMANTICALLY_RELATED 邊<br/>(閾值 0.75)"]
-    Sem --> Dump1["dump 進 SQLite + 可選 graph.db.zst"]
-
-    Branch -- "CodeGraph" --> Unres["unresolved_refs 表"]
-    Unres --> Res["Resolution: Import→名稱比對→框架模式"]
-    Res --> Synth["動態分派合成<br/>(React/Celery/RN↔ObjC...)<br/>provenance=heuristic"]
-    Synth --> Dump2["寫 edges (provenance=static/heuristic)"]
-
-    Dump1 --> Ready(["圖就緒，等待查詢"])
-    Dump2 --> Ready
-```
-
-> [!warning] 兩者最大的索引差異
-> memory-mcp-pro 在索引期就**算好語意相似度邊**（昂貴的 O(n²) 計算，大 repo 是性能懸崖）；CodeGraph **完全不算語意**，但花大力氣在**合成動態分派邊**（這正是 grep 永遠追不到的東西）。
-
----
 
 ### 查詢時序圖（Query Sequence Diagram，Mermaid）
 
-同一個問題「`ProcessOrder` 改了會影響誰？」在兩個系統的呼叫順序：
+同一問題「`ProcessOrder` 改了會影響誰、長怎樣？」：
 
 ```mermaid
 sequenceDiagram
@@ -189,184 +171,203 @@ sequenceDiagram
     participant DB as SQLite 圖
 
     rect rgb(235,245,255)
-    note over A,DB: codebase-memory-mcp-pro — 代理自己組 Cypher / 指定 tool
-    A->>M: detect_changes(project, depth=2)
-    M->>Q: cypher→SQL / BFS blast radius
-    Q->>DB: SELECT ... WHERE target_id=ProcessOrder (遞移)
-    DB-->>Q: impacted_symbols[]
-    Q-->>M: 格式化 JSON
-    M-->>A: {impacted: [cancelPayment(hop1), ...]}
+    note over A,DB: 上游 cbm — 要組合 3 次呼叫
+    A->>M: get_code_snippet(ProcessOrder)
+    M-->>A: 源碼
+    A->>M: trace_path(ProcessOrder, inbound)
+    M-->>A: callers
+    A->>M: query_graph(Cypher 算 fan-in)
+    M-->>A: hotspot
     end
 
     rect rgb(235,255,235)
-    note over A,DB: CodeGraph — 代理只問一句自然語言
+    note over A,DB: CodeGraph — 一句話拿一包
     A->>M: codegraph_explore("impact of ProcessOrder")
-    M->>Q: FTS5 找符號 → traverseBFS(incoming only)
+    M->>Q: FTS5 找符號 → traverseBFS(incoming)
     Q->>DB: 走 callers 邊 (depth 3)
     DB-->>Q: 受影響符號 + 源碼
     Q-->>M: ContextBuilder 組 Markdown
-    M-->>A: ## Blast radius\n3 callers affected + 源碼
+    M-->>A: ## Blast radius + 源碼 (1 次)
     end
 ```
 
-> [!tip] 互動成本差異
-> memory-mcp-pro 給代理「選工具 / 寫 Cypher」的自由 → 表達力強，但代理要先學會該用哪個工具；CodeGraph 把選擇權收回，代理「問一句、拿一包」→ 上手快，但你要的細節若不在 explore 預設裡，就得改環境變數開別的工具。
+> [!note] 這張圖就是 fork 的起點
+> 上游「3 呼叫 vs codegraph 1 呼叫」的差距，正是 win4r `bench/BASELINE.md` 量到的痛點，也是它新增 `explore` 工具的直接動機（見〈C〉）。
 
 ---
 
-### 安裝流程（Installation Flow）
+## 〈C〉win4r fork 改動剖析：它想強化什麼？發現什麼問題？
+
+> [!info] 用 git diff + GitHub compare API 查證的事實
+> fork 從上游 commit `54013301`（King Star，2026-06-19「return valid UTF-8 snippets」）分支，在 main 上疊了約 12 個 win4r 自己的 commit（2026-06-21～06-22）。**注意**：fork 之後上游又前進了 50+ 個 commit，所以 fork 現在在「其他上游修正」上反而落後 —— 它領先的只有自己加的那幾項。
+
+### C-1. fork「發現的問題」：它對打 codegraph 輸了
+
+fork 內藏 `bench/BASELINE.md` —— 一份誠實到近乎自嘲的 head-to-head benchmark（**cbm-pro vs codegraph 0.9.9**，測試 repo：LingoLearn-iOS，29 個 Swift 檔，2026-06-21）。它先記錄 **before（輸的狀態）**：
+
+| 指標 | 上游 cbm | codegraph | 問題 |
+|------|---------|-----------|------|
+| **dup_nodes**（同名同檔同時發成 Method + Function） | **38** | 0 | 節點重複污染圖 |
+| **Swift 型別保真度**（struct/enum/protocol/extension 是否區分） | **1**（全變 `Class`） | 5 | 型別語意全丟失 |
+| **拿「源碼+blast-radius」要幾次呼叫** | **3 次** | **1 次**（`explore`） | 代理易用性差 |
+
+> [!quote] bench/BASELINE.md 原文（節錄）
+> *"Ergonomics / explore (the other M1 lever — not yet scriptable, **cbm has no explore**) … codegraph: **1 call**; cbm-pro: **3 calls** (get_code_snippet + trace_path + query_graph)."*
+
+### C-2. fork「想強化什麼」：逐項把差距補平、補超
+
+從 commit log + diff 看出 fork 的改動分兩類：
+
+#### 類型一：提前整合上游待合併的 10 個 PR（搶先 bug fix）
+README「Fork notice」白紙黑字列出（皆連結上游 PR 編號）：
+
+| 主題 | 上游 PR | 修了什麼 |
+|------|---------|---------|
+| 增量索引正確性 | #528 | 編輯檔案不再讓 inbound 跨檔 `CALLS` 邊變孤兒 |
+| Cypher `WITH` 聚合帶屬性 | #465 | `query_graph` 經 `WITH` 後節點屬性不再變空 |
+| label 過濾遍歷截斷 | #412 | label-filtered 遍歷不再默默截在 10 列 |
+| `detect_changes` honor `since` | #464 | 尊重 `since` 參數 |
+| 定義優先名稱解析 | #466 | 回報歧義而非亂猜 |
+| `get_code_snippet` 合法 UTF-8 | #526 | 片段不再吐壞 UTF-8 |
+| 堆疊溢位修正 | #475 | `append_args_json` stack-buffer-overflow |
+| JSON 控制字元跳脫 | #527 | — |
+| ADR 跨全量重索引保留 | #539 | — |
+| libgit2 ≥ 1.8 build fix | #512 | macOS Homebrew libgit2 編得過 |
+
+#### 類型二：fork 原創功能（直接針對 benchmark 落後點）
+
+| fork 改動 | 對應的輸點 | diff 規模 / 證據 |
+|-----------|-----------|-----------------|
+| **新增 `explore` 工具**（第 15 個） | 3 呼叫 → 1 呼叫 | `src/mcp/mcp.c` **+302 / −0**、`tests/test_mcp.c` +31。一次回傳 blast-radius（含 fan-in hotspot 標記）+ 1-hop 鄰居 + 逐行源碼 + Cypher 逃生口 |
+| **idiomatic Swift 型別** | 保真度 1 → ≥5 | `Struct`/`Enum`/`Actor` 變獨立 label（不再全壓 `Class`）；enum cases 抽成 `EnumCase` 節點 |
+| **Swift enum-static dedup** | dup_nodes 38 → 0 | `enum` 的 `static func` 不再被雙重發成 Method + Function |
+| **Cypher 聚合修正** | （超越 codegraph） | `RETURN type(r), count(*)` 現在按函式值分組（每邊型一列），不再全塌成一組 |
+| **`detect_changes` 遞移 blast radius** | （超越 codegraph） | `depth` 參數產生遞移 caller 影響，每個標 `hop` + `transitive` |
+| **head-to-head bench harness** | 量化全部 | `bench/headtohead.sh` + `bench/BASELINE.md` |
+
+### C-3. fork 的 after 結果（自報）
+
+| 指標 | baseline cbm | after M1 | codegraph | 狀態 |
+|------|--------------|----------|-----------|------|
+| dup_nodes | 38 | **0** | 0 | ✅ 追平 |
+| `explore` 1-call | ✗（3 呼叫） | **✅ 1 呼叫** | ✅ | ✅ 追平 |
+| explore caller 歸因 | — | **精確 + ⚠hotspot fan-in** | 不精確、無 hotspot | ✅ 超越 |
+| explore Cypher 逃生口 | — | ✅ | ✗ | ✅ 超越 |
+| explore 自動展開鄰居 | — | ✗（聚焦式） | ✅ | codegraph 仍勝 |
+| **agent-use 綜合分**（主觀、自稱已做公平性檢查） | ~75 | **~85** | 79 | fork 自稱反超 |
+
+```mermaid
+flowchart LR
+    U["上游 cbm<br/>14 工具 / 無 explore<br/>Swift→Class / 38 dup"] -->|"win4r 從 54013301 分支"| F
+    CG["codegraph 0.9.9<br/>(benchmark 對手)"] -.->|"被當標竿對打"| F["win4r fork<br/>+10 上游 PR<br/>+explore 工具<br/>+Swift 型別<br/>+dedup / Cypher / depth<br/>+bench harness"]
+    F -->|"自報 agent-use 85 vs 79"| WIN(["宣稱在代理易用性反超 codegraph"])
+```
+
+> [!warning] 對 fork 自報數據的保留態度
+> `agent-use 85 vs 79` 是 win4r **自己定義指標、自己評分**（雖然檔案裡註明「fairness-checked」），且只在**單一 29 檔的 Swift repo** 上測。dup_nodes 0、explore 1-call 是可驗證的客觀事實；但「綜合分反超」屬主觀，不應照單全收。
+
+---
+
+## 安裝流程（Installation Flow）
+
+> [!important] fork 與上游的安裝差異
+> **上游**有預編譯二進位（`curl … install.sh | bash`）。**fork 刻意不發佈預編譯 release**，README 明說「build the integrated binary yourself」，須 `./scripts/build.sh`（首次編 158 個 tree-sitter grammar 要幾分鐘）。這對「想直接用」的人是門檻。
+
+| 項目 | 上游 DeusData | win4r fork | CodeGraph |
+|------|--------------|------------|-----------|
+| 取得二進位 | `install.sh` 預編譯 | **只能自己 build** | `npm i -g`（含綑綁 Node） |
+| 接 Claude Code | `codebase-memory-mcp install` 自動偵測 11 編輯器 | `claude mcp add codebase-memory -s user -- ~/.local/bin/...` | `codegraph install` 互動式 |
+| 索引 DB | `~/.cache/codebase-memory-mcp/<proj>.db` | 同上 | `.codegraph/codegraph.db`（專案內） |
+| 團隊共享 | `.codebase-memory/graph.db.zst` commit | 同上 | 各自 init |
 
 #### 安裝時序圖（Mermaid）
 
 ```mermaid
 sequenceDiagram
     participant U as 使用者
-    participant I as Installer (CLI)
+    participant I as Installer
     participant FS as 檔案系統
     participant ED as 編輯器設定
 
-    note over U,ED: codebase-memory-mcp-pro
-    U->>I: ./scripts/build.sh (Pure C 編譯)
-    I->>FS: 產生 build/c/codebase-memory-mcp (靜態二進位)
-    U->>I: codebase-memory-mcp install
-    I->>ED: auto-detect 11 編輯器，寫 MCP config + skills + hooks
-    I->>FS: ~/.cache/.../<proj>.db, ~/.config/.../config.json
+    note over U,ED: win4r fork（無預編譯，必須自 build）
+    U->>I: ./scripts/build.sh (Pure C，編 158 grammar)
+    I->>FS: build/c/codebase-memory-mcp
+    U->>FS: cp 到 ~/.local/bin/
+    U->>ED: claude mcp add codebase-memory -s user -- ...
+    ED-->>U: /mcp 顯示 15 tools (含 explore)
 
-    note over U,ED: CodeGraph
-    U->>I: npm i -g @colbymchenry/codegraph (含綑綁 Node)
-    U->>I: codegraph install (互動式選代理)
-    I->>ED: 寫 ~/.claude.json / ~/.cursor/... MCP 設定
-    U->>I: cd proj && codegraph init
-    I->>FS: 建 .codegraph/ + SQLite 全量索引
-    I->>FS: codegraph serve --mcp 啟動 FileWatcher 自動同步
+    note over U,ED: CodeGraph（最低摩擦）
+    U->>I: npm i -g @colbymchenry/codegraph
+    U->>I: codegraph install → codegraph init
+    I->>FS: .codegraph/ + 全量索引 + FileWatcher
 ```
-
-#### 安裝產物清單對照
-
-| 項目 | codebase-memory-mcp-pro | CodeGraph |
-|------|--------------------------|-----------|
-| 二進位 | `build/c/codebase-memory-mcp`（自編譯靜態檔） | `~/.local/bin/codegraph`（含綑綁 Node 22.5） |
-| 索引 DB | `~/.cache/codebase-memory-mcp/<proj>.db`（全域 cache） | `.codegraph/codegraph.db`（**專案內**，per-project init） |
-| 設定 | `~/.config/codebase-memory-mcp/config.json` | 環境變數 `CODEGRAPH_*` |
-| 團隊共享 | `<repo>/.codebase-memory/graph.db.zst`（commit 進 git） | 各自 `codegraph init`（不共享圖） |
-| MCP 設定 | `~/.claude/.mcp.json` + skills + hooks | `~/.claude.json` / `~/.cursor/settings.json` 等 |
-
-> [!warning] 解除安裝
-> CodeGraph 提供 `src/bin/uninstall.ts` 反向移除邏輯（`codegraph uninstall`）；memory-mcp-pro 需手動清 `~/.cache/` 與各編輯器 MCP 設定。CodeGraph 的 daemon 在 Windows 上曾有「黑色 console 視窗一直閃」的 issue（#485/#510），是背景進程架構的代價。
 
 ---
 
-### 使用案例地圖（Use Case Map）
+## 使用案例地圖（Use Case Map）
 
-| # | 使用案例 | memory-mcp-pro 路徑 | CodeGraph 路徑 |
-|---|---------|----------------------|-----------------|
-| 1 | 「誰呼叫 X？」 | `trace_path(inbound)` → `store.c` BFS | `codegraph_explore` → `traversal.ts` BFS |
-| 2 | 「改了會影響誰？」 | `detect_changes` → git diff + 遞移 | `getImpactRadius()`（只走 incoming 邊） |
-| 3 | 「`/api/users` 在哪處理？」 | `query_graph` Cypher 找 Route 節點 | 框架 resolver（Django/Express…）發 route 邊 |
-| 4 | 「找語意相近的函數」 | `search_graph(semantic_query)` 11 信號 | ❌ 不支援（刻意不做語意） |
-| 5 | 「React 何時 re-render？」 | 一般 CALLS 邊（追不到動態） | `callback-synthesizer.ts` 合成 setState→render |
-| 6 | 「最多人呼叫的函數？」 | `query_graph` Cypher `COUNT` 聚合 | 需開 `codegraph_callers` 工具逐一查 |
-
-> [!note] 互補而非全面互斥
-> 案例 4（語意搜尋）只有 memory-mcp-pro 有；案例 5（動態分派）CodeGraph 明顯更強。若你的 codebase 是 React Native / 多框架混合，CodeGraph 的合成器是殺手鐧；若你想用 Cypher 做任意圖分析（如社群偵測、複雜聚合），memory-mcp-pro 的查詢引擎無可取代。
-
----
-
-### 正面比較矩陣（Head-to-Head Matrix）
-
-| 維度 | codebase-memory-mcp-pro | CodeGraph | 誰勝 |
-|------|--------------------------|-----------|------|
-| 實作語言 | Pure C（零依賴） | TypeScript / Node | 各有取捨 |
-| 儲存 | SQLite（in-mem + WAL）+ 可選 zstd 工件 | SQLite（WAL + FTS5） | 平 |
-| 查詢介面 | **openCypher** + 14 工具 | 主要 1 個 `explore`（其餘需開啟） | 表達力→前者；易用→後者 |
-| 語意搜尋 | ✅ 11 信號（無 embedding） | ❌ 刻意不做 | 看世界觀 |
-| 型別/跨檔案解析 | Hybrid LSP（9 語言） | Import + 名稱比對 + 框架模式 | 平（路線不同） |
-| 動態分派合成 | ⚠️ 弱 | ✅ **25+ 框架合成器** | **CodeGraph** |
-| 語言數 | **158**（tree-sitter grammar） | 20+ | memory-mcp-pro |
-| 框架感知路由 | 部分（route_match pass） | ✅ **17+ 框架** | CodeGraph |
-| 自動同步 | watcher（git polling） | ✅ **native FS 事件 + 防抖** | CodeGraph |
-| 團隊共享圖 | ✅ commit `.db.zst` | ❌ 各自索引 | memory-mcp-pro |
-| 跨 repo/服務 | ✅ `CROSS_HTTP_CALLS` | monorepo `projectPath` | 平 |
-| 索引速度宣稱 | 28M LOC ≈ 3 min | — | memory-mcp-pro |
-| 效益宣稱 | token 412K→3.4K | 工具呼叫 -58%、token -35% | 都是自報 |
-| 成熟度 | 73 ⭐（新 fork） | **53.7k ⭐ / v1.0** | **CodeGraph** |
-| 安裝心智負擔 | 需編譯 C（或下載二進位） | `npm i -g`（含綑綁 Node） | CodeGraph |
-
-> [!important] 觀點：互補多於互斥
-> 兩者不是「誰取代誰」，而是**兩種代理-codebase 介面的押注**。CodeGraph 押「代理要的是低摩擦、結構精確、一句話拿一包」；memory-mcp-pro 押「進階使用者/代理需要圖資料庫級的查詢自由與語意召回」。若我只能選一個給團隊**今天就上線**，會選 **CodeGraph**（成熟度 + 自動同步 + 動態分派）；若我要做**研究型程式碼分析 / 自訂圖查詢**，會選 **memory-mcp-pro**（Cypher + 11 信號語意）。
-
----
-
-### Worker（索引）/ Verifier（查詢）分離視角
-
-兩者都隱含「索引器（寫圖）」與「查詢器（讀圖）」的職責分離，這和 [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] 裡的 maker≠checker 思路相通：
-
-```
-        ┌─────────────┐         ┌─────────────┐
- 程式碼 →│  索引器(寫)  │→ SQLite →│  查詢器(讀)  │→ 代理
-        │ AST→nodes/   │   圖    │ Cypher/BFS  │
-        │ edges        │         │ explore     │
-        └─────────────┘         └─────────────┘
-         memory-mcp-pro: 39-pass     14 工具
-         CodeGraph: extract+resolve  explore
-```
+| # | 使用案例 | 上游 cbm 路徑 | CodeGraph 路徑 | fork 改善 |
+|---|---------|---------------|-----------------|-----------|
+| 1 | 「源碼 + 誰呼叫它？」 | 3 呼叫組合 | `codegraph_explore` 1 呼叫 | ✅ 新增 `explore` 追平 |
+| 2 | 「改了會影響誰？」 | `detect_changes` | `getImpactRadius()` | ✅ 加遞移 depth |
+| 3 | 「`/api/users` 在哪處理？」 | `query_graph` Cypher | 框架 resolver 發 route 邊 | — |
+| 4 | 「找語意相近函數」 | `search_graph(semantic_query)` | ❌ 不支援 | — |
+| 5 | 「React 何時 re-render？」 | 一般 CALLS（追不到動態） | `callback-synthesizer` 合成 | — |
+| 6 | 「Swift struct/enum 是哪種？」 | ⚠️ 全變 Class | ✅ 區分 | ✅ 加 Struct/Enum/Actor |
 
 ---
 
 ## 我的心得（My Takeaways）
 
-1. **「少即是多」是 CodeGraph 的核心洞見** — 它實測發現代理偏好 `codegraph_explore` 遠勝過給一堆工具，所以預設只露一個。這對我設計任何 agent 工具都是提醒：**工具菜單越長，代理越容易選錯或不用**。
-2. **語意 vs 結構不是技術問題，是世界觀問題** — CodeGraph 賭「程式碼的真相在 AST 結構裡，語意相似只會引入幻覺」；memory-mcp-pro 賭「人類問問題是模糊的，需要語意召回」。兩者都對，取決於使用情境。
-3. **動態分派合成是真功夫** — 25+ 框架專屬 resolver（React setState→render、Celery task.delay→@shared_task）是 CodeGraph 最難複製的護城河，因為這需要**逐框架的領域知識**，不是通用演算法能解決的。
-4. **Pure C 的零依賴二進位很誘人，但對團隊是雙面刃** — 啟動快、無 dependency hell，但 73 stars 的新 fork 意味著踩坑要自己爬出來。
-5. **可立即行動**：(a) 在我自己的大型 repo 上各跑一次 `codegraph init` 與 memory-mcp-pro 的 `index_repository`，實測 token 節省。(b) 把這套「AST→graph→MCP」思路接到 [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] 的 harness 設計，當作代理的「程式碼記憶層」。
+1. **「先確認 fork 關係，再決定比較對象」是這次最大的方法論收穫** —— 直接拿 fork 比競品會把「上游既有能力」誤算成「某一方的特色」。我第一版就把 `explore` 誤歸給整個家族，diff 一查才知是 fork 原創。**比較前先 `git diff` 對齊基準。**
+2. **fork 的 `bench/BASELINE.md` 是教科書級的工程誠實** —— 先寫下「我現在輸在哪」（before），再逐項證明 movement（after）。這種「confirm the failure before fixing it」的紀律，值得套用到任何優化工作。
+3. **codegraph 的「1 工具」哲學贏在易用性，但上游的 Cypher 贏在表達力** —— fork 的選擇很聰明：不放棄 Cypher，只是**補上一個 explore 當門面**，等於「easy mode 給代理、power mode 留給進階」。
+4. **fork 落後上游主線的風險真實存在** —— win4r 領先的是自家那 12 個 commit，但上游已前進 50+ commit；長期不 rebase，fork 會在「別的修正」上反而落後。
+5. **可立即行動**：(a) 在自己的大型 repo 上同時跑上游 `index_repository` 與 codegraph `init`，用真實任務量 token/呼叫數。(b) 把 fork 的 `bench/headtohead.sh` 拿來當「評估 code-graph 工具」的起手式。(c) 接到 [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] 的 harness 當代理的程式碼記憶層。
 
 ---
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
-> 以下從五個認知層次對本篇內容進行結構化分析。
-
 | 認知層次 | 核心目的 | 對本文的具體應用 |
 |---------|---------|--------------|
-| **記憶（被動）** | 確立基礎知識 | Code Knowledge Graph、MCP server、AST、tree-sitter、openCypher、FTS5、`codegraph_explore`、`SEMANTICALLY_RELATED` 邊、provenance(heuristic/static) |
-| **理解（半被動）** | 串聯知識點 | 兩者都是「AST→nodes/edges→SQLite→MCP 工具」管線；差別在 memory-mcp-pro 把圖當**可查詢資料庫**（Cypher+14 工具+語意），CodeGraph 把圖當**內部結構**（單一 explore+結構精確+自動同步） |
-| **分析（主動）** | 找出假設、看透底層 | 關鍵假設：memory-mcp-pro 假設「代理會聰明組合查詢」；CodeGraph 假設「代理只想問一句話」。前者的 11 信號語意是否真比 embedding 好？後者拒絕語意是否在「找概念相近但命名不同的程式碼」時失靈？ |
-| **應用（主動）** | 轉為行動 | (1) 在同一大型 repo 上各跑一次、用真實任務量測 token/工具呼叫差異；(2) React Native/多框架專案優先試 CodeGraph 的動態分派合成；(3) 需要自訂圖分析（社群偵測、聚合）時用 memory-mcp-pro 的 Cypher |
-| **評估（主動）** | 權衡取捨 | 今天就要上線給團隊 → **CodeGraph**（成熟、自動同步、解除安裝乾淨、53.7k 驗證）；研究型/要查詢自由 → **memory-mcp-pro**（Cypher+語意+158 語言）。star 數懸殊但不該是唯一依據 |
+| **記憶（被動）** | 確立基礎知識 | Code Knowledge Graph、MCP、AST、tree-sitter、openCypher、FTS5、`explore` 工具、`SEMANTICALLY_RELATED` 邊、dup_nodes、merge-base、ahead_by/behind_by |
+| **理解（半被動）** | 串聯知識點 | 上游=查詢引擎派（14 工具+Cypher+語意），codegraph=單一按鈕派（explore+結構精確+自動同步）；fork=拿 codegraph 當標竿，補上游缺的 one-call explore 與 Swift 型別保真 |
+| **分析（主動）** | 找出假設、看透底層 | fork 自報「85 vs 79」的關鍵假設：單一 Swift repo 的指標能代表通用代理易用性？dup_nodes/1-call 是客觀事實，但綜合分是自定義自評。上游「Cypher 表達力」假設代理會寫 Cypher —— 真的嗎？ |
+| **應用（主動）** | 轉為行動 | (1) 比較任何 fork 前先 `git diff`/compare API 對齊 merge-base；(2) 用 fork 的 headtohead.sh 在自己 repo 實測；(3) React Native/多框架專案優先 codegraph，需自訂圖分析選上游 |
+| **評估（主動）** | 權衡取捨 | 今天上線給團隊 → codegraph（53.7k、自動同步、預編譯/npm）；要 Cypher/語意/158 語言 → 上游；想要 one-call explore + 上游引擎且願自 build → fork，但要接受它落後上游主線的維護風險 |
 
 ### 分析型追問（Socratic Follow-up）
-
-- **澄清**：「程式碼知識圖譜」中的「邊」到底涵蓋多少真實控制流？靜態邊 + 啟發式合成邊之外，反射/DI 容器的呼叫兩者都追不到，這個盲區有多大？
-- **假設**：CodeGraph「結構精確 > 語意近似」成立的前提是「使用者問的問題能對應到確切符號名」。若使用者只記得「那個處理付款的東西」呢？
-- **證據**：兩邊的效益數字（412K→3.4K、-58% 工具呼叫）都是自報、各自挑選的 repo，缺乏第三方同條件 benchmark。
-- **觀點**：站在 LSP/IDE 廠商立場，這類工具是否只是「重造了 LSP 的 call hierarchy，再包成 MCP」？差異化是否足夠？
-- **後果**：若團隊把圖 commit 進 git（memory-mcp-pro 的 `.db.zst`），12 個月後 binary 工件的 merge conflict 與 repo 膨脹會不會反成負擔？
+- **澄清**：「agent-use 綜合分」到底怎麼算？哪些子項、各佔多少權重？沒有公式就無法複現。
+- **假設**：fork「補了 explore 就追平 codegraph」成立的前提是「代理易用性主要由 one-call 決定」。但 codegraph 的護城河（動態分派合成）fork 完全沒碰，這塊差距還在。
+- **證據**：所有效益數字（上游 99% 少 token、codegraph -58% 呼叫、fork 85 vs 79）都是各自挑 repo、各自定義的自報值，缺第三方同條件 benchmark。
+- **觀點**：站在 codegraph 立場，會說「cbm 補一個 explore 只是抄了門面，真正難的是 25+ 框架的動態分派合成」。
+- **後果**：若團隊押 fork，12 個月後上游已遠遠領先，fork 的「搶先整合 10 PR」優勢早已消失，反而背上 rebase 債。
 
 ### 方案批判三問（Critical Evaluation）
-
-1. **最大的風險是什麼？** — 索引與真實程式碼**不同步**時，代理會基於過時的圖給出自信但錯誤的答案（比沒有圖更危險）。CodeGraph 用 FileWatcher + staleness ⚠️ 標記緩解；memory-mcp-pro 靠 git polling，sparse checkout 或無 git 環境會失效。
-2. **什麼情況下會失敗？** — (a) 大量動態分派/反射的程式碼（兩者都退化）；(b) 超大 repo 的語意邊 O(n²) 計算（memory-mcp-pro 性能懸崖）；(c) Linux inotify watch 上限耗盡（CodeGraph 監控降級）；(d) 非 git 專案（memory-mcp-pro 增量索引依賴 git 歷史）。
-3. **有沒有更好的替代方案？** — 對「只想要精準跳轉/呼叫鏈」的需求，成熟的 **LSP（language server）**已內建 call hierarchy，且 IDE 原生支援；這類圖譜工具的真正增量在於「**為 LLM 代理優化的批次回應格式**」與「**跨檔案/跨框架的動態分派合成**」。若你的代理工作流不吃這兩點，直接接 LSP 可能更省事。
+1. **最大的風險是什麼？** — 押 **fork**：上游主線飛快前進，fork 不持續 rebase 會在「自己沒改的那 99%」上落後，且無預編譯、73 ⭐、單人維護，等於把生產依賴綁在一個人的業餘時間上。押任一圖譜工具：索引與真實碼**不同步**時，代理基於過時圖給出自信錯答（比沒圖更危險）。
+2. **什麼情況下會失敗？** — (a) 大量動態分派/反射的碼（上游退化、codegraph 靠合成器部分覆蓋）；(b) 超大 repo 的語意邊 O(n²)（上游性能懸崖）；(c) 非 git 專案（增量索引依賴 git 歷史）；(d) fork 自 build 失敗（缺 libgit2/編譯器環境）。
+3. **有沒有更好的替代方案？** — 對「只要精準跳轉/呼叫鏈」，成熟的 **LSP** 已內建 call hierarchy 且 IDE 原生支援；這類圖譜工具的真正增量在「為 LLM 批次優化的回應格式」與「跨框架動態分派合成」。若代理工作流不吃這兩點，直接接 LSP 更省事。對「想要 cbm 引擎 + explore」，最穩的其實是**等上游自己合併 explore**（而非依賴 fork）。
 
 ---
 
 ## 待補充（Open Questions）
 
-- 兩者的效益數字（token、工具呼叫）在**同一個 repo、同一批任務**下對比會是多少？目前只有各自挑選的自報數據。建議搜尋關鍵字：`codegraph benchmark independent`、`code knowledge graph MCP comparison`。
-- memory-mcp-pro 的 11 信號本地語意，召回率/精確度與真正的 code embedding model（如 `nomic-embed-code`、`jina-code`）相比如何？建議搜尋：`code retrieval embedding vs structural graph`。
-- CodeGraph 的 217 個 open issue 中，最常見的失敗模式是什麼（除了已知的 Windows daemon console 閃爍）？建議讀 `colbymchenry/codegraph` issues 的 `label:bug`。
-- 兩者能否**共存**？例如用 CodeGraph 做結構查詢、memory-mcp-pro 做語意召回，掛在同一個代理上會不會工具衝突？
-- 把程式碼圖譜 commit 進 git（memory-mcp-pro 模式）在大型團隊的長期維護成本，有無實際案例數據？
+- 上游與 codegraph 在**同一個 repo、同一批任務**下的客觀對比是多少？目前只有各自挑 repo 的自報數據。建議搜尋：`code knowledge graph MCP benchmark independent`。
+- win4r 的 `explore` 工具會被上游正式合併嗎？若會，fork 的核心差異化就消失了。建議追蹤上游 PR 列表中是否出現 explore。
+- 上游的 11 信號本地語意，召回率/精確度與真正的 code embedding model（`nomic-embed-code`、`jina-code`）相比如何？建議搜尋：`code retrieval embedding vs structural graph`。
+- codegraph 的 217 個 open issue 中，除了 Windows daemon console 閃爍，最常見的失敗模式是什麼？建議讀 `label:bug`。
+- 把程式碼圖譜 commit 進 git（上游 `.db.zst` 模式）在大型團隊的長期 merge 成本，有無實際案例數據？
 
 ## 相關連結（Related）
 
-- [[CLAUDE-MEMORY-ENGINE]] — 兩者本質都是「給代理的程式碼記憶層」，與 Claude 記憶引擎的「存什麼、怎麼取」是同一類問題
-- [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 程式碼圖譜可視為 agent harness 的「程式碼理解模組」，MCP 工具即 harness 的 context-provisioning 層
-- [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — 索引器/查詢器分離呼應 Loop Engineering 的 Worker/Verifier 職責分離
+- [[CLAUDE-MEMORY-ENGINE]] — 三者本質都是「給代理的程式碼記憶層」，與記憶引擎的「存什麼、怎麼取」同類
+- [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 程式碼圖譜可視為 agent harness 的程式碼理解模組
+- [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — 索引器/查詢器分離呼應 Worker/Verifier 職責分離；fork 的「先量測再修」呼應 VERIFY→ITERATE
 
 ## References
 
-- [codebase-memory-mcp-pro（win4r fork）](https://github.com/win4r/codebase-memory-mcp-pro)
-- [上游 DeusData/codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)
-- [CodeGraph（colbymchenry）](https://github.com/colbymchenry/codegraph)
+- [上游 DeusData/codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)（12.8k ⭐）
+- [CodeGraph（colbymchenry）](https://github.com/colbymchenry/codegraph)（53.7k ⭐）
+- [win4r/codebase-memory-mcp-pro（fork）](https://github.com/win4r/codebase-memory-mcp-pro)（73 ⭐，含 `bench/BASELINE.md` head-to-head）
+- [fork 的 explore 工具 commit 1026c260](https://github.com/win4r/codebase-memory-mcp-pro/commit/1026c260)（+302/−0 in mcp.c）
