@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [程式碼知識圖譜兩雄對決：codebase-memory-mcp-pro vs CodeGraph](./CodeAnalysis/2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON.md) — Pure C 查詢引擎 vs TS 單一工具代理導向，含架構/流程/時序 Mermaid 圖與正面比較
 - [Loop Engineering 三方觀點綜合分析](./AI/2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS.md) — 綜合 Addy Osmani／MindStudio／lunkerchen repo，比較迴圈工程的學理、產品原語與實作紀律
 - [把最無聊的重複流程交給 AI：從 Human SOP 變成 Agentic Workflow 的 Prompt 工具包](./AI/2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT.md) — Gary Chen：模型已非瓶頸，瓶頸是你講不清楚；四步把 Human SOP 拆成可 debug 的 agentic workflow，含配套五步 Prompt 工具包原文與我的分析
 - [SkillsBench — 第一個評測「Agent 用 skill 用得多好」的基準（程式碼分析）](./CodeAnalysis/2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS.md) — benchflow-ai 的 gym-style skill 評測基準，與 SkillOpt 互補（產生 vs 評測）

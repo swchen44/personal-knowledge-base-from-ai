@@ -202,6 +202,7 @@ Harness Engineering → 建立持續監控與糾偏機制
 - 此影片以中文講解的 Harness Engineering，其中的技術術語翻譯（如「馬具工程」）是否已有業界共識？不同中文技術社群（台灣、中國、香港）對同一概念的命名是否存在分歧？（建議搜尋：`Harness Engineering 中文術語翻譯 AI 工程`）
 
 ## 相關連結（Related）
+- [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] — 程式碼圖譜可作為 agent harness 的程式碼理解模組
 
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 的內部架構正是 Harness Engineering 的具體實現
 - [[2026-03-14-OPENCLI-CODE-ANALYSIS]] — 另一個 CLI Agent 的架構分析，可對比 Harness 設計差異

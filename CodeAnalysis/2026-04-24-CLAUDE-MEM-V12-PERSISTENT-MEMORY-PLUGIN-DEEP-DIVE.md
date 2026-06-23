@@ -601,6 +601,7 @@ open http://127.0.0.1:37777
 3. **有沒有更好的替代方案？** — 對於輕量需求，手動維護的 CLAUDE.md + `.claude/commands/` 自訂指令可能更簡單且零成本。對於團隊場景，基於 Git 的共享 context（如 AGENTS.md）更適合。claude-mem 最適合的場景是：個人開發者、高頻 session 切換、需要自動化記憶的長期專案。
 
 ## 相關連結（Related）
+- [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] — 持久化記憶 plugin 與程式碼圖譜同屬代理長期記憶議題
 - [[2025-08-31-CLAUDE-MEM-CODE-ANALYSIS]] — 同一 repo 的早期版本分析，可對比架構演進
 - [[2026-03-07-CLAUDE-MEMORY-ENGINE]] — Claude Code 記憶引擎概念分析
 - [[2026-04-07-CLAUDE-CODE-MEMORY-SYSTEM]] — Claude Code 記憶系統整體架構

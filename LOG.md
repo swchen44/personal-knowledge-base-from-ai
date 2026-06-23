@@ -100,3 +100,4 @@
 | 2026-06-18 11:40 | fix | 重抓帶時間戳逐字稿，補齊影片 Plugins/Subagents(9:59-13:17)；更正先前「逐字稿略過」的錯誤判斷 | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 0 | 8 |
 | 2026-06-18 12:10 | edit | Rahul 四個迴圈範本改為 Mermaid 流程圖 + 各自 use case + 一覽表 | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | AI | 0 | 8 |
 | 2026-06-22 14:30 | update | 追加〈2026-06-22 追加研究：description 能否換行 + 按需載入機制〉，逐行追蹤 frontmatterParser/yaml/SkillTool prompt 原始碼 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 0 |
+| 2026-06-24 16:00 | ingest | github.com/win4r/codebase-memory-mcp-pro + colbymchenry/codegraph | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 5 | 5 |

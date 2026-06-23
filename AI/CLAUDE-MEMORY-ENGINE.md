@@ -1112,6 +1112,7 @@ mkdir -p ~/.claude/sessions/diary ~/.claude/scripts/hooks
 - 多人協作場景中，這套以個人為單位的記憶系統如何與團隊共享知識整合？多個工程師用同一個 repo 時會有哪些衝突或競態問題？（建議搜尋：`Claude Code memory multi-user team shared knowledge conflict`）
 
 ## 相關連結（Related）
+- [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] — 兩款 code knowledge graph 都是「給代理的程式碼記憶層」，對照本篇記憶引擎設計
 
 - [[CLAUDE-CODE-HOOKS]] — 這套系統的底層機制，hooks 的原理和設定方式
 - [[AI-AGENT-MEMORY]] — 更廣義的 AI 記憶架構，對比 vector DB vs markdown 方式

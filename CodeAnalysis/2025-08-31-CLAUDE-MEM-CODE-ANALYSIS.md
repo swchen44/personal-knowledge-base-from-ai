@@ -323,6 +323,7 @@ open http://localhost:37777
 - 記憶壓縮率宣稱 ~53%（v10.6.1），這個壓縮是由哪個 Claude 模型執行的？壓縮過程本身的 API 費用是否顯著？（建議搜尋：`claude-mem summarization cost API tokens compression model`）
 
 ## 相關連結（Related）
+- [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] — 同為代理記憶／檢索類工具，可對照向量記憶 vs 程式碼圖譜路線
 
 - [[AI-AGENT-DESIGN]] — Agent 的記憶系統設計原則
 - [[CLAUDE-CODE-SETUP]] — Claude Code 安裝設定（含此插件的安裝步驟）

@@ -623,6 +623,7 @@ done
 ---
 
 ## 相關連結（Related）
+- [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] — 索引器/查詢器分離呼應 Worker/Verifier 職責分離
 
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Addy 明言「迴圈是 harness 的上一層樓」，本筆記是其直接延伸
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — 用「分層盤點」法看哪些原語已上市，與本文六原語對照表同源
