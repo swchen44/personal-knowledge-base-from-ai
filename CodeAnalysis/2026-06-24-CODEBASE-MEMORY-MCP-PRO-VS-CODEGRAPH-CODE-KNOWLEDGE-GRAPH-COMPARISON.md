@@ -454,6 +454,138 @@ sequenceDiagram
 
 ---
 
+## 〈E〉C 語言場景專論：函式指標、指標傳遞與評估計畫
+
+> [!info] 本節範圍
+> 針對「未來要分析 C 語言程式碼（如 [digsrc/wpa_supplicant](https://github.com/digsrc/wpa_supplicant)）」的需求，做**研究與評估**，並提出**如何試的計畫**。本節**尚未對任一工具做實測索引**；下方數字若標「實測」是指讀原始碼/grep 的靜態觀察，工具能力對比是基於閱讀兩者的程式碼與文件，待 E-5 計畫執行後才會有實跑數據。
+
+### E-1. C codebase 快速判斷比較表
+
+| 維度（純 C 場景） | CodeGraph | codebase-memory-mcp（上游 / fork） | 初步判斷 |
+|------------------|-----------|-----------------------------------|---------|
+| **函式指標分派表**（`struct ops` → `p->fn()`） | ✅ **專用合成器** `c-fnptr-synthesizer.ts`（#932），以 `(struct型別, 欄位)` 為鍵橋接 | ⚠️ 變數級追蹤 + designated init 解析，**無專打分派表的 whole-graph pass** | **wpa 這類 → CodeGraph 較穩** |
+| **函式指標變數**（`fp = &foo; fp()`） | 合成器涵蓋 assignment 綁定 | ✅ `c_lsp.c` 變數級 `fp_var_names→fp_target_qns` 追蹤 | 平 |
+| **指標傳遞 / callback 註冊**（`eloop_register(cb)`，cb 之後被間接呼叫） | ⚠️ 函式當值傳遞 → reference 邊，但「事件迴圈→cb」call 邊難自動連 | ⚠️ 同樣難（靜態看不到註冊後的延遲呼叫） | **兩者都弱，需緩解** |
+| **巨集密度高**（`#define` 包呼叫） | tree-sitter **不展開巨集** ⚠️ | ✅ Hybrid LSP 對 C/C++ 處理 macros、typedef chains | macro 多 → cbm 較準 |
+| **手動查候選**（列舉某欄位註冊了哪些函式） | ❌ 無查詢語言 | ✅ **`query_graph` Cypher** 可直接撈 | **cbm 勝** |
+| **大型 repo**（wpa ≈ 620 檔） | 宣稱 -58% 工具呼叫、-22% 時間 | 宣稱 28M LOC/3 分鐘、sub-ms 查詢 | 都宣稱可吃，待實測 |
+| **動態邊標記**（可信度透明） | ✅ `provenance:'heuristic'` | 邊有 `properties_json`（confidence） | 平 |
+| **自動同步**（邊改邊查） | ✅ FileWatcher | watcher（git polling） | CodeGraph 較即時 |
+| **純 C 安裝門檻** | `npm i -g` | fork 需自 build（編 158 grammar） | CodeGraph 較易 |
+
+> [!tip] 一句話初判
+> **函式指標分派表（ops struct）密集的 C** → 先試 **CodeGraph**（有專用合成器）。**但若你需要「列舉某 ops 欄位註冊了哪些 handler」或巨集很多** → **cbm 的 Cypher + Hybrid LSP** 反而是更可控的工具。最務實的答案可能是**兩者並用**：CodeGraph 自動補分派邊、cbm 的 Cypher 當人工驗證的查詢層。
+
+### E-2. 為什麼函式指標 / 指標傳遞會「影響判斷」？
+
+你的擔心完全正確，而且對 wpa_supplicant 這類程式**影響極大**。原因是 C 沒有 class/virtual，**多型全靠函式指標**，所以「呼叫圖（call graph）」的關鍵連結恰好就是靜態分析最難的地方。實測 wpa_supplicant 的規模：
+
+| 模式 | 實測數字（grep） | 對呼叫圖的衝擊 |
+|------|-----------------|---------------|
+| `struct wpa_driver_ops` 的函式指標欄位 | **128 個** | driver 抽象層整層靠它分派，漏掉就等於 driver↔core 斷鏈 |
+| `eloop_register_*`（事件迴圈 callback 註冊） | **289 次** | 幾乎所有非同步邏輯的進入點都是「註冊後延遲呼叫」 |
+| ops struct 種類 | `wpa_driver_ops` / `bgscan_ops` / `autoscan_ops` / macsec ops / EAP method… | 整個架構是「介面=函式指標表」 |
+
+#### 兩種會出問題的具體模式
+
+```mermaid
+flowchart TD
+    subgraph P1["模式一：ops-struct 分派表 (CodeGraph 合成器主打)"]
+        R1["註冊: struct wpa_driver_ops wext_ops = { .scan = wext_scan, ... }"]
+        D1["分派: drv->ops->scan(ctx)"]
+        R1 -. "靜態看得到表，看不到 scan→wext_scan 的呼叫" .-> D1
+        D1 -->|"naive 抽取: 0 個 target ❌"| MISS1["call graph 在此斷裂"]
+    end
+    subgraph P2["模式二：指標傳遞 / callback (兩者都弱)"]
+        REG["eloop_register_timeout(handler, ctx)"]
+        LATER["事件迴圈某處: e->cb(e->ctx)"]
+        REG -. "handler 被當值存起來" .-> LATER
+        LATER -->|"naive 抽取: 連不回 handler ❌"| MISS2["call graph 在此斷裂"]
+    end
+```
+
+- **模式一（分派表）**：靜態抽取看得到 `wext_ops = {.scan = wext_scan}` 這張表（資料），也看得到 `drv->ops->scan()` 這個呼叫，但**看不到兩者的連線**——因為 `drv->ops` 在執行期才綁定。結果：問「誰實作了 scan」會得到空答案，或 `scan` 看起來沒人呼叫。
+- **模式二（指標傳遞）**：`handler` 被當參數傳進 `eloop_register_timeout` 存起來，之後由事件迴圈間接呼叫。靜態上 `handler` 只是個「被引用的值」，**事件迴圈的呼叫點連不回 handler**。這是 callback / 延遲呼叫的通病。
+
+### E-3. 兩個工具各自怎麼處理（附程式碼證據）
+
+#### CodeGraph：專用 `c-fnptr-synthesizer.ts`（針對模式一）
+原始碼開頭註解寫得很清楚（這是 issue #932 的產物）：
+
+> [!quote] c-fnptr-synthesizer.ts 設計註解（節錄）
+> *"C/C++ polymorphism is the function pointer… concrete functions are registered into it through a table… the dispatcher calls through it indirectly (`p->fn(argv)`). Static extraction captures neither the registration→field binding nor the indirect call… This bridges it, keyed by **(struct type, fn-pointer field)**."*
+
+它涵蓋：positional 表 `{"add", cmd_add}`、designated `.fn = cmd_add`、assignment `x->fn = cmd_add`；分派 `recv->field()`（recv 由參數/區域變數解析回 struct 型別）；以及 **field←field 傳遞**（`a->f = b->g`，即 wpa 常見的 `h->func = found->fn` 形狀）。所有合成邊標 `provenance:'heuristic'`，有 `FANOUT_CAP = 300`（git 的命令表約 150 是合法 fan-out）。
+
+> [!warning] CodeGraph 的代價：過度近似（over-approximation）
+> 它把 dispatcher 連到**該 (struct,欄位) 註冊過的所有 handler**，即使執行期只會走一個。對「理解程式碼」這是對的（寧可列出候選），但別把它當精確的 runtime call graph。模式二（eloop callback）**不在它的合成器範圍**。
+
+#### cbm：變數級函式指標追蹤（通用 LSP 的一環）
+`internal/cbm/lsp/c_lsp.c` 與 `c_lsp.h` 顯示它的能力：
+
+```c
+// c_lsp.h:51 — 函式指標目標：變數名 → 目標函式 QN（注意：是「變數級」，不是 (struct,欄位) 級）
+const char **fp_var_names;
+const char **fp_target_qns;
+```
+
+它也解析 designated initializer（`c_lsp.c:3977 initializer_pair / field_designator`）與 member call（`c_lsp.c:3380 "member call: type_qn=… field=…"`）。但它的函式指標追蹤主結構是 **var→target**，屬於通用型別解析，**沒有一個專門「橋接分派表」的 whole-graph pass**。所以面對 `ops->scan()` 跨註冊點的解析，會比 CodeGraph 的 (struct,欄位) 專用橋接更碰運氣。
+
+> [!note] 公平結論
+> 不是「cbm 不能處理函式指標」——它能解析表、能追變數級指標。差別在 **CodeGraph 有一個專為 ops-struct 分派表設計的合成器**，而 cbm 的是通用 LSP 的副產品。對 wpa 這種「整個架構=函式指標表」的程式，這個差別會被放大。
+
+### E-4. 如何解決 / 緩解這些影響
+
+> [!important] 緩解策略（從工具選擇到查詢技巧）
+> 1. **選對工具當主力**：分派表密集 → 用 CodeGraph 的合成器自動補邊；但保留 cbm 當「驗證/查候選」的第二意見。
+> 2. **以「註冊點」為錨，而非「呼叫點」**：兩工具都看得到靜態的 `wext_ops = {.scan = wext_scan}`。即使 `ops->scan()` 的呼叫邊缺失，也可改問「**`wpa_driver_ops.scan` 這個欄位被指派了哪些函式**」來列舉候選——這是 data-flow 問題，比「`ops->scan()` 呼叫了誰」（runtime 問題）可靠得多。用 cbm 的 Cypher 最直接。
+> 3. **接受過度近似 + 標記可信度**：把合成邊當「候選集」而非「精確答案」，永遠看 `provenance:'heuristic'`。
+> 4. **用中立工具當地面真值交叉驗證**：對函式指標分派，`grep`/`cflow`/`ctags`/`cscope`（cscope 對 C 的「找函式被誰呼叫」很強）做 ground-truth，比對工具有沒有漏/多。
+> 5. **模式二（callback）另解**：eloop callback 這種延遲呼叫，靜態工具幾乎都連不回去；緩解法是**手動建立「註冊 API → callback 慣例」的對照**（如 `eloop_register_timeout` 的第 1 個函式參數就是 handler），或在查詢時直接問「`handler` 被當值傳給了哪些 API」。
+> 6. **巨集**：wpa 巨集多，CodeGraph 不展開巨集會漏；必要時對關鍵巨集先 `gcc -E` 預處理再索引，或改用 cbm 的 Hybrid LSP（宣稱處理 macros）。
+
+### E-5. 評估計畫（如何試 —— 尚未執行）
+
+> [!important] 這是「計畫」不是「結果」
+> 以下定義**怎麼公平地試**，但**還沒跑**。等你確認方向後再執行。刻意複用 win4r 的 `bench/headtohead.sh` 精神（deterministic、用中立工具當錨、客觀/主觀分層）。
+
+**Phase 0 — 縮小範圍（避免一開始就索引 620 檔）**
+- 取一個能代表函式指標難題的子集：`src/drivers/driver.h`（定義 `wpa_driver_ops` 128 欄位）+ 2–3 個實作（如 `driver_wext.c`、`driver_nl80211.c`）+ 分派點（`wpa_supplicant/driver_i.h` 的 `wpa_drv_*` wrapper）。
+- 同時選一段 eloop callback 流程（如 `wpa_supplicant/scan.c` 的 `eloop_register_timeout` → scan 完成 callback）。
+
+**Phase 1 — 各自索引（隔離、不互相污染）**
+- CodeGraph：`codegraph init <subset>`。
+- cbm：`codebase-memory-mcp cli index_repository`（用獨立 `CBM_CACHE_DIR`）。
+
+**Phase 2 — 設計針對函式指標的測試查詢**
+
+| # | 問題 | 模式 | 成功判準 |
+|---|------|------|---------|
+| Q1 | 「`wext_scan` 被誰呼叫？」 | 分派表 | 工具是否把 `wpa_drv_scan`/`drv->ops->scan()` 連到 `wext_scan` |
+| Q2 | 「`wpa_drv_scan()` 會分派到哪些實作？」 | 分派表（反向） | 是否列出所有註冊到 `.scan` 的 driver handler（過度近似可接受） |
+| Q3 | 「`wpa_driver_ops.scan` 欄位被指派了哪些函式？」 | 註冊點查候選 | cbm Cypher 應可精確列舉；CodeGraph 看 metadata.via |
+| Q4 | 「某 `eloop_register_timeout` 的 handler 之後在哪被呼叫？」 | 指標傳遞/callback | 預期**兩者都連不到事件迴圈**——驗證此盲區 |
+
+**Phase 3 — 地面真值（ground truth）**
+- 用 `cscope -L -3 wext_scan`（找呼叫者）、`cflow`、人工讀碼，建立「正確答案」。
+- 對 Q4 特別記錄「正確的延遲呼叫點」，量化兩工具漏了多少。
+
+**Phase 4 — 評分指標（客觀，沿用 headtohead.sh 風格）**
+- **分派邊召回率**：應有的 dispatcher→handler 邊，工具找到幾成。
+- **分派邊精確率**：合成邊有沒有亂連到沒註冊的函式（CodeGraph 的精度邊界測試可借鏡）。
+- **候選列舉完整度**（Q3）：列出的 handler 是否涵蓋所有 driver。
+- **callback 盲區大小**（Q4）：延遲呼叫漏連的比例。
+
+**Phase 5 — 決策**
+- 若 CodeGraph 的分派邊召回明顯高 → wpa 類專案主力用它。
+- 若 cbm 的 Cypher 候選列舉更可控、巨集處理更準 → 用它當驗證層。
+- 把結果回寫本筆記的 E-1 表（把「初步判斷」換成「實測判斷」）。
+
+> [!warning] 計畫的已知風險
+> (a) 子集切太小會讓跨檔分派失真（driver 註冊與分派分屬不同檔）；(b) fork 需先自 build 成功；(c) cscope/cflow 對函式指標同樣有上界誤差，需人工複核關鍵案例；(d) eloop 盲區可能兩者皆 0 分，那結論會是「函式指標分派 CodeGraph 勝、callback 兩者皆需人工補」。
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **「先確認 fork 關係，再決定比較對象」是這次最大的方法論收穫** —— 直接拿 fork 比競品會把「上游既有能力」誤算成「某一方的特色」。我第一版就把 `explore` 誤歸給整個家族，diff 一查才知是 fork 原創。**比較前先 `git diff` 對齊基準。**
