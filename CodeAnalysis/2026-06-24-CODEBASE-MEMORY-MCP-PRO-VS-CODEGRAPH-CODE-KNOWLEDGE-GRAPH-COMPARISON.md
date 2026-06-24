@@ -268,6 +268,143 @@ flowchart LR
 
 ---
 
+## 〈D〉win4r 的 benchmark 怎麼做的？方法論完整解剖
+
+> [!info] 一手資料
+> 本節基於實際讀取 fork 的兩個檔案：`bench/headtohead.sh`（65 行 bash）與 `bench/BASELINE.md`（結果報告）。下方程式碼為原文節錄。
+
+### D-1. Bench 的「受測物」是什麼？
+
+| 項目 | 內容 |
+|------|------|
+| **受測專案（被索引的 repo）** | `LingoLearn-iOS-main` —— 一個 iOS 學語言 App，**29 個 Swift 檔**。腳本本身吃 `<repo_path>` 參數，所以可換任何 repo；BASELINE 用的是這個。 |
+| **受測工具 A** | `codebase-memory-mcp`（cbm，fork 自己的二進位） |
+| **受測工具 B** | `codegraph 0.9.9`（競品） |
+| **第三方裁判（ground truth）** | `grep` —— 用純文字比對當「呼叫數的雜訊上界」，誰都不能自己當裁判 |
+
+> [!note] 鑑識細節
+> 腳本第 12 行的預設 cbm 路徑寫死成 `/Users/charlesqin/.local/bin/codebase-memory-mcp` —— 暗示 win4r 本名可能是 **Charles Qin**。這是 commit 之外的另一個身分線索。
+
+### D-2. Bench 程式怎麼寫的？（核心原理）
+
+整支腳本的設計哲學寫在開頭註解，這是理解一切的鑰匙：
+
+> [!quote] headtohead.sh 開頭三行
+> ```bash
+> # headtohead.sh — deterministic head-to-head: codebase-memory-mcp (cbm) vs codegraph.
+> # Re-run after each workstream to MEASURE movement (no self-grading).
+> ```
+
+三個關鍵字定義了它的方法論：
+1. **deterministic（確定性）** —— 同一 repo 跑兩次結果一樣，沒有隨機/主觀。
+2. **MEASURE movement（量測位移）** —— 不是一次性打分，而是「每完成一個 workstream（WS）就重跑」，證明數字真的動了（before → after）。
+3. **no self-grading（不自評）** —— 用 grep 當中立第三方，工具不能給自己打分。
+
+#### 它如何把「圖」變成「可比的數字」
+
+核心技巧是 **用 cbm 自己的 Cypher 查詢語言把圖 dump 成 JSON，再用 Python 算指標**。例如算重複節點與型別豐富度：
+
+```bash
+qcbm "MATCH (n) RETURN n.name AS nm, n.label AS l, n.file_path AS f" | python3 -c "
+import sys,json
+from collections import defaultdict,Counter
+rows=json.load(sys.stdin).get('rows',[])
+by=defaultdict(set); kinds=Counter()
+for nm,l,f in rows:
+    kinds[l]+=1
+    if nm: by[(nm,f)].add(l)
+dups=[k for k,s in by.items() if 'Method' in s and 'Function' in s]
+# Swift type-kind fidelity: are struct/enum/protocol/extension distinct, or lumped into Class?
+swiftkinds=sum(1 for k in kinds if k in ('Struct','Enum','Protocol','Extension','EnumCase','Actor','Component','Class'))
+print(f'CBM_DUP={len(dups)}'); print(f'CBM_KINDS={len(kinds)}'); print(f'CBM_SWIFTKINDS={swiftkinds}')
+"
+```
+
+> [!important] dup_nodes 的精妙定義
+> 重複節點的判定鍵是 `(name, file)`，因為 cbm 的 bug 會把**同一個源碼符號**用**不同的 qualified_name** 同時發成 `Method` 和 `Function`。所以只要某個 `(名稱, 檔案)` 同時掛著 Method 和 Function 兩個 label，就算一個 dup。這是「測一個具體建模 bug」，不是泛泛的重複。
+
+對 codegraph 則改用它自己的 CLI 介面取數（不同工具用各自原生介面，公平）：
+
+```bash
+codegraph init "$CG_WORK" >/dev/null 2>&1
+CG_STAT=$(codegraph status "$CG_WORK" 2>/dev/null)
+CG_N=$(echo "$CG_STAT" | sed -n 's/.*Nodes:[[:space:]]*\([0-9]*\).*/\1/p' | head -1)
+CG_KINDS=$(echo "$CG_STAT" | awk '/Nodes by Kind/{f=1;next} f&&/^  [a-z]/{c++} f&&/^$/{f=0} END{print c+0}')
+```
+
+#### 呼叫圖對帳（call-graph parity）——最聰明的設計
+
+它不直接信任任一工具的 caller 數，而是**三方對帳**：先用 cbm 的 Cypher 找出「被呼叫最多次的前 5 個函數」（fan-in 最高），再對每個函數同時問 cbm、codegraph、grep 三邊的呼叫數：
+
+```bash
+for sym in $CALLEES; do
+  cb=$(qcbm "MATCH (a)-[:CALLS]->(b) WHERE b.name='$sym' RETURN count(a) AS n" | ...)
+  cg=$(codegraph callers "$sym" -p "$CG_WORK" -j 2>/dev/null | ...)
+  gt=$(grep -rEo "[^a-zA-Z_]$sym\s*\(" "$WORK" --include='*.swift' 2>/dev/null | wc -l)
+  printf "  %-28s cbm=%-3s codegraph=%-3s grep~%-3s\n" "$sym" "${cb:-?}" "${cg:-?}" "$gt"
+done
+```
+
+grep 是「雜訊上界」（會誤算註解、字串裡的同名），但它**中立**：若 cbm 和 codegraph 都接近 grep，代表兩者的 CALLS 邊都抓得準；若某一方遠低於 grep，代表它漏抓了呼叫。
+
+### D-3. Bench 程式流程圖（Mermaid）
+
+```mermaid
+flowchart TD
+    A["輸入: repo_path + nickname"] --> B["複製 repo 到兩個獨立 temp 目錄<br/>(cbm 與 codegraph 各一份，互不污染)"]
+    B --> C1["cbm: cli index_repository<br/>→ sed 解析 nodes/edges"]
+    B --> C2["codegraph: init + status<br/>→ sed/awk 解析 nodes/edges/kinds"]
+    C1 --> D1["cbm Cypher: MATCH (n) 全節點 dump<br/>→ Python 算 dup_nodes / kinds / swiftkinds"]
+    C1 --> E["cbm Cypher: top-5 fan-in callees"]
+    E --> F{"逐一比對每個 callee"}
+    F --> G1["cbm caller 數 (Cypher count)"]
+    F --> G2["codegraph caller 數 (CLI -j)"]
+    F --> G3["grep ground-truth (--include=*.swift)"]
+    G1 --> H["三方對帳表<br/>cbm | codegraph | grep~"]
+    G2 --> H
+    G3 --> H
+    D1 --> OUT["輸出: 結構指標表"]
+    C2 --> OUT
+    H --> OUT
+    OUT --> Z["rm -rf temp 目錄 (清理)"]
+```
+
+### D-4. Bench 的架構與原理：為什麼測這幾項？
+
+整套 bench 分兩層，**這是最重要的觀念**：
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  第一層：headtohead.sh 量的「客觀確定性指標」(可複現、無自評)    │
+│    nodes / edges / dup_nodes / kind richness / call parity     │
+├─────────────────────────────────────────────────────────────┤
+│  第二層：BASELINE.md 的「agent-use 綜合分」(主觀、人工評)        │
+│    explore 易用性、cypher 逃生口、hotspot... → 85 vs 79         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+| 測的指標 | 屬於哪層 | **為什麼要測它**（對應的設計目標） |
+|---------|---------|----------------------------------|
+| nodes / edges | 客觀 | 圖規模 sanity check，確認兩工具索引的是同一份碼、規模可比 |
+| **dup_nodes** | 客觀 | 直接量 cbm 的**建模 bug**（同符號雙重發射）。codegraph 結構上是 0，所以這是「cbm 欠 codegraph 的債」，修好 → 0 即追平 |
+| **kind richness / swiftkinds** | 客觀 | 量**型別保真度**。Swift 全壓成 `Class`（=1）vs 區分 struct/enum/protocol（=5）。WS2b 的目標就是把這格從 1 拉到 ≥5 |
+| **call-graph parity** | 客觀（grep 當錨） | 量**圖的呼叫邊準不準**。用中立 grep 當地面真值，避免「兩個工具各說各話」 |
+| explore 1-call、hotspot、cypher 逃生口 | 主觀 | 量**代理易用性** —— 這是 fork 真正想贏的戰場，但無法純靠腳本量化，故落在 BASELINE.md 人工評 |
+
+**原理總結**：win4r 的 bench 是一種「**confirm the failure before fixing it**（先確認失敗再修）」的迴歸測試框架 —— 把「我比 codegraph 差在哪」翻譯成**可複現的數字**，每修一項（WS1 explore、WS2a dedup、WS2b Swift kinds）就重跑一次，用 before/after 證明位移。這正呼應 [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] 的 **VERIFY → ITERATE** 迴圈：先有可驗證的成功標準，再迭代。
+
+> [!warning] 這個 bench 的方法論限制（誠實批判）
+> 1. **樣本極小且單一語言**：只跑 1 個 29 檔的 Swift repo，grep ground-truth 還寫死 `--include='*.swift'`（第 62 行），結論難外推到 Python/Go/大型 repo。
+> 2. **codegraph 的 dup_nodes 是「假設 0」不是「量出來 0」**：第 53 行直接 `printf ... "0"` 硬寫，腳本並沒有真的去數 codegraph 的重複節點。
+> 3. **callee 清單由 cbm 自己挑**：top-5 fan-in 用 cbm 的 Cypher 產生（第 56 行），等於「考題由其中一方出」，對 codegraph 略不公平。
+> 4. **grep 是上界不是真值**：會把註解、字串、定義本身都算進去，只能當「不應超過」的參考，不能當精確答案。
+> 5. **第二層綜合分仍是自評**：85 vs 79 出自人工、win4r 自定義權重，雖註明 fairness-checked，仍非第三方盲測。
+
+> [!tip] 可借鏡的做法
+> 撇開「fork 自吹」的部分，這支腳本本身是**評估任何 code-graph / 檢索工具的好起手式**：複製 repo 到隔離 temp、各用原生介面取數、用中立工具（grep/LSP）當錨、把主觀與客觀指標分兩層。你可以直接拿 `headtohead.sh` 改成自己的評測 harness。
+
+---
+
 ## 安裝流程（Installation Flow）
 
 > [!important] fork 與上游的安裝差異

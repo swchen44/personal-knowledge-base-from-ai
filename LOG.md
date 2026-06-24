@@ -102,3 +102,4 @@
 | 2026-06-22 14:30 | update | 追加〈2026-06-22 追加研究：description 能否換行 + 按需載入機制〉，逐行追蹤 frontmatterParser/yaml/SkillTool prompt 原始碼 | [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] | DevTools | 0 | 0 |
 | 2026-06-24 16:00 | ingest | github.com/win4r/codebase-memory-mcp-pro + colbymchenry/codegraph | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 5 | 5 |
 | 2026-06-24 17:00 | rewrite | 改主比較為上游 DeusData vs codegraph + 疊加 win4r fork diff 剖析 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-25 10:00 | expand | 新增〈D〉win4r benchmark 方法論剖析(headtohead.sh 解讀+流程圖+為何測這些項) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
