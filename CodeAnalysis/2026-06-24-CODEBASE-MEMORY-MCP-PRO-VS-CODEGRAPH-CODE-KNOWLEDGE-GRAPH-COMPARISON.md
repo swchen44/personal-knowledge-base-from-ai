@@ -586,6 +586,115 @@ const char **fp_target_qns;
 
 ---
 
+## 〈F〉C 前置處理器難題：`#ifdef` / `#undef` / 巨集沒展開怎麼辦？
+
+> [!important] 三句話先回答你的問題
+> 1. **它需要你的 compiler 參數嗎？** —— **不需要**。這兩個工具都用 **tree-sitter（語法解析器，不是前置處理器）**，根本不跑 preprocessor，所以不吃 `-DCONFIG_*` 旗標。
+> 2. **`#ifdef` 沒確認時怎麼判斷？** —— **它不判斷**。tree-sitter 把 `#ifdef/#else` 的**兩個分支都當語法解析、都抽成節點**，不評估條件。等於給你一張「所有 config 的聯集圖」。
+> 3. **要先產生 header / 用 compile_commands.json 嗎？** —— 對「準確度」有幫助但**治標不治本**：cbm 完全不讀 compile_commands.json；CodeGraph 會讀，但**只用來找 include 目錄**（改善 `#include` 解析），**不會**拿去解 `#ifdef`。要真正「只看你這份 build 的有效 config」，得用 **clang/libclang 路線的工具**（見 F-4）。
+
+### F-1. 原理：tree-sitter 是 parser，不是 preprocessor
+
+C 的編譯分兩步：**前置處理（preprocess：展開 `#include`、`#define`、評估 `#ifdef`）→ 編譯（parse + 產碼）**。真正的編譯器（gcc/clang）會先 preprocess 再 parse。但 **tree-sitter 跳過 preprocess，直接 parse 原始文字**。tree-sitter 的 C grammar 有 `preproc_ifdef`、`preproc_if`、`preproc_def` 這些節點，但它只是把指令**當語法結構記下來，不執行**。
+
+```mermaid
+flowchart LR
+    SRC["原始碼<br/>#ifdef CONFIG_P2P ... #else ... #endif"]
+    subgraph TS["tree-sitter 路線 (CodeGraph / cbm)"]
+        direction TB
+        T1["不評估條件<br/>兩個分支都 parse"]
+        T2["兩邊的函式都變節點<br/>(config 聯集)"]
+        T3["巨集不展開"]
+        T1-->T2-->T3
+    end
+    subgraph CL["clang / libclang 路線 (clangd / ccls...)"]
+        direction TB
+        C1["吃 -DCONFIG_* 旗標<br/>+ compile_commands.json"]
+        C2["真的 preprocess<br/>只留有效分支"]
+        C3["巨集展開"]
+        C1-->C2-->C3
+    end
+    SRC --> TS
+    SRC --> CL
+    TS -->|"不需 build、零設定<br/>但 config 不準"| OUT1["聯集圖（過度涵蓋）"]
+    CL -->|"需可編譯的 build<br/>但 config 精準"| OUT2["你這份 build 的精準圖"]
+```
+
+### F-2. 對 `#ifdef` / `#undef` / 巨集的實際行為
+
+| 前置處理結構 | tree-sitter 工具（兩者）怎麼處理 | 後果 |
+|------------|-------------------------------|------|
+| `#ifdef X ... #else ... #endif` | **兩個分支都解析、都抽節點**，不看 X 是否定義 | **過度涵蓋**：圖裡有你 build 根本沒編進去的函式 |
+| `#if defined(A) && !defined(B)` | 條件完全不評估 | 同上 |
+| `#undef X` | **忽略**，對抽取無影響 | `#undef` 後的條件分支判斷會錯 |
+| `#define FOO(x) bar(x)`（巨集包呼叫） | **不展開**；只看到 `FOO(...)` token | **涵蓋不足**：巨集產生的呼叫/定義漏抓 |
+| 巨集產生函式名（如 `DEFINE_HANDLER(scan)`） | 看不到生成的 `scan_handler` | 該符號在圖中**不存在** |
+
+wpa_supplicant 把這個難題放到極致（實測 grep）：
+
+| 指標 | 實測數字 | 意義 |
+|------|---------|------|
+| `#ifdef/#ifndef/#if defined/#elif` 總數 | **3,141** | 條件編譯無所不在 |
+| 不同 `CONFIG_*` 開關 | **174 種** | 哪些函式存在，由 `.config` 決定 |
+| 最密集開關 | `CONFIG_P2P`(331)、`CONFIG_IEEE80211W`(234)、`CONFIG_IEEE80211R`(222)、`CONFIG_WPS`(178) | 大段功能整塊條件編譯 |
+| `#undef` | **86** | 重新定義/取消，加劇判斷難度 |
+
+> [!warning] 對 wpa 的具體衝擊
+> 你的 `.config` 若沒開 `CONFIG_P2P`，真實 build 裡那 331 處 P2P 碼根本不存在；但 tree-sitter 工具**照樣把它們全抽進圖**。於是「誰呼叫 `p2p_init`」會得到一堆**你這份 build 其實編不到**的答案。反過來，巨集生成的符號又會**漏掉**。這不是 bug，是 tree-sitter「不 build 也能跑」的設計代價。
+
+### F-3. 兩工具的差異（附程式碼證據）
+
+| | cbm（codebase-memory-mcp） | CodeGraph |
+|---|---------------------------|-----------|
+| 解析器 | vendored tree-sitter C | web-tree-sitter（WASM） |
+| 評估 `#ifdef`？ | ❌ 否 | ❌ 否 |
+| 需要 compiler flags？ | ❌ 否 | ❌ 否 |
+| 讀 `compile_commands.json`？ | ❌ **完全不讀** | ⚠️ **讀，但只為找 include 目錄** |
+| 巨集處理 | Hybrid LSP 對 macros 有**有限**辨識（`c_lsp.c:340` 註解：macros 屬「tree-sitter 無法完全解析」的情況，靠 parser recovery） | 不展開 |
+
+CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import-resolver.ts`）：
+
+> [!quote] import-resolver.ts（節錄）
+> *"Look for compile_commands.json (Clang compilation database)… try to load **include directories** from compile_commands.json. Returns null if no compilation database is found (so the heuristic [probing] is used)."*
+
+—— 它只拿 compile_commands.json 裡的 **include 路徑**來把 `#include` 連準，**沒有**用裡面的 `-DCONFIG_*` 去解 `#ifdef`。所以給它 compile_commands.json 能改善「跨檔 header 連結」，**不能**讓它只看有效 config。
+
+### F-4. 那要怎麼辦？（緩解階梯，由輕到重）
+
+> [!important] 依「你要多準」選方案
+> **階梯一～二是 tree-sitter 工具內可做的；階梯三才是真正解 `#ifdef` 的方法，但要換工具類別。**
+
+1. **接受「聯集圖」並在查詢時心裡有數**（最省力）
+   把結果當「所有 config 的可能性」。對「理解架構」常夠用；對「我這份 build 到底有什麼」會錯。查詢時用檔案/模組知識自行過濾。
+
+2. **先把 `#include` 連準**（中等，只治 include 不治 ifdef）
+   - CodeGraph：用 `bear -- make` 或 CMake `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` 產 `compile_commands.json`，放專案根目錄 → header 邊變準。
+   - 兩者：先跑 wpa 的設定流程把**生成的 header** 產出來（否則 `#include` 目標不存在），cross-file 邊才完整。
+
+3. **索引「前置處理後」的碼**（最準，但最重）—— 真正解 `#ifdef` 與巨集
+   - 用你的實際旗標把碼 preprocess 成 `.i`：`gcc -E -DCONFIG_WPS -DCONFIG_P2P … foo.c > foo.i`（或讓 build 系統吐出 `.i`），再索引 `.i`。如此**只剩有效分支、巨集已展開**。
+   - 代價：要有可編譯的 build、`.i` 檔因展開所有 header 而爆大、且失去原始檔行號對應與部分結構；通常只對「關鍵幾支檔」這樣做，不整包做。
+
+4. **改用 clang/libclang 路線的工具**（要 build-accurate 就換類別）
+   若你要的是「精準反映某 config 的呼叫圖」，本質上需要跑編譯器前端：**clangd / ccls**（LSP，吃 `compile_commands.json` + 你的旗標，正確評估 preprocessor）、或 **Sourcetrail / SciTools Understand / cscope+cflow**（後兩者對 `#ifdef` 仍有限，但 clang 系正確）。
+   - 取捨：**需要一份可編譯的 build、設定多、較慢**；換來的是 config 精準 + 巨集展開。這正是 codegraph/cbm 刻意不走的路（它們賣點就是「不用 build」）。
+
+> [!tip] 對 wpa_supplicant 的務實建議
+> 先用 tree-sitter 工具拿「聯集圖」快速摸索架構（反正你多半想看所有 driver/feature）；**當你要精準確認「我這份 `.config` 下 `ops->scan` 到底接到哪個 driver」時，改用階梯三（`gcc -E` 關鍵檔）或階梯四（clangd）**。把「廣度探索」與「精準驗證」分給不同工具，呼應 〈E〉「廣度用一個、精準用另一個」的結論。
+
+### F-5. 把這條變數加進評估計畫（補 〈E-5〉）
+
+在 E-5 的 Phase 1 索引時，**跑兩種輸入各一次**並對比：
+- **(a) 原始碼直接索引**（tree-sitter 預設，config 聯集）
+- **(b) `gcc -E` 用某組 `CONFIG_*` 預處理後再索引**（單一有效 config）
+
+新增測試問題 **Q5**：「`p2p_init` 在圖中是否存在 / 被誰呼叫？」
+- 在 (a) 應出現（即使你的 config 沒開 P2P）→ 證明「過度涵蓋」。
+- 在 (b) 不開 `CONFIG_P2P` 時應消失 → 證明前置處理能收斂到有效 config。
+- 量「聯集 vs 有效 config」的節點/邊差異百分比，就知道 `#ifdef` 對**你這份 build** 的判斷影響有多大。
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **「先確認 fork 關係，再決定比較對象」是這次最大的方法論收穫** —— 直接拿 fork 比競品會把「上游既有能力」誤算成「某一方的特色」。我第一版就把 `explore` 誤歸給整個家族，diff 一查才知是 fork 原創。**比較前先 `git diff` 對齊基準。**
