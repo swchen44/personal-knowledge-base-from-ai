@@ -105,3 +105,4 @@
 | 2026-06-25 10:00 | expand | 新增〈D〉win4r benchmark 方法論剖析(headtohead.sh 解讀+流程圖+為何測這些項) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-25 11:30 | expand | 新增〈E〉C 語言場景專論：函式指標/指標傳遞影響分析 + 快速判斷表 + 緩解策略 + wpa_supplicant 評估計畫(未實測) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-25 12:30 | expand | 新增〈F〉C 前置處理器難題：#ifdef/#undef/巨集如何處理 + tree-sitter vs clang 路線 + 緩解階梯 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-26 14:00 | benchmark | C 實測 wpa_supplicant：build 兩工具實跑，更正〈F〉(cbm 有 simplecpp)+新增〈G〉實測結果(fnptr 召回 cg 3/5 vs cbm 0/5) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |

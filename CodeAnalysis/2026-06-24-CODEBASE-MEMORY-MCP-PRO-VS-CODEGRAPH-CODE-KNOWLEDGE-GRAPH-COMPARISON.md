@@ -650,7 +650,10 @@ wpa_supplicant 把這個難題放到極致（實測 grep）：
 | 評估 `#ifdef`？ | ❌ 否 | ❌ 否 |
 | 需要 compiler flags？ | ❌ 否 | ❌ 否 |
 | 讀 `compile_commands.json`？ | ❌ **完全不讀** | ⚠️ **讀，但只為找 include 目錄** |
-| 巨集處理 | Hybrid LSP 對 macros 有**有限**辨識（`c_lsp.c:340` 註解：macros 屬「tree-sitter 無法完全解析」的情況，靠 parser recovery） | 不展開 |
+| 巨集處理 | ✅ **有真前置處理器**：`internal/cbm/preprocessor.cpp` 用 **simplecpp**（cppcheck 同款）做第二階段——展開巨集、重抓「巨集藏起來的 CALLS」，並把 `#define` 抽成 **Macro 節點**（#375）。實測整包 wpa 抽出 **3,395 個 Macro 節點** | ❌ 不展開、不抽巨集（實測 0 個 macro 節點） |
+
+> [!warning] 對本表「巨集處理」的更正（2026-06-26 實測後）
+> 本節初版曾表述「cbm 也不展開巨集」，**經 build cbm 實測更正**：cbm 是**雙階段**——tree-sitter 抽定義（原始碼，看得到所有 `#ifdef` 分支）＋ simplecpp 展開巨集重抓 CALLS。**但實測發現一個落差**：wpa 的巨集多半包**外部 libc**（`os_memcpy`→`memcpy`），而 memcpy 在專案內無 Function 節點可連，所以 cbm 的展開**沒有轉化成額外 CALLS 邊**——其巨集能力體現在「3,395 個 Macro 節點」而非「多出的呼叫邊」。完整實測見 〈G〉。
 
 CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import-resolver.ts`）：
 
@@ -692,6 +695,42 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 - 在 (a) 應出現（即使你的 config 沒開 P2P）→ 證明「過度涵蓋」。
 - 在 (b) 不開 `CONFIG_P2P` 時應消失 → 證明前置處理能收斂到有效 config。
 - 量「聯集 vs 有效 config」的節點/邊差異百分比，就知道 `#ifdef` 對**你這份 build** 的判斷影響有多大。
+
+---
+
+## 〈G〉C 程式碼實測結果（wpa_supplicant，2026-06-26）
+
+> [!important] 從「文獻推論」到「實跑驗證」
+> 〈E〉〈F〉的結論都是讀原始碼 + 各方自報。本節是**真的 build 兩個工具、索引 wpa_supplicant（620 C/H 檔）跑出來的**。完整可重跑專案見 `~/git/cbm-vs-codegraph-bench`（含 `setup.sh`、`bench/bench.sh`、`REPORT.md`）。
+
+### 受測與方法
+- **cbm**：`win4r/codebase-memory-mcp-pro` 自 build（fork，含 explore）。**codegraph**：1.1.1（bundled，因系統 Node 26 須用官方 installer 繞過）。
+- 題目：`digsrc/wpa_supplicant`，先 12 檔子集驗證方法、再整包 620 檔。
+- Ground truth：`grep -rhoE '\.scan2\s*=\s*\w+'`（函式指標註冊正確答案）＋ `cscope`（中立第三方）＋人工讀碼。
+
+### 整包客觀數據（全部實測）
+| 指標 | cbm | CodeGraph |
+|------|-----|-----------|
+| 索引耗時（620 檔） | **4.17s** | 14.02s |
+| RAM 峰值 | 499 MB | **390 MB** |
+| nodes / edges | 24,848 / 74,219 | 18,850 / 67,712 |
+| Macro 節點 | **3,395** | 0 |
+| 函式指標合成邊 | 0 | **404** |
+| **`.scan2` 分派召回** | **0 / 5** | **3 / 5（60%）** |
+
+### 核心發現
+1. **函式指標分派：CodeGraph 決定性勝出但非完美**。`wpa_drv_scan → {wext, nl80211, privsep}` 三個 handler 正確合成（召回 3/5），**漏掉 bsd/ndis**（平台限定、在 `#ifdef` 內）。cbm **0/5**——它把 `.scan2 = wpa_driver_wext_scan` 只記成 **USAGE 邊**而非 CALLS，`trace_path` 查呼叫者回空。
+2. **cscope 也追不到**：中立第三方 `cscope -L -3 wpa_driver_wext_scan` 同樣回空 → 證明間接分派**問題本質難**，CodeGraph 的合成器是少數能（部分）橋接的工具。
+3. **巨集是 cbm 的領域**：3,395 Macro 節點 vs codegraph 0。但（見 〈F〉更正）因 wpa 巨集多包外部 libc，**沒轉成額外 CALLS 邊**。
+4. **#ifdef 過度涵蓋兩者皆有**：CONFIG 區塊內的函式兩工具都收錄——因都用 tree-sitter 不評估條件編譯（〈F〉預測正確）。
+5. **callback 盲區共有**：eloop 延遲呼叫兩者都追不到；codegraph 至少把「註冊點」當 reference 浮出。
+6. **速度反直覺**：Pure C 的 cbm 索引快 3.4 倍（4.2s vs 14s）；Node 的 codegraph 反而慢，但兩者對 620 檔都 <15s。
+
+### 給「要分析 C」的人的結論
+- **函式指標表（ops struct）密集** → **CodeGraph 主力**（唯一能部分橋接分派），但接受 60% 召回、過度近似，關鍵案例人工複核。
+- **巨集多 / 要 Cypher 任意查 / 要快** → **cbm**。
+- **務實做法：兩者並用** —— CodeGraph 補分派邊 + 快速 explore；cbm 做巨集查詢 + Cypher 分析 + 當第二意見。
+- **要 build-accurate（只看你的 `.config`）**：兩者皆不行，需 clangd（〈F〉階梯四）。
 
 ---
 
