@@ -767,6 +767,31 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 
 ---
 
+## 〈H〉同類工具生態 + clangd / compile_commands.json 實測（2026-06-26）
+
+回應「網路上有沒有用 AST+LLM 經 MCP 檢索、用 compile_commands.json 的工具」——有，分兩派：
+
+| 派別 | 代表 | ⭐ | 基礎 | 對 C 的關鍵差異 |
+|------|------|-----|------|----------------|
+| **LSP+MCP（通用）** | **Serena**（oraios/serena） | 25.8k | LSP（C/C++ 用 **clangd**） | 經 language server → 函式級正確 |
+| clangd MCP（專用 C/C++） | mpsm/mcp-cpp | 93 | clangd + **compile_commands.json** | 同上 |
+| libclang MCP | kandrwmrtn/cplusplus_mcp | 29 | libclang | 真編譯器前端 |
+| tree-sitter 自建圖 | **codegraph / cbm**（本篇） | 53.7k / 73 | tree-sitter | 免 build，但 #ifdef 過度涵蓋 |
+
+### compile_commands.json 有/無 實測（redis + clangd，`bench/clangd_callers.py` 驅動 callHierarchy）
+
+| 函式 | clangd**有**ccjson | clangd**無**ccjson | codegraph | cbm |
+|------|-----|-----|-----|-----|
+| lookupCommand | **13** | 3 | 13 | 0 |
+| lookupKeyRead | **45** | 3 | 20 | 0 |
+
+> [!important] 三個關鍵結論
+> 1. **compile_commands.json 對 clangd 系工具是決定性的**：沒有它，clangd 只剩**同檔** callers（跨檔全失，兩函式都只 3）。**所以裝了 Serena/mcp-cpp 卻不給 compile_commands.json，是最糟組合。**
+> 2. **codegraph（tree-sitter、免 build）出乎意料有競爭力**：直接呼叫常與 clangd+ccjson 打平（13/13），但重度呼叫漏約一半（20/45）。
+> 3. **C 函式級呼叫圖總排序**：`clangd+compile_commands.json` > `codegraph` > `clangd 無 ccjson` > `cbm`。這驗證了 〈F〉「階梯四」——要 build-accurate 就用 clangd 系，且**必須先 `bear -- make` 產 compile_commands.json**。
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **「先確認 fork 關係，再決定比較對象」是這次最大的方法論收穫** —— 直接拿 fork 比競品會把「上游既有能力」誤算成「某一方的特色」。我第一版就把 `explore` 誤歸給整個家族，diff 一查才知是 fork 原創。**比較前先 `git diff` 對齊基準。**
