@@ -741,6 +741,22 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 
 - **基本 function/inline 兩者都可靠**；差異在型別建模精細度：**CodeGraph 把 struct/enum_member/typedef 各自獨立**，cbm 較粗（struct→Class、enum 值→Variable、無 typedef、且有 name 碰撞），但 cbm 獨有 Macro 節點。
 
+### 嚴格召回率評分（對中立 ground truth）
+
+| 評分項 | Ground Truth | cbm | CodeGraph |
+|--------|--------------|-----|-----------|
+| struct 召回 | grep 583 | 90% | 85% |
+| enum 召回 | grep 219 | 100% | 99% |
+| function 召回 | grep 1,064 | 97% | 99% |
+| **直接呼叫圖召回** | **cflow 28 邊** | **0%** | **93%** |
+| **呼叫邊函式級佔比** | — | **1.0%** | **98.2%** |
+| 函式指標分派召回 | grep 5 | 0% | 60% |
+
+> [!warning] ★比函式指標更根本的發現：cbm 的 C 呼叫圖是「檔案級」
+> 嚴格評分揭露：**cbm 的 CALLS 邊 ~99% 來源是「檔案（Module）」而非「呼叫函式」**（函式級僅 1.0%）。例：`eloop_destroy → eloop_remove_timeout` 這條真實邊，cbm 記成 `Module: eloop.c → eloop_remove_timeout`。**所以 cbm 知道「哪個檔案呼叫 Y」但不知「哪個函式呼叫 Y」**——對 cflow 的 28 條函式級呼叫邊命中 0/28，CodeGraph 26/28。這才是先前所有 cbm 函式級查詢全空的**根因**，不只是函式指標。
+>
+> **修正結論**：只要牽涉「呼叫關係」（誰呼叫誰、函式指標、影響分析），**CodeGraph 在此 C 專案壓倒性勝出**；cbm 的價值在符號/型別清單、巨集、Cypher、索引速度。不再是單純互補，而是「**看你要不要呼叫圖**」。
+
 ### 給「要分析 C」的人的結論
 - **函式指標表（ops struct）密集** → **CodeGraph 主力**（唯一能部分橋接分派），但接受 60% 召回、過度近似，關鍵案例人工複核。
 - **巨集多 / 要 Cypher 任意查 / 要快** → **cbm**。
