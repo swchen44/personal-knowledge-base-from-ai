@@ -106,3 +106,4 @@
 | 2026-06-25 11:30 | expand | 新增〈E〉C 語言場景專論：函式指標/指標傳遞影響分析 + 快速判斷表 + 緩解策略 + wpa_supplicant 評估計畫(未實測) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-25 12:30 | expand | 新增〈F〉C 前置處理器難題：#ifdef/#undef/巨集如何處理 + tree-sitter vs clang 路線 + 緩解階梯 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 14:00 | benchmark | C 實測 wpa_supplicant：build 兩工具實跑，更正〈F〉(cbm 有 simplecpp)+新增〈G〉實測結果(fnptr 召回 cg 3/5 vs cbm 0/5) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-26 15:30 | benchmark | 補基本建構抽取對照(struct/enum/inline/function)：function/inline 兩者可靠，codegraph 型別建模較精細 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |

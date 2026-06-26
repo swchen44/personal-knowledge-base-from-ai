@@ -726,6 +726,21 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 5. **callback 盲區共有**：eloop 延遲呼叫兩者都追不到；codegraph 至少把「註冊點」當 reference 浮出。
 6. **速度反直覺**：Pure C 的 cbm 索引快 3.4 倍（4.2s vs 14s）；Node 的 codegraph 反而慢，但兩者對 620 檔都 <15s。
 
+### 基本建構抽取對照（補測：struct / enum / inline / function）
+> 原 Q1-Q6 聚焦難題，未測基礎建構。回應「enum/struct/inline/function 是否都比較過」補跑 `bench/basic.sh`：
+
+| 建構 | cbm | CodeGraph |
+|------|-----|-----------|
+| function | 9,125 | 9,351（✅ 近一致、皆可靠） |
+| inline 函式（取樣20） | 19/20 | 20/20（✅ 都正確當 function） |
+| enum 名 | 336 | 408（都抽） |
+| enumerator（enum 值） | ❌ 混入 Variable | enum_member 3,244（codegraph 精確） |
+| struct | Class 1,775（無 Struct label、膨脹） | struct 706 |
+| typedef | ❌ 無 | type_alias 104 |
+| macro | 3,395 | 0 |
+
+- **基本 function/inline 兩者都可靠**；差異在型別建模精細度：**CodeGraph 把 struct/enum_member/typedef 各自獨立**，cbm 較粗（struct→Class、enum 值→Variable、無 typedef、且有 name 碰撞），但 cbm 獨有 Macro 節點。
+
 ### 給「要分析 C」的人的結論
 - **函式指標表（ops struct）密集** → **CodeGraph 主力**（唯一能部分橋接分派），但接受 60% 召回、過度近似，關鍵案例人工複核。
 - **巨集多 / 要 Cypher 任意查 / 要快** → **cbm**。
