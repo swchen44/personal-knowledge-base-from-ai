@@ -755,7 +755,9 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 > [!warning] ★比函式指標更根本的發現：cbm 的 C 呼叫圖是「檔案級」
 > 嚴格評分揭露：**cbm 的 CALLS 邊 ~99% 來源是「檔案（Module）」而非「呼叫函式」**（函式級僅 1.0%）。例：`eloop_destroy → eloop_remove_timeout` 這條真實邊，cbm 記成 `Module: eloop.c → eloop_remove_timeout`。**所以 cbm 知道「哪個檔案呼叫 Y」但不知「哪個函式呼叫 Y」**——對 cflow 的 28 條函式級呼叫邊命中 0/28，CodeGraph 26/28。這才是先前所有 cbm 函式級查詢全空的**根因**，不只是函式指標。
 >
-> **修正結論**：只要牽涉「呼叫關係」（誰呼叫誰、函式指標、影響分析），**CodeGraph 在此 C 專案壓倒性勝出**；cbm 的價值在符號/型別清單、巨集、Cypher、索引速度。不再是單純互補，而是「**看你要不要呼叫圖**」。
+> **泛化驗證（redis）**：在第二個風格迥異的 C 專案 redis/src（216 檔）上重測，cbm 呼叫圖**更極端——0% 函式級**（codegraph 100%）。→ **檔案級呼叫圖是 cbm 對 C 的通用限制，非 wpa 特有**。根因已查證：`pass_calls.c` 設計上想掛 enclosing function，C 解析不到時 fallback 到 file 節點；cbm 自家 `docs/BENCHMARK.md` 亦記 inbound trace `PARTIAL 1/5`。
+>
+> **修正結論**：只要牽涉「呼叫關係」（誰呼叫誰、函式指標、影響分析），**CodeGraph 對 C 壓倒性勝出**；cbm 的價值在符號/型別清單、巨集、Cypher、索引速度。不再是單純互補，而是「**看你要不要呼叫圖**」。實用決策指南見 bench repo 的 `PLAYBOOK.md`。
 
 ### 給「要分析 C」的人的結論
 - **函式指標表（ops struct）密集** → **CodeGraph 主力**（唯一能部分橋接分派），但接受 60% 召回、過度近似，關鍵案例人工複核。

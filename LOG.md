@@ -108,3 +108,4 @@
 | 2026-06-26 14:00 | benchmark | C 實測 wpa_supplicant：build 兩工具實跑，更正〈F〉(cbm 有 simplecpp)+新增〈G〉實測結果(fnptr 召回 cg 3/5 vs cbm 0/5) | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 15:30 | benchmark | 補基本建構抽取對照(struct/enum/inline/function)：function/inline 兩者可靠，codegraph 型別建模較精細 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 16:30 | benchmark | 嚴格召回率評分：基本建構 85-100%；★發現 cbm 呼叫圖檔案級(函式級僅1%)，直接呼叫圖召回 0% vs codegraph 93% | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-26 17:30 | benchmark | redis 泛化驗證(cbm 0% 函式級，檔案級限制通用非 wpa 特有)+ C 分析 PLAYBOOK | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
