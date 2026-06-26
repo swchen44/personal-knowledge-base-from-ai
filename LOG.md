@@ -110,3 +110,4 @@
 | 2026-06-26 16:30 | benchmark | 嚴格召回率評分：基本建構 85-100%；★發現 cbm 呼叫圖檔案級(函式級僅1%)，直接呼叫圖召回 0% vs codegraph 93% | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 17:30 | benchmark | redis 泛化驗證(cbm 0% 函式級，檔案級限制通用非 wpa 特有)+ C 分析 PLAYBOOK | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 18:30 | benchmark | 工具生態(Serena 25.8k 等)+ clangd compile_commands.json 有/無實測：clangd+ccjson>codegraph>clangd無>cbm | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-26 19:30 | benchmark | 受控實驗(#ifdef 只 clangd 解得對+巨集藏呼叫 cbm simplecpp 有用)+Serena 驗證用 clangd+三引擎總表 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |

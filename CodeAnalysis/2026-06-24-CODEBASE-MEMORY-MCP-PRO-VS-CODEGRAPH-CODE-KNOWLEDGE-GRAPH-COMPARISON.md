@@ -790,6 +790,33 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 > 2. **codegraph（tree-sitter、免 build）出乎意料有競爭力**：直接呼叫常與 clangd+ccjson 打平（13/13），但重度呼叫漏約一半（20/45）。
 > 3. **C 函式級呼叫圖總排序**：`clangd+compile_commands.json` > `codegraph` > `clangd 無 ccjson` > `cbm`。這驗證了 〈F〉「階梯四」——要 build-accurate 就用 clangd 系，且**必須先 `bear -- make` 產 compile_commands.json**。
 
+### 受控實驗（#ifdef + 巨集藏呼叫）+ Serena 驗證
+
+手寫小專案（`#ifdef FEATURE_X` 包函式 + 巨集 `WRAP_CALL(x)→real_handler(x)`），compile_commands.json 有/無 `-DFEATURE_X`：
+
+| 維度 | cbm | codegraph | clangd+ccjson |
+|------|-----|-----------|---------------|
+| **#ifdef 精準**（-D 時應只 feature_func） | ❌ 全收 | ❌ 全收 | ✅ 隨 -D 翻轉 |
+| **巨集藏呼叫**（caller→real_handler，內部函式） | ⚠️ 抓到但檔案級 | ❌ 漏掉 | ✅ 抓到+函式級 |
+| struct/enum/inline | ✅ | ✅ | ✅ |
+| macro 節點 | ✅ 獨有 | ❌ | （不建節點） |
+
+- **巨集藏呼叫終於分勝負**：之前 redis `os_memcpy→memcpy` 因 memcpy 外部無節點測不出；改用**內部** real_handler → **cbm 的 simplecpp 真有用**（抓到 codegraph 漏的呼叫，但檔案級）、clangd 最完整（函式級）。
+- **Serena 驗證**：solidlsp 框架含 `clangd_language_server.py` → **Serena 對 C 用 clangd**，故 Serena 結果 == clangd+ccjson 欄。
+
+### ★ 三引擎全維度總表（C）
+
+| 維度 | cbm | codegraph | clangd+ccjson（Serena/mcp-cpp 引擎） |
+|------|-----|-----------|------|
+| 函式級呼叫圖 | ❌ 檔案級 | ✅ 直接呼叫達標 | ✅✅ 最完整 |
+| 函式指標分派 | ❌ | ⚠️ 60% 合成 | ⚠️ runtime 指標靜態追不到 |
+| 巨集藏呼叫 | ⚠️ 檔案級 | ❌ | ✅ 函式級 |
+| #ifdef 精準 | ❌ | ❌ | ✅ |
+| Cypher 任意查詢 | ✅ 獨有 | ❌ | ❌ |
+| 速度/免 build | ✅ | ✅ | ❌ 需 compile_commands.json |
+
+**最終取捨**：最準 C 語意 → clangd 系 + `bear -- make`；免 build 夠用 → codegraph；巨集/Cypher/速度 → cbm。
+
 ---
 
 ## 我的心得（My Takeaways）
