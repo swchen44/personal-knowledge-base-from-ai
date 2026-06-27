@@ -112,3 +112,4 @@
 | 2026-06-26 18:30 | benchmark | 工具生態(Serena 25.8k 等)+ clangd compile_commands.json 有/無實測：clangd+ccjson>codegraph>clangd無>cbm | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 19:30 | benchmark | 受控實驗(#ifdef 只 clangd 解得對+巨集藏呼叫 cbm simplecpp 有用)+Serena 驗證用 clangd+三引擎總表 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-27 12:00 | benchmark | 〈I〉8項C語法特性+傳統工具(cscope快準)+索引時間+內網相依(Serena最難)+架構協定+主大表；cbm檔案級確認為C抽取缺陷非設計 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-27 16:00 | tool | 〈J〉自製 ccq 工具(clangd+fnptr+編輯+warm daemon)納入 benchmark：8特性唯一全過、暖查詢0.07-0.6s | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 0 |

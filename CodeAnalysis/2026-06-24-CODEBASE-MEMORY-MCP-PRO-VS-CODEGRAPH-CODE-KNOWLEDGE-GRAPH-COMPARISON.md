@@ -861,6 +861,24 @@ sub-agent 深讀原始碼：cbm 自己在 `internal/cbm/cbm.c:718-724` **承認*
 
 ---
 
+## 〈J〉ccq — 從 benchmark 長出的自製工具（2026-06-27）
+
+依本 benchmark 結論做出自有工具 **ccq**（`swchen44/ccq`，見 [[reference_ccq_tool]]）：clangd 引擎 + fnptr 啟發式 + 符號編輯 + warm daemon，**Go 零相依單一 binary、跨 macOS/Windows/Linux**。
+
+| 維度 | cbm | codegraph | clangd | **ccq** |
+|------|-----|-----------|--------|---------|
+| 8 C 特性通過數 | 2 | 3 | 7 | **★8（唯一全過）** |
+| F6 函式指標分派 | ❌ | ✅ | ⚠️ | **✅（fnptr 啟發式）** |
+| redis callers 召回 | 0 | 13 | 13 | **13** |
+| 暖查詢速度 | 每次重跑 | 每次重跑 | — | **0.07–0.6s（daemon）** |
+| 編輯 rename | ❌ | ❌ | — | **✅（對標 Serena）** |
+| 內網安裝 | 自包build | tarball | binary+bear | **Go 零相依單binary（最易）** |
+
+- **ccq 是唯一 8 特性全過的工具**：拿 clangd 的全部贏 + fnptr 啟發式補 F6 + warm daemon 亞秒速度（對標 cbm）+ rename（對標 Serena）+ 零相依（贏 Serena ~890 套件）。
+- 是「取 cbm/CodeGraph/Serena 三家之長疊在 clangd 上」的具體產物。
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **「先確認 fork 關係，再決定比較對象」是這次最大的方法論收穫** —— 直接拿 fork 比競品會把「上游既有能力」誤算成「某一方的特色」。我第一版就把 `explore` 誤歸給整個家族，diff 一查才知是 fork 原創。**比較前先 `git diff` 對齊基準。**
