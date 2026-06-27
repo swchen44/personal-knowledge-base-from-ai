@@ -876,6 +876,7 @@ sub-agent 深讀原始碼：cbm 自己在 `internal/cbm/cbm.c:718-724` **承認*
 
 - **ccq 是唯一 8 特性全過的工具**：拿 clangd 的全部贏 + fnptr 啟發式補 F6 + warm daemon 亞秒速度（對標 cbm）+ rename（對標 Serena）+ 零相依（贏 Serena ~890 套件）。
 - 是「取 cbm/CodeGraph/Serena 三家之長疊在 clangd 上」的具體產物。
+- **v0.3 增強**(向 codegraph/cbm 各取所長,全程零相依):① fnptr 升級成 (struct,field) 複合鍵(修同名欄位污染)+positional table+field←field 傳遞;② **無 build 模式**(compile_flags.txt,學 cbm 廣度,零新相依);③ 巨集納入 search;④ **ccq export**(符號+呼叫圖→json/sql,純 SQL 查,代替 Cypher)。不做完整 Cypher 引擎與語意邊(偏離定位)。
 
 ---
 
