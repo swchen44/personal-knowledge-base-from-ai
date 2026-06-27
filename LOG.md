@@ -111,3 +111,4 @@
 | 2026-06-26 17:30 | benchmark | redis 泛化驗證(cbm 0% 函式級，檔案級限制通用非 wpa 特有)+ C 分析 PLAYBOOK | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 18:30 | benchmark | 工具生態(Serena 25.8k 等)+ clangd compile_commands.json 有/無實測：clangd+ccjson>codegraph>clangd無>cbm | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
 | 2026-06-26 19:30 | benchmark | 受控實驗(#ifdef 只 clangd 解得對+巨集藏呼叫 cbm simplecpp 有用)+Serena 驗證用 clangd+三引擎總表 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |
+| 2026-06-27 12:00 | benchmark | 〈I〉8項C語法特性+傳統工具(cscope快準)+索引時間+內網相依(Serena最難)+架構協定+主大表；cbm檔案級確認為C抽取缺陷非設計 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 5 |

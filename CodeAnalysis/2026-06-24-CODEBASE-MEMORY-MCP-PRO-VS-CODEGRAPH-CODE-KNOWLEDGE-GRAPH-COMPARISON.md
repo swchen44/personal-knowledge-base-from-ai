@@ -819,6 +819,48 @@ CodeGraph 用 compile_commands.json 的真相（原始碼 `src/resolution/import
 
 ---
 
+## 〈I〉8 項 C 語法特性 + 傳統工具 + 索引時間 + 內網相依 + 主大表（2026-06-27）
+
+### cbm 檔案級呼叫圖：是限制不是設計（已查證）
+sub-agent 深讀原始碼：cbm 自己在 `internal/cbm/cbm.c:718-724` **承認** "C 的 `function_definition` 沒有 name 欄位 → 呼叫範圍歸給 module"。精確失敗在 `helpers.c:741`（用 `name` 欄位取名失敗 → fallback module_qn）。**只有 C 退化**（Python/Go/TS/Java/Rust 都函式級）。README 明言要 IDE 級精度、無「交給 LLM」之說 → **非故意、非速度取捨，是 C 抽取缺陷**。
+
+### 8 項 C 語法特性受控測試（cbm / codegraph / clangd）
+| 特性 | cbm | codegraph | clangd+ccjson |
+|------|-----|-----------|---------------|
+| typedef 鏈間接呼叫 | ❌ | ❌ | ✅ |
+| 巨集生成函式(X-macro) | ❌ | ❌ | ✅ |
+| 巨集藏呼叫 | ⚠️檔案級 | ❌ | ✅ |
+| _Generic 型別分派 | ❌ | ❌ | ✅ |
+| ops 分派(dispatch→handler) | ❌ | **✅合成(連clangd都不給)** | ⚠️不猜runtime |
+| 跨檔static同名/forward decl去重 | ✅ | ✅ | ✅ |
+- **clangd 在需 preprocess/型別解析的特性全勝**；**codegraph 合成器獨家拿下 ops 分派**；巨集**生成的函式**兩 tree-sitter 派皆漏（共同盲區）。
+
+### 傳統工具 + 索引時間（實測）
+| 工具 | 索引(wpa620/redis216) | 直接呼叫圖 | fnptr 分派 |
+|------|------|-----------|-----------|
+| cscope | 0.08s / 0.53s | ✅ 14 函式級 callers(redis) | ❌ 0(wpa) |
+| ctags | 0.08s / 0.04s | ❌ 僅定義 | ❌ |
+| cbm | 4.2s / 3.8s | ⚠️檔案級 | ❌ |
+| codegraph | 14s / 11s | ✅ | ⚠️60%合成 |
+| clangd | 需先編譯(分鐘) | ✅✅ | ⚠️不猜runtime |
+- **cscope（1970s）對直接呼叫又快又準**（0.5s 給 14 函式級）；但 fnptr 同樣失手 → 間接分派是**所有純靜態工具**共同盲區。
+
+### 內網/air-gapped 安裝相依（★公司內網）
+| 工具 | 足跡 | 內網難度 |
+|------|------|---------|
+| cscope/ctags/cflow | KB 級單檔 | 🟢 最易 |
+| cbm | 257MB 單binary，**vendored 全在 repo→build 不需網路** | 🟡 自包build適合內網 |
+| codegraph | 188MB bundled(含Node)單tarball | 🟡 |
+| clangd | 單binary + 需 bear/cmake 產 compile_commands.json | 🟡 |
+| **Serena** | **~890 Python 套件 + 自動下載 348MB clangd** | 🔴 **最難** |
+- 內網要走 clangd 路線，**直接用 clangd binary + 自寫薄 MCP 包裝** 比 Serena 輕得多。
+
+### 架構/協定
+- agent↔工具：**MCP**(JSON-RPC/stdio,`tools/call`)。B 派內部 server→**LSP**→clangd→compile_commands.json。傳統工具無協定(CLI)。
+- 完整架構圖/參數/Claude Code 對接見 bench repo `ARCHITECTURE.md`；主比較大表見 `REPORT.md` 第 10 節。
+
+---
+
 ## 我的心得（My Takeaways）
 
 1. **「先確認 fork 關係，再決定比較對象」是這次最大的方法論收穫** —— 直接拿 fork 比競品會把「上游既有能力」誤算成「某一方的特色」。我第一版就把 `explore` 誤歸給整個家族，diff 一查才知是 fork 原創。**比較前先 `git diff` 對齊基準。**
