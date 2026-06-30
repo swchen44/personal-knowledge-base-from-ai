@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [CLAUDE.md 完全攻略 — 讓 Claude Code 真正理解你的專案](./AI/2026-05-01-CLAUDE-MD-COMPLETE-GUIDE.md) — CLAUDE.md 三層架構與寫法攻略：放規則不放資料、跨層衝突須避免、CLAUDE.local.md 個人覆蓋、完整三層範例
 - [程式碼知識圖譜兩雄對決：codebase-memory-mcp-pro vs CodeGraph](./CodeAnalysis/2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON.md) — Pure C 查詢引擎 vs TS 單一工具代理導向，含架構/流程/時序 Mermaid 圖與正面比較
 - [Loop Engineering 三方觀點綜合分析](./AI/2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS.md) — 綜合 Addy Osmani／MindStudio／lunkerchen repo，比較迴圈工程的學理、產品原語與實作紀律
 - [把最無聊的重複流程交給 AI：從 Human SOP 變成 Agentic Workflow 的 Prompt 工具包](./AI/2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT.md) — Gary Chen：模型已非瓶頸，瓶頸是你講不清楚；四步把 Human SOP 拆成可 debug 的 agentic workflow，含配套五步 Prompt 工具包原文與我的分析

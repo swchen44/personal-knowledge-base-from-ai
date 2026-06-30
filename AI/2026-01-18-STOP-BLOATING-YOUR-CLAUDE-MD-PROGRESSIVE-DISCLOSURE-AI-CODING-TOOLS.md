@@ -221,6 +221,7 @@ ln -s CLAUDE.md agents.md
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — Pere Villega 11 章系列第 5 章實��版，融合 Boris Cherny / Teresa Torres / Patrick Zandl 三位實踐者的 CLAUDE.md 做法
 - [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] — 原始碼驗證 rules 按需注入的真相：只有 paths: 才有效，支持漸進式揭露策略
 - [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 原文完整筆記，與本文互補：同一作者的指令預算理論與 agent_docs/ 實踐
+- [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 本文教 CLAUDE.md「該放什麼」，與這篇「如何瘦身、用 progressive disclosure 卸載資料」互為正反面
 
 ## References
 

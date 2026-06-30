@@ -200,6 +200,7 @@ npx @next/codemod@canary agents-md
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — CLAUDE.md 的 memoize 快取與 Skills 的 chokidar 熱載入機制分析，從原始碼角度解釋本文的「被動 vs 按需」差異
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 將本文的 Skills 56% 未觸發數據放入 Skills/Commands/Subagents 的完整定位分析
 - [[2026-02-12-EVALUATING-AGENTS-MD-CONTEXT-FILES-HELPFUL-FOR-CODING-AGENTS]] — ETH Zurich 反面實證：AGENTS.md 在已有文件的 repo 中反而降低 3% 成功率，與本文的 100% 結論形成關鍵對照
+- [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 提供「規則該寫進 CLAUDE.md 還是別處」的對照觀點，與本篇 CLAUDE.md 攻略形成辯證
 
 ## References
 

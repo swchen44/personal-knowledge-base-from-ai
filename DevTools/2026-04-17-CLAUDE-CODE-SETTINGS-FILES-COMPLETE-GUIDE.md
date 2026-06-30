@@ -444,6 +444,7 @@ claude --setting-sources ""
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Settings hooks 設定的底層消費端：24 個事件的 I/O Schema 與 query loop 狀態機如何處理 Hook 回傳值
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin settings merge 只允許 agent 鍵，無法注入 rules 的原始碼驗證
 - [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] — `autoMemoryEnabled` 在 projectSettings 無效的安全邊界分析，headless 模式下的 memory 載入行為
+- [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 本篇建議將 attribution 等硬性規則放 settings.json 而非 CLAUDE.md，與此 settings 指南互補
 
 ## References
 

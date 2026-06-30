@@ -140,6 +140,7 @@ curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的品味與設計論點，為其 CLAUDE.md 原則提供更宏觀的脈絡
 
 ---
+- [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 同為 CLAUDE.md 寫法主題，本篇從三層架構與該放/不該放切入，與 Karpathy 原則互補
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

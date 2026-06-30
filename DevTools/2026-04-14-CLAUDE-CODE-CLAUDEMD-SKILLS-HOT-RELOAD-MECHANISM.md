@@ -885,6 +885,7 @@ ln -s ~/shared-claude-skills/ .claude/skills
 - [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] — getMemoryFiles 與 CLAUDE.md 的共用載入路徑，及 headless 模式下的 memory 預取行為
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 五源 merge 與 CLAUDE.md memoize 的關係、Plugin 啟停如何透過 settings 控制
 - [[2026-04-17-CLAUDEMD-MYTHS-DEBUNKED-SOURCE-CODE-VERIFICATION]] — 社群 CLAUDE.md 迷思核實：壓縮後 prependUserContext 重新注入、無條件 rules 與 CLAUDE.md 注入位置相同
+- [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 本篇提到 CLAUDE.md「不需重啟、下一輪生效」，底層即此 hot-reload 機制
 
 ## References
 
