@@ -49,9 +49,13 @@ links:
 
 大部分人只知道在專案根目錄放一個 `CLAUDE.md`，但它其實有三層：
 
-![三層架構表](assets/2026-05-01-CLAUDE-MD-GUIDE/table-three-layers.png)
+| 層級 | 路徑 | 作用範圍 | 適合放什麼 |
+|------|------|---------|-----------|
+| 使用者層 | `~/.claude/CLAUDE.md` | 你所有的專案 | 個人偏好、通用規範 |
+| 專案層 | `專案根目錄/CLAUDE.md` | 這個專案 | 專案架構、技術棧、指令 |
+| 子目錄層 | `任意子目錄/CLAUDE.md` | 該目錄下的檔案 | 模組特定的規範 |
 
-![分層架構圖](assets/2026-05-01-CLAUDE-MD-GUIDE/layer-diagram.png)
+![分層架構圖：子目錄層 → 專案層 → 使用者層 merge 成最終設定](assets/2026-05-01-CLAUDE-MD-GUIDE/layer-diagram.png)
 
 > [!important] 拼接，不是覆蓋
 > 三層同時存在時，Claude 會全部讀取、串接在一起。**不是覆蓋，是拼接（concatenate）。**
@@ -171,11 +175,21 @@ MyApp/
 > [!warning] 同層保證 ≠ 跨層保證
 > 這個優先序保證**只在同一層目錄內**有效。跨層級的衝突（使用者層 vs 專案層）仍是「可能任意選一個」。
 
-![載入順序整理表](assets/2026-05-01-CLAUDE-MD-GUIDE/table-priority.png)
+| 順序 | 檔案 | 說明 |
+|------|------|------|
+| 1 | `~/.claude/CLAUDE.md` | 使用者層，通用偏好 |
+| 2 | `專案根目錄/CLAUDE.md` | 團隊共用規範 |
+| 3 | `專案根目錄/CLAUDE.local.md` | 個人偏好（同層覆蓋 CLAUDE.md） |
+| 4 | `子目錄/CLAUDE.md` | 模組規範（按需載入） |
+| 5 | `子目錄/CLAUDE.local.md` | 個人偏好（同層覆蓋 CLAUDE.md） |
 
 ### 載入時機（Loading Timing）
 
-![載入時機表](assets/2026-05-01-CLAUDE-MD-GUIDE/table-loading.png)
+| 時機 | 說明 |
+|------|------|
+| 啟動 session | 自動載入使用者層 + 專案層 |
+| 操作特定目錄的檔案 | 自動載入該目錄的子目錄層 |
+| 你修改了 CLAUDE.md | 下一輪對話自動套用，不用重啟 |
 
 > [!important] 不需要重啟
 > 修改 `CLAUDE.md` 後，Claude 在**下一輪對話**就會讀到更新內容。底層 hot-reload 機制見 [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]]。
@@ -234,7 +248,14 @@ MyApp/
 
 ### 不該放什麼？
 
-![不該放什麼表](assets/2026-05-01-CLAUDE-MD-GUIDE/table-dont-put.png)
+| 不要放 | 原因 | 該放哪裡 |
+|--------|------|---------|
+| 完整的 API 文件 | 太長，佔 context | 放獨立檔案，需要時再讓 Claude 讀 |
+| 所有檔案的功能說明 | Claude 可以自己讀程式碼 | 不需要，Claude 會自己看 |
+| 一次性的任務指令 | CLAUDE.md 是永久規範 | 直接在對話中說 |
+| 程式碼片段／範本 | 太佔空間 | 放 Skills 的附帶檔案 |
+| 每個 function 的用法 | Claude 讀 code 比讀文件準 | 不需要 |
+| 頻繁變動的資訊 | 維護成本高，容易過期 | 放 README 或 wiki |
 
 > [!important] 核心原則
 > `CLAUDE.md` 放「規則」，不放「資料」。一個判斷方式：如果這段內容超過 10 行，問自己「Claude 能不能自己從 codebase 裡推斷出來？」如果可以，就不用放。
@@ -381,7 +402,7 @@ Claude 看到的不是指令本身，而是**執行結果**。
 
 建立方式：① 專案根目錄建 `CLAUDE.md` → ② 寫入團隊規範 → ③ commit 進 repo → ④ 團隊所有人用 Claude Code 時自動套用。
 
-![團隊效果](assets/2026-05-01-CLAUDE-MD-GUIDE/team-effect.png)
+![團隊效果：三位成員各自開發，但共用同一份 CLAUDE.md，產出趨向一致](assets/2026-05-01-CLAUDE-MD-GUIDE/team-effect.png)
 
 > [!tip] 維護建議
 > - 像維護 README 一樣維護 `CLAUDE.md`——技術決策變了，規範也要跟著更新
@@ -390,7 +411,12 @@ Claude 看到的不是指令本身，而是**執行結果**。
 
 ### CLAUDE.md vs 其他設定機制
 
-![各設定機制比較表](assets/2026-05-01-CLAUDE-MD-GUIDE/table-comparison-all.png)
+| 機制 | 性質 | 生效時機 | 典型用途 |
+|------|------|---------|---------|
+| CLAUDE.md | 永久規範 | 每次自動載入 | 架構、命名、禁止事項 |
+| Skills | 按需能力 | 手動呼叫或自動觸發 | 工作流程、轉換、清理 |
+| Agents | 獨立執行 | 由 Skill 或 Claude 派生 | 大量分析、code review |
+| settings.json | 系統設定 | 啟動時載入 | 權限、Hooks、環境變數 |
 
 簡單記：
 
