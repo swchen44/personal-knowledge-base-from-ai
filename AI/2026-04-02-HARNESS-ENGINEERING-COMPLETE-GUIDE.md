@@ -204,6 +204,7 @@ Harness Engineering → 建立持續監控與糾偏機制
 ## 相關連結（Related）
 - [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] — 程式碼圖譜可作為 agent harness 的程式碼理解模組
 
+- [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] — 從 Loop Engineering 的上一層控制平面，反向釐清 Harness 的執行環境責任
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 的內部架構正是 Harness Engineering 的具體實現
 - [[2026-03-14-OPENCLI-CODE-ANALYSIS]] — 另一個 CLI Agent 的架構分析，可對比 Harness 設計差異
 - [[AI-AGENT-ARCHITECTURE]] — Agent 架構設計的通用原則

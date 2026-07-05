@@ -129,6 +129,7 @@ Codex 最終達成了端到端的功能開發能力：
 
 ## 相關連結（Related）
 
+- [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] — 將 Codex 的 automations、worktrees、`/goal` 放回 Loop Engineering 控制平面脈絡
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — 同一概念的中文影片深度解析，涵蓋 Harness 六層架構
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code 的 Skill 機制，類似 Harness 中的結構化代理人能力
 - [[AI-AGENT-ARCHITECTURE]] — 代理人架構設計的通用框架

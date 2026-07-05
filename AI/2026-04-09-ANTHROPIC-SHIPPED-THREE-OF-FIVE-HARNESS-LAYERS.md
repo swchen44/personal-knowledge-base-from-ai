@@ -197,6 +197,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 
 ## 相關連結（Related）
 
+- [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] — 補充 Loop Engineering 如何建立在五層 Harness 堆疊之上，並放大 L1/L4 缺口
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 的六層架構解析（中文影片），與本文的五層模型互為補充
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]] — OpenAI 官方原文，本文多次引用的 L1 約束層實踐案例
 - [[AI-AGENT-ARCHITECTURE]] — 代理人架構設計的通用框架，可與本文的五層模型對照

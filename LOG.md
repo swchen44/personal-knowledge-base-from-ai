@@ -116,3 +116,4 @@
 | 2026-06-27 18:30 | tool | ccq v0.3: fnptr 複合鍵升級+no-build模式+巨集search+graph export(代替Cypher)，全程零相依 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 0 |
 | 2026-07-01 | ingest | CLAUDE.md 完全攻略 (MikeWang/Medium) | [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] | AI | 6 | 6 |
 | 2026-07-05 10:06 | ingest | 終端機記憶體管理與跨平台持久化方案研究報告 | [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] | DevTools | 4 | 5 |
+| 2026-07-05 20:32 | ingest | What is Loop Engineering? How it is different than Harness Engineering? | [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] | AI | 5 | 5 |

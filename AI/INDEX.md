@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] | Akshay Kokane 從 FDE 視角釐清 Loop Engineering 與 Harness Engineering：Loop 是 Harness 上方的控制平面，`/goal` 與 maker/checker 停止條件是新意，但簡單工作仍應用腳本而非燒 Token | 2026-06-17 |
 | [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] | 四組平台無關的頂級 Agent Skill：原能力（Skill Creator + f skills）、工程化開發（Superpowers + GStack + M's skill）、前端設計（frontend design + UX Pro Max）、內容創作（寶玉老師 Skill 組） | 2026-05-09 |
 | [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] | Stanford AI 課精華：縱軸五層（Prompt→Fine-tune→RAG→Agentic→Multi-Agent）、七面之差、護欄三層篩選、Eval 三維度交叉、McKinsey 信用 Memo 案例 | 2026-05-04 |
 | [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] | Karpathy 的 Software 3.0 宣言：鬼魂心智模型、鋸齒狀智慧、Agentic Engineering 與「理解無法外包」（演講 + 中文報導結合版） | 2026-04-29 |

@@ -256,6 +256,7 @@ Harness 如同建築脚手架——臨時基礎設施，大樓建成後拆除。
 
 ## 相關連結（Related）
 
+- [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] — 對照 Agent Harness 十二模組與 Loop 的 automations / state / sub-agent 控制面分工
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]] — OpenAI 官方的 Harness 工程文章，本影片多次引用其概念
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — Anthropic 五層 Harness 架構分析，與本影片十二模組分類可交叉對照
 - [[2026-04-01-HARNESSING-CLAUDES-INTELLIGENCE]] — Anthropic 官方的上下文工程與智能平衡指南，對應本影片的模組 4、5
