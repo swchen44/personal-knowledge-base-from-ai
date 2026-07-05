@@ -219,6 +219,7 @@ xattr -cr /Applications/WezTerm.app
 ## 相關連結（Related）
 
 - [[2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]] — 完整編譯與設定流程文章
+- [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] — 補充 Ghostty / WezTerm / tmux 在長時間 AI CLI 任務中的記憶體與 session 持久化風險
 - [[RUST-BUILD-TOOLCHAIN]] — Rust 編譯工具鏈設定
 - [[MACOS-FONT-RENDERING]] — macOS 字體渲染與 CoreText 機制
 

@@ -115,3 +115,4 @@
 | 2026-06-27 16:00 | tool | 〈J〉自製 ccq 工具(clangd+fnptr+編輯+warm daemon)納入 benchmark：8特性唯一全過、暖查詢0.07-0.6s | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 0 |
 | 2026-06-27 18:30 | tool | ccq v0.3: fnptr 複合鍵升級+no-build模式+巨集search+graph export(代替Cypher)，全程零相依 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | CodeAnalysis | 0 | 0 |
 | 2026-07-01 | ingest | CLAUDE.md 完全攻略 (MikeWang/Medium) | [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] | AI | 6 | 6 |
+| 2026-07-05 10:06 | ingest | 終端機記憶體管理與跨平台持久化方案研究報告 | [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] | DevTools | 4 | 5 |

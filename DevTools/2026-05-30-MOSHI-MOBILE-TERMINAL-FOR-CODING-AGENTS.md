@@ -272,6 +272,7 @@ Moshi 能把語音轉成終端機輸入，最適合用在：對 agent 下自然�
 ## 相關連結（Related）
 
 - [[CLAUDE-CODE-WORKFLOW-TIPS]] — 同樣處理「長時間 AI 編碼代理人任務」的工作流，Moshi 是其行動端補充
+- [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] — 補充為何長時間 AI CLI 任務應放進 tmux / psmux 類持久化層，而不是綁死在 GUI 終端機視窗
 - [[AI-CODING-AGENT-WORKFLOW]] — Codex／Claude Code／Gemini 等代理人的使用方法，Moshi 是它們的遠端控制面
 - [[TMUX-REMOTE-DEV-SETUP]] — Moshi 建議用 tmux + mosh + SSH，與遠端開發環境設定高度相關
 

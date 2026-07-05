@@ -271,6 +271,7 @@ WezTerm 視窗開啟後，按 **連按兩下 `Fn` 鍵**（或麥克風按鈕）�
 ## 相關連結（Related）
 
 - [[WEZTERM-CONFIG]] — WezTerm 進階設定參考
+- [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] — 同樣處理終端機渲染、CJK 字形與長時間 AI CLI 工作負載造成的資源壓力
 - [[MACOS-FONT-RENDERING]] — macOS 字體渲染與 CoreText 機制
 - [[RUST-BUILD-TOOLCHAIN]] — Rust 編譯工具鏈設定與常見問題
 - [[2026-03-20-WEZTERM-SESSION-TECHNICAL-SUMMARY]] — 同次工作階段的技術摘要，記錄踩坑與關鍵決策

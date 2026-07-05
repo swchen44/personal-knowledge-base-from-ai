@@ -168,6 +168,7 @@ CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 claude -p "你的問題"
 ## 相關連結（Related）
 
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — settings.json 合併優先級，`autoMemoryEnabled` 在哪層有效
+- [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] — 延伸到 `DISABLE_AUTOUPDATER`、scrollback 與 tmux 隔離等終端機層級資源控制策略
 - [[2026-04-02-CLAUDE-CODE-SOURCE-CODE-LEAKED-11-HIDDEN-SECRETS]] — Claude Code 原始碼架構概覽，context 建構機制
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — CLAUDE.md 發現與載入機制，與 memory 共用 getMemoryFiles
 - [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — Worktree 與 git root 的關係，解釋為何共用同一 memory slug
