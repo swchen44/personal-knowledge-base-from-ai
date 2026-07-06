@@ -20,6 +20,8 @@ links:
   - "[[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]]"
 ---
 
+![Agent Harness 與 Loop Engineering 分層架構圖：下層是單一 Agent 的執行環境（Context Manager、Permission & Guardrails、State & Memory 餵給 Agentic Loop / Orchestrator），右側是 Loop Engineering 層（Automations、Worktrees、Skills、Plugins & Connectors、Sub-agents、Memory），兩層共用 Observability](assets/2026-06-17-LOOP-ENGINEERING/01-cover.png)
+
 ## 摘要（Summary）
 
 Akshay Kokane 這篇 Level Up Coding 文章從 Forward Deployed Engineer 的角度，釐清「迴圈工程（Loop Engineering）」和「Harness Engineering」的分工：Harness 是**單一代理人（Agent）執行時所住的環境**，負責上下文（Context）、工具權限、重試、日誌、狀態與防錯；Loop 則是**Harness 上方的控制平面（control plane）**，負責決定何時啟動代理人、給它什麼任務、如何跨多次運行保留狀態，以及如何判斷工作完成。
@@ -55,6 +57,8 @@ Akshay Kokane 這篇 Level Up Coding 文章從 Forward Deployed Engineer 的角�
 
 一句話：**Harness 是 Agent 住的房子；Loop 是決定什麼時候派 Agent 出門、交付什麼、回來後如何驗收的調度系統。**
 
+![單一 Agent 的 Harness 架構圖：User/App 送出請求，經過 Context manager、Permission & guardrails、State & memory 進入 Agentic Loop / Orchestrator，LLM/Model 發出 tool call request 給 Tool Executor，執行結果可能需要 Human-in-the-loop 核准，失敗則交給 Retry & error handler，整體由 Observability 監測](assets/2026-06-17-LOOP-ENGINEERING/02-harness-diagram.png)
+
 ### Loop 的六個結構件
 
 作者引用 Addy Osmani 的拆法，把 Loop 的基本結構整理成五個零件，再補上一個真正的脊椎：state。
@@ -68,7 +72,13 @@ Akshay Kokane 這篇 Level Up Coding 文章從 Forward Deployed Engineer 的角�
 | Sub-agents | maker/checker 分離，避免同一 Agent 自評 | Token 成本增加，且 checker 也可能錯 |
 | State | 對話外的持久狀態，記錄試過什麼、完成什麼、待辦什麼 | 狀態過期或格式混亂會讓下一輪接錯工作 |
 
+![Loop Engineering 五個結構件加上記憶的心智圖：Automations（排程+分流）、Worktrees（平行 Agent 隔離）、Skills（專案知識）、Plugins（工具與連接器）、Sub-agents（提案+驗證）皆指向中央的「The Loop」，並補充第六項「Memory」——模型每次執行後會遺忘，記憶（如 Markdown 檔案或 Linear 看板）活在對話之外，記錄已完成與待辦事項](assets/2026-06-17-LOOP-ENGINEERING/03-loop-control-plane.png)
+
+![Claude Code 中 `/loop` 指令實際畫面：輸入 `loop 5m check for if deployment is successful` 後，系統以 CronCreate 建立每 5 分鐘執行一次的排程任務（ID: dbe6cb3b），並顯示 Cron 運算式、執行頻率與 Prompt 內容；提示週期性任務預設 3 天後自動過期，可用 CronDelete 提前取消](assets/2026-06-17-LOOP-ENGINEERING/04-loop-command-screenshot.png)
+
 ### `/goal` 的設計價值
+
+![`/goal` 原語運作流程圖：Goal（可驗證的停止條件）分別交給 Maker（大型模型，負責寫程式碼、跑測試、修錯誤並產出 diff/結果/日誌）與 Checker（小型模型，負責依 Goal 條件評估輸出、給出 YES/NO 判定）；若 Checker 判定「NO」則迴圈繼續、重新交回 Maker 執行，若判定「YES」則迴圈結束](assets/2026-06-17-LOOP-ENGINEERING/05-goal-diagram.png)
 
 文章認為 `/goal` 是 Loop Engineering 中最值得注意的原語。使用者給一個可驗證停止條件，例如「某組測試全過且 lint 乾淨」。Loop 持續執行，每一輪後由另一個較小或獨立的模型判斷是否達標。
 
@@ -76,6 +86,8 @@ Akshay Kokane 這篇 Level Up Coding 文章從 Forward Deployed Engineer 的角�
 
 > [!warning] 成本判斷
 > 如果問題是「CI 有沒有過」，shell 腳本就夠了。如果問題是「這個 PR 是否符合安全慣例並值得合併」，模型判斷才可能值得付費。
+
+![Claude Code 中 `/goal` 指令實際畫面：以 Sonnet 4.6（high effort）在 program-manager-multi-agent-system 專案中，輸入 `/goal create unit test until code coverage is 80%` 後，系統確認「Goal set」，接著 Agent 自主搜尋程式碼、讀取檔案、執行 Bash 指令檢查 pytest/coverage 套件是否安裝，展示模型如何朝可驗證的停止條件自主推進](assets/2026-06-17-LOOP-ENGINEERING/06-goal-command-screenshot.png)
 
 ### 從 verdict 到 production
 
