@@ -459,6 +459,7 @@ Prompt 5: Integration & Checkpoint Planner（把補強後的流程接上真實�
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — 「看了教程仍做不對」本質就是默會知識未外化，與本文死結互為印證
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 一人公司如何把判斷沉澱進系統，呼應本文「經驗留在 workflow 而非腦袋」
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 以 5 個 Agent Skills 落地的完整工作流走查，是本文方法論的實作對照
+- [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 同作者 Gary Chen 的另一組配套 prompt 工具包，可對照兩者的 prompt 設計手法
 
 ## References
 

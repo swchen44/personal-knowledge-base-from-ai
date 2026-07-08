@@ -609,6 +609,7 @@ Write in polished, professional memo style:
 - [[OPENAI-GPT-MODELS]] — GPT 系列模型能力比較
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 談多代理人時代的工程師角色
 - [[2025-10-16-DESIGN-YOUR-SOCRATIC-AI-MENTOR-FRAMEWORK]] — 蘇格拉底式五維追問框架，與本文結構化提示詞設計的另一種提問導向實踐
+- [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 語音輸入場景下的短口語 prompt 實例，可對照官方長篇 prompt 模板與日常高頻短 prompt 兩種設計取向的差異
 
 ## References
 

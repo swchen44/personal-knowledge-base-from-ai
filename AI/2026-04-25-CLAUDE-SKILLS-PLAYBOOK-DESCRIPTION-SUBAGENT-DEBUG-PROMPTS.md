@@ -731,6 +731,7 @@ Apply in this order. After applying, optionally re-run Prompt 3 (Trigger Diagnos
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code Skills 官方文件整理
 - [[2026-04-13-KARPATHY-CLAUDE-MD-WHAT-EACH-PRINCIPLE-REALLY-FIXES]] — Karpathy 的 CLAUDE.md 原則與本文互補
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Nick Babich 的七條規則，以 UX 設計師視角補充本文的開發者視角 Skill 撰寫方法
+- [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 同作者 Gary Chen 的另一組配套 prompt 工具包，可比較「生命週期分階段」與「職能分組」兩種 prompt 集合的組織邏輯
 
 ## References
 

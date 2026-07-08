@@ -275,6 +275,7 @@ WezTerm 視窗開啟後，按 **連按兩下 `Fn` 鍵**（或麥克風按鈕）�
 - [[MACOS-FONT-RENDERING]] — macOS 字體渲染與 CoreText 機制
 - [[RUST-BUILD-TOOLCHAIN]] — Rust 編譯工具鏈設定與常見問題
 - [[2026-03-20-WEZTERM-SESSION-TECHNICAL-SUMMARY]] — 同次工作階段的技術摘要，記錄踩坑與關鍵決策
+- [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 語音輸入場景下的 prompt 設計實例，是本文聽寫功能落地後、下游可以搭配使用的應用層工具
 
 ## References
 

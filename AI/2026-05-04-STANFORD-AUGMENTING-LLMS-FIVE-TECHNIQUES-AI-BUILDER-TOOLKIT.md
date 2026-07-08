@@ -272,6 +272,7 @@ Analyst 改稿（1-4 輪）            生成 Memo 草稿
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]] — OpenAI 團隊零手寫程式碼的實踐，是本文 Agentic Workflow 章節的極端案例
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — Harness 十二模組提供了比五層更細粒度的 agentic system 設計框架
 - [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 把任務拆成獨立節點正是本文 decomposition 技巧在個人 SOP 上的落地
+- [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 同屬「可直接套用的 prompt/技巧集合」類型筆記，是本文工具包精神在語音輸入場景下的具體實作
 
 ## References
 - [原文 — Stanford 兩小時 AI 課精華版（Gary Chen, Patreon）](https://www.patreon.com/posts/157335306)

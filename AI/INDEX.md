@@ -62,4 +62,5 @@
 | [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] | 外部無人專文討論 grill-me + Plan Mode 衝突；綜合 Superpowers brainstorming 公開討論推論：grill-me 不攔截/不寫檔，與 Plan Mode 可共存；三種共存模式 A/B/C | 2026-05-18 |
 | [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] | Gary Chen：前沿模型已非瓶頸，瓶頸是你講不清楚；用四步（標準化→拆節點→雙向迭代→接 MCP/HITL）把 Human SOP 拆成 agentic workflow，先求一致再談全自動，角色升級成 process owner。含配套五步 Prompt 工具包原文 | 2026-05-25 |
 | [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] | Loop Engineering 五來源綜合：以最佳拍档中文導讀影片為主敘事線，疊上源頭 Rahul × Addy／MindStudio／repo；含傳承樹、影片逐段精華、成本經濟學、互補與互斥分析 | 2026-06-07 |
+| [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] | Gary Chen：17 個可脫口而出的短口語 prompt，搭配 Typeless Ask 把口述轉成 email/PRD/bug report 等產出；通用三招+四職能分組，全程守 fidelity 底線（缺的用括號標，絕不腦補） | 2026-07-02 |
 | [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] | MikeWang：CLAUDE.md 三層架構（使用者層／專案層／子目錄層）+ 隱藏的 CLAUDE.local.md，跨層衝突無保證故須避免衝突；放規則不放資料、寫法技巧、完整三層範例 | 2026-05-01 |

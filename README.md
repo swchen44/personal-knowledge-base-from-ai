@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Context Converter：把話變成工作產出的 17 個語音 Prompt](./AI/2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT.md) — Gary Chen：17 個脫口而出的短口語 prompt，搭配 Typeless Ask 把口述轉成 email/PRD/bug report，全程守 fidelity 底線
 - [什麼是迴圈工程？它和 Harness Engineering 有何不同？](./AI/2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING.md) — Akshay Kokane：Loop 是 Harness 上方的控制平面，真正新意在 `/goal` 與 maker/checker 停止條件；簡單工作仍該用腳本
 - [終端機記憶體管理與跨平台持久化方案研究報告](./DevTools/2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE.md) — Ghostty / Claude Code 記憶體暴增診斷、環境變數止血、tmux / psmux 工作階段持久化與跨平台終端選型
 - [CLAUDE.md 完全攻略 — 讓 Claude Code 真正理解你的專案](./AI/2026-05-01-CLAUDE-MD-COMPLETE-GUIDE.md) — CLAUDE.md 三層架構與寫法攻略：放規則不放資料、跨層衝突須避免、CLAUDE.local.md 個人覆蓋、完整三層範例
