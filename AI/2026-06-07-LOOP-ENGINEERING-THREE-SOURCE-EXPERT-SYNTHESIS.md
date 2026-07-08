@@ -633,6 +633,7 @@ done
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — 呼應三來源在 token 成本上的分歧，提供成本側對照
 - [[CLAUDE-MEMORY-ENGINE]] — 對應第六原語 Memory；可延伸到 repo 的「Memory as Rules, not Logs」
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — 「槓桿點移動」的更大時代脈絡
+- [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — 同一波 Fable 5 心法演化的第三個關鍵節點：找出提示詞中的 unknowns（含六招中英對照提示詞）
 
 ## References
 

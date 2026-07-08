@@ -117,6 +117,7 @@ Akshay Kokane 這篇 Level Up Coding 文章從 Forward Deployed Engineer 的角�
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — 五層 Harness 堆疊模型，補足本文提到的 execution environment 細節。
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]] — OpenAI Codex Harness 實戰案例，與本文提到的 Codex automations / worktrees / goal 原語相互呼應。
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — 從十二大模組角度拆解 Harness，適合對照 Loop 的控制平面責任。
+- [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Anthropic 工程師 Thariq 的 unknowns 心法：Loop 管外圈工作流，unknowns 管內圈提示詞品質，兩者互補。
 
 ---
 

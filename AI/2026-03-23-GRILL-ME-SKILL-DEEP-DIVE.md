@@ -257,6 +257,7 @@ Claude 開始一題一題問：
 - [[2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS]] — Anthropic 對 skill 的設計觀點
 - [[2026-03-18-5-AGENT-SKILL-DESIGN-PATTERNS-EVERY-ADK-DEVELOPER-SHOULD-KNOW]] — 通用 skill 設計模式
 - [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — grill-me 與 Plan Mode 的共存研究 — 結論：兩者解耦、可共存、三種使用模式
+- [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Anthropic 工程師 Thariq 的「反向訪談」技巧正是 grill-me 的方法論來源脈絡，並補上「優先問會改變架構的問題」排序函數
 
 ---
 

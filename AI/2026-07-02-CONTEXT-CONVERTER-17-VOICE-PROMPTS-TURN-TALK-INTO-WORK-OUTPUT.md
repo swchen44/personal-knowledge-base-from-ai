@@ -370,6 +370,7 @@ links:
 - [[2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]] — 記錄 macOS 端聽寫（Dictation）功能的建置過程，是這組語音 prompt 實際落地時可能依賴的輸入端基礎設施。
 - [[2026-03-26-OPENAI-GPT54-PROMPT-GUIDANCE-COMPLETE-GUIDE]] — OpenAI 官方提示詞指南，可對照官方建議的 prompt 結構與這組口語化短 prompt 的設計差異。
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — 史丹佛的 AI Builder 工具包，同屬「可直接套用的 prompt/技巧集合」類型筆記，適合放在一起參照。
+- [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Anthropic 工程師的「找出未知」六招；其中盲點巡查與本文的意圖補洞（Intent Gap Finder）是同一思路的程式庫版。
 
 ---
 
