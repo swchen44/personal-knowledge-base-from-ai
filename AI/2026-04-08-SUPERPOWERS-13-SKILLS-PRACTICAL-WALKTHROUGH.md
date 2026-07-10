@@ -433,6 +433,7 @@ copilot plugin install superpowers
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — `brainstorming` 與 grill-me 解決同個問題（深度對齊）但實作風格不同
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Software 3.0 願景的具體實踐之一
 - [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — Superpowers brainstorming vs Matt Pocock grill-me 對照：機制衝突 vs 概念競爭
+- [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]] — AI-DLC 的建議實測計畫（greenfield／brownfield／衝突實測）可與本篇的實測記錄互相參照。
 
 ---
 

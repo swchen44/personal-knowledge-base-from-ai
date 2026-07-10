@@ -119,3 +119,4 @@
 | 2026-07-05 20:32 | ingest | What is Loop Engineering? How it is different than Harness Engineering? | [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] | AI | 5 | 5 |
 | 2026-07-09 | ingest | Context Converter：把話變成工作產出的 17 個語音 Prompt (Gary Chen) | [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] | AI | 5 | 5 |
 | 2026-07-09 | ingest | Field Guide to Fable：Finding Unknowns (Thariq Shihipar, AI Engineer 演講+多來源) | [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] | AI | 6 | 5 |
+| 2026-07-10 | ingest | AI-DLC + Claude Code: The End of Vibe Coding (Pravin Borate, Towards AI) + awslabs/aidlc-workflows repo 研究 | [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]] | AI | 5 | 5 |

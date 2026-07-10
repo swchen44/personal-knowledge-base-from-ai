@@ -143,6 +143,7 @@ gemini extensions install https://github.com/obra/superpowers
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 另一個 TDD-first 的 AI coding 工作流，與 Matt Pocock 的 /tdd skill 對照
 - [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — Superpowers 13 個 skill 的實戰詳解版（自動 vs 手動觸發、6 核心流程、三方對照），補充本筆記的概念性介紹
 - [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]] — grill-me 結構性對照：為何 brainstorming 與 Plan Mode 機制衝突，grill-me 卻沒有
+- [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]] — AWS AI-DLC 方法論的三方比較（AI-DLC vs OpenSpec vs Superpowers），Superpowers 被定位為輕量 process skills 路線的代表。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
