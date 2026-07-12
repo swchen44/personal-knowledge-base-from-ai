@@ -66,3 +66,4 @@
 | [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] | Anthropic 工程師 Thariq：map≠territory、Rumsfeld 四象限對招六技巧（盲點巡查/發散/訪談/參考/偏差記錄/合併小考），含綜合啟動提示詞範本與六招中英對照 | 2026-07-01 |
 | [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] | MikeWang：CLAUDE.md 三層架構（使用者層／專案層／子目錄層）+ 隱藏的 CLAUDE.local.md，跨層衝突無保證故須避免衝突；放規則不放資料、寫法技巧、完整三層範例 | 2026-05-01 |
 | [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]] | AWS AI-DLC 方法論完整介紹（三階段/問題檔/audit.md/blocking extensions）+ vs OpenSpec vs Superpowers 三方比較 + aidlc-docs/ 多人衝突分析（audit.md/aidlc-state.md 為熱點、官方並行協議）+ 四階段實測計畫 | 2026-06-30 |
+| [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] | Google 51 頁白皮書導讀（Addy Osmani 等）：Agent = Model + Harness（10%/90%）、光譜三位置六維度、tests vs evals、品質飛輪、六類 context 靜動分界、factory model、conductor/orchestrator、80% 陷阱、Token 經濟學；整合 Gary Chen 深拆與 Harness Audit Kit | 2026-05-01 |

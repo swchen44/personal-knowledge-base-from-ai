@@ -217,6 +217,7 @@ Harness Engineering → 建立持續監控與糾偏機制
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 五層縱軸分類與 Harness Engineering 提供互補的 agentic system 設計視角
 - [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 三方綜合分析；Addy 明言「迴圈是 harness 的上一層樓」，為本文的上層延伸
 - [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Thariq 的 unhobbling 論點：束縛模型的是 harness 與提示詞，是本文核心命題的第一手佐證
+- [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 51 頁白皮書把 Harness Engineering 收編為官方座標系（Agent = Model + Harness，10%/90%）。
 
 ---
 

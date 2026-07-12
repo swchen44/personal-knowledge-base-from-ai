@@ -465,6 +465,7 @@ AI-DLC 最有原創性的不是 phase gate（Spec Kit、Kiro 都有），而是�
 - [[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]] — Superpowers 的實測記錄，與本文第四部的實驗設計可互相參照。
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — 「多套流程規則互相衝突」的分析；AI-DLC 的 `core-workflow.md` 直接佔據 CLAUDE.md，與既有 plugin/skill 的相容性是同一類問題。
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — 個人開發者版的 spec-first 工作流，可對照 AI-DLC 的企業版儀式感。
+- [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 白皮書給 agentic engineering 的原則座標系（why），AI-DLC 是其中一種可執行實作（how）。
 
 ---
 

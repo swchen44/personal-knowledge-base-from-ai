@@ -264,6 +264,7 @@ Thariq 的配套頁面（thariqs.github.io）為六招提供了 11 個實際產�
 - [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 其中「意圖補洞（Intent Gap Finder）」與招 1 盲點巡查是同一思路的需求文字版。
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — /grill-me 就是招 3「反向訪談」的 skill 化實作，可對照 Thariq 補充的架構優先排序。
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — 五層 Harness 堆疊中的驗證層，與招 5、招 6 的偏差記錄／小考機制互相印證。
+- [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 白皮書指出「規格品質是新瓶頸」——Thariq 的找未知六招正是攻這個瓶頸的提示詞工法。
 
 ---
 
