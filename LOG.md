@@ -122,3 +122,4 @@
 | 2026-07-10 | ingest | AI-DLC + Claude Code: The End of Vibe Coding (Pravin Borate, Towards AI) + awslabs/aidlc-workflows repo 研究 | [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]] | AI | 5 | 5 |
 | 2026-07-12 | ingest | Google whitepaper: The New SDLC with Vibe Coding (Kaggle PDF 51頁) + Gary Chen Patreon 深拆 | [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] | AI | 8 | 6 |
 | 2026-08-01 | ingest | Agent Harness vs Loop vs Graph Engineering (Bijit Ghosh/Medium + LangChain 官方回應 + Why QQ 影片) | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 6 | 5 |
+| 2026-08-01 | update | 補充術語風暴時間線（6/7 loop 誕生→7/18 Steinberger 2.9M 推文+Husain 訃聞→7/19 本文→7/22 LangChain）、三種競爭定義、Anthropic patterns 對照；未驗證項列入 Open Questions | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 0 | 8 |

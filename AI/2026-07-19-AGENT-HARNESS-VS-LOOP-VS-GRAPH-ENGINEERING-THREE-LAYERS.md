@@ -41,6 +41,25 @@ Why QQ 影片開頭描述的場景幾乎是所有 agent 上線者的共同經驗
 
 這篇文章的價值就卡在這個痛點上：它給了一張「排障地圖」——你的系統由哪幾層組成、每層負責什麼、出了什麼症狀去哪一層抓內鬼。影片作者的總結很傳神：它把老闆那句「你們的 Agent 怎麼又抽風了」的模糊抱怨，**翻譯成了工程師可執行的排查工單**。
 
+## 術語風暴時間線：這篇文章發布在爆炸正中間
+
+理解本文爆紅還需要一條前情時間線（各節點已逐一查證）：
+
+| 日期 | 事件 |
+|------|------|
+| 2026-06-07 | 「loop engineering」一詞誕生：Peter Steinberger（OpenClaw 作者）的原帖與 Addy Osmani 的文章**同日發布**（靈感上游是 Geoffrey Huntley 的 Ralph method；見 [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]]） |
+| 2026-07-18 | **loop engineering 才六週大**，Steinberger 又發推："Are we still talking loops or did we shift to graphs yet?"——數小時 57.5 萬瀏覽，最終累積約 290 萬 |
+| 同日 +4.5hr | Hamel Husain 發布 X Article〈**Loop Engineering Is Dead. Enter Graph Engineering.**〉，「graph engineering」一詞正式引爆 |
+| 2026-07-19 | **本文（Bijit Ghosh 三層架構文）發布**——踩在風暴正中間，隔天即出現在時間線上；X 版（@beamnxw）58 萬瀏覽、6.5 萬收藏 |
+| 2026-07-22 | LangChain 官方下場：〈3 Years of Graph Engineering with LangGraph〉（Harrison Chase 署名） |
+
+> [!note] 「訃聞」是真的嗎？
+> 社群對 7/18 那波「loop 已死」敘事的主流檢討（如 SmartScope 的邏輯審查）結論是：**graph 是 loop 的範疇擴充，不是取代**——loops 作為「有界流程（bounded processes）」活在 graph 之內，這與 LangChain「a loop is just a directed, cyclic graph」的立場一致，也與本文「loops 活在 graph 裡」的巢狀觀吻合。一個六週大的術語在有穩定定義之前就被宣告死亡，本身就是術語通脹最好的展品——這也讓本文「別追名詞、追排障邏輯」的定位顯得格外清醒。
+
+另外值得記錄：graph engineering 一詞在爆發初期至少有三種互相競爭的用法在流通——①**多 agent 編排**（多個專門 agent 接成圖，orchestrator 自動啟動，主流用法）；②**顯式狀態機**（把 workflow 當明確的狀態機而非散落的 if-else，最工程化的讀法，本文採此義）；③**知識圖譜**（誤用——那是 GraphRAG 的領域；本文原文也特別聲明 workflow graph 與 knowledge graph 無關）。閱讀任何 graph engineering 內容前，先判斷作者用的是哪一義。
+
+還有一個「太陽底下沒有新鮮事」的對照：Anthropic《Building Effective Agents》（2024 年底）的五個可組合 pattern——prompt chaining、routing、parallelization、**orchestrator-workers**、evaluator-optimizer——其中 orchestrator-workers 本質上就是 graph（editor 派工、workers 平行執行、結果匯合），只是當時沒叫這個名字；evaluator-optimizer 則是 verification loop 的前身。要找實作範例，這篇比 2026 年 7 月之後的任何跟風文都紮實。
+
 ## 30 秒答案與三層比較
 
 > [!note] 30 秒答案（原文）
@@ -186,6 +205,7 @@ Graph 工程師實際決定六件事：**節點邊界**（哪些工作屬於確�
 
 ## 大家在討論什麼（社群反應盤點）
 
+- **前一天的引爆點**：Steinberger 的 290 萬瀏覽推文與 Hamel Husain 的「Loop Engineering Is Dead」讓「graph engineering」一夜成為戰場；本文與後續所有討論都在這個背景下發生（時間線見上節）
 - **X 原帖**（@beamnxw）：58 萬瀏覽、6.5 萬收藏——收藏率極高的典型「速查表型」傳播：大家不是讀完了認同，而是「怕以後找不到」先存
 - **LangChain 官方下場**引發第二波討論：Medium 上出現〈Is Graph Engineering Here? LangChain Says It's Nothing New〉等反應文，科技媒體以「LangChain CEO Says LangGraph Led Graph Engineering」角度報導——**框架廠商爭奪術語定義權**成為看點
 - **中文圈**（Why QQ 影片）聚焦三件事：①決策表可直接抄進排障 SOP；②警惕**廠商敘事**——原文大量引 LangChain／OpenAI／AutoGen 的資料，這些來源難免夾帶推廣生態的私貨，「他們總結的避坑指南可以抄，他們推銷的複雜架構結論必須拿你生產環境的真實 trace 驗證，別拿發布會 PPT 驗證」；③**老工程紀律的回歸**——證據驅動停止、有界重試、最小權限、確定性檢查優先，這些在分散式系統、SRE 手冊、資安規範裡早就無處不在；「Agent 工程 2026 年沉澱下來的好東西，一大半是過去的老工程紀律換了身時髦衣服。你過去十年的工程直覺沒作廢，它正在變成你在 AI 時代最堅固的護城河」
@@ -207,6 +227,9 @@ Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**�
 - **GPT Researcher 從 graph 遷到 Deep Agents 的完整動機與量化收益**：LangChain 只一句帶過，這是「何時不用 graph」的最佳實證案例。可追蹤：`GPT Researcher Deep Agents migration from LangGraph architecture`
 - **Reward hacking 在 loop 層的實際案例**：比較表把它列為 loop 的主要風險之一，但原文沒展開——agent 如何騙過 grader？可追蹤：`agent verification loop reward hacking grader gaming examples`
 - **三層劃分與 Google 白皮書六大件的映射**：本文 harness 六內容 vs Google 六大件（rule files/tools/sandboxes/orchestration/hooks/observability）高度重疊但切法不同——orchestration 在本文被拆到 loop+graph 兩層。哪種切法對排障更有效？可自行對照實驗。可追蹤：`agent harness taxonomy comparison layered debugging`
+- **Steinberger 與 Husain 的 7/18 發文是認真主張還是嘲諷？** 有二手說法稱兩則都是玩笑（諷刺圈子改名速度），但 SmartScope 等檢討文把它們當認真主張反駁——原始語氣未能從一手來源確認。可追蹤：`Peter Steinberger loops graphs tweet intent satire Hamel Husain X article`
+- **LangChain 自家 deep research 是否也從 graph workflow 遷回 agentic loop？** 有二手說法如此聲稱（與 GPT Researcher 並列），但 LangChain 官方回應文中只有 GPT Researcher 案例可查證。可追蹤：`LangChain deep research LangGraph workflow migration agentic loop`
+- **回覆串中據稱有「Loop 寬容、Graph 逼你承認沒想清楚」的精準區分（歸於 Luis Catacora）**：未能在可查證來源中確認原文與出處。可追蹤：`Luis Catacora loop forgiving graph workflow admit`
 
 ## 相關連結（Related）
 
@@ -253,4 +276,7 @@ Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**�
 - [LangChain 官方回應：3 Years of Graph Engineering with LangGraph（Sydney Runkle & Harrison Chase，2026-07-22）](https://www.langchain.com/blog/3-years-of-graph-engineering-with-langgraph)
 - [Why QQ 導讀影片：58万浏览6.5万人收藏的Agent排障表，我抄了（2026-07-31，12:08，zh-Hans 字幕）](https://youtu.be/s3yiXTxueoI)
 - [社群反應文：Is Graph Engineering Here? LangChain Says It's Nothing New（AI Engineering, Medium）](https://ai-engineering-trend.medium.com/is-graph-engineering-here-langchain-says-its-nothing-new-17a35a2bad37)
+- [術語風暴檢討：What Is Graph Engineering? … Whether the 'Obituary' Is True（SmartScope）](https://smartscope.blog/en/blog/graph-engineering-loop-engineering-logic-review/)
+- [36Kr：Father of Lobster's Viral Tweet — Has the Loop Era Officially Ended?（Steinberger 推文報導）](https://eu.36kr.com/en/p/3904771418867330)
+- [Anthropic：Building Effective Agents（orchestrator-workers 等五個 pattern 的原典）](https://www.anthropic.com/research/building-effective-agents)
 - 原文引用的一手資料：[LangChain — The Anatomy of an Agent Harness](https://www.langchain.com/) ／ [The Art of Loop Engineering](https://www.langchain.com/) ／ [OpenAI Agents SDK](https://developers.openai.com/) ／ [AutoGen GraphFlow](https://microsoft.github.io/) ／ [Anthropic — Building Effective AI Agents](https://resources.anthropic.com/)
