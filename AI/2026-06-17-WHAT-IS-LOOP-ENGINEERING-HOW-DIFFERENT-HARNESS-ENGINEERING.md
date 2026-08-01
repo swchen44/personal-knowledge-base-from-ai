@@ -119,6 +119,7 @@ Akshay Kokane 這篇 Level Up Coding 文章從 Forward Deployed Engineer 的角�
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — 從十二大模組角度拆解 Harness，適合對照 Loop 的控制平面責任。
 - [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Anthropic 工程師 Thariq 的 unknowns 心法：Loop 管外圈工作流，unknowns 管內圈提示詞品質，兩者互補。
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 白皮書的品質飛輪（五步迴圈）與 Loop Engineering 的控制平面論互補印證。
+- [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 把本篇的 Loop vs Harness 二分擴充為三層（+Graph），巢狀觀一致：loops 活在 graph 裡、graph 跑在 harness 裡。
 
 ---
 

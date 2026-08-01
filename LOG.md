@@ -121,3 +121,4 @@
 | 2026-07-09 | ingest | Field Guide to Fable：Finding Unknowns (Thariq Shihipar, AI Engineer 演講+多來源) | [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] | AI | 6 | 5 |
 | 2026-07-10 | ingest | AI-DLC + Claude Code: The End of Vibe Coding (Pravin Borate, Towards AI) + awslabs/aidlc-workflows repo 研究 | [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]] | AI | 5 | 5 |
 | 2026-07-12 | ingest | Google whitepaper: The New SDLC with Vibe Coding (Kaggle PDF 51頁) + Gary Chen Patreon 深拆 | [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] | AI | 8 | 6 |
+| 2026-08-01 | ingest | Agent Harness vs Loop vs Graph Engineering (Bijit Ghosh/Medium + LangChain 官方回應 + Why QQ 影片) | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 6 | 5 |

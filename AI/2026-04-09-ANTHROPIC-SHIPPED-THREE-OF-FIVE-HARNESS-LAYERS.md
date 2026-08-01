@@ -210,6 +210,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 - [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 六原語盤點與「五層只出三層」的分層盤點法同源，互為對照
 - [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Thariq 的偏差記錄／合併前小考技巧，與本文驗證層的機制互相印證
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 白皮書的 harness 六大件（含 observability 一級地位）可與 Anthropic 五層堆疊對照收斂。
+- [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 三層排障文引用的 Anthropic 多 session 持久化經驗（進度檔+git 歷史）屬於本篇五層堆疊中的狀態層。
 
 ---
 

@@ -265,6 +265,7 @@ Harness 如同建築脚手架——臨時基礎設施，大樓建成後拆除。
 - [[2026-04-02-SAS-OUTPERFORM-MAS-MULTI-HOP-REASONING-EQUAL-TOKEN-BUDGETS]] — 單智能體 vs 多智能體的實證研究，佐證本影片第一大架構抉擇
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 五層分類與 Harness 十二模組互為不同粒度的 agentic system 設計框架
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 官方白皮書的 harness 六大件與本篇十二模組是同一主題的不同切分粒度，附 Terminal Bench 硬數據。
+- [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 爆紅三層架構文把 harness 放進 environment→feedback→flow 座標，其 harness 六內容是本篇十二模組的粗粒度版。
 
 ---
 

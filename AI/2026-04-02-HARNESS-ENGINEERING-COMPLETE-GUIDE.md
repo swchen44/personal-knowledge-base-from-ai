@@ -218,6 +218,7 @@ Harness Engineering → 建立持續監控與糾偏機制
 - [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 三方綜合分析；Addy 明言「迴圈是 harness 的上一層樓」，為本文的上層延伸
 - [[2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS]] — Thariq 的 unhobbling 論點：束縛模型的是 harness 與提示詞，是本文核心命題的第一手佐證
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 51 頁白皮書把 Harness Engineering 收編為官方座標系（Agent = Model + Harness，10%/90%）。
+- [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 三層架構排障地圖（58 萬瀏覽爆紅文）把 Harness Engineering 定位為第一層，附故障定位決策表。
 
 ---
 
