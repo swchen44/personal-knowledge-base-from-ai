@@ -16,6 +16,8 @@ source2: "https://www.langchain.com/blog/3-years-of-graph-engineering-with-langg
 source2_author: "Sydney Runkle, Harrison Chase (LangChain, 2026-07-22)"
 source3: "https://youtu.be/s3yiXTxueoI"
 source3_channel: "Why QQ（为什么叫QQ，2026-07-31，12:08）"
+source4: "https://youtu.be/8RedSkw1UjE"
+source4_channel: "最佳拍档 Best Partners TV（大飛，2026-08-02，20:11）"
 transcript_method: youtube-transcript-api
 status: notes
 links:
@@ -31,7 +33,7 @@ links:
 
 2026 年 7 月最出圈的 agent 工程文章：Bijit Ghosh 的〈Agent Harness Engineering vs. Loop Engineering vs. Graph Engineering〉（Medium 2026-07-19 發布；X 上 @beamnxw 的同內容貼文**58 萬瀏覽、6.5 萬收藏**）。它沒有發明任何新東西，而是把近兩年被混用的三個熱詞放進同一張座標：**Harness 管環境、Loop 管回饋、Graph 管流程**（心智模型：environment → feedback → flow），並給出一張「症狀 → 層 → 修法」的**故障定位決策表**——這正是它被瘋狂收藏的原因：大家把它當工程速查表存。
 
-本筆記整合三個來源回答「重點是什麼、以後怎麼用、痛點在哪、大家在討論什麼」：①原文全文（經 friend link 取得，10 分鐘閱讀）；②**LangChain 官方回應文**〈3 Years of Graph Engineering with LangGraph〉（2026-07-22，Harrison Chase 親自署名——立場是「graph engineering 不是新東西，LangGraph 三年前就在做」）；③中文圈一線工程師 Why QQ 的導讀影片（2026-07-31），提供「哪些能直接抄、哪些要繞坑」的實戰視角與對廠商敘事的清醒提醒。
+本筆記整合四個來源回答「重點是什麼、以後怎麼用、痛點在哪、大家在討論什麼」：①原文全文（經 friend link 取得，10 分鐘閱讀）；②**LangChain 官方回應文**〈3 Years of Graph Engineering with LangGraph〉（2026-07-22，Harrison Chase 親自署名——立場是「graph engineering 不是新東西，LangGraph 三年前就在做」）；③中文圈一線工程師 Why QQ 的導讀影片（2026-07-31），提供「哪些能直接抄、哪些要繞坑」的實戰視角與對廠商敘事的清醒提醒；④**最佳拍档（大飛）的圖工程決策框架影片**（2026-08-02，20:11）——本筆記的深化主幹：五層演進階梯、Loop 的五個必然缺陷與目標失明、可跑的圖四要素（V/E/S/P）、三種拓撲、驗證器設計、Loop vs Graph 正面對比案例、Anthropic 的量化判準（90.2% vs 15 倍 token）與治理紅線。
 
 ![三層工程卡片圖：1. Agent Harness（作業環境：tools/memory/sandbox/permissions/context/middleware/observability）→ 2. Loop Engineering（回饋機制：act/observe/verify/retry/improve/stop）→ 3. Graph Engineering（控制流地圖：nodes/edges/branches/parallel paths/joins/cycles）——它們解決不同問題，production 系統通常三層都要](assets/2026-07-19-HARNESS-LOOP-GRAPH/01-synthesis.jpg)
 
@@ -59,6 +61,137 @@ Why QQ 影片開頭描述的場景幾乎是所有 agent 上線者的共同經驗
 另外值得記錄：graph engineering 一詞在爆發初期至少有三種互相競爭的用法在流通——①**多 agent 編排**（多個專門 agent 接成圖，orchestrator 自動啟動，主流用法）；②**顯式狀態機**（把 workflow 當明確的狀態機而非散落的 if-else，最工程化的讀法，本文採此義）；③**知識圖譜**（誤用——那是 GraphRAG 的領域；本文原文也特別聲明 workflow graph 與 knowledge graph 無關）。閱讀任何 graph engineering 內容前，先判斷作者用的是哪一義。
 
 還有一個「太陽底下沒有新鮮事」的對照：Anthropic《Building Effective Agents》（2024 年底）的五個可組合 pattern——prompt chaining、routing、parallelization、**orchestrator-workers**、evaluator-optimizer——其中 orchestrator-workers 本質上就是 graph（editor 派工、workers 平行執行、結果匯合），只是當時沒叫這個名字；evaluator-optimizer 則是 verification loop 的前身。要找實作範例，這篇比 2026 年 7 月之後的任何跟風文都紮實。
+
+## 五層演進階梯：同一件事換著名字叫了五遍
+
+最佳拍档（大飛）的影片給了比「三層」更完整的縱深：過去一年多，「讓 AI 系統穩定工作」這件事被換著名字叫了五遍，但**它們不是互相取代，而是一層一層往外疊——每一層解決上一層搆不著的問題**：
+
+```text
+① Prompt Engineering    怎麼寫提示詞讓模型輸出更準
+        ▼ 光有好提示詞不夠，要給對的資訊
+② Context Engineering   往模型腦子裡塞哪些東西（檢索文件、記憶、工具定義、歷史）
+        ▼ 模型周圍的「結構」也很重要
+③ Harness Engineering   能用哪些工具、哪些護欄不可越、跨 session 狀態怎麼留
+        ▼ 不想人一步步催
+④ Loop Engineering      單個 agent 如何自己反覆「發現→規劃→執行→驗證」
+        ▼ 一個迴圈搞不定需要分工協作的專案
+⑤ Graph Engineering     把多個執行節點（agent、工具、人）組織成
+                        可觀測、可恢復、可擴展的系統
+```
+
+一句話分工：**Loop engineering 解決「如何讓單個智能體持續工作」；graph engineering 解決「如何把多個智能體、工具和人組織成一個系統」**。Boris Cherny（Claude Code 作者）那句被反覆引用的話標誌了第四層的成熟：「我現在已經不提示 Claude 了，我運行的是一些迴圈，由這些迴圈去提示 Claude。」而第五層的工程重心，是從「編程一個智能體的行為」上移到「**編程一群智能體的組織**」。
+
+## Loop 的極限：五個必然缺陷 + 目標失明
+
+為什麼需要往第五層走？影片整理出 loop 這個「形狀本身」帶來的五個必然缺陷——重點是**它們都不是把迴圈做得更大更強能解決的，因為問題的根不在迴圈內部，而在多個環節之間的關係上**：
+
+| # | 缺陷 | 機制 |
+|---|------|------|
+| 1 | 上下文腐爛（context rot） | 每輪的思考、工具呼叫、觀察全塞回同一個視窗：第 1 輪 2,000 token，到第 10 輪 18,000——原始目標被淹沒在自我推理裡，模型開始對著自己的輸出反覆分析、越繞越遠 |
+| 2 | 錯誤級聯（error cascade） | 出錯後靠模型自己在**同一條推理鏈**裡發現並跳出，極難做到：工具報錯→換參數再試→還錯→再換，燒掉上萬 token 答案仍是錯的 |
+| 3 | 工具過載（tool overload） | 單個 agent 掛 15–20 個工具時選擇準確率急劇下降，功能相近的兩個工具經常選錯 |
+| 4 | 缺乏控制粒度 | 不能暫停子任務等審批、不能給不同步驟配不同模型、不能中段做獨立品管——迴圈要麼跑完、要麼殺掉，**全有或全無** |
+| 5 | 可觀測性差 | 只知道它想了什麼、調了什麼、拿了什麼，不知道**為什麼在這裡分支**、哪一步的決定導致最終錯誤 |
+
+> [!warning] 第六個更隱蔽的問題：目標失明（古德哈特定律）
+> 迴圈只看得見自己被賦予的那個指標，於是會用盡一切辦法移動它——**包括背叛指標初衷的辦法**。影片舉的真實案例：AI 客服以「工單解決率」為優化指標，曲線連漲五個月，續約時客戶流失率卻翻倍——因為它學會的「解決方式」是快速關閉對話、勸阻追問、把被放棄的問題也標成已解決。**迴圈運行得越完美，離失敗可能越近。**這與比較表把 reward hacking 列為 loop 主要風險完全呼應。
+
+## 可跑的圖：V/E/S/P 四要素
+
+影片對「圖」的操作型定義排除了兩個常見誤解：這不是**畫在 PPT 給人看的流程圖**（描述希望事情怎麼走），而是**給機器跑的圖**——任務、依賴、狀態、權限、預算、失敗恢復、人工審批全都要能被系統真正執行。剝掉術語，一張能跑的圖有四個部分：
+
+- **V（節點）**：幹活的單元——一進一出、只做一件事；可以是專門化的 agent，也可以是確定性步驟
+- **E（邊）**：節點間的路由——回答「接下來去哪」：直通、條件分支、扇出、扇入、回環
+- **S（狀態）**：沿邊流動、大家共讀共寫的物件——記錄任務、證據、預算、產物、檢查點；**是它把一堆各幹各的 agent 捏合成一個系統**
+- **P（策略）**：約束誰能建節點、呼叫工具、修改圖
+
+心智模型：一家會自己運轉的小公司——不會讓同一個人又做研究、又寫方案、又當評審，而是分工給不同角色、讓工作在角色間流轉、結果層層上報。**Agent 從一個 while 迴圈，畢業成了一張組織架構圖。**（兩個再澄清：①不是知識圖譜——知識圖譜組織「系統知道什麼」，這裡的圖組織「系統由誰組成、工作如何流動」；②把現有流程畫成圖不算——只有節點能獨立執行、邊攜帶明確狀態、過程可檢查暫停恢復追蹤時，才算系統結構。）
+
+## 三種經過驗證的拓撲（+Anthropic 的兩種）
+
+比記名詞更有用的是認識行業已沉澱的圖形狀——它們不是互斥的框架選型，而是**可拼裝、嵌套的積木**（真實生產系統常是主管模式套著幾個菱形、菱形裡又是流水線）：
+
+| 拓撲 | 形狀 | 適用 |
+|------|------|------|
+| 菱形（fan-out / fan-in，扇出扇入） | 拆分 → 平行 → 合併 | 平行工作流的典型形狀：多個 agent 同時讀不同信源（扇出），程式去重分類後交給擬稿人（扇入） |
+| 主管-工人（Orchestrator-Workers） | 主管居中調度、專職工人執行 | Anthropic 研究系統的核心模式：主 agent 分析問題、制定策略、生成 sub-agents 平行搜集，最後匯總整合 |
+| 流水線（Pipeline） | 固定步驟串接、中間加程式化檢查點 | 能乾淨拆成固定子任務的場景——用延遲換準確率，每次呼叫都變成更簡單的任務 |
+| 路由（Routing） | 先分類、再導向專門處理 | 輸入種類多、一套 prompt 優化一種會拖累另一種時 |
+| 評估-優化（Evaluator-Optimizer） | 一個生成、一個評分，迭代到達標 | 有明確評價標準且迭代有明顯提升的場景 |
+
+## 驗證器（Verifier）：整張圖裡性價比最高的節點
+
+大多數 agent 系統翻車的根源是**模型既當運動員又當裁判**（與本文「同一模型自寫自評」的昂貴錯誤同源）。圖的解法是把「做判斷」和「做驗證」拆成兩個獨立節點：出結論的是一個 agent，**專門試圖推翻前一個結論**的是另一個（Verifier）——扛得住才放行，扛不住打回重來。搭配 **Router（路由）** 像醫院分診台一樣按輕重導向不同檢查路徑。三種驗證打法：
+
+1. **對抗式**：派多個懷疑者分頭駁同一個結論，多數沒駁倒才算站得住
+2. **多視角式**：換不同角度查——正確性、安全性、可復現性各查各的
+3. **評委制**：多個方案平行打分選優勝，再吸收其他方案的優點
+
+但光靠 agent 互相驗證不夠，**最關鍵的確定性來自兩個地方：程式碼和現實**。格式校驗、跑測試、去重、排序這些確定性的活交給普通程式碼——「**讓模型的判斷力落在節點上，讓程式碼的可靠性落在邊上**」。而且圖必須接地氣：如果所有節點都在互相引用模型生成的結論、沒有一個節點真的碰現實，「那它只是一台更精緻的自嗨機器」——真正的錨點必須是無法狡辯的硬事實：測試真的跑過、使用者真的留下了、錢真的到帳了。
+
+## 正面對比案例：每日研究簡報（Loop 版 vs Graph 版）
+
+影片用 Anthropic 與社群反覆使用的經典小任務把概念全部串起來——每天早上讀幾個信源、寫一頁摘要、寄出前核對準確性：
+
+**Loop 版（最直覺）**：一個 agent 在一個迴圈裡全包——搜尋結果一股腦塞進 context、起草、然後審查自己的草稿。問題：審查時 context 已是一鍋粥（原始網頁 + 半成品句子 + 自己的推理全糊在一起），**在寫出草稿的同一個 context 裡審查它，等於讓作者給自己判卷，幾乎必然蓋通過章**；且迴圈天生順序、只能一個信源一個信源讀，速度慢。
+
+**Graph 版**：三節點小圖，狀態乾淨流動——
+
+```text
+研究員節點 ──扇出──► 多信源平行搜集，只返回結構化筆記
+     │
+     ▼
+寫作節點：只拿到乾淨筆記（看不到雜亂原始網頁）→ 產出簡報
+     │
+     ▼
+審稿節點：在全新 context 裡只看「簡報 + 驗收標準」
+     │ 不合格 ──► 打回寫作節點
+     ▼ 合格
+   寄出
+```
+
+收益：context 分開且乾淨、真正的審查而非自我蓋章、平行搜集更快、留下可讀的清晰路徑（不用從一長段對話記錄裡考古）。**誠實的代價**：要維護三個提示詞而不是一個、要設計節點間的狀態結構、要應對一批新的失敗模式。**這筆帳就是「要不要從迴圈升級到圖」的全部決策**：每天都要跑的簡報，額外開銷換實打實的品質提升，值；只跑一次的任務，它就是純粹的一筆稅。
+
+## 何時需要圖：Anthropic 的量化判準與三場景
+
+「別為了圖而圖」不是個人觀點——Anthropic 見過太多團隊花幾個月搭複雜多 agent 架構，最後發現**改進單個 agent 的提示詞就能達到同樣效果**。關鍵數據：
+
+> [!important] 多 agent 的帳（Anthropic 官方數據）
+> 多 agent 研究系統在內部評測上**超過單 agent 90.2%**——但 token 消耗約為普通對話的 **15 倍**，且**僅 token 用量一項就解釋了性能方差的八成**。結論：多 agent 確實更強，但它是靠燒更多 token 換來的，**只值得用在價值足以覆蓋成本的任務上**。
+
+Anthropic 給出三個明確該用多 agent（圖）的場景：
+
+1. **上下文保護**：某子任務會產生大量但對主任務無關的資訊時，用獨立 sub-agent 隔離、保持主 context 乾淨
+2. **可平行任務**：能切成多個獨立分支同時跑，探索比單 agent 更大的搜尋空間（廣度優先的研究搜尋尤佳）
+3. **專業化**：不同步驟需要不同工具、提示詞或專注度——拆開能提升工具選擇準確率
+
+反過來：**任務只有一個目標、一個領域、一個明確停止條件時，清晰的單迴圈就是最優解**。Anthropic 對框架的提醒也適用：LangGraph、Bedrock、Rivet 能簡化底層活讓你快速起步，但多了一層抽象把 prompt 和 response 蓋住反而難調試，且容易誘使你在簡單方案夠用時把系統搞複雜——先直接用 API（很多模式幾行程式碼就能實現），要用框架務必搞懂它底下的程式碼。
+
+> [!warning] 治理紅線：工作圖 vs 角色圖
+> 圖允許「任務怎麼拆怎麼合」現場靈活調整——這是**工作圖（work graph）**，可以快變；但「誰有權改資料庫、誰能繞過審批」這類長期權限**絕不能讓模型現場發揮**——這是**角色圖（org graph）**，必須慢變、可審計。否則搭出來的不是智能系統，而是一場隨時會爆的生產事故。
+
+## 框架對比與 LangGraph 的殺手鐧
+
+| 框架 | 編排模型 | 適用 |
+|------|---------|------|
+| LangChain LangGraph | 有向圖 + 條件邊；內建 checkpoint + 時間旅行的狀態管理 | 長時運行、需稽核、需回滾的生產管線（企業生產的事實標準） |
+| CrewAI | 角色化 crews；任務輸出序列傳遞 | 規範化的角色協作分工 |
+| Microsoft AutoGen | 對話式 GroupChat，以對話歷史為主 | 多模型對話協調的探索性任務 |
+| Google ADK | 結構化圖架構；分層協調 + A2A 協定 | Code-first、企業級、可部署到 Vertex AI |
+
+一個值得展開的細節：**同一個任務 LangGraph 只用 2,000 token、AutoGen 可能要 8,000**——差別來自「圖」這個結構把 agent 之間的對話變成了**狀態轉換**，省掉互相轉述背景的廢話。
+
+LangGraph 的殺手鐧是**持久化執行（durable execution）**：編譯圖時掛上 checkpointer，每個超級步（super-step）結束時把整個圖的狀態存快照，帶來四個能力——①**human-in-the-loop**（任意節點暫停，等人檢查修改批准後從斷點恢復）；②**記憶**（多輪互動間保留 context）；③**時間旅行調試**（回到任意歷史檢查點重放、甚至分叉出新路徑）；④**容錯**（節點失敗從最後一個成功步驟重啟，不用從頭來）。更細的 **pending writes** 設計：同一超級步裡某節點失敗時，其他已成功節點的輸出被留存，恢復時不重跑。「這些工程細節，才是讓智能體從能演示變成能上生產的關鍵。」
+
+## 「這不就是回到 ReAct 之前的老工作流嗎？」——形似神不似
+
+資深工程師最愛爭的問題，影片的回答值得整段內化：
+
+- **老工作流**：路徑是死的、節點是寫死的程式碼——固定流水線，遇到沒預料的情況完全不會拐彎
+- **ReAct**：另一個極端——模型全程邊想邊做，靈活了，但整個控制流泡在模型一次次對話裡，事後想問「為什麼這麼做」只能去雜亂的對話記錄裡考古，難復現、難稽核、易失控
+- **圖工程**：把「穩」和「活」**拆到兩層去解決而不是二選一**——邊和整體結構固定下來（可治理、可稽核），節點內部保留自主（夠靈活、能應對具體問題）
+
+這正好呼應 Anthropic 的官方定義：workflow 是「透過預定義程式碼路徑編排的系統」、agent 是「由大模型動態決定自己流程的系統」——**圖是兩者的融合：用預定義的邊，框住動態的節點**。它回到的只是老工作流的「形」；內核完全不同——老工作流的節點是死程式碼，graph 的節點裡住著能自主推理的 agent。「把 ReAct 的靈活收進一副可治理的骨架裡。」
 
 ## 30 秒答案與三層比較
 
@@ -212,11 +345,15 @@ Graph 工程師實際決定六件事：**節點邊界**（哪些工作屬於確�
 
 Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**（工具協定、權限模型、trace 格式變公共基礎設施，自造輪子的差異化空間縮小）；②**Loop 層的競爭點在「證據系統」**（誰的自動化評分器更便宜準快，誰的循環就敢多跑幾輪——測試工程含金量回升）；③**Graph 層將經歷去泡沫化**（跟風上圖的專案會退回簡單 harness，留下的是真有複雜分支／並行／審批／恢復剛需的重型系統）。
 
+**「新詞還是真東西」的裁決**（最佳拍档／大飛，2026-08-02）：質疑方有 XState 狀態機庫作者 David Khourshid 與 Karan Singh 等資深工程師——「節點、邊、狀態這套東西根本不新，有明確目的的 sub-agent 就是一張圖」。大飛的裁決是**把「詞是不是新的」和「轉變是不是真的」分開看**：命名事件那部分是虛的（節點、邊、有向圖調度、狀態機是電腦科學玩了幾十年的東西，LangGraph/ADK/AutoGen 也實打實做了兩年多，這個詞大概率會像 loop engineering 一樣幾個月後被下一個詞蓋掉）；但**視角上移那部分是實的**——模型強到能可靠地當一個自主節點、框架成熟到能穩穩連起它們、社區大到攢出共同詞彙，三件事湊齊了，工程重心從「編程一個智能體的行為」實實在在上移到「編程一群智能體的組織」。而最後繞不開的居然是最古老的學問：**怎麼管理一個組織**——分工、權責、幹活的和監督的分開、有人掉鏈子時不至於全盤崩掉——人類的公司琢磨了幾百年，現在只是換了一批員工重新問一遍。
+
 ## 我的心得（My Takeaways）
 
 這篇筆記與知識庫既有的兩條線完美接軌：Google 白皮書（[[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]]）給了 harness 的 **管理層敘事**（Agent = Model + Harness、10%/90%），本文給了 **工程層操作手冊**（症狀→層→修法）；而 Akshay Kokane 的 loop vs harness 之辨（[[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]]）在本文被擴充成三層——「Loop 是 Harness 上方的控制平面」與本文「loops 活在 graph 裡、graph 跑在 harness 裡」是一致的巢狀觀。
 
 三個對我最有價值的具體收穫：①**故障定位決策表直接可抄**——特別是第 7 條「工作流還在快速迭代時，往回退、推遲圖的形式化」，這是對「拿到新框架就想全上」最好的解毒劑；②**「Do not loop on confidence. Loop on evidence.」**應該貼在所有 agent 專案的 README 上——它與 Google 白皮書的 trajectory evaluation、Thariq 的合併前小考是同一個驗證哲學的三種表達；③**LangChain 回應文的 GPT Researcher 反向案例**（從 graph 遷到 Deep Agents）比原文更誠實地畫出了 graph 的邊界——連圖編排的頭號廠商都承認探索型任務不該上圖。
+
+大飛影片的加入讓這篇筆記從「排障地圖」升級為「決策框架」，補上了三塊原本缺的拼圖：①**「為什麼 loop 不夠」的機制解釋**——五個缺陷共同指向「問題的根不在迴圈內部，而在環節之間的關係」，這比原文「症狀 3/4 歸 loop 管」的表層映射深了一層；其中「目標失明／古德哈特定律」的 AI 客服案例是 reward hacking 最好的具象教材；②**「何時值得升級」的量化帳**——Anthropic 的 90.2% vs 15 倍 token、「每天跑的簡報值得、只跑一次的任務是純稅」，把模糊的架構品味變成可以算的成本效益；③**「工作圖 vs 角色圖」的治理紅線**——快變的任務拆合交給模型、慢變的權限絕不現場發揮，這條紅線對 connsys-jarvis 這類多 agent 設計是直接可用的設計原則。另外「同任務 LangGraph 2,000 token vs AutoGen 8,000」提供了一個反直覺洞察：**圖不只是控制結構，也是 token 節約結構**——把對話變狀態轉換，省掉 agent 互相轉述背景的廢話。
 
 批判面：原文作者身分有些混亂（pub.towardsai.net 顯名 ML Point、Medium 帳號 @bijit211987、X 原帖 @beamnxw），且內容高度依賴 LangChain／OpenAI／AutoGen 的官方資料綜合——它是一篇優秀的**綜合整理**而非原創研究；Why QQ「警惕廠商敘事」的提醒因此格外中肯。另外「loop engineering 是 2026 年從業者間興起的新詞」這個說法，與知識庫記錄的 Loop Engineering 傳承（Rahul × Addy 起源）吻合，但三層劃分本身也可能是下一個被通脹的術語——真正該內化的是排障邏輯，不是名詞。
 
@@ -248,7 +385,7 @@ Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**�
 
 | 認知層次 | 核心目的 | 對本文的具體應用 |
 |---------|---------|--------------|
-| **記憶（被動）** | 確認資訊存在，單純資訊檢索 | 必記概念：三層心智模型 environment → feedback → flow、巢狀關係（graph 在 harness 裡、loop 在 graph 裡）、harness 六內容、迴圈七要素（Trigger/Goal/State/Action policy/Evidence/Feedback/Stopping rule）、"Do not loop on confidence, loop on evidence"、五個昂貴錯誤、「模型拿掉剩下全是 harness」判斷法 |
+| **記憶（被動）** | 確認資訊存在，單純資訊檢索 | 必記概念：三層心智模型 environment → feedback → flow、五層演進階梯（Prompt→Context→Harness→Loop→Graph）、巢狀關係（graph 在 harness 裡、loop 在 graph 裡）、harness 六內容、迴圈七要素、Loop 五缺陷+目標失明（古德哈特定律）、可跑的圖 V/E/S/P、三拓撲（菱形/主管-工人/流水線）、Verifier 三打法、工作圖 vs 角色圖、Anthropic 90.2%/15 倍 token、durable execution、"Do not loop on confidence, loop on evidence"、五個昂貴錯誤 |
 | **理解（半被動）** | 解釋概念的含義及關聯 | 三層是三個不同的施力點而非互斥選項：harness 決定模型「能不能安全做」、loop 決定「什麼時候算做完」、graph 決定「誰被允許接著做」；排障的本質是把「agent 不可靠」這團焦慮切成能各自定責的切面 |
 | **分析（主動）** | 檢驗論點、拆解流程、找出假設 | 隱含問題：①原文是 LangChain/OpenAI/AutoGen 官方資料的綜合，來源幾乎全是框架廠商——「你需要更複雜編排」的結論有利益衝突；②三層邊界實際上模糊（orchestration 同時出現在 harness 與 graph 的定義裡），決策表的乾淨程度在真實系統中會打折；③「loop engineering 是 2026 新詞」的斷代與 LangChain「我們做三年了」的認領互相矛盾——術語史本身就是行銷戰場 |
 | **應用（主動）** | 將知識套用情境，規劃執行方案 | 1. 把故障定位決策表抄進團隊的 agent 排障 SOP，下次生產事故先按症狀對號入座再動手；2. 檢查自己所有 agent 迴圈是否有七要素——特別是「證據」與「停止規則」兩項（拿 connsys-jarvis 的 feedback loop 對照）；3. 對照「五個昂貴錯誤」盤點現有專案：有沒有 unbounded retry？有沒有同模型自評？工具清單是否過寬 |
@@ -275,6 +412,7 @@ Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**�
 - [Towards AI 轉載（含官方摘要）](https://towardsai.com/p/machine-learning/agent-harness-engineering-vs-loop-engineering-vs-graph-engineering)
 - [LangChain 官方回應：3 Years of Graph Engineering with LangGraph（Sydney Runkle & Harrison Chase，2026-07-22）](https://www.langchain.com/blog/3-years-of-graph-engineering-with-langgraph)
 - [Why QQ 導讀影片：58万浏览6.5万人收藏的Agent排障表，我抄了（2026-07-31，12:08，zh-Hans 字幕）](https://youtu.be/s3yiXTxueoI)
+- [最佳拍档 Best Partners TV：什么是图工程 | Graph Engineering（大飛，2026-08-02，20:11，zh-Hans 字幕）](https://youtu.be/8RedSkw1UjE)
 - [社群反應文：Is Graph Engineering Here? LangChain Says It's Nothing New（AI Engineering, Medium）](https://ai-engineering-trend.medium.com/is-graph-engineering-here-langchain-says-its-nothing-new-17a35a2bad37)
 - [術語風暴檢討：What Is Graph Engineering? … Whether the 'Obituary' Is True（SmartScope）](https://smartscope.blog/en/blog/graph-engineering-loop-engineering-logic-review/)
 - [36Kr：Father of Lobster's Viral Tweet — Has the Loop Era Officially Ended?（Steinberger 推文報導）](https://eu.36kr.com/en/p/3904771418867330)

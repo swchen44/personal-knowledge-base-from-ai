@@ -2,7 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
-- [Agent Harness vs Loop vs Graph Engineering：三層架構排障地圖](./AI/2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS.md) — 58 萬瀏覽爆紅文：環境→回饋→流程三層座標、故障定位決策表（症狀→層→修法）、迴圈七要素與五個昂貴錯誤；整合 LangChain 官方回應與一線工程師導讀
+- [Agent Harness vs Loop vs Graph Engineering：三層排障地圖 + 圖工程決策框架](./AI/2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS.md) — 58 萬瀏覽爆紅文四來源整合：故障定位決策表、五層演進階梯、Loop 五缺陷與目標失明、可跑的圖 V/E/S/P、何時該上圖的量化判準（90.2% vs 15x token）、工作圖 vs 角色圖治理紅線
 - [Google 51 頁白皮書《The New SDLC with Vibe Coding》完整導讀（給 RD 與管理者）](./AI/2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING.md) — Agent = Model + Harness（10%/90%）、vibe coding→agentic engineering 光譜、品質飛輪、context 靜動分界、factory model、80% 陷阱、Token 經濟學；整合 Gary Chen 深拆與 Harness Audit Kit，附三份行動清單（RD／工程領導／組織）
 - [AI-DLC + Claude Code：終結 Vibe Coding 的 AWS 方法論（vs OpenSpec / Superpowers + 衝突分析）](./AI/2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS.md) — AWS Labs 三階段方法論介紹與實戰、三方法比較表、aidlc-docs/ 多人衝突熱點分析與官方並行協議、四階段實測計畫
 - [Field Guide to Fable：Thariq 的「找出你的未知」六招提示詞（中英對照）](./AI/2026-07-01-FIELD-GUIDE-TO-FABLE-FINDING-UNKNOWNS-THARIQ-BILINGUAL-PROMPTS.md) — Anthropic 工程師：map≠territory、四象限對招六技巧，含綜合啟動提示詞範本與六招中英對照
