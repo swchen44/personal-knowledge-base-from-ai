@@ -124,3 +124,4 @@
 | 2026-08-01 | ingest | Agent Harness vs Loop vs Graph Engineering (Bijit Ghosh/Medium + LangChain 官方回應 + Why QQ 影片) | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 6 | 5 |
 | 2026-08-01 | update | 補充術語風暴時間線（6/7 loop 誕生→7/18 Steinberger 2.9M 推文+Husain 訃聞→7/19 本文→7/22 LangChain）、三種競爭定義、Anthropic patterns 對照；未驗證項列入 Open Questions | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 0 | 8 |
 | 2026-08-03 | update | refactor：整合最佳拍档（大飛）圖工程影片（五層演進、Loop 五缺陷+目標失明、V/E/S/P、三拓撲、Verifier、簡報案例、Anthropic 量化判準、治理紅線、框架對比、durable execution） | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 0 | 8 |
+| 2026-08-10 | ingest | alibaba/open-code-review 原始碼研究 + GitHub issues + 網路評價調查 | [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] | CodeAnalysis | 6 | 6 |

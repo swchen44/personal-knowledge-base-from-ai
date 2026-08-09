@@ -685,6 +685,7 @@ return {
 - [[OUTBOX-PATTERN]] — tee raw output 與 tracking DB 都可視為 command output 的本地 outbox。
 
 ---
+- [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] — 同屬「進 context 前先工程化削減」哲學:RTK 壓縮命令輸出,OCR 把探索與定位整段移出 LLM
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

@@ -407,6 +407,7 @@ SkillOpt 論文 Figure 4 的「學到的規則」全是**程序性紀律**（pro
 - [[2026-04-11-NPX-SKILLS-DEEP-DIVE-PARSE-DISCOVER-INSTALL-UPDATE]] — skill 的發現/安裝機制，對應 SkillsBench 審計的「各 harness 如何暴露 skill」
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex 的 skill 搜尋路徑，對照 SkillsBench 的 harness 審計表
 - [[2026-04-07-GSTACK-AI-AGENT-EVAL-ARCHITECTURE]] — 另一套 agent eval 架構，可與 BenchFlow/Harbor 對照
+- [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] — 同樣面臨「自建自測 benchmark」可信度問題:OCR 的 1/9 token 宣稱被 HN 用戶獨立重測挑戰,方法論參照
 
 ## References
 - [GitHub — benchflow-ai/skillsbench](https://github.com/benchflow-ai/skillsbench)

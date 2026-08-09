@@ -731,6 +731,7 @@ export OTEL_TRACES_EXPORTER=otlp
 - [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — Token 計費管線與 OTel 共享 costCounter/tokenCounter，是同一 STATE 物件的費用面向
 - [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — 開源的 JSONL Session 分析工具，用 signature 長度作為被遮蔽思考深度的代理指標
 - [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — Codex 也有獨立的 `otel` crate，兩家 OTel 策略可對照：Codex 採 crate 化獨立模組，Claude Code 採 in-process service 路徑
+- [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] — Alibaba OCR 的單層 no-op OTel 設計與 Claude Code 三層遙測架構對照,另一種 CLI 遙測哲學
 
 ## References
 - [Claude Code Monitoring - Anthropic Docs](https://docs.anthropic.com/en/docs/claude-code/monitoring-usage)

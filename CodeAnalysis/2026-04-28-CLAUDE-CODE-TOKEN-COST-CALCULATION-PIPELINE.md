@@ -793,6 +793,7 @@ if __name__ == "__main__":
 - [[2026-04-02-CLAUDE-CODE-ISSUE-42796-EXTENDED-THINKING-REGRESSION]] — 品質退化導致 API 成本從 $345 暴增至 $42,121（122 倍），是成本異常的實際案例
 - [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — 開源的 Session 分析工具，含 Bedrock Opus 成本估算模組
 - [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — Codex 的 token / 計費結構對比；已知 [Issue #19996](https://github.com/openai/codex/issues/19996) 反映 Codex 反覆啟動觸發大量 token，可與本文 Claude Code 的 token pipeline 互相對照
+- [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] — OCR 的遙測只記 total token(未上報 input/output/cache 細分),與 Claude Code 的 4 類 token 會計形成正反例
 
 ## References
 

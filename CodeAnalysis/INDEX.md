@@ -37,3 +37,4 @@
 | [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] | 把 Agent 技能當神經網路訓練的文字空間優化器（內部代號 ReflACT）：minibatch 反思 + 驗證閘門 + 學習率裁剪，52/52 best-or-tied | 2026-05-22 |
 | [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] | 第一個評測「agent 用 skill 用得多好」的基準：94+5 個 Harbor 任務、oracle 100%+outcome 測試、47K skill 生態研究；與 SkillOpt 互補(產生 vs 評測) | 2025-12-29 |
 | [[2026-06-24-CODEBASE-MEMORY-MCP-PRO-VS-CODEGRAPH-CODE-KNOWLEDGE-GRAPH-COMPARISON]] | 程式碼知識圖譜兩雄：Pure C 查詢引擎(memory-mcp-pro) vs TS 單一工具代理導向(CodeGraph) 深度比較 | 2026-06-24 |
+| [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] | Alibaba 開源 AI code review CLI:確定性工程 × Agent 混合架構,1/9 token 的十項機制、委托模式兩層省法、OTel 遙測設計與社群實測質疑 | 2026-08-07 |
