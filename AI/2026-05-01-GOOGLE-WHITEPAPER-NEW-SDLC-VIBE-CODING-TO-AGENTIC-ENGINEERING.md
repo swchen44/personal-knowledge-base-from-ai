@@ -305,6 +305,7 @@ Gary 的使用建議：先把白皮書框架掃過一遍（對六大件與四階
 - [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 工程層的三層排障手冊（Harness/Loop/Graph 症狀→層→修法決策表），與本文的 harness 六大件管理層敘事互為表裡。
 
 ---
+- [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] — 「Harness 佔 90%」的最有力實證:specialized GPT-5.5 打平 specialized Opus、超越 stock Opus 11 個百分點
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

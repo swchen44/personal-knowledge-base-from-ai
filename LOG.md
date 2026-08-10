@@ -126,3 +126,4 @@
 | 2026-08-03 | update | refactor：整合最佳拍档（大飛）圖工程影片（五層演進、Loop 五缺陷+目標失明、V/E/S/P、三拓撲、Verifier、簡報案例、Anthropic 量化判準、治理紅線、框架對比、durable execution） | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | AI | 0 | 8 |
 | 2026-08-10 | ingest | alibaba/open-code-review 原始碼研究 + GitHub issues + 網路評價調查 | [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] | CodeAnalysis | 6 | 6 |
 | 2026-08-10 | ingest | X/@TheVixhal 純 C 手刻神經網路教學(補登 2026-06-29 中斷的 ingest,本次完成 INDEX/LOG/README/commit) | [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] | AI | 3 | 5 |
+| 2026-08-11 | ingest | .NET Blog polyglot unit-testing agent 文章 + dotnet/skills plugins/dotnet-test 原始碼 | [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] | CodeAnalysis | 6 | 6 |

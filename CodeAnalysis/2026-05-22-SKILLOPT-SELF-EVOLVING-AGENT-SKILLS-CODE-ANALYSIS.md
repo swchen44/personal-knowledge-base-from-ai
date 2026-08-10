@@ -576,6 +576,7 @@ python scripts/eval_only.py \
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — 相關主題：Codex Hook 系統參數與 Skills 搜尋路徑 — 原始碼層級深度規格
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — 相關主題：AI 開發者演化：實踐者指南全系列（Pere Villega 11 章全文翻譯）
 - [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — 相關主題：Codex CLI vs Claude Code 深度對比 — 兩大終端機 AI Coding Agent 的架構與體驗
+- [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] — skill 改進方法對照:SkillOpt 用優化器自動演化,dotnet/skills 用 baseline 對照 eval + delta 思維人工迭代
 
 ## References
 - [GitHub Repo — microsoft/SkillOpt](https://github.com/microsoft/SkillOpt)
