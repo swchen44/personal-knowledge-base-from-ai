@@ -273,6 +273,7 @@ Karpathy 坦言自己正在成為系統的瓶頸——資訊仍然必須進入�
 - [[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]] — Garry Tan 的「Markdown 是另一種代碼」是 Karpathy Software 3.0 的最佳實踐案例
 - [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — Gary Chen 的「搬運工 → process owner」角色升級論，與本演講的人才分界線同調
 - [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — 「槓桿點移動」（從 prompt 到 loop 設計）是 Software 3.0 的具體戰術延伸
+- [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] — 從最底層數學手刻神經網路，正是「可外包思考、無法外包理解」的實踐——徹底看穿每一行
 
 ## References
 - [原始演講 — Andrej Karpathy: From Vibe Coding to Agentic Engineering (Sequoia Capital AI Ascent 2026)](https://www.youtube.com/watch?v=96jN2OCOfLs)

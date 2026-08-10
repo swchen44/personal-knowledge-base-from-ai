@@ -252,6 +252,7 @@ links:
 - [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — Claude Code 進階長文指南，含 Claude Project 的使用方式
 - [[2026-03-17-LESSONS-FROM-BUILDING-CLAUDE-CODE-HOW-WE-USE-SKILLS]] — Anthropic 內部 Skills 設計哲學，與本文的系統指令設計有相通之處
 - [[2026-03-16-BUILD-AGENT-WITH-CLAUDE-CODE-IN-20-MINUTES]] — 從提示工程到實際 Agent 部署的完整流程
+- [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] — 「先懂 why 再講 how」的逐步教學，是蘇格拉底式「理解優先」精神在技術教材上的具體實踐
 
 ## References
 

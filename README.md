@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [從零開始用 C 語言打造神經網路（逐步教學）](./AI/2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH.md) — 零依賴純 C 手刻 3→4→1 神經網路:先懂 why 再寫 how;附 ccq call graph 解析與實際編譯執行結果
 - [Open Code Review（Alibaba）— 確定性工程 × Agent 混合架構的 AI Code Review CLI 深度分析](./CodeAnalysis/2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS.md) — 為何只要 1/9 token:挑檔/定位/規則全走工程、LLM 只判斷單檔;含委托模式、OTel 遙測與社群實測質疑
 - [Agent Harness vs Loop vs Graph Engineering：三層排障地圖 + 圖工程決策框架](./AI/2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS.md) — 58 萬瀏覽爆紅文四來源整合：故障定位決策表、五層演進階梯、Loop 五缺陷與目標失明、可跑的圖 V/E/S/P、何時該上圖的量化判準（90.2% vs 15x token）、工作圖 vs 角色圖治理紅線
 - [Google 51 頁白皮書《The New SDLC with Vibe Coding》完整導讀（給 RD 與管理者）](./AI/2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING.md) — Agent = Model + Harness（10%/90%）、vibe coding→agentic engineering 光譜、品質飛輪、context 靜動分界、factory model、80% 陷阱、Token 經濟學；整合 Gary Chen 深拆與 Harness Audit Kit，附三份行動清單（RD／工程領導／組織）

@@ -241,6 +241,7 @@ links:
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — Anthropic 的五層 Harness 架構，與本影片的三大控制面向可對照分析
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — Claude Code 的 Skill 系統，實踐了影片中「控制工作流程」的理念
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — AI Agent 從教程到現實的痛點，與本影片「小模型+好Harness」的樂觀觀點形成對照
+- [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] — 同屬機器學習教學脈絡，從最底層數學手刻神經網路，與本影片 LLM 時代的駕馭視角互補
 
 ## References
 
