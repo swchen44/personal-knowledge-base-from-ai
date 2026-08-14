@@ -133,21 +133,21 @@ Auto-compaction 後，已 invoke 的 skill 內容會重新附加在摘要後：�
 flowchart TD
     Start([懷疑 skill 沒被觸發<br/>或 context 被吃太多]) --> Ctx["/context<br/>查看 Skills 列實際大小"]
     Ctx --> Doc["/doctor<br/>找出最大貢獻者與截斷警告"]
-    Doc --> Q1{有截斷警告，或<br/>Skills 列 > 預期？}
+    Doc --> Q1{"有截斷警告，或<br/>Skills 列 &gt; 預期？"}
     Q1 -- 否 --> Keep([維持現狀<br/>每次新增 skill 後複查])
-    Q1 -- 是 --> Inv[盤點全部 skills：<br/>名稱、description 長度、使用頻率]
+    Q1 -- 是 --> Inv["盤點全部 skills：<br/>名稱、description 長度、使用頻率"]
     Inv --> Q2{逐一分類}
-    Q2 -- 已不使用 --> Off["移除，或 skillOverrides<br/>設 &quot;off&quot;"]
-    Q2 -- 少用但要保留 --> NameOnly["skillOverrides 設<br/>&quot;name-only&quot;（只列名字，<br/>把預算讓給常用的）"]
+    Q2 -- 已不使用 --> Off["移除，或 skillOverrides 設為 off"]
+    Q2 -- 少用但要保留 --> NameOnly["skillOverrides 設為 name-only<br/>（只列名字，把預算讓給常用的）"]
     Q2 -- 常用 --> Trim["精簡 description：<br/>① 觸發關鍵字放前 60 字元<br/>② 全文 ≤ 250 字元（~60 tokens）<br/>③ 刪掉冗長 when_to_use 敘述"]
     Off --> Q3
     NameOnly --> Q3
-    Trim --> Q3{重跑 /context：<br/>仍超出預算？}
-    Q3 -- "是，且都是必要 skill" --> Raise["調高預算：<br/>skillListingBudgetFraction: 0.02<br/>或 env SLASH_COMMAND_TOOL_CHAR_BUDGET=30000<br/>（代價：每 session 多吃固定 context）"]
+    Trim --> Q3{"重跑 /context：<br/>仍超出預算？"}
+    Q3 -- "是，且都是必要 skill" --> Raise["調高預算：<br/>skillListingBudgetFraction 0.02<br/>或 env SLASH_COMMAND_TOOL_CHAR_BUDGET=30000<br/>（代價：每 session 多吃固定 context）"]
     Raise --> Verify
     Q3 -- 否 --> Verify["實測驗證：<br/>問一個應觸發 skill 的問題，<br/>確認模型有 invoke"]
     Verify -- 沒觸發 --> Inv
-    Verify -- 有觸發 --> Compact{一個 session 會<br/>invoke > 5 個 skill？}
+    Verify -- 有觸發 --> Compact{"一個 session 會<br/>invoke &gt; 5 個 skill？"}
     Compact -- 是 --> Hygiene["壓縮衛生：compaction 後<br/>舊 skill 可能整個被丟<br/>（25k 共用、最近優先）<br/>→ 必要時重新 invoke"]
     Compact -- 否 --> Keep
     Hygiene --> Keep
