@@ -129,3 +129,4 @@
 | 2026-08-11 | ingest | .NET Blog polyglot unit-testing agent 文章 + dotnet/skills plugins/dotnet-test 原始碼 | [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] | CodeAnalysis | 6 | 6 |
 | 2026-08-14 17:01 | ingest | Claude Code skill 載入機制與 description 預算對話研究（反編譯原始碼 + 官方文件 + GitHub issues 三方核實） | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 8 | 6 |
 | 2026-08-14 18:17 | update | 補充預算均分機制細節＋skill 作者建議＋7 種突破策略（社群/論文/官方三方佐證） | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 0 | 6 |
+| 2026-08-14 22:44 | update | 補 LLM Wiki／kb-search 工具生態（Karpathy wiki、Obsidian MCP、mem0 等）＋ Codex skill 上下架機制跨工具對照 | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 1 | 6 |

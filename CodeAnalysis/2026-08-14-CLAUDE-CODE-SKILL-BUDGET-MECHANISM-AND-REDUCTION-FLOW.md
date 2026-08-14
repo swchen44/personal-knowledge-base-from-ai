@@ -160,6 +160,38 @@ Auto-compaction 後，已 invoke 的 skill 內容會重新附加在摘要後：�
 
 **學術界的平行結論**：大型工具庫研究一致指向同一件事——把全部工具描述硬塞 prompt 會吃光 token 預算並觸發 Lost in the Middle 效應：ToolLLM（16,000+ APIs，Top-K 神經檢索）、AnyTool（層級目錄樹漸進過濾）、Tool-to-Agent Retrieval（工具與 agent 的統一檢索層）。Claude Code 的 1% 清單預算是「靜態全列」時代的折衷；skill search／Tool Search 的動態檢索是它的下一站。
 
+### 策略 3 實例：LLM Wiki／kb-search 工具生態
+
+「百科全書進入點」最有名的實作是 **Karpathy 的 LLM Wiki**：一個 Obsidian vault，結構只有 `/raw`（不可變的原始素材：網頁剪藏、逐字稿）＋ `/wiki`（agent 生成的概念頁）＋ `agents.md`（行為規格，單一純文字檔控制 agent）＋ `index.md`（全站目錄）＋ `log.md`（審計軌跡）。查詢時 agent **先讀 index 再取頁**——index.md 就是 router，整個 wiki 只佔 agent 的一個進入點。每小時自動把 `/raw` 轉成互連的 wiki 頁並 commit。值得注意的是：**本知識庫的 INDEX.md／LOG.md 結構正是同一個形狀**，kb-create 流程等於手動版的 LLM Wiki。
+
+把 KB 接給 agent 搜尋的工具光譜（由輕到重）：
+
+| 工具 | 型態 | 特色 | 取捨 |
+|------|------|------|------|
+| 自建 kb-search skill | 一個 SKILL.md 進清單 | description 教 agent「先讀 INDEX.md 再 grep」，零依賴 | 全文檢索靠 grep，無語意搜尋 |
+| Obsidian MCP servers | 本地 MCP server | 30+ 工具：導航／全文／語意搜尋、筆記管理 | 工具定義又吃 context（同一個預算問題換個地方發生；靠 Tool Search 延遲載入緩解） |
+| Hjarni | 託管 Markdown KB＋內建 MCP | 跨 ChatGPT／Claude、可匯出 | 純文字導向、雲端託管 |
+| mem0／OpenMemory | 開源記憶層 SDK | 給開發者嵌進 agent，非人類筆記工具 | 不是筆記系統 |
+| MemCP | 時序知識圖譜 MCP | 專為 coding agent 設計 | 自架、非人類閱讀導向 |
+| Khoj | 自架搜尋層 | 本地檔案語意搜尋 | 需自行維運 |
+
+社群共識：**筆記給人看選 Obsidian 路線、記憶給 agent 用選 mem0 路線**；kb-search skill 是兩者之間成本最低的橋——只花一筆 description 預算就把整個知識庫變成可查詢的能力。
+
+### 跨工具對照：Codex 的 skill 上下架機制走完全不同的路
+
+同一個「skill 清單管理」問題，OpenAI Codex CLI 的設計哲學與 Claude Code 相反——**Claude Code 用彈性預算＋降級光譜（軟性擠壓），Codex 用硬上限＋顯式開關（布林上下架）**：
+
+| 面向 | Claude Code | Codex CLI |
+|------|-------------|-----------|
+| 上架（discovery） | `~/.claude/skills`、project `.claude/skills`、plugin、bundled → 全部進 Skill tool 清單 | 6 條 root（bundled／user `~/.codex/skills`／project／admin `/etc/codex/skills`／plugin／cwd 向上每層的 `.agents/skills`），掃描深度上限 6 層、每 root 上限 2,000 個 |
+| 清單注入 | `skill_listing` attachment，**1% context 動態預算**，超出就截斷描述 | runtime 的「## Skills」區段（name + description + 檔案路徑）；公開資料未見比例式預算，靠**硬上限**管控 |
+| 單筆 description 上限 | 250 字元（反編譯版寫死）／1,536（官方 `skillListingMaxDescChars`） | **1,024 字元**（`MAX_DESCRIPTION_LEN`，載入時強制） |
+| 下架（對模型隱藏） | `skillOverrides` 四態：`on`／`name-only`／`user-invocable-only`／`off`＋frontmatter `disable-model-invocation`；改完即時生效（hot reload） | `config.toml` 的 `[[skills.config]] path = ".../SKILL.md"` `enabled = false`；**需重啟 Codex** |
+| 手動觸發 | `/name` | `$name` 前綴；`/skills` 列出清單 |
+| 同名衝突 | `uniqBy(name)` 去重 | `scope_rank` 只決定排序與同路徑 dedupe，同名**不會**自動 override |
+
+關鍵差異在「下架」的粒度：Claude Code 有 `name-only`（留名去描述）這種**中間態**，讓 skill 保持半可見以省預算；Codex 只有 enabled true/false 的二元開關，沒有降級光譜——但它的 description 上限（1,024）與 per-root 數量上限（2,000）從源頭限制了清單膨脹。詳見 [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] 的 6 root 路徑與 scope 優先級完整分析。
+
 ### 檢查與縮減流程（Check & Reduce Flow）
 
 ```mermaid
@@ -244,6 +276,7 @@ flowchart TD
 - [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] — skill 觸發率的量化評測框架，可驗證本文的 description 撰寫策略
 - [[2026-01-27-VERCEL-AGENTS-MD-OUTPERFORMS-SKILLS-IN-AGENT-EVALS]] — 反方觀點：AGENTS.md 路線 vs skills 路線的取捨
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 用 eval 實測 skill 表現的方法，可用來驗證縮減後的觸發率
+- [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex skill 系統的 6 root 路徑、scope 優先級與硬上限，本文跨工具對照的一手來源
 
 ## References
 
@@ -255,3 +288,5 @@ flowchart TD
 - 反編譯原始碼：`src/tools/SkillTool/prompt.ts`、`src/services/compact/compact.ts`、`src/utils/attachments.ts`、`src/utils/suggestions/skillUsageTracking.ts`、`src/commands.ts`
 - 突破策略相關：[Skill Collaboration 指南 — MindStudio](https://www.mindstudio.ai/blog/claude-code-skill-collaboration-chaining-workflows)、[The Claude Code Router Pattern — Gabe Giro](https://gabegiro.com/blog/claude-code-router-pattern/)、[skill-router（GitHub）](https://github.com/hussi9/skill-router)、[Anthropic Tool Search 解析 — Growth Method](https://growthmethod.com/anthropic-tool-search/)、[MCP 的 context 問題 — DEV Community](https://dev.to/stevengonsalvez/anthropic-just-admitted-mcp-has-a-context-problem-1ona)
 - 論文：[AnyTool（arXiv 2402.04253）](https://arxiv.org/abs/2402.04253)、[Tool-to-Agent Retrieval（arXiv 2511.01854）](https://arxiv.org/html/2511.01854)、[The Evolution of Tool Use in LLM Agents（arXiv 2603.22862）](https://arxiv.org/html/2603.22862v2)
+- LLM Wiki／kb-search：[Karpathy 的 LLM Wiki 架構解析 — MindStudio](https://www.mindstudio.ai/blog/andrej-karpathy-llm-wiki-obsidian-codeex-second-brain)、[MCP 知識庫工具比較 — Hjarni](https://hjarni.com/best-mcp-knowledge-base)、[Obsidian vault vs 專用 workspace — Felo](https://felo.ai/blog/ai-agent-memory-obsidian-vault-vs-workspace/)、[Obsidian MCP servers 清單 — Glama](https://glama.ai/mcp/servers/integrations/obsidian)
+- Codex skills：[官方 Build skills 文件](https://developers.openai.com/codex/skills)、[Skills in OpenAI Codex — fsck.com](https://blog.fsck.com/2025/12/19/codex-skills/)
