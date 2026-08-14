@@ -69,7 +69,16 @@ export function getCharBudget(contextWindowTokens?: number): number {
 }
 ```
 
-截斷演算法（`formatCommandsWithinBudget`）：先嘗試全文；超出預算時 **bundled（Anthropic 內建）skill 描述永不截斷**，其餘 skill 均分剩餘預算；若每筆分不到 `MIN_DESC_LENGTH = 20` 字元，非 bundled 全部退化成**只列名字（names-only）**。
+截斷演算法（`formatCommandsWithinBudget`）：先嘗試全文，放得下就結束。**超出預算時不是「後面的不載入」，而是三層扣除後把剩餘均分**——所有 skill 的名字永遠都在清單上，被犧牲的只有描述：
+
+```
+1% 預算（200K → 8,000 字元）
+  ├─ 先扣：bundled（Anthropic 內建）skill 的完整描述（永不截斷，優先保留）
+  ├─ 再扣：其餘所有 skill 的「名字＋格式」開銷（`- 名稱: ` 加換行，每筆約 20 字元）
+  └─ 剩餘 → 均分給每個非 bundled skill 的 description（maxDescLen = 剩餘 ÷ 檔數）
+```
+
+兩個容易誤解的細節：均分出來的是**上限、不是配額**——描述本來就短於上限的維持原樣，但省下的空間不會回頭分給長描述的（一次性均分，無迭代重分配）；若均分後每筆分不到 `MIN_DESC_LENGTH = 20` 字元，非 bundled 全部退化成**只列名字（names-only）**。且這一切只影響「發現」不影響「執行」——被砍到只剩名字的 skill 一旦被 invoke（模型或手動 `/name`），完整 SKILL.md 照樣全文載入。
 
 ### 200K vs 1M × 100 skills 實算
 
@@ -126,6 +135,30 @@ Auto-compaction 後，已 invoke 的 skill 內容會重新附加在摘要後：�
 > | 1M + 148 skills 以下 | 完整 250 字元 | 正常寫；但清單固定吃 ~數千 tokens |
 >
 > 通用鐵律：**當作標題來寫**——「做什麼＋何時觸發」壓進第一句，關鍵字前置；長篇 when_to_use 對觸發率沒幫助（原始碼註解直言只是浪費 turn-1 的 cache_creation tokens）。
+
+> [!important] 給 skill 作者的一句話
+> **前 60 字元決定你的 skill 的生死。** 在使用者掛 100 個 skill 的 200K 環境裡，description 只有前 60 字元存活；就算環境寬鬆，前 60 字元也是模型掃描清單的第一印象。清單截斷你控制不了，第一句你控制得了。
+
+### 突破預算限制的實戰策略（Mitigation Strategies）
+
+社群與學術界對「工具／技能清單塞爆 context」已有收斂的解法譜系，依侵入性由低到高：
+
+| # | 策略 | 做法 | 佐證 |
+|---|------|------|------|
+| 1 | 關鍵字前置 | description 前 60 字元寫滿觸發詞（見上表） | 本文實算 |
+| 2 | 合併同質 skill | 只合併「總是一起被需要」的（如 rules-common + rules-server → 一個 server-development-standard）；單檔勿超過 ~500 行 | MindStudio 社群指南 |
+| 3 | Router／百科全書模式 | 一類知識只留**一個入口 skill** 進清單，其餘內容做成 `references/` 子檔或 sub-skill，invoke 後按需載入——與官方 progressive disclosure 同構 | 社群 Router Pattern；skill-router 專案（自稱 90% routing 準確率）；AnyTool 論文（層級檢索，pass rate +35.4% vs ToolLLM） |
+| 4 | 從模型清單下架 | frontmatter 設 `disable-model-invocation: true`（原始碼證實 `getSkillToolCommands` 直接過濾）或 `skillOverrides: "user-invocable-only"`——skill 仍可手動 `/name` 觸發，完全不吃清單預算 | 反編譯原始碼 `commands.ts:569` |
+| 5 | 降級或停用 | `skillOverrides` 設 `"name-only"`（只列名）或 `"off"` | 官方文件 |
+| 6 | 加大預算 | `skillListingBudgetFraction`、`SLASH_COMMAND_TOOL_CHAR_BUDGET`——代價是每 session 固定稅 | 官方文件 |
+| 7 | 動態檢索（官方路線） | Claude Code 的 `EXPERIMENTAL_SKILL_SEARCH`（清單只留 bundled+MCP，其餘按需發現）；平台層 Tool Search Tool 已上線：`defer_loading: true` + BM25/regex 搜尋，Opus 4 工具選擇準確率 49%→74%，MCP 描述超過 10% context 自動延遲載入 | Anthropic 官方 |
+
+**合併與百科全書兩法的可行性評註**：
+
+- **合併（策略 2）可行但有邊界**：合併讓單一 description 要涵蓋更多觸發情境——觸發面太廣反而稀釋匹配強度，且 SKILL.md 過大會推高 invoke 後的 context 成本。社群共識是只合併「耦合緊密、總是同時需要」的 skill，不是按主題大雜燴。
+- **百科全書／進入點（策略 3）可行，而且是官方認可的形狀**：Agent Skills 規格本來就把 SKILL.md 設計成入口點＋`references/` 漸進揭露（Progressive Disclosure）；學術界結論相同——靜態全列不可擴展，動態縮小候選集是主流。風險有二：整類知識掛在一個 router description 上，**router 沒觸發＝全類失明**（入口的 description 必須寫得夠廣）；以及兩跳載入（先 router 再子檔）的延遲與成本。
+
+**學術界的平行結論**：大型工具庫研究一致指向同一件事——把全部工具描述硬塞 prompt 會吃光 token 預算並觸發 Lost in the Middle 效應：ToolLLM（16,000+ APIs，Top-K 神經檢索）、AnyTool（層級目錄樹漸進過濾）、Tool-to-Agent Retrieval（工具與 agent 的統一檢索層）。Claude Code 的 1% 清單預算是「靜態全列」時代的折衷；skill search／Tool Search 的動態檢索是它的下一站。
 
 ### 檢查與縮減流程（Check & Reduce Flow）
 
@@ -219,4 +252,6 @@ flowchart TD
 - [v2.1.199 Release（多 skill 堆疊）](https://github.com/anthropics/claude-code/releases/tag/v2.1.199)
 - GitHub Issues：[#17349 多 skill 觸發需求](https://github.com/anthropics/claude-code/issues/17349)、[#56710](https://github.com/anthropics/claude-code/issues/56710)、[#56966](https://github.com/anthropics/claude-code/issues/56966)、[#57599](https://github.com/anthropics/claude-code/issues/57599)、[#64606 截斷導致 routing 失敗](https://github.com/anthropics/claude-code/issues/64606)
 - [Claude Code's Hidden Skill Budget Setting — claudefa.st](https://claudefa.st/blog/guide/mechanics/skill-listing-budget)
-- 反編譯原始碼：`src/tools/SkillTool/prompt.ts`、`src/services/compact/compact.ts`、`src/utils/attachments.ts`、`src/utils/suggestions/skillUsageTracking.ts`
+- 反編譯原始碼：`src/tools/SkillTool/prompt.ts`、`src/services/compact/compact.ts`、`src/utils/attachments.ts`、`src/utils/suggestions/skillUsageTracking.ts`、`src/commands.ts`
+- 突破策略相關：[Skill Collaboration 指南 — MindStudio](https://www.mindstudio.ai/blog/claude-code-skill-collaboration-chaining-workflows)、[The Claude Code Router Pattern — Gabe Giro](https://gabegiro.com/blog/claude-code-router-pattern/)、[skill-router（GitHub）](https://github.com/hussi9/skill-router)、[Anthropic Tool Search 解析 — Growth Method](https://growthmethod.com/anthropic-tool-search/)、[MCP 的 context 問題 — DEV Community](https://dev.to/stevengonsalvez/anthropic-just-admitted-mcp-has-a-context-problem-1ona)
+- 論文：[AnyTool（arXiv 2402.04253）](https://arxiv.org/abs/2402.04253)、[Tool-to-Agent Retrieval（arXiv 2511.01854）](https://arxiv.org/html/2511.01854)、[The Evolution of Tool Use in LLM Agents（arXiv 2603.22862）](https://arxiv.org/html/2603.22862v2)

@@ -128,3 +128,4 @@
 | 2026-08-10 | ingest | X/@TheVixhal 純 C 手刻神經網路教學(補登 2026-06-29 中斷的 ingest,本次完成 INDEX/LOG/README/commit) | [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] | AI | 3 | 5 |
 | 2026-08-11 | ingest | .NET Blog polyglot unit-testing agent 文章 + dotnet/skills plugins/dotnet-test 原始碼 | [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] | CodeAnalysis | 6 | 6 |
 | 2026-08-14 17:01 | ingest | Claude Code skill 載入機制與 description 預算對話研究（反編譯原始碼 + 官方文件 + GitHub issues 三方核實） | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 8 | 6 |
+| 2026-08-14 18:17 | update | 補充預算均分機制細節＋skill 作者建議＋7 種突破策略（社群/論文/官方三方佐證） | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 0 | 6 |
