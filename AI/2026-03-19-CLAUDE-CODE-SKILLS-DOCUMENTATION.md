@@ -592,6 +592,7 @@ if __name__ == '__main__':
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 實戰手冊，含 Description 五類範例、三層除錯 Playbook 與完整維護迭代節奏
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]] — context:fork、agent、hooks 三個進階 frontmatter 欄位的原始碼解析與 FAQ
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — 428-byte 的 grill-me skill 是 Claude Code skill 規範的極簡實踐範例
+- [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — 官方文件所述 listing 預算／compaction 保留機制的原始碼核實與 200K/1M 實算
 
 ## References
 

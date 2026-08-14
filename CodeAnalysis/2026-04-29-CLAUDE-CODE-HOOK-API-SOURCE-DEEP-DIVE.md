@@ -980,6 +980,7 @@ export type AggregatedHookResult = {
 - [[2026-05-20-CODEX-CLI-CODE-ANALYSIS]] — OpenAI Codex 的 `codex-hooks` crate 設計對比：用 schemars 自動產 JSON schema、admin `allow_managed_hooks_only` 強制限定；與 Claude Code 的多層 hook 事件清單形成對照
 - [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — 兩家 hook / 擴充機制完整對比（Codex 一個配置式 hook crate vs Claude Code 五種擴充面：hook/skill/subagent/plugin/output-style）
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex Hook 系統 9 種事件的完整 input/output schema；兩家事件清單高度相似（PreToolUse/PostToolUse/UserPromptSubmit/SessionStart/Stop/PreCompact/SubagentStart），可逐項對比 wire 格式
+- [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — 同一反編譯 codebase 的 skill 清單預算機制解析，附檢查與縮減流程
 
 ## References
 

@@ -1411,6 +1411,7 @@ shell: bash
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Skill 內容層面的七條撰寫規則，與本文的 frontmatter 技術層面互補
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin 無法安裝 CLAUDE.md/Rules 的原始碼驗證，createPluginCommand 缺失問題延伸
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — Plan Mode ToolPermissionContext 與 SuperPowers skill 攔截機制的衝突分析
+- [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — skill 清單預算（1% context）與 description 截斷機制的原始碼實算，補全 skill 系統的 context 成本面
 
 ## 2026-04-25 問題追蹤更新
 
