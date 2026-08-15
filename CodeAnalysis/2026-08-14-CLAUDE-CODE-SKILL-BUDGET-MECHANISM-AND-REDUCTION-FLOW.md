@@ -186,11 +186,12 @@ Auto-compaction 後，已 invoke 的 skill 內容會重新附加在摘要後：�
 | 上架（discovery） | `~/.claude/skills`、project `.claude/skills`、plugin、bundled → 全部進 Skill tool 清單 | 6 條 root（bundled／user `~/.codex/skills`／project／admin `/etc/codex/skills`／plugin／cwd 向上每層的 `.agents/skills`），掃描深度上限 6 層、每 root 上限 2,000 個 |
 | 清單注入 | `skill_listing` attachment，**1% context 動態預算**，超出就截斷描述 | runtime 的「## Skills」區段（name + description + 檔案路徑）；公開資料未見比例式預算，靠**硬上限**管控 |
 | 單筆 description 上限 | 250 字元（反編譯版寫死）／1,536（官方 `skillListingMaxDescChars`） | **1,024 字元**（`MAX_DESCRIPTION_LEN`，載入時強制） |
-| 下架（對模型隱藏） | `skillOverrides` 四態：`on`／`name-only`／`user-invocable-only`／`off`＋frontmatter `disable-model-invocation`；改完即時生效（hot reload） | `config.toml` 的 `[[skills.config]] path = ".../SKILL.md"` `enabled = false`；**需重啟 Codex** |
+| **下架成手動**（模型不自動觸發，保留手動） | frontmatter `disable-model-invocation: true`——不進模型清單、不吃預算，`/name` 照常可用（或 `skillOverrides: "user-invocable-only"`） | `agents/openai.yaml` 的 `policy.allow_implicit_invocation: false`——模型不隱式觸發，`$name` 照常可用 |
+| 完全停用 | `skillOverrides: "off"` | `config.toml` 的 `[[skills.config]] path = ".../SKILL.md"` `enabled = false`；**需重啟 Codex** |
 | 手動觸發 | `/name` | `$name` 前綴；`/skills` 列出清單 |
 | 同名衝突 | `uniqBy(name)` 去重 | `scope_rank` 只決定排序與同路徑 dedupe，同名**不會**自動 override |
 
-關鍵差異在「下架」的粒度：Claude Code 有 `name-only`（留名去描述）這種**中間態**，讓 skill 保持半可見以省預算；Codex 只有 enabled true/false 的二元開關，沒有降級光譜——但它的 description 上限（1,024）與 per-root 數量上限（2,000）從源頭限制了清單膨脹。詳見 [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] 的 6 root 路徑與 scope 優先級完整分析。
+兩邊都有「**下架成手動**」這個中間態——skill 不佔模型的自動觸發面，但使用者隨時可手動叫用，是清單瘦身時最實用的一檔（比完全停用可逆、比留在清單省預算）。差別在設定的位置與粒度：Claude Code 寫在 skill 自己的 frontmatter（作者可預設）或使用者的 `skillOverrides`（即時生效）；Codex 寫在 skill 附帶的 `agents/openai.yaml` policy 區塊（範例：[mattpocock 的 grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/agents/openai.yaml)）。此外 Claude Code 還多一檔 `name-only`（留名去描述省預算），Codex 沒有這種預算導向的降級——但它的 description 上限（1,024）與 per-root 數量上限（2,000）從源頭限制了清單膨脹。詳見 [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] 的 6 root 路徑與 scope 優先級完整分析。
 
 ### 檢查與縮減流程（Check & Reduce Flow）
 
@@ -289,4 +290,4 @@ flowchart TD
 - 突破策略相關：[Skill Collaboration 指南 — MindStudio](https://www.mindstudio.ai/blog/claude-code-skill-collaboration-chaining-workflows)、[The Claude Code Router Pattern — Gabe Giro](https://gabegiro.com/blog/claude-code-router-pattern/)、[skill-router（GitHub）](https://github.com/hussi9/skill-router)、[Anthropic Tool Search 解析 — Growth Method](https://growthmethod.com/anthropic-tool-search/)、[MCP 的 context 問題 — DEV Community](https://dev.to/stevengonsalvez/anthropic-just-admitted-mcp-has-a-context-problem-1ona)
 - 論文：[AnyTool（arXiv 2402.04253）](https://arxiv.org/abs/2402.04253)、[Tool-to-Agent Retrieval（arXiv 2511.01854）](https://arxiv.org/html/2511.01854)、[The Evolution of Tool Use in LLM Agents（arXiv 2603.22862）](https://arxiv.org/html/2603.22862v2)
 - LLM Wiki／kb-search：[Karpathy 的 LLM Wiki 架構解析 — MindStudio](https://www.mindstudio.ai/blog/andrej-karpathy-llm-wiki-obsidian-codeex-second-brain)、[MCP 知識庫工具比較 — Hjarni](https://hjarni.com/best-mcp-knowledge-base)、[Obsidian vault vs 專用 workspace — Felo](https://felo.ai/blog/ai-agent-memory-obsidian-vault-vs-workspace/)、[Obsidian MCP servers 清單 — Glama](https://glama.ai/mcp/servers/integrations/obsidian)
-- Codex skills：[官方 Build skills 文件](https://developers.openai.com/codex/skills)、[Skills in OpenAI Codex — fsck.com](https://blog.fsck.com/2025/12/19/codex-skills/)
+- Codex skills：[官方 Build skills 文件](https://developers.openai.com/codex/skills)、[Skills in OpenAI Codex — fsck.com](https://blog.fsck.com/2025/12/19/codex-skills/)、[`allow_implicit_invocation: false` 實例：mattpocock/grill-me 的 openai.yaml](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/agents/openai.yaml)
