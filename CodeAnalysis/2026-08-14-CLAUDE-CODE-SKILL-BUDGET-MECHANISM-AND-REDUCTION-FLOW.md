@@ -177,21 +177,28 @@ Auto-compaction 後，已 invoke 的 skill 內容會重新附加在摘要後：�
 
 社群共識：**筆記給人看選 Obsidian 路線、記憶給 agent 用選 mem0 路線**；kb-search skill 是兩者之間成本最低的橋——只花一筆 description 預算就把整個知識庫變成可查詢的能力。
 
-### 跨工具對照：Codex 的 skill 上下架機制走完全不同的路
+### 跨工具對照：Codex 與 DeepSeek dsh 的 skill 機制
 
-同一個「skill 清單管理」問題，OpenAI Codex CLI 的設計哲學與 Claude Code 相反——**Claude Code 用彈性預算＋降級光譜（軟性擠壓），Codex 用硬上限＋顯式開關（布林上下架）**：
+同一個「skill 清單管理」問題，三家走出三種設計哲學——**Claude Code 用彈性預算＋降級光譜（軟性擠壓），Codex 用硬上限＋顯式開關（布林上下架），DeepSeek dsh 用最簡治理＋最大相容**：
 
-| 面向 | Claude Code | Codex CLI |
-|------|-------------|-----------|
-| 上架（discovery） | `~/.claude/skills`、project `.claude/skills`、plugin、bundled → 全部進 Skill tool 清單 | 6 條 root（bundled／user `~/.codex/skills`／project／admin `/etc/codex/skills`／plugin／cwd 向上每層的 `.agents/skills`），掃描深度上限 6 層、每 root 上限 2,000 個 |
-| 清單注入 | `skill_listing` attachment，**1% context 動態預算**，超出就截斷描述 | runtime 的「## Skills」區段（name + description + 檔案路徑）；公開資料未見比例式預算，靠**硬上限**管控 |
-| 單筆 description 上限 | 250 字元（反編譯版寫死）／1,536（官方 `skillListingMaxDescChars`） | **1,024 字元**（`MAX_DESCRIPTION_LEN`，載入時強制） |
-| **下架成手動**（模型不自動觸發，保留手動） | frontmatter `disable-model-invocation: true`——不進模型清單、不吃預算，`/name` 照常可用（或 `skillOverrides: "user-invocable-only"`） | `agents/openai.yaml` 的 `policy.allow_implicit_invocation: false`——模型不隱式觸發，`$name` 照常可用 |
-| 完全停用 | `skillOverrides: "off"` | `config.toml` 的 `[[skills.config]] path = ".../SKILL.md"` `enabled = false`；**需重啟 Codex** |
-| 手動觸發 | `/name` | `$name` 前綴；`/skills` 列出清單 |
-| 同名衝突 | `uniqBy(name)` 去重 | `scope_rank` 只決定排序與同路徑 dedupe，同名**不會**自動 override |
+| 面向 | Claude Code | Codex CLI | DeepSeek dsh |
+|------|-------------|-----------|--------------|
+| 上架（discovery） | `~/.claude/skills`、project `.claude/skills`、plugin、bundled → 全部進 Skill tool 清單 | 6 條 root（bundled／user `~/.codex/skills`／project／admin `/etc/codex/skills`／plugin／cwd 向上每層的 `.agents/skills`），掃描深度上限 6 層、每 root 上限 2,000 個 | 6 種來源（帶 rank）：project `.dsh/skills`、project `.agents/skills`、custom 目錄、`~/.dsh/skills`、`~/.agents/skills`、bundled；支援目錄型與單檔 Markdown |
+| 清單注入 | `skill_listing` attachment，**1% context 動態預算**，超出就截斷描述 | runtime 的「## Skills」區段（name + description + 檔案路徑）；公開資料未見比例式預算，靠**硬上限**管控 | `<system-reminder>` 包 `<available_skills>` 區塊；清單變動以 SHA-256 digest 偵測，發**整份替換型 catalog** 作廢舊清單 |
+| 單筆 description 上限 | 250 字元（反編譯版寫死）／1,536（官方 `skillListingMaxDescChars`） | **1,024 字元**（`MAX_DESCRIPTION_LEN`，載入時強制） | **500 字元**（`catalogDescriptionMaxLength` 可調）；**無總量預算** |
+| **下架成手動**（模型不自動觸發，保留手動） | frontmatter `disable-model-invocation: true`——不進模型清單、不吃預算，`/name` 照常可用（或 `skillOverrides: "user-invocable-only"`） | `agents/openai.yaml` 的 `policy.allow_implicit_invocation: false`——模型不隱式觸發，`$name` 照常可用 | **沿用 Claude Code 的 `disable-model-invocation: true`**（寫舊拼法會報錯導正）；`/name` 手勢是唯一入口 |
+| 完全停用 | `skillOverrides: "off"` | `config.toml` 的 `[[skills.config]] path = ".../SKILL.md"` `enabled = false`；**需重啟 Codex** | user-disable 過濾（`isUserInvocable` 檢查；設定介面未深查） |
+| 手動觸發 | `/name` | `$name` 前綴；`/skills` 列出清單 | 訊息中**任意位置**的 `/name` token（word-boundary regex，排除路徑與分數） |
+| 同名衝突 | `uniqBy(name)` 去重 | `scope_rank` 只決定排序與同路徑 dedupe，同名**不會**自動 override | 來源 rank 決定優先序（project > custom > user > bundled） |
+| 多 skill 載入 | 允許，未明文鼓勵 | 按 description 自動選用 | catalog 提示詞**明文要求 "Load all applicable skills"** |
 
 兩邊都有「**下架成手動**」這個中間態——skill 不佔模型的自動觸發面，但使用者隨時可手動叫用，是清單瘦身時最實用的一檔（比完全停用可逆、比留在清單省預算）。差別在設定的位置與粒度：Claude Code 寫在 skill 自己的 frontmatter（作者可預設）或使用者的 `skillOverrides`（即時生效）；Codex 寫在 skill 附帶的 `agents/openai.yaml` policy 區塊（範例：[mattpocock 的 grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/agents/openai.yaml)）。此外 Claude Code 還多一檔 `name-only`（留名去描述省預算），Codex 沒有這種預算導向的降級——但它的 description 上限（1,024）與 per-root 數量上限（2,000）從源頭限制了清單膨脹。詳見 [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] 的 6 root 路徑與 scope 優先級完整分析。
+
+**DeepSeek dsh（`@deepseek-ai/dsh`，v0.1.0-rc.5 原始碼分析）的三個亮點**：
+
+1. **多 skill 疊加是官方指定行為**——catalog 提示詞明文要求 "Load all applicable skills, then follow their full instructions"，直接回答了本文開頭「會讀全部還是只讀一個」的問題（dsh 的答案：全部相關的都要讀）。
+2. **相容性姿態最開放**：skill 路徑吃 `.agents/skills` 跨工具慣例（與 Codex 的 repo 路徑相同）、frontmatter 沿用 Claude Code 的 `disable-model-invocation` key；**指令檔同時認 AGENTS.md 與 CLAUDE.md**——候選清單寫死 `['AGENTS.md', 'CLAUDE.md']`＋`.local` overlay，載入階層為使用者全域 `~/.dsh/AGENTS.md` → 專案根到 cwd 每層目錄（同目錄兩檔都在就都載入，內容相同才去重、AGENTS.md 優先），單檔上限 1 MiB（超過整檔忽略），子目錄 AGENTS.md 隨檔案工具觸及動態載入。明顯把「無痛從 Claude Code／Codex 遷移」當設計目標。
+3. **清單治理最簡**：單筆 500 字元硬上限、無總量預算、無使用頻率排序——變動時整份替換。三家對照下可見「預算治理」仍是各家共同的未完成題（dsh 原始碼裡也留著 aggregate budget 的 TODO）。
 
 ### 檢查與縮減流程（Check & Reduce Flow）
 
@@ -291,3 +298,4 @@ flowchart TD
 - 論文：[AnyTool（arXiv 2402.04253）](https://arxiv.org/abs/2402.04253)、[Tool-to-Agent Retrieval（arXiv 2511.01854）](https://arxiv.org/html/2511.01854)、[The Evolution of Tool Use in LLM Agents（arXiv 2603.22862）](https://arxiv.org/html/2603.22862v2)
 - LLM Wiki／kb-search：[Karpathy 的 LLM Wiki 架構解析 — MindStudio](https://www.mindstudio.ai/blog/andrej-karpathy-llm-wiki-obsidian-codeex-second-brain)、[MCP 知識庫工具比較 — Hjarni](https://hjarni.com/best-mcp-knowledge-base)、[Obsidian vault vs 專用 workspace — Felo](https://felo.ai/blog/ai-agent-memory-obsidian-vault-vs-workspace/)、[Obsidian MCP servers 清單 — Glama](https://glama.ai/mcp/servers/integrations/obsidian)
 - Codex skills：[官方 Build skills 文件](https://developers.openai.com/codex/skills)、[Skills in OpenAI Codex — fsck.com](https://blog.fsck.com/2025/12/19/codex-skills/)、[`allow_implicit_invocation: false` 實例：mattpocock/grill-me 的 openai.yaml](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/agents/openai.yaml)
+- DeepSeek dsh：本地原始碼 `~/git/deepseek-harness`（`@deepseek-ai/dsh` v0.1.0-rc.5）——`packages/skill/skill-filesystem`（6 種來源）、`packages/skill/tool-skill`（catalog 與 `/name` 手勢）、`packages/context/agent-instructions`（AGENTS.md/CLAUDE.md 載入）
