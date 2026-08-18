@@ -68,3 +68,4 @@ find . -name "20*.md" -exec awk 'END{if(NR>400) print NR, FILENAME}' {} \;
 24. 【軟】嚴格實驗的隔離注意事項：subagent 為 context 隔離但**磁碟可及**（可讀 session transcript 與 MEMORY.md 索引會注入）；發表級實驗需 OS 層 sandbox，日常 eval 用「指示約束＋引用接地檢查」即可。
 25. 【軟】（E0 實測）macOS 硬隔離配方：`sandbox-exec -p '(version 1)(allow default)(deny file-read* (subpath "<要隔離的路徑>"))' <指令>`——嚴格實驗時以此包裹 agent 執行，拒讀 `~/.claude/projects`（transcript）同時保留 corpus 讀取；Linux 環境用 bwrap 等效達成。
 26. 【硬】（攻擊 #9，使用者發現）實驗產出隔離：答案檔、結果表、報告**絕不可與受測 corpus 同樹**——agent 的檔案列舉會「看見」它們，指示級禁令擋不住主動探索。作法：產出放平行目錄（如 kb-exp-out/），或以 sandbox-exec deny 該子樹；事後以 transcript 稽核驗證（grep 全部 subagent transcript 的 tool_use 輸入，確認零讀取）。
+27. 【硬】（實驗 H 新增，v1.3）E17 閾值修正：146 篇／4.2MB 實測「不建樹」仍全對且 A 組成本僅 +4~7%——「50 篇」推測值作廢。建樹觸發改為可觀察訊號：grep 型查詢的呼叫數或讀回量開始隨規模顯著上漲時才動工。且建樹前提：index 每列必須為 D14 精煉格式（前 60 字元識別碼）——實測 64K 未精煉 INDEX 使導航在內容層反虧 22%（原本省 13%）。

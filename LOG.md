@@ -134,3 +134,4 @@
 | 2026-08-19 00:01 | ingest | kb-skill 導航實驗論文（43 runs、紅隊 9 攻擊、規範 v1.2；筆記 401 行踩 C8 軟上限—論文型判斷保留全文） | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 8 | 6 |
 | 2026-08-19 04:35 | update | 實驗 F 埋藏題 12 runs（攻擊 #10）＋論文補 §3.5 完整 22 題清單、§4.4、pie/xychart 圖表、結論修正 | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 0 | 6 |
 | 2026-08-19 05:08 | update | 實驗 G 三層重分組定版重測 36 runs（36/36 全對；成本階梯 +28%；D14 修正；導航 L3 回本 −13%）＋論文 §3.5e/§4.5/雙 xychart | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 0 | 6 |
+| 2026-08-19 05:21 | update | 實驗 H 5× 規模測試 24 runs（24/24；A 成本近乎不變、B 導航稅隨 index 線性漲、L3 回本反轉 −13%→+22%；規範 v1.3 閾值改 grep 觸發制） | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 0 | 6 |
