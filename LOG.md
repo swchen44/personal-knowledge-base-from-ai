@@ -132,3 +132,4 @@
 | 2026-08-14 22:44 | update | 補 LLM Wiki／kb-search 工具生態（Karpathy wiki、Obsidian MCP、mem0 等）＋ Codex skill 上下架機制跨工具對照 | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 1 | 6 |
 | 2026-08-15 19:05 | update | 跨工具對照加入 DeepSeek dsh（catalog 500 字元/替換型清單/明文多 skill 載入/AGENTS.md+CLAUDE.md 雙認） | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | CodeAnalysis | 0 | 6 |
 | 2026-08-19 00:01 | ingest | kb-skill 導航實驗論文（43 runs、紅隊 9 攻擊、規範 v1.2；筆記 401 行踩 C8 軟上限—論文型判斷保留全文） | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 8 | 6 |
+| 2026-08-19 04:35 | update | 實驗 F 埋藏題 12 runs（攻擊 #10）＋論文補 §3.5 完整 22 題清單、§4.4、pie/xychart 圖表、結論修正 | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 0 | 6 |
