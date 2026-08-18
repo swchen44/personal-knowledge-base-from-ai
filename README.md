@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [KB 導航層實驗：檔名勝過 SKILL 樹](./Research/2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE.md) — 30 篇×3 組實證＋治理規範 v1.2，現階段不建導航樹、投資檔名與 INDEX
 - [Claude Code Skill 清單預算解析與縮減流程](./CodeAnalysis/2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW.md) — skill description 該寫多長？1% context 預算實算 + Mermaid 檢查縮減流程
 - [dotnet/skills dotnet-test — Microsoft 的 Polyglot 單元測試代理深度分析](./CodeAnalysis/2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS.md) — 把「Generate unit tests.」變可信結果:RPI pipeline + 品質閘門 + Harness Discovery;模糊提示失敗 -67%,specialized GPT-5.5 打平 specialized Opus
 - [從零開始用 C 語言打造神經網路（逐步教學）](./AI/2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH.md) — 零依賴純 C 手刻 3→4→1 神經網路:先懂 why 再寫 how;附 ccq call graph 解析與實際編譯執行結果

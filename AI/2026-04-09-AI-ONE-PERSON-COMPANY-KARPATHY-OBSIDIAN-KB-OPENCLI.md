@@ -154,6 +154,7 @@ links:
 - [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 「把判斷沉澱進 workflow 而非鎖在腦袋」呼應一人公司把經驗系統化的核心主張
 
 ---
+- [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 知識庫憲法＋健檢概念的實證延伸：26 條可機器稽核的治理規範與導航層閾值決策
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

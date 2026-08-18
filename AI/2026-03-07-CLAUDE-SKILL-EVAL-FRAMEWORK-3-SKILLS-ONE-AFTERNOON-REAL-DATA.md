@@ -181,6 +181,7 @@ Benchmark 模式的量化角度（40% token vs 70% 修正減少）也很實用�
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — Description 工程實驗與 5-8 skills 上限，eval 框架的應用場景擴展
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — Gary Chen 的 Skill 實戰手冊，含三信號盤點法、Description 五類範例庫、Subagent 品管架構與四個可直接套用的 Prompt
 - [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — eval 前先確認 description 沒被 listing 預算截斷——觸發率低的另一個機制性成因
+- [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 同為一下午完成的 skill/KB 實測：30-run 導航對照實驗＋紅隊補測方法論
 
 ## References
 

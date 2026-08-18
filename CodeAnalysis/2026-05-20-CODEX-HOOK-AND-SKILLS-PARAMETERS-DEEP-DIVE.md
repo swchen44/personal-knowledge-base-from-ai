@@ -801,6 +801,7 @@ description: 一個用來示範 Codex skill 掃描的最小 skill；當你提到
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Claude Code Hook API 對照；兩家事件清單高度相似（PreToolUse / PostToolUse / UserPromptSubmit / SessionStart / Stop / PreCompact / SubagentStop），可逐項對比
 - [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — gstack 跨多 host 整合中，Codex 的 skill root 是其支援的目標之一
 - [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — Claude Code 的 skill 清單 1% 預算機制與 Codex 硬上限＋顯式開關的跨工具對照
+- [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 本篇的 1024 上限等事實作為 KB 檢索實驗的 gold 題目來源，實驗證實檔名可直達
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

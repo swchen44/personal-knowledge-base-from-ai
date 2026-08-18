@@ -733,6 +733,7 @@ Apply in this order. After applying, optionally re-run Prompt 3 (Trigger Diagnos
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Nick Babich 的七條規則，以 UX 設計師視角補充本文的開發者視角 Skill 撰寫方法
 - [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 同作者 Gary Chen 的另一組配套 prompt 工具包，可比較「生命週期分階段」與「職能分組」兩種 prompt 集合的組織邏輯
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Gary Chen 深拆 Google 白皮書並補充 skills 複利／可維護性血淚經驗，是本手冊的方法論上游。
+- [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — description 撰寫規則在 KB 導航實驗中的應用與驗證（前置關鍵詞、觸發設計）
 
 ## References
 

@@ -321,3 +321,4 @@ LLM 自動生成的 AGENTS.md 檔案在所有測試配置中，平均**降低**�
 
 ## 相關連結（Related）
 - [[2026-05-24-WHY-AI-WEBSITE-CRASHES-AFTER-LAUNCH-BACKEND-SCALING]] — 補充把架構知識寫進 AGENTS.md / CLAUDE.md 時，應聚焦任務關鍵資訊，避免 context file 膨脹。
+- [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 同類實證：個人 KB 導航層 vs 裸奔的 30-run 對照實驗（含紅隊與隔離驗證方法論）

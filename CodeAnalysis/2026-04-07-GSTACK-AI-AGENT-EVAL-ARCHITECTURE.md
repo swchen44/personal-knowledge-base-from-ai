@@ -572,6 +572,7 @@ bun run eval:select
 
 ---
 - [[2026-05-17-GBRAIN-EVALS-VS-JARVIS-EVAL-METHODOLOGY]] — gbrain-evals 是另一套成熟的 agent eval 方法論，含 12 節 spec-first 報告模板與多 adapter 對照組設計
+- [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — eval 方法論的實際應用案例：三組對照＋紅隊迭代＋transcript 稽核的 KB 檢索實驗
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
