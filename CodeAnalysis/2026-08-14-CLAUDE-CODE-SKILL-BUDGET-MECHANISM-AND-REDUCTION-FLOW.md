@@ -286,6 +286,7 @@ flowchart TD
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 用 eval 實測 skill 表現的方法，可用來驗證縮減後的觸發率
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex skill 系統的 6 root 路徑、scope 優先級與硬上限，本文跨工具對照的一手來源
 - [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 續篇實證：30 篇×10 題×3 組實驗證明現階段導航樹零貢獻、檔名即索引，並產出治理規範 v1.2
+- [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] — skillOverrides 等「該手寫」欄位與 skillUsage 進 global config 的擁有權劃分依據
 
 ## References
 

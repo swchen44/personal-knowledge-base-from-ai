@@ -40,3 +40,4 @@
 | [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] | Alibaba 開源 AI code review CLI:確定性工程 × Agent 混合架構,1/9 token 的十項機制、委托模式兩層省法、OTel 遙測設計與社群實測質疑 | 2026-08-07 |
 | [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] | Microsoft 開源 polyglot 單元測試代理:skill 入口 + 兩層 fan-out(10 agents)+ dispatch skill 外部化 12 語言知識;模糊提示失敗 -67%、指定 diff 15/15 vs 0/15;Harness Discovery / Completion Contract / baseline 對照 eval 三大可偷設計 | 2026-07-31 |
 | [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] | Claude Code skill 清單預算原始碼解析：1% context 預算、200K/1M×100 skills 實算（200K 下每 description 只剩 ~60 字元）、250 vs 1536 字元版本差異、compaction 5k/25k 保留機制、附 Mermaid 檢查與縮減流程 | 2026-08-14 |
+| [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] | settings.json 寫入點全追蹤：六類寫入情境（權限/UI/MCP/plugin/遷移/ConfigTool 白名單）、「人是 owner、程式是 recorder」四證據、意圖 vs 狀態雙檔案分工、該誰改決策流程圖 | 2026-08-28 |

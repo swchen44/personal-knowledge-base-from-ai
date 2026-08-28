@@ -981,6 +981,7 @@ export type AggregatedHookResult = {
 - [[2026-05-20-CODEX-CLI-VS-CLAUDE-CODE-DEEP-COMPARISON]] — 兩家 hook / 擴充機制完整對比（Codex 一個配置式 hook crate vs Claude Code 五種擴充面：hook/skill/subagent/plugin/output-style）
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex Hook 系統 9 種事件的完整 input/output schema；兩家事件清單高度相似（PreToolUse/PostToolUse/UserPromptSubmit/SessionStart/Stop/PreCompact/SubagentStart），可逐項對比 wire 格式
 - [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — 同一反編譯 codebase 的 skill 清單預算機制解析，附檢查與縮減流程
+- [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] — 同一反編譯 codebase 的 settings.json 寫入點全追蹤與 owner/recorder 設計準則
 
 ## References
 

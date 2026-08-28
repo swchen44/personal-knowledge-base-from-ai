@@ -6,8 +6,8 @@ set -e
 SKILL_SCRIPTS="$(cd "$(dirname "$0")" && pwd)"
 WORK="${TMPDIR:-/tmp}/kb-mermaid-check"
 mkdir -p "$WORK"
-if [ ! -d "$WORK/node_modules/mermaid" ]; then
-  echo "首次執行：安裝 mermaid + jsdom 到 $WORK ..."
+if [ ! -d "$WORK/node_modules/mermaid" ] || [ ! -d "$WORK/node_modules/jsdom" ]; then
+  echo "安裝依賴 mermaid + jsdom 到 $WORK ..."
   (cd "$WORK" && bun add mermaid jsdom >/dev/null 2>&1)
 fi
 cp "$SKILL_SCRIPTS/validate-mermaid.mjs" "$WORK/"

@@ -468,6 +468,7 @@ Claude Code 的配置系統設計哲學是「**file-based, git-native**」——
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hooks 設定的 6 層優先順序（policy > user > project > local > plugin > session）與完整 Hook API Schema
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — 設定檔中 feedbackSurveyRate 與 transcriptShareDismissed 的反饋系統機制
 - [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 本篇詳述 CLAUDE.md 三層架構（使用者層／專案層／子目錄層），與此使用者 vs 專案層配置直接呼應
+- [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] — 三層設定的「誰來寫」補充：權限對話框把規則寫進使用者所選層的原始碼證據
 
 ## References
 

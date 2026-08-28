@@ -388,6 +388,7 @@ messages[3]: 最新對話
 - [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 原文：系統提示「毒藥句」的實際影響與精簡策略
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin 無法安裝 CLAUDE.md/Rules 的驗證，prependUserContext 注入機制的延伸應用
 - [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — 同方法論續作：以反編譯原始碼核實 skill 預算與截斷的社群流傳說法
+- [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] — 同方法論：以 updateSettingsForSource 呼叫點追蹤核實 settings.json 的人機分工
 
 ## References
 

@@ -445,6 +445,7 @@ claude --setting-sources ""
 - [[2026-05-03-CLAUDE-CODE-PLUGIN-CANNOT-INSTALL-CLAUDEMD-RULES-ALTERNATIVES]] — Plugin settings merge 只允許 agent 鍵，無法注入 rules 的原始碼驗證
 - [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] — `autoMemoryEnabled` 在 projectSettings 無效的安全邊界分析，headless 模式下的 memory 載入行為
 - [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 本篇建議將 attribution 等硬性規則放 settings.json 而非 CLAUDE.md，與此 settings 指南互補
+- [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] — settings.json「寫入方」視角的原始碼追蹤：程式何時寫、寫哪些欄位、人機分工準則
 
 ## References
 
