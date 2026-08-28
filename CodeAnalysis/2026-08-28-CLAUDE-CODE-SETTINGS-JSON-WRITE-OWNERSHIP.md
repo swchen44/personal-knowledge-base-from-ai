@@ -92,6 +92,40 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
 
 透過 `saveGlobalConfig()` 寫入的內容性質完全不同：`skillUsage` 使用計數（7 天半衰期排名用，見 [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]]）、啟動次數、onboarding 旗標、tips 顯示歷史、theme／editorMode 等 UI 狀態、各專案歷史。這個檔**高頻寫入、無 schema 文件、不設計給人編輯**。
 
+### 特寫：`~/.claude.json` 的使用與修改場景
+
+**誰負責寫：幾乎只有程式**（`saveGlobalConfig()`）。人工介入僅限兩種受控情境：`claude config set -g <key> <value>` CLI（走白名單驗證），以及 troubleshooting 時手動刪 `projects` 條目重置信任／onboarding 狀態（風險自負——程式高頻寫入，手改隨時可能被蓋掉）。
+
+| 欄位群 | 代表欄位（`config.ts` 的 `GlobalConfig`） | 何時被寫 |
+|---|---|---|
+| 帳號與身分 | `oauthAccount`、`userID`、`primaryApiKey`、`customApiKeyResponses` | 登入／OAuth 流程、API key 核准對話框 |
+| user 層 MCP | `mcpServers` | `claude mcp add --scope user` |
+| **各專案狀態** `projects[路徑]` | `hasTrustDialogAccepted`（信任對話框）、專案層 `mcpServers`（`claude mcp add` 預設 local scope）、`allowedTools`（舊制權限）、上次 session 統計（cost／tokens／duration／lines）、`activeWorktreeSession` | 信任對話框、mcp add、**每次 session 結束** |
+| UI 偏好 | `theme`、`editorMode`、`verbose`、`autoCompactEnabled`、`diffTool`、`preferredNotifChannel` | /config 等 UI 操作（ConfigTool 白名單的 `source: 'global'` 分流） |
+| 提示疲勞追蹤 | `numStartups`、`tipsHistory`、`hasSeenTasksHint`、`ideHintShownCount`、`skillUsage` | 每次啟動、每次顯示提示、每次 invoke skill |
+| 安裝／終端整合 | `installMethod`、`autoUpdates`、`iterm2BackupPath`、鍵綁定旗標 | 安裝器、/terminal-setup |
+
+> [!note] 設計方向的鐵證
+> `apiKeyHelper`、`env`、`customNotifyCommand` 三個欄位在型別定義中都標著 `@deprecated: Use settings.X instead`——官方正在把「意圖類」欄位從 global config 逐步搬去 settings.json。deprecation 的方向本身就反向印證了分工原則：**意圖歸 settings.json，狀態歸 ~/.claude.json**。
+
+### 特寫：`settings.local.json` 的使用與修改場景
+
+**定位：「我對這個專案的私人決定」**——優先級蓋過 project 與 user 層（僅次於 managed），預期不進 git。它是四個 settings 檔中唯一真正的**人機共筆**檔案：
+
+| 寫入者 | 場景 | 欄位 |
+|---|---|---|
+| 程式 | 權限對話框選「僅此專案（local）」為儲存目的地 | `permissions.allow` / `deny` / `ask` |
+| 程式 | `.mcp.json` 伺服器核准對話框（信任決定屬個人，不該進 git） | `enabledMcpjsonServers` / `disabledMcpjsonServers` / `enableAllProjectMcpServers` |
+| 程式 | 啟動遷移：把 `~/.claude.json` 內舊的專案 MCP 狀態搬進來 | 同上 MCP 欄位 |
+| 程式 | sandbox 信任確認 | sandbox 相關設定 |
+| 程式 | assistant installer 設定預設視圖（`main.tsx:2178`） | `defaultView` |
+| **人** | 本專案私人覆寫：不想進 git 的 `env`（如個人 token 路徑）、`model` 覆寫、私人 allowlist | 任意 settings 欄位 |
+
+兩個容易忽略的行為：
+
+- **worktree 傳播**：EnterWorktree 建立隔離工作區時會把 settings.local.json **複製**進 worktree 的 `.claude/`（`worktree.ts:508`）——你的私人設定跟著工作區走，但之後兩份各自獨立、不同步。
+- **gitignore 責任在你**：本快照全庫搜尋**找不到任何自動寫 `.gitignore` 或 `.git/info/exclude` 的邏輯**——「settings.local.json 會自動被 git 忽略」的流傳說法在此版本沒有原始碼依據。請自行加進 `.gitignore`，否則個人權限規則與 env 可能被 commit 出去。
+
 ### 使用者決策流程（我該自己改，還是讓 UI 改？）
 
 ```mermaid
@@ -123,7 +157,7 @@ flowchart TD
 ## 待補充（Open Questions）
 
 - 官方現行版是否新增了更多寫入點（如 `/skills` UI 寫 `skillOverrides`）？反編譯快照可能落後。（搜尋：`claude code settings.json skillOverrides write UI`）
-- `settings.local.json` 是誰負責加進 `.gitignore`？原始碼中未追到自動寫 gitignore 的邏輯。（搜尋：`claude code settings.local.json gitignore automatic`）
+- `settings.local.json` 的 gitignore：**已確認本快照無自動寫入邏輯**（見特寫章節）；官方現行版是否已補上自動 ignore 待核實。（搜尋：`claude code settings.local.json gitignore automatic`）
 - 兩個程序同時寫 settings.json（兩個 session 同開）有無檔案鎖？`saveGlobalConfig` 有 lock，settings 路徑未確認。（搜尋：`claude code settings write lock concurrent sessions`）
 - cowork 模式的 `cowork_settings.json`（`settings.ts:269`）的用途與生命週期？（搜尋：`claude code cowork_settings.json cowork mode`）
 - managed settings 的 `managed-settings.d/*.json` drop-in 目錄合併順序對企業部署的實務影響？（搜尋：`claude code managed-settings.d drop-in precedence`）
