@@ -221,6 +221,7 @@ Harness Engineering → 建立持續監控與糾偏機制
 - [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 三層架構排障地圖（58 萬瀏覽爆紅文）把 Harness Engineering 定位為第一層，附故障定位決策表。
 
 ---
+- [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] — 工具層的極簡主義路線：薄 README＋CLI 組合取代 MCP 常駐清單的實證與取捨
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

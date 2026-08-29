@@ -287,6 +287,7 @@ flowchart TD
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex skill 系統的 6 root 路徑、scope 優先級與硬上限，本文跨工具對照的一手來源
 - [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 續篇實證：30 篇×10 題×3 組實驗證明現階段導航樹零貢獻、檔名即索引，並產出治理規範 v1.2
 - [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] — skillOverrides 等「該手寫」欄位與 skillUsage 進 global config 的擁有權劃分依據
+- [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] — 同一個 context 經濟學的 MCP 版：18k tokens 工具清單 vs 225 tokens README（60–80×），與 skill 清單預算問題互為鏡像
 
 ## References
 

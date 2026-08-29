@@ -409,6 +409,7 @@ args = ["-y", "@modelcontextprotocol/server-filesystem", "/path"]
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — 多 agent 時代的工程師角色；本文「雙向 MCP」呼應此趨勢
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex Hook 系統與 Skills 搜尋路徑的原始碼層級規格；對應本文「Hook / 擴充機制」與「Skills」維度的完整事實細節
 - [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] — OCR 是「專用化 harness 打通用 agent」的實例:同底模下 F1 27% vs 10%,補完通用 agent 陣營之外的第三條路線
+- [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] — harness 工具機制對照的第三視角：自帶 CLI 工具組（Zechner 路線）vs 內建擴充面
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

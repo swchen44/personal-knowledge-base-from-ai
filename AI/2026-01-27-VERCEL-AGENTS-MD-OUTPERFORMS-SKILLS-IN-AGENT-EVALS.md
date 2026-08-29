@@ -203,6 +203,7 @@ npx @next/codemod@canary agents-md
 - [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 提供「規則該寫進 CLAUDE.md 還是別處」的對照觀點，與本篇 CLAUDE.md 攻略形成辯證
 - [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] — skills 觸發率受 listing 預算截斷影響的機制解釋，為本論戰補充底層背景
 - [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] — 本篇結論在個人 KB 場景的呼應實驗：被動索引（檔名/INDEX）勝過預建導航層
+- [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] — 同類「簡單方案打敗專用機制」實證論戰：CLI+README vs MCP 的 120-run 對照實驗
 
 ## References
 

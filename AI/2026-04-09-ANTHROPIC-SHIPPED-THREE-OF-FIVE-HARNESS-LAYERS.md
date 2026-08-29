@@ -213,6 +213,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 - [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 三層排障文引用的 Anthropic 多 session 持久化經驗（進度檔+git 歷史）屬於本篇五層堆疊中的狀態層。
 
 ---
+- [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] — Tool Search／code-execution-with-MCP 等於官方承認的問題診斷——本文是社群先行版解法
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
