@@ -238,6 +238,7 @@ pmux new-session -s claude-work
 - [[2026-03-20-WEZTERM-MACOS-DICTATION-BUILD-AND-CJK-FIX]] — 同樣處理終端機渲染、CJK 字形與 macOS 輸入邊界問題。
 - [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] — Moshi 也把 tmux 視為長時間 AI agent 任務的持久化基礎。
 - [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] — 環境變數控制 Claude Code 子進程行為的相鄰案例。
+- [[2026-08-30-MACOS-LOCALIZED-FOLDER-DISPLAY-NAME-MECHANISM]] — 同樣採跨平台機制對照方法論，比較 macOS/Windows/Linux 對同一問題的不同系統層設計。
 
 ---
 

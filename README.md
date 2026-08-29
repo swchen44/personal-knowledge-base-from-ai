@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [macOS .localized 資料夾顯示名稱本地化機制](./OS/2026-08-30-MACOS-LOCALIZED-FOLDER-DISPLAY-NAME-MECHANISM.md) — 兩種機制五組實測、衝突優先順序，及 Windows/Linux 顯示層 vs 真實改名的設計哲學對照
 - [Markdown 渲染器前期研究：CommonMark / GFM / Obsidian 三層規格全景](./DevTools/2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN.md) — 兩層形式化規格 vs 實作即規格，附 GitHub 與 Obsidian 擴充語法完整對照表
 - [Claude Code settings.json 寫入點全追蹤與人機分工準則](./CodeAnalysis/2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP.md) — 程式何時寫、寫哪些欄位、什麼時候該自己改
 - [KB 導航層實驗：檔名勝過 SKILL 樹](./Research/2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE.md) — 30 篇×3 組實證＋治理規範 v1.2，現階段不建導航樹、投資檔名與 INDEX

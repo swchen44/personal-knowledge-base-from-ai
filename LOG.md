@@ -138,3 +138,4 @@
 | 2026-08-28 18:33 | ingest | Claude Code settings.json 讀寫分工對話研究（updateSettingsForSource 呼叫點全追蹤） | [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] | CodeAnalysis | 5 | 5 |
 | 2026-08-28 21:51 | update | 特寫補充：~/.claude.json 欄位群與寫入時機、settings.local.json 人機共筆場景、gitignore 無自動邏輯實證、deprecated 欄位搬遷鐵證 | [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] | CodeAnalysis | 0 | 5 |
 | 2026-08-30 07:00 | ingest | Markdown 渲染器規格研究對話（CommonMark/GFM/Obsidian 三層 + 擴充 mark 對照） | [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] | DevTools | 4 | 6 |
+| 2026-08-30 07:53 | ingest | macOS .localized 資料夾本地化機制實機實驗對話（Launchpad 偵查 → 五組對照實驗 → 跨平台研究） | [[2026-08-30-MACOS-LOCALIZED-FOLDER-DISPLAY-NAME-MECHANISM]] | OS | 3 | 6 |
