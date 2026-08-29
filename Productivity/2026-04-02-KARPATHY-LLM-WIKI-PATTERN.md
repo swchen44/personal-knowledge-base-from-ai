@@ -259,6 +259,7 @@ LLM 讀取來源
 - [[MEMEX-VANNEVAR-BUSH]] — Vannevar Bush 1945 年的 Memex 願景原始論文
 - [[OBSIDIAN-AS-IDE]] — Obsidian 作為知識庫 IDE 的使用模式
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 演講中直接提到 LLM 知識庫是「理解無法外包」的實踐工具
+- [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] — Markdown 渲染器規格研究；LLM Wiki 的 Obsidian 載體若要自製渲染／發佈工具，該篇是規格前研
 
 ## References
 

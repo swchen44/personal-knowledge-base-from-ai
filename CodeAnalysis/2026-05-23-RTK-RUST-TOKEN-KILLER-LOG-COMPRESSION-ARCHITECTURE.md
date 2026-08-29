@@ -686,6 +686,7 @@ return {
 
 ---
 - [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]] — 同屬「進 context 前先工程化削減」哲學:RTK 壓縮命令輸出,OCR 把探索與定位整段移出 LLM
+- [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] — 由 RTK README 的 HTML 混用問題引出的 Markdown 規格研究；其 fixture/snapshot 測試策略被該研究引為 conformance test 的參考
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

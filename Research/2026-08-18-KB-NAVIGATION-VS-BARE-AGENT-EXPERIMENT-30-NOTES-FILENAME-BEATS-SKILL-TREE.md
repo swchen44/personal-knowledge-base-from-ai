@@ -598,6 +598,7 @@ subagent 評測的隔離模型為「context 隔離＋磁碟可及＋指示約束
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 知識庫「憲法＋健檢」概念的出處，本研究治理規範的思想前身
 - [[2026-04-25-CLAUDE-SKILLS-PLAYBOOK-DESCRIPTION-SUBAGENT-DEBUG-PROMPTS]] — description 撰寫規則（前置關鍵詞、does+when），規範 E18 的依據
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]] — 「一下午實測」的 skill eval 先例，本研究的方法論同路人
+- [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] — Markdown 作為知識載體的規格層研究（CommonMark/GFM/Obsidian），補充本研究對 Markdown 知識庫的工程基礎
 
 
 ## 參考文獻（References）

@@ -137,3 +137,4 @@
 | 2026-08-19 05:21 | update | 實驗 H 5× 規模測試 24 runs（24/24；A 成本近乎不變、B 導航稅隨 index 線性漲、L3 回本反轉 −13%→+22%；規範 v1.3 閾值改 grep 觸發制） | [[2026-08-18-KB-NAVIGATION-VS-BARE-AGENT-EXPERIMENT-30-NOTES-FILENAME-BEATS-SKILL-TREE]] | Research | 0 | 6 |
 | 2026-08-28 18:33 | ingest | Claude Code settings.json 讀寫分工對話研究（updateSettingsForSource 呼叫點全追蹤） | [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] | CodeAnalysis | 5 | 5 |
 | 2026-08-28 21:51 | update | 特寫補充：~/.claude.json 欄位群與寫入時機、settings.local.json 人機共筆場景、gitignore 無自動邏輯實證、deprecated 欄位搬遷鐵證 | [[2026-08-28-CLAUDE-CODE-SETTINGS-JSON-WRITE-OWNERSHIP]] | CodeAnalysis | 0 | 5 |
+| 2026-08-30 07:00 | ingest | Markdown 渲染器規格研究對話（CommonMark/GFM/Obsidian 三層 + 擴充 mark 對照） | [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] | DevTools | 4 | 6 |

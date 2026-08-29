@@ -269,6 +269,7 @@ Create `.canvas` files for visual mind maps and concept diagrams that link to yo
 - [[ADD-ARTICLE-SOP]]
 - [[YOUTUBE-KNOWLEDGE-GRAPH]]
 - [[2026-04-02-KARPATHY-LLM-WIKI-PATTERN]] — Karpathy 用 Obsidian + LLM Agent 建構個人知識庫的模式，與本文的知識圖譜技巧互補
+- [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] — Obsidian Flavored Markdown 的規格層研究（實作端視角），與本文的使用端技巧互補
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
