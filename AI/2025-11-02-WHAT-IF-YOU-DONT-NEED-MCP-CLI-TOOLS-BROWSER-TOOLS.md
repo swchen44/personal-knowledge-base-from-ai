@@ -104,7 +104,20 @@ alias cl="PATH=$PATH:/Users/badlogic/agent-tools/browser-tools:<other-tool-dirs>
 - **規模**：9 支腳本共 828 行 JavaScript，零框架；依賴僅 `puppeteer-core`（連既有 Chrome，不綁瀏覽器）＋`@mozilla/readability`＋`turndown`（HTML→Markdown）＋`cheerio`。
 - **完整工具面**（比文章多出的部分）：`browser-content.js`（Readability 抽正文轉 Markdown）、`browser-search.js`（Google 搜尋，`-n` 筆數、`--content` 連抓內文）、`browser-cookies.js`（含 HTTP-only）、`browser-pick.js`（**人機協作亮點**：互動式元素選取器，使用者點選頁面元素、Enter 確認，回傳 CSS selector——「你要點的是哪顆按鈕」讓人用滑鼠回答）、`browser-hn-scraper.js`（範例應用）。
 - **README 是 agent-facing 文件的教科書**：開頭就是 "CRITICAL FOR AGENTS" 區塊，明確給出 ✓/✗ 呼叫格式（不要加 `node` 或 `./` 前綴）、每個工具都附「何時使用」情境（如 pick.js：「使用者說『我要點那顆按鈕』→ 用這個工具讓他選」）。
-- ⚠️ **Repo 已標示 DEPRECATED（2026-08 確認）**：遷移到 [badlogic/agent-tools](https://github.com/badlogic/agent-tools)——原 repo 258 stars 停留為歷史見證，新家把 browser-tools 納入更大的工具集。
+- ⚠️ **Repo 已標示 DEPRECATED（2026-08 確認）**：遷移到 agent-tools，之後再遷移到 pi-skills——完整演化見下節。
+
+### 演化三部曲：browser-tools → agent-tools → pi-skills
+
+追蹤三代 repo（2026-08-30 實地 clone 分析），這條演化鏈本身就是論戰最有力的後記：
+
+| 代 | Repo（狀態） | 結構 | 關鍵演化 |
+|---|---|---|---|
+| 一 | browser-tools（258★，DEPRECATED） | 9 支腳本＋1 份 README 平鋪 | 「薄 README＋CLI」概念驗證 |
+| 二 | agent-tools（184★，superseded） | 多工具組 monorepo：brave-search／search-tools／browser-tools／vscode，各組獨立 README＋PATH | ① 根 README 加入**選型決策指引**（"Use brave-search unless you specifically need Google"——文件從「怎麼用」進化到「選哪個」）② brave-search 用純 HTTP 取代 Puppeteer+Google（無瀏覽器、免 CAPTCHA、伺服器可跑）③ **vscode 組零程式碼**——整個「工具」只是一份教 agent 用 `code -d` 與 `git show` 的 README，證明工具可以純粹是知識 |
+| 三 | **pi-skills（2,452★，現行）** | 每組的 README.md 改名 **SKILL.md**＋標準 frontmatter（`name` + "Use when..." description）；新增 gccli／gdcli／gmcli（Google 三件套）、transcribe、youtube-transcript | **CLI 純粹主義者擁抱了 skill 格式**——工具程式碼一行沒變（browser-tools 9 支腳本原封不動），變的只有文件包裝層；跨五個 harness 可裝（pi-coding-agent／Claude Code／Codex／Amp／Droid，README 附各家安裝路徑，含 Claude Code 只掃一層深需 symlink 的 caveat） |
+
+> [!note] 這個結局的正確解讀
+> 作者不是被 MCP 陣營說服，而是發現 **skill 格式就是「薄 README 路線」的標準化**：SKILL.md 的 description 進清單（= 他手工的 225 tokens README 入口）、本文按需載入（= 他的「叫 agent 讀 README」）、跨 harness 發現機制（= 他的 PATH alias）。第一性原理的手工解最終合流到社群標準——而且 stars 從 258 漲到 2,452，可攜性是採用率的分水嶺。與 [[2026-08-14-CLAUDE-CODE-SKILL-BUDGET-MECHANISM-AND-REDUCTION-FLOW]] 的結論一致：skill 的兩層載入本來就是 progressive disclosure 的實作。
 
 > [!tip] 可直接套用的做法
 > ① 給 agent 的 CLI 工具附一份「觸發情境導向」的薄 README（做什麼＋何時用＋✓/✗ 呼叫範例），叫 agent session 開頭讀一次；② 工具輸出設計成純文字、可 pipe；③ 中間資料走檔案不走 context；④ 缺工具時直接叫 agent 現場寫一支——本知識庫使用者的 agent-browser skill 正是同一哲學的實踐。
@@ -126,11 +139,13 @@ Anthropic 後來推出的 Tool Search 與 code-execution-with-MCP（官方數據
 1. 「先 CLI 後 MCP」是可操作的決策順序：CLI 迫使你把工具設計成無狀態、純文字、可組合——這些性質套上 MCP 皮之後依然受益；反過來先做 MCP 容易把狀態與 JSON 結構鎖死。
 2. 828 行程式碼＋225 tokens 文件打平 26 工具的官方 MCP，說明 agent 工具的價值密度在**文件與介面設計**，不在功能數量——與 skill description「前 60 字元定生死」是同一課。
 3. pick.js 是被低估的模式：把「無法用語言精確描述的意圖」（我要點的是這顆按鈕）交還給人類的滑鼠——人機協作不是 agent 全自動，而是把各自擅長的留給各自。
+4. 演化三部曲的教訓（後補）：**好的異端最終會變成標準的一部分**。作者用第一性原理重新發明了 progressive disclosure，等社群標準（skill 格式）成熟到能承載他的設計時就合流——批判 MCP 的人沒有批判「格式」本身，他反對的是常駐 context 的成本結構。評估任何「反主流」技術主張時，要分清它反對的是協定、格式、還是成本模型。
 
 ## 待補充（Open Questions）
 
 - CLI 的 Haiku 安全掃描開銷（1.3M–2M tokens/run）在 2026 年的 Claude Code 是否仍存在？權限 allowlist 或 sandbox 模式能否消除？（搜尋：`claude code bash security scanning haiku token overhead 2026`）
-- 遷移後的 badlogic/agent-tools 相比 browser-tools 增加了哪些工具與結構變化？（搜尋：`badlogic agent-tools repo structure`）
+- ~~遷移後的 badlogic/agent-tools 相比 browser-tools 增加了哪些工具與結構變化？~~ **已解答（2026-08-30）**：見「演化三部曲」節——agent-tools 又被 pi-skills 取代，README 全面改為 SKILL.md 格式。
+- pi-coding-agent（badlogic/pi-mono）是什麼樣的 harness？它的 skill 發現機制與 Claude Code 的 1% 清單預算有何異同？（搜尋：`badlogic pi-mono coding-agent skills discovery`）
 - Anthropic Tool Search 上線後，同樣的 scraping benchmark 重跑，MCP 路線的 context 成本還剩多少？論戰數據需要 2026 版更新。（搜尋：`MCP tool search defer_loading benchmark 2026`）
 - 225 tokens README 的觸發可靠性：沒有常駐清單，agent 在長 session 中會不會「忘記」有這些工具？與 skill 清單的觸發率相比如何？（搜尋：`CLI tools README injection recall long session agent`）
 - `--dangerously-skip-permissions` 是作者工作流的前提——在不跳過權限的環境，每支腳本的首次核准成本是否吃掉 CLI 的效率優勢？（搜尋：`claude code permission prompt CLI tools overhead`）
@@ -178,6 +193,6 @@ Anthropic 後來推出的 Tool Search 與 code-execution-with-MCP（官方數據
 
 - [What if you don't need MCP at all?（2025-11-02 原文）](https://mariozechner.at/posts/2025-11-02-what-if-you-dont-need-mcp/)
 - [MCP vs CLI（2025-08-15 原文）](https://mariozechner.at/posts/2025-08-15-mcp-vs-cli/)
-- [badlogic/browser-tools（GitHub，已遷移）](https://github.com/badlogic/browser-tools) → [badlogic/agent-tools（新家）](https://github.com/badlogic/agent-tools)
+- 演化三代：[badlogic/browser-tools（一代，DEPRECATED）](https://github.com/badlogic/browser-tools) → [badlogic/agent-tools（二代，superseded）](https://github.com/badlogic/agent-tools) → [badlogic/pi-skills（現行，2,452★）](https://github.com/badlogic/pi-skills)
 - [badlogic/terminalcp（8/15 實驗工具，commit ac9272e）](https://github.com/badlogic/terminalcp)
 - 相關脈絡：Armin Ronacher 論 Bash vs MCP、Anthropic code-execution-with-MCP（150k→2k tokens）、[cchistory.mariozechner.at](https://cchistory.mariozechner.at)
