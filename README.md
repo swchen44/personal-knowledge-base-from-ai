@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code Skill 觸發權限矩陣：自動組合、User Only 與 Human Approval Gate](./AI/2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX.md) — 釐清 A→B 為何受 `disable-model-invocation` 阻擋，並以 `skillOverrides` 與 Human Approval Gate 設計特權操作
 - [也許你根本不需要 MCP：CLI 工具論戰與 browser-tools 實證](./AI/2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS.md) — 225 tokens README 取代 18k MCP 清單；120-run 實驗證明協定只是 plumbing
 - [macOS .localized 資料夾顯示名稱本地化機制](./OS/2026-08-30-MACOS-LOCALIZED-FOLDER-DISPLAY-NAME-MECHANISM.md) — 兩種機制五組實測、衝突優先順序，及 Windows/Linux 顯示層 vs 真實改名的設計哲學對照
 - [Markdown 渲染器前期研究：CommonMark / GFM / Obsidian 三層規格全景](./DevTools/2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN.md) — 兩層形式化規格 vs 實作即規格，附 GitHub 與 Obsidian 擴充語法完整對照表

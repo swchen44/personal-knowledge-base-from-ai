@@ -141,3 +141,4 @@
 | 2026-08-30 07:53 | ingest | macOS .localized 資料夾本地化機制實機實驗對話（Launchpad 偵查 → 五組對照實驗 → 跨平台研究） | [[2026-08-30-MACOS-LOCALIZED-FOLDER-DISPLAY-NAME-MECHANISM]] | OS | 3 | 6 |
 | 2026-08-30 07:56 | ingest | mariozechner.at 兩篇（what-if-no-MCP + MCP-vs-CLI）＋ badlogic/browser-tools 原始碼 | [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] | AI | 5 | 6 |
 | 2026-08-30 15:40 | update | 演化三部曲補研究：agent-tools（多組+選型指引+零碼工具）→ pi-skills（SKILL.md 格式、跨 5 harness、2452★）——CLI 純粹主義合流 skill 標準 | [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] | AI | 0 | 6 |
+| 2026-09-06 10:50 | ingest | conversation research: Claude Code Skill invocation permission matrix | [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] | AI | 4 | 5 |

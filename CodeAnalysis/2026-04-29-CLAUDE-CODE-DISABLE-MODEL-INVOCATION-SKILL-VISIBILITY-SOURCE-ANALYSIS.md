@@ -467,6 +467,7 @@ description: "Skill A — 驗證工具"
 - [[2026-04-29-CLAUDE-CODE-HOOK-API-SOURCE-DEEP-DIVE]] — Hook API 完整解析，說明 Hook 為何無法直接呼叫 Skill
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Hook 入門指南，本文分析 Hook 與 Skill 的交叉呼叫限制
 - [[2026-04-17-CLAUDE-CODE-SETTINGS-FILES-COMPLETE-GUIDE]] — Settings 層級指南，本文涉及 Skill 設定的載入路徑
+- [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] — 實務權限矩陣與 A→B 組合限制，將本文的原始碼機制轉為 Human Approval Gate 設計
 
 ## References
 

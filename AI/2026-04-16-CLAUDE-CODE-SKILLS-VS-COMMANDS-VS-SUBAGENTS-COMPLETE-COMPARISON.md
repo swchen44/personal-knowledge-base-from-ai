@@ -351,6 +351,7 @@ SKILL.md 遵循 [Agent Skills 開放標準](https://agentskills.io)，可跨工�
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — Skill 可見性控制的原始碼級解析：getSkillToolCommands vs getSlashCommandToolSkills 過濾差異
 - [[2026-04-08-7-RULES-FOR-CREATING-EFFECTIVE-CLAUDE-CODE-SKILL]] — Skill 內容撰寫的七條規則，補充本文著重的機制層比較
 - [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] — skill + subagent 協作的實戰教材:skill 當強制入口與隱藏資料查找(disable-model-invocation),subagent 當兩層 fan-out 執行體
+- [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] — 補充 2×2 觸發權限矩陣、A→B 組合限制與 Privileged Action 的 Human Approval Gate 設計
 
 ## References
 
