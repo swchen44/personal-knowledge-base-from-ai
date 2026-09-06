@@ -535,6 +535,7 @@ git push origin hotfix-login-crash-merge
 - [[2026-01-25-CLAUDE-CODE-MOST-UNDERRATED-FEATURE-HOOKS]] — Claude Code Hooks 完整指南，含 WorktreeCreate 詳解
 - [[GIT-INTERNALS]] — git objects、refs、worktree 底層機制
 - [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — 從原始碼逐行追蹤 worktree 的檔案操作（新增/修改/讀取/刪除）
+- [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] — 從 CLI 操作角度說明為何長時間 Codex／Claude Agent 應用獨立 worktree 當 checkpoint 與 recovery 邊界
 
 ## References
 

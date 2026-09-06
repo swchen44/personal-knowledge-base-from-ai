@@ -376,6 +376,7 @@ Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**�
 - [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] — Loop vs Harness 之辨的前作；本文把二分擴充為三層並補上 graph。
 - [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]] — Loop Engineering 多來源綜合；本文的七要素迴圈解剖與其停止條件設計互相印證。
 - [[2026-04-09-ANTHROPIC-SHIPPED-THREE-OF-FIVE-HARNESS-LAYERS]] — Anthropic 五層 harness 堆疊；本文引用的 Anthropic 多 session 持久化經驗（進度檔+git）屬於其中的狀態層。
+- [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] — 將 Harness 的 permissions、observability、state 與 Git checkpoint 具體化為 Codex／Claude 長時間 Agent 的 Supervisor 操作速查
 
 ---
 - [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] — 固定 RPI pipeline + 兩層 fan-out + retry 上限 + 強制品質閘門,是「graph 工程」確定性拓撲的輕量生產實例

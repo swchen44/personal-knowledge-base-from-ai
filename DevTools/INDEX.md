@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] | Codex CLI 與 Claude Code 的互動快捷鍵、非互動自動化、結構化事件、安全邊界與長時間 Agent Supervisor 速查表，含一張可離線閱讀的圖表 | 2026-09-06 |
 | [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] | Ghostty / Claude Code 記憶體暴增診斷、環境變數止血、tmux / psmux 工作階段持久化與跨平台終端選型 | 2026-07-05 |
 | [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] | Headless 模式（-p）完整讀取 auto memory；`CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` 阻斷讀取與背景寫入但不阻止模型直接寫入；四種禁用方法比較 | 2026-05-16 |
 | [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] | Plan Mode vs SuperPowers 衝突深度分析：原始碼追蹤 EnterPlanMode 攔截、Auto Mode 停用、計畫路徑不相容、社群 Issues 與最佳實踐建議 | 2026-05-03 |

@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Codex CLI vs Claude Code 自動化速查表：快捷鍵、非互動執行與長時間 Agent](./DevTools/2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET.md) — `codex exec`／`claude -p`、JSON events、approval vs sandbox、Git worktree 與 Supervisor recovery 的實作速查
 - [Claude Code Skill 觸發權限矩陣：自動組合、User Only 與 Human Approval Gate](./AI/2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX.md) — 釐清 A→B 為何受 `disable-model-invocation` 阻擋，並以 `skillOverrides` 與 Human Approval Gate 設計特權操作
 - [也許你根本不需要 MCP：CLI 工具論戰與 browser-tools 實證](./AI/2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS.md) — 225 tokens README 取代 18k MCP 清單；120-run 實驗證明協定只是 plumbing
 - [macOS .localized 資料夾顯示名稱本地化機制](./OS/2026-08-30-MACOS-LOCALIZED-FOLDER-DISPLAY-NAME-MECHANISM.md) — 兩種機制五組實測、衝突優先順序，及 Windows/Linux 顯示層 vs 真實改名的設計哲學對照

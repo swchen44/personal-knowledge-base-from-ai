@@ -173,6 +173,7 @@ CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 claude -p "你的問題"
 - [[2026-04-14-CLAUDE-CODE-CLAUDEMD-SKILLS-HOT-RELOAD-MECHANISM]] — CLAUDE.md 發現與載入機制，與 memory 共用 getMemoryFiles
 - [[2026-04-12-CLAUDE-CODE-WORKTREE-FILE-OPERATIONS-AND-REPO-INTEGRATION]] — Worktree 與 git root 的關係，解釋為何共用同一 memory slug
 - [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — 各層設定的優先級與信任邊界
+- [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] — 將 `claude -p` 放入 Codex／Claude 的非互動自動化、JSON event 與 Supervisor 架構對照
 
 ## References
 

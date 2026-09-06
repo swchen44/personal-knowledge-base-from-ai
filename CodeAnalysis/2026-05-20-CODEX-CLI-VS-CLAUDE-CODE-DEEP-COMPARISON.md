@@ -405,6 +405,7 @@ args = ["-y", "@modelcontextprotocol/server-filesystem", "/path"]
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]] — Claude Code OTel 設計；Codex 也有 `otel` crate，可互補閱讀
 - [[2026-04-28-CLAUDE-CODE-TOKEN-COST-CALCULATION-PIPELINE]] — Claude Code token cost 計算，對照本文「Token 使用」段
 - [[2026-04-17-CLAUDE-CODE-FEEDBACK-FRUSTRATION-DETECTION-EVENTMETADATA-ARCHITECTURE]] — Claude Code 的 feedback 架構；Codex 也有 `feedback` crate
+- [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] — 可操作的快捷鍵、`codex exec`／`claude -p`、安全旗標與 Supervisor 速查表，含對照圖片
 - [[2026-04-10-CLAUDE-SESSION-ANALYZER-CODE-ANALYSIS]] — Claude Code session JSONL 解析；對照本文「Session 儲存」維度
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — 多 agent 時代的工程師角色；本文「雙向 MCP」呼應此趨勢
 - [[2026-05-20-CODEX-HOOK-AND-SKILLS-PARAMETERS-DEEP-DIVE]] — Codex Hook 系統與 Skills 搜尋路徑的原始碼層級規格；對應本文「Hook / 擴充機制」與「Skills」維度的完整事實細節
