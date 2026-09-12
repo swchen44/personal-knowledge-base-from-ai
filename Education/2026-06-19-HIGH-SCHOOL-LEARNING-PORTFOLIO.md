@@ -13,7 +13,6 @@ source_type: video
 author: "47雲端輔導室"
 status: notes
 links:
-  - "[[2026-06-19-20260614-CAREER-PUBLIC-WELFARE-LECTURE]]"
   - "[[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]]"
   - "[[2021-02-02-THINK-AGAIN-ADAM-GRANT]]"
   - "[[SELF-DIRECTED-LEARNING]]"
@@ -151,7 +150,6 @@ transcript_scope: "完整案例與時間戳意譯整理稿，非逐字轉載"
 
 ## 相關連結（Related）
 
-- [[2026-06-19-20260614-CAREER-PUBLIC-WELFARE-LECTURE]] — 原始講座筆記，提供相同影片的完整案例索引與整理脈絡。
 - [[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]] — 同樣聚焦台灣高中生的學測、閱讀與學習歷程素材。
 - [[2021-02-02-THINK-AGAIN-ADAM-GRANT]] — 可延伸思考如何把失敗、反思與重新框架轉成學習證據。
 - [[SELF-DIRECTED-LEARNING]] — 影片反覆以自主學習作為跨科系作品與長期能力的來源。
