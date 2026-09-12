@@ -144,3 +144,4 @@
 | 2026-09-06 10:50 | ingest | conversation research: Claude Code Skill invocation permission matrix | [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] | AI | 4 | 5 |
 | 2026-09-06 11:00 | ingest | conversation research: Codex CLI vs Claude Code automation cheat sheet with supplied image | [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] | DevTools | 4 | 5 |
 | 2026-09-12 16:03 | ingest | 20260614生涯公益講座：逐字稿轉錄後整理 39 組學習歷程、升學與 AI 案例 | [[2026-06-19-20260614-CAREER-PUBLIC-WELFARE-LECTURE]] | Education | 2 | 6 |
+| 2026-09-12 16:19 | ingest | 新增「高中生的學習歷程檔案.md」Markdown 版本，保留 39 組案例與時間軸意譯整理 | [[2026-06-19-HIGH-SCHOOL-LEARNING-PORTFOLIO]] | Education | 1 | 6 |

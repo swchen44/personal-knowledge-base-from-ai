@@ -1,5 +1,5 @@
 ---
-title: "20260614生涯公益講座：學習歷程的時間策略、案例與作品累積"
+title: "高中生的學習歷程檔案：20260614生涯公益講座整理"
 date: 2026-06-19
 category: Education
 tags:
@@ -13,6 +13,7 @@ source_type: video
 author: "47雲端輔導室"
 status: notes
 links:
+  - "[[2026-06-19-20260614-CAREER-PUBLIC-WELFARE-LECTURE]]"
   - "[[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]]"
   - "[[2021-02-02-THINK-AGAIN-ADAM-GRANT]]"
   - "[[SELF-DIRECTED-LEARNING]]"
@@ -20,7 +21,7 @@ links:
 channel: "47雲端輔導室"
 duration: "1:47:19"
 transcript_method: whisper
-transcript_scope: "時間戳意譯整理稿，非完整逐字轉載"
+transcript_scope: "完整案例與時間戳意譯整理稿，非逐字轉載"
 ---
 
 ## 摘要（Summary）
@@ -31,6 +32,9 @@ transcript_scope: "時間戳意譯整理稿，非完整逐字轉載"
 
 > [!important] 逐字稿範圍
 > 影片沒有 YouTube 字幕。本次先下載原始中文音訊，再用 Whisper base 產生完整時間戳作為內部分析來源。受版權與可讀性限制，本筆記保存完整涵蓋影片內容的「時間戳意譯整理稿」，不重製整支影片的逐字全文。專有名詞若由 Whisper 辨識不清，會以「依上下文判斷」標示。
+
+> [!info] 檔案用途
+> 這是目前工作區的 Markdown 版本，檔名為 `高中生的學習歷程檔案.md`；內容包含講座重點、39 組案例、可執行方法、Bloom's Taxonomy 分析與待補充問題。
 
 ## 關鍵洞察（Key Insights）
 
@@ -147,7 +151,7 @@ transcript_scope: "時間戳意譯整理稿，非完整逐字轉載"
 
 ## 相關連結（Related）
 
-- [[2026-06-19-HIGH-SCHOOL-LEARNING-PORTFOLIO]] — 對應的工作區檔案與 KB Markdown 版本。
+- [[2026-06-19-20260614-CAREER-PUBLIC-WELFARE-LECTURE]] — 原始講座筆記，提供相同影片的完整案例索引與整理脈絡。
 - [[2026-05-30-HIGH-SCHOOL-READING-LIST-XUECE-HSINCHU-LIBRARY]] — 同樣聚焦台灣高中生的學測、閱讀與學習歷程素材。
 - [[2021-02-02-THINK-AGAIN-ADAM-GRANT]] — 可延伸思考如何把失敗、反思與重新框架轉成學習證據。
 - [[SELF-DIRECTED-LEARNING]] — 影片反覆以自主學習作為跨科系作品與長期能力的來源。
