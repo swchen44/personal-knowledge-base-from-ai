@@ -310,6 +310,7 @@ Array.from(document.querySelectorAll('table tr'))
 ## 相關連結（Related）
 
 - [[2021-02-02-THINK-AGAIN-ADAM-GRANT]] — Adam Grant 的《重新思考（Think Again）》談「思辨能力」，與本書單 A 類「哲學思辨／知性論述」高度互補，是大學生／高中生延伸閱讀的雙語對照版本
+- [[2026-06-19-20260614-CAREER-PUBLIC-WELFARE-LECTURE]] — 影片把閱讀、自主學習與學習歷程連成跨科系素材，延伸本筆記的高中升學閱讀路徑
 
 ## References
 
