@@ -1,6 +1,6 @@
 ---
-name: kb-create
-description: 讀取網頁文章（含需登入的頁面）或 YouTube 影片，翻譯成台灣繁體中文 Obsidian markdown 格式，連同圖片一起上傳到 GitHub 個人知識庫。自動維護雙向連結、LOG.md 日誌、INDEX.md 索引與 Open Questions。輸入一個 URL，自動完成全流程。
+name: article-to-personal-kb
+description: 讀取網頁文章（含需登入的頁面）或 YouTube 影片，翻譯成台灣繁體中文 Obsidian markdown 格式，連同圖片一起上傳到 GitHub 個人知識庫。輸入一個 URL，自動完成全流程。
 disable-model-invocation: false
 argument-hint: <url>
 ---
@@ -11,58 +11,6 @@ argument-hint: <url>
 > - **GitHub Repo URL**（如 `https://github.com/owner/repo`）→ 執行 **程式碼分析流程**（步驟 A1–A5），然後跳到步驟 3
 > - **YouTube URL** → 步驟 1（YouTube 分支）→ 步驟 2 跳過 → 步驟 3 開始
 > - **一般網頁文章** → 步驟 1（文章分支）→ 步驟 2 → 步驟 3 開始
-
----
-
-## 環境變數
-
-本 skill 依賴以下環境變數：
-
-| 變數 | 用途 |
-|------|------|
-| `$GITHUB_PERSONAL_ACCESS_TOKEN` | GitHub API 驗證 |
-| `$KB_ROOT` | 個人知識庫本地 repo 路徑（如 `~/git/personal-knowledge-base-from-ai`） |
-| `$KB_GITHUB_REPO` | 知識庫 GitHub repo（如 `swchen44/personal-knowledge-base-from-ai`） |
-
-> [!warning] 執行前先驗證環境變數存在：
-> ```bash
-> : "${KB_ROOT:?需設定 KB_ROOT 環境變數}" \
->   "${KB_GITHUB_REPO:?需設定 KB_GITHUB_REPO 環境變數}" \
->   "${GITHUB_PERSONAL_ACCESS_TOKEN:?需設定 GITHUB_PERSONAL_ACCESS_TOKEN 環境變數}"
-> ```
-
-## 執行安全與驗證原則（Execution Safety & Verification）
-
-這個 skill 會寫入本機 repo、回填既有筆記，最後可能 `commit` 與 `push`。所有寫入都要留下可檢查的變更範圍與驗證結果。
-
-### 寫入前安全閘門
-
-1. 在同步、複製、回填、刪除或提交前，先執行 `git -C "$KB_ROOT" status --short`，保存原本的工作樹狀態。
-2. 工作樹已有未提交變更時，不執行自動 `pull --rebase`、stash、reset、clean、checkout 或覆寫。保留原狀態，完成可安全產出的本機草稿，並在最後標記 `publish blocked`。
-3. 目標檔案已存在時，先讀取並比較內容；不得用 `cp` 靜默覆蓋。更新既有筆記要保留原內容，刪除檔案或圖片前要確認精確路徑，並用 `git diff --name-status -- <path>` 預覽該路徑的刪除變更。
-4. 只 stage 這次產生或明確修改的檔案。禁止使用 `git add .`、`git add -A` 代替明確檔案清單。
-5. 不執行 `git reset --hard`、`git clean -fd`、`git checkout --` 或未經明確授權的遞迴刪除。
-
-### 驗證 gate
-
-在 `commit` 前至少完成：
-
-```bash
-git -C "$KB_ROOT" diff --check
-git -C "$KB_ROOT" diff --cached --check
-git -C "$KB_ROOT" diff --cached --name-status
-git -C "$KB_ROOT" status --short
-```
-
-刪除或移除引用時，另外確認 `git diff --name-status -- <path>` 與 `git diff --cached --name-status -- <path>` 都只指向預期路徑。並確認 frontmatter、目標檔案、圖片引用、wikilink、`INDEX.md`、`README.md` 與 `LOG.md` 都符合本次變更。`push` 後再確認：
-
-```bash
-git -C "$KB_ROOT" status --short --branch
-git -C "$KB_ROOT" rev-parse HEAD
-git -C "$KB_ROOT" ls-remote origin refs/heads/main
-```
-
-只有驗證結果可讀取且 branch 已與遠端同步時，才回報已完成發布。任何未執行的驗證都要列在最後報告的「跳過或阻塞」欄位。
 
 ---
 
@@ -531,9 +479,6 @@ github_language: {主要語言}
 ## 我的心得（My Takeaways）
 我從這個 codebase 學到什麼？哪些設計可以應用到自己的專案？
 
-## 待補充（Open Questions）
-- {讀完後仍不清楚的問題}
-
 ## 相關連結（Related）
 - [[RELATED-NOTE-1]] — 連結理由
 - [[RELATED-NOTE-2]] — 連結理由
@@ -739,10 +684,6 @@ curl -L -o /tmp/kb-assets/{圖片檔名} "{圖片URL}"
 
 圖片檔名：保留原檔名；若無副檔名則加 `.jpg`。
 
-> [!important] 圖片分兩類處理：表格截圖 vs 真圖
-> 下載後**先別急著把每張圖都當內容圖引用**。很多文章（尤其 Medium）把「表格」做成截圖——頁面純文字版會把表格替換成佔位符（如 `table-three-layers`），導致你在文字稿裡**看不到表格內容、誤以為它只是張圖**。
-> 這類**表格截圖**應在步驟 4 用 Read 工具看圖後**轉成原生 Markdown 表格**（可搜尋、可複製、可被 Obsidian Bases 過濾），並**移除該圖檔與引用**；只有**真正的示意圖／流程圖／架構圖／插畫／封面／照片**才保留為圖片。判斷與轉換規則見步驟 4。
-
 ---
 
 ## 步驟 3：決定分類、檔名與路徑
@@ -832,11 +773,6 @@ transcript_method: youtube-transcript-api   # youtube-transcript-api | yt-dlp | 
 ### 正文結構
 
 ```markdown
-## TL;DR
-- {這篇內容在處理的問題}
-- {最重要的 1–3 個結論}
-- {讀者可以採取的下一步}
-
 ## 摘要（Summary）
 一段說明：這是什麼、為何重要。
 
@@ -860,11 +796,6 @@ transcript_method: youtube-transcript-api   # youtube-transcript-api | yt-dlp | 
 ## 我的心得（My Takeaways）
 我學到了什麼，以及如何應用。
 
-## 待補充（Open Questions）
-- {讀完原文後仍無法回答的問題}
-- {原文沒交代的前提或假設}
-- {值得進一步追的延伸來源，附建議搜尋關鍵字}
-
 ## 相關連結（Related）
 - [[RELATED-NOTE-1]] — 連結理由簡述
 - [[RELATED-NOTE-2]] — 連結理由簡述
@@ -874,34 +805,11 @@ transcript_method: youtube-transcript-api   # youtube-transcript-api | yt-dlp | 
 - [原文]({URL})
 ```
 
-> [!important] **TL;DR 規則**：
-> - `source_type: article` 必須放在 frontmatter 後、`## 摘要` 前。
-> - 用 3–5 個短項目交代問題、結論與下一步；不要把摘要整段複製到 TL;DR。
-> - 影片、論文與方法類筆記若有明確主張或可執行結論，也加入 TL;DR。
-
-> [!important] **Open Questions 規則**：
-> - 寫 3–7 條
-> - 每條必須是「讀完原文後仍無法回答」的問題，不是原文重點的改寫
-> - LLM 應誠實列出自己的不確定處與知識缺口
-> - 標注建議搜尋關鍵字，方便未來追蹤
-
 ### 圖片引用格式
 
 ```markdown
 ![圖片中文說明](assets/{YYYY-MM-DD}-{簡短標題}/{圖片檔名})
 ```
-
-> [!important] 引用前先用 Read 工具逐一看圖，表格截圖一律轉 Markdown
-> 在引用任何圖片前，**用 Read 工具逐一看過下載的每張圖**（你能直接讀 PNG/JPG），依內容分流：
->
-> | 圖片類型 | 處理方式 |
-> |---------|---------|
-> | **表格截圖**（標題列 + 資料列的格狀資料） | **轉成原生 Markdown 表格**內嵌正文，**不保留圖片引用**，並在步驟 6 複製前／步驟 11 提交前刪除該圖檔 |
-> | 流程圖／架構圖／時序圖／心智圖 | 保留圖片引用（純空間關係，ASCII 難完整重現） |
-> | 插畫／封面／照片／螢幕截圖（非表格） | 保留圖片引用，alt 用中文說明圖片實際內容 |
->
-> **判斷準則**：若圖中資訊「可用 `| 欄 | 欄 |` 表達」就轉 Markdown；若是空間關係、視覺示意或裝飾就保留圖片。
-> **轉換規則**：忠實照抄圖中文字，不自行增刪欄位或列；路徑、指令、程式碼保留原樣（用反引號）。轉完後該圖即為冗餘，從 `assets/` 刪除以免佔空間。
 
 > [!important] 步驟 4 結尾：撰寫完成後，將 markdown 存到 `/tmp/kb-article-{ALL-CAPS-TITLE}.md`（即以步驟 3 決定的檔名標題命名），供後續步驟使用。例：`/tmp/kb-article-CLAWTEAM-AGENT-SWARM-INTELLIGENCE.md`。在後續步驟中以變數 `TMP_ARTICLE` 引用此路徑。
 
@@ -973,49 +881,6 @@ transcript_method: youtube-transcript-api   # youtube-transcript-api | yt-dlp | 
 
 > [!important] 程式碼或方法類內容必須額外加入 `### 方案批判三問` 區塊，回答：**最大的風險？什麼情況下失敗？有沒有更好的替代方案？**
 
-## 步驟 4.6：六頂思考帽回饋（Six Thinking Hats Feedback）
-
-> [!important] 文章、教學、方法、決策或帶有明確主張的內容，在初稿完成後加入本節。純資料索引、工具參考或沒有可討論主張的短筆記可跳過，並在最後報告標記為 `skipped: not applicable`。
-
-這一輪專門檢查初稿的觀點完整性與可修改處。它和 Bloom's Taxonomy 分工不同：Bloom 分析讀者如何理解內容，六頂思考帽檢查內容本身與回饋品質。每次只使用一種思考模式，不把事實、情緒、風險與創意混在同一段。
-
-建議順序：
-
-```text
-藍帽（設定問題） → 白帽（整理資訊） → 紅帽（記錄感受）
-→ 黃帽（找出價值） → 黑帽（檢查風險） → 綠帽（提出替代方案）
-→ 藍帽（收斂修改與下一步）
-```
-
-| 帽子 | 思考焦點 | 回饋提示 |
-|------|---------|---------|
-| **藍帽** | 管理流程、設定問題、整理結論 | 這次要回答什麼？最後要做哪一個決定？ |
-| **白帽** | 事實、資料、已知與未知 | 哪些內容有來源？還缺哪一項資料？ |
-| **紅帽** | 直覺、感受與讀者反應 | 讀者第一眼感到什麼？哪裡讓人困惑或有共鳴？ |
-| **黃帽** | 價值、優點與可行機會 | 這個觀點在哪些情境有用？最值得保留什麼？ |
-| **黑帽** | 風險、限制與可能失敗點 | 哪個主張可能過度延伸？什麼前提不成立就會失效？ |
-| **綠帽** | 新想法、替代方案與延伸應用 | 還能換哪個角度？如何改成更可執行的做法？ |
-| **藍帽** | 收斂決策與修改順序 | 要改哪 3 件事？哪些問題保留到 Open Questions？ |
-
-輸出格式：
-
-```markdown
-## 六頂思考帽回饋（Six Thinking Hats Feedback）
-
-### 藍帽：問題與範圍
-### 白帽：事實與未知資訊
-### 紅帽：直覺與讀者反應
-### 黃帽：價值與可保留內容
-### 黑帽：風險與限制
-### 綠帽：替代方案與新應用
-### 藍帽：修改項目與下一步
-- 修改一
-- 修改二
-- 修改三
-```
-
-六頂思考帽的角色定義依 Edward de Bono 官方說明整理；翻轉教育的文章則示範先用 `5W1H` 認識議題，再用六頂思考帽切換觀點，最後寫成文章。參考：[de Bono 官方說明](https://www.debono.com/_files/ugd/acf405_0ec0d7f959d7424fad5a9f9e9ec581e.pdf)、[翻轉教育：六頂思考帽應用教學攻略](https://flipedu.parenting.com.tw/article/008782)。
-
 ### Callout 類型參考
 
 | Callout | 用途 |
@@ -1041,194 +906,60 @@ transcript_method: youtube-transcript-api   # youtube-transcript-api | yt-dlp | 
 
 ---
 
-## 步驟 4.7：Mermaid 圖表驗證（筆記含 mermaid 區塊時必做）
+## 步驟 5：Clone / 更新本地 Repo
 
-> [!warning] GitHub 的 Mermaid 渲染管線可能先解碼 HTML entity，再解析圖表。`mermaid.parse()` 本地通過，不代表 GitHub 一定能渲染，因此撰寫與發布前都要做防禦性檢查。
+GitHub 資訊：
+- **Repo**：`swchen44/personal-knowledge-base-from-ai`
+- **Token**：環境變數 `$GITHUB_PERSONAL_ACCESS_TOKEN`
+- **本地路徑**：`{執行 skill 時的工作目錄}/personal-kb-repo`（即 `$PWD/personal-kb-repo`）
 
-### 防禦性寫法
-
-- 含特殊字元（`/`、`：`、`（）`、逗號）的 label 一律用雙引號包裹，例如 `A["..."]`、`B{"..."}`。
-- label 內不要放引號字元或 `&quot;`。需要表達引號時，改寫句子避開巢狀引號。
-- label 內的 `>`、`<` 寫成 `&gt;`、`&lt;`；`<br/>` 換行標籤除外。
-
-### 驗證指令
-
-進入步驟 5 前執行，FAIL 就先修正：
+> [!important] 每次執行此步驟時，**無論如何都必須先 pull 到最新版本**，再進行任何檔案複製或修改。若 pull 失敗（如 conflict），必須先解決後再繼續。
 
 ```bash
-scripts/validate-mermaid.sh "$TMP_ARTICLE"
-```
+REPO_URL="https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/swchen44/personal-knowledge-base-from-ai.git"
+LOCAL_REPO="$PWD/personal-kb-repo"
 
-腳本會掃描 `&quot;` 風險模式，並在 `jsdom` 環境用 `mermaid.parse()` 驗證每個 Mermaid 區塊。依賴會安裝到暫存目錄並跨次重用。
-
-push 後開啟 GitHub blob 頁面確認圖表實際渲染成功，沒有出現 `Unable to render rich display`。
-
-## 步驟 5：同步知識庫 Repo
-
-```bash
-REPO_URL="https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/${KB_GITHUB_REPO}.git"
-
-if [ -d "$KB_ROOT/.git" ]; then
+if [ -d "$LOCAL_REPO/.git" ]; then
+  # 已存在：強制更新至遠端最新版本，再繼續
   echo "正在同步最新版本..."
-  PREEXISTING_STATUS=$(git -C "$KB_ROOT" status --porcelain)
-  if [ -n "$PREEXISTING_STATUS" ]; then
-    echo "KB 工作樹已有未提交變更，保留原狀態，停止 pull、commit 與 push。"
-    printf '%s\n' "$PREEXISTING_STATUS"
-    exit 1
-  fi
-  git -C "$KB_ROOT" fetch origin
-  git -C "$KB_ROOT" pull --rebase origin main
+  git -C "$LOCAL_REPO" fetch origin
+  git -C "$LOCAL_REPO" pull --rebase origin main
   echo "同步完成，目前為最新版本"
 else
+  # 首次執行：完整 clone
   echo "首次 clone..."
-  git clone "$REPO_URL" "$KB_ROOT"
+  git clone "$REPO_URL" "$LOCAL_REPO"
 fi
 ```
 
 ---
 
-## 步驟 6：複製圖片與文章到知識庫
+## 步驟 6：複製圖片與文章到本地 Repo
+
+將圖片和 Markdown 文章複製到正確的資料夾結構：
 
 ```bash
+LOCAL_REPO="$PWD/personal-kb-repo"
+
 # 建立圖片目錄並複製圖片
-mkdir -p "$KB_ROOT/{分類}/assets/{YYYY-MM-DD}-{簡短標題}/"
-cp -n /tmp/kb-assets/* "$KB_ROOT/{分類}/assets/{YYYY-MM-DD}-{簡短標題}/" 2>/dev/null || true
+mkdir -p "$LOCAL_REPO/{分類}/assets/{YYYY-MM-DD}-{簡短標題}/"
+cp "$TMP_ASSETS"/* "$LOCAL_REPO/{分類}/assets/{YYYY-MM-DD}-{簡短標題}/" 2>/dev/null || true
 
 # 複製 Markdown 文章（TMP_ARTICLE 為步驟 A1 或步驟 4 結尾設定的暫存路徑）
-DEST_NOTE="$KB_ROOT/{分類}/{YYYY-MM-DD}-{ALL-CAPS-TITLE}.md"
-if [ -e "$DEST_NOTE" ]; then
-  echo "目標筆記已存在，先比較內容，不可直接覆寫：$DEST_NOTE"
-  diff -u "$DEST_NOTE" "$TMP_ARTICLE" || true
-  exit 1
-fi
-cp "$TMP_ARTICLE" "$DEST_NOTE"
-```
-
-記下新檔案路徑，後續步驟需要：
-```bash
-NEW_NOTE_PATH="{分類}/{YYYY-MM-DD}-{ALL-CAPS-TITLE}.md"
-NEW_NOTE_NAME="{YYYY-MM-DD}-{ALL-CAPS-TITLE}"  # 不含 .md，用於 wikilink
-CATEGORY="{分類}"
+cp "$TMP_ARTICLE" "$LOCAL_REPO/{分類}/{YYYY-MM-DD}-{ALL-CAPS-TITLE}.md"
 ```
 
 ---
 
-## 🆕 步驟 7：Cross-Reference 雙向連結維護
+## 步驟 7：更新根目錄 README.md
 
-> [!important] 本步驟是 v2 新增的核心功能。每次攝入不只寫一個孤立檔，要主動連結既有知識網絡。
-
-### 7a. 搜尋相關舊筆記
-
-從新筆記抽出搜尋詞：frontmatter 的 `tags`、`category`、`author`，以及標題與摘要中的命名實體（人名、產品名、技術名）。
-
-```bash
-# 對每個搜尋詞，找出同分類與跨分類的既有筆記
-CANDIDATES=$(mktemp)
-for term in {tag1} {tag2} {author} {entity1} {entity2}; do
-  grep -rl -i "$term" "$KB_ROOT" --include="*.md" \
-    | grep -v assets/ \
-    | grep -v LOG.md \
-    | grep -v INDEX.md \
-    | grep -v README.md \
-    | head -5
-done | sort -u > "$CANDIDATES"
-```
-
-LLM 逐一讀取候選筆記的 frontmatter + 摘要段落，**判斷哪些真正語意相關**（不只是字面命中），產出最終清單。
-
-> [!warning] **上限 8 個**：最多回填 8 個既有筆記，避免單次攝入過度污染。
-> 優先選擇：同主題 > 同作者 > 同標籤。
-
-### 7b. 正向填入新筆記
-
-用 Edit 工具更新 `/tmp/kb-article.md`（已複製到 KB_ROOT）：
-
-1. **frontmatter `links:`** — 填入真實找到的 `[[NOTE-NAME]]`
-2. **`## 相關連結（Related）`** — 每條附上一句連結理由
-
-### 7c. 反向回填既有筆記
-
-對最終清單裡的每個既有筆記，用 Edit 工具：
-
-1. 找到 `## 相關連結（Related）` 段落
-2. **先 grep 檢查**：該檔是否已包含新筆記的 wikilink，若已存在則跳過
-3. 在段落末尾 append 一行：`- [[NEW-NOTE-NAME]] — {連結理由}`
-4. 若該段不存在，在文件末尾新增：
-   ```markdown
-
-   ## 相關連結（Related）
-   - [[NEW-NOTE-NAME]] — {連結理由}
-   ```
-
-> [!warning] 安全規則
-> - 反向回填前先確認檔案存在且為 .md
-> - **只新增、不刪改既有內容**
-> - 不修改 frontmatter 既有欄位
-> - 一檔只插入一行，避免重複
-
-記下被回填的檔案清單與數量：
-```bash
-CROSSLINK_COUNT={N}
-CROSSLINKED_FILES="{file1}, {file2}, ..."
-```
-
----
-
-## 🆕 步驟 8：更新 INDEX.md
-
-在 `$KB_ROOT/{分類}/INDEX.md` 追加一行（若檔案不存在則建立）。
-
-```bash
-INDEX_FILE="$KB_ROOT/$CATEGORY/INDEX.md"
-
-if [ ! -f "$INDEX_FILE" ]; then
-  echo "# $CATEGORY Index" > "$INDEX_FILE"
-  echo "" >> "$INDEX_FILE"
-  echo "| 筆記 | 摘要 | 日期 |" >> "$INDEX_FILE"
-  echo "|------|------|------|" >> "$INDEX_FILE"
-fi
-```
-
-用 Edit 工具在表格末尾 append 一行：
-```
-| [[{NOTE-NAME}]] | {一句話摘要} | {YYYY-MM-DD} |
-```
-
----
-
-## 🆕 步驟 9：Append LOG.md
-
-```bash
-LOG_FILE="$KB_ROOT/LOG.md"
-
-if [ ! -f "$LOG_FILE" ]; then
-  cat > "$LOG_FILE" <<'HEADER'
-# Knowledge Base Ingest Log
-
-每次攝入（ingest）自動記錄於此，append-only。
-
-| 時間 | 操作 | 來源 | 筆記 | 分類 | 回填數 | Open Questions |
-|------|------|------|------|------|--------|----------------|
-HEADER
-fi
-```
-
-用 Edit 工具在表格末尾 append 一行：
-```
-| {YYYY-MM-DD HH:MM} | ingest | {URL 或標題} | [[{NOTE-NAME}]] | {CATEGORY} | {CROSSLINK_COUNT} | {OPEN_Q_COUNT} |
-```
-
-> [!warning] LOG.md 是 append-only，**禁止刪改舊條目**。
-
----
-
-## 步驟 10：更新根目錄 README.md
+直接在本地編輯 README.md，加入新筆記到 Recent Notes 區塊：
 
 ```python
 python3 << 'PYEOF'
 import os
-KB_ROOT = os.environ["KB_ROOT"]
-readme_path = f"{KB_ROOT}/README.md"
+LOCAL_REPO = os.path.join(os.getcwd(), "personal-kb-repo")
+readme_path = f"{LOCAL_REPO}/README.md"
 
 with open(readme_path, 'r', encoding='utf-8') as f:
     content = f.read()
@@ -1252,63 +983,23 @@ PYEOF
 
 ---
 
-## 步驟 11：Git Commit & Push
+## 步驟 8（原步驟 8 前）：Git Commit & Push
 
-commit message 格式包含影響範圍：
+將所有變更一次 commit 並 push 回 GitHub：
 
 ```bash
-# 只加入本次明確修改的檔案；補上實際圖片與 CROSSLINKED_FILES 後再執行。
-STAGE_FILES=(
-  "$KB_ROOT/$NEW_NOTE_PATH"
-  "$KB_ROOT/$CATEGORY/INDEX.md"
-  "$KB_ROOT/LOG.md"
-  "$KB_ROOT/README.md"
-)
-# 將實際新增的圖片與 CROSSLINKED_FILES 以 "$KB_ROOT/<相對路徑>" 加入 STAGE_FILES。
-git -C "$KB_ROOT" add -- "${STAGE_FILES[@]}"
-git -C "$KB_ROOT" diff --check
-git -C "$KB_ROOT" diff --cached --check
-git -C "$KB_ROOT" diff --cached --name-status
-git -C "$KB_ROOT" commit -m "$(cat <<EOF
-kb: ingest — {文章標題}
+LOCAL_REPO="$PWD/personal-kb-repo"
 
-- new: $CATEGORY/$NEW_NOTE_PATH
-- images: $CATEGORY/assets/{YYYY-MM-DD}-{簡短標題}/
-- cross-links: $CROSSLINK_COUNT files updated ($CROSSLINKED_FILES)
-- log: 1 entry appended
-- index: $CATEGORY/INDEX.md updated
-EOF
-)"
-git -C "$KB_ROOT" push
-git -C "$KB_ROOT" status --short --branch
-git -C "$KB_ROOT" rev-parse HEAD
-git -C "$KB_ROOT" ls-remote origin refs/heads/main
+git -C "$LOCAL_REPO" add .
+git -C "$LOCAL_REPO" commit -m "Add note: {文章標題}
+
+- Article: {分類}/{YYYY-MM-DD}-{ALL-CAPS-TITLE}.md
+- Images: {分類}/assets/{YYYY-MM-DD}-{簡短標題}/
+- Updated README.md Recent Notes"
+git -C "$LOCAL_REPO" push
 ```
 
-push 成功後顯示 GitHub 連結：
-`https://github.com/${KB_GITHUB_REPO}/blob/main/{分類}/{YYYY-MM-DD}-{ALL-CAPS-TITLE}.md`
-
----
-
-## 步驟 12：回報結果
-
-完成後對使用者輸出摘要：
-
-```
-📄 新增筆記：{分類}/{檔名}
-🖼️ 圖片：{N} 張 → {分類}/assets/{路徑}/
-🔗 雙向連結：回填了 {N} 個既有筆記
-   - {file1} — {理由}
-   - {file2} — {理由}
-   - ...
-❓ Open Questions：{N} 條
-📝 LOG.md：已記錄
-📑 INDEX.md：{分類}/INDEX.md 已更新
-✅ 驗證：{通過的命令與檢查結果}
-🎩 六頂思考帽：included／skipped: not applicable
-🔗 GitHub：{URL}
-⚠️ 跳過或阻塞：{未執行的驗證、未發布原因或失敗步驟}
-```
+push 成功後顯示 GitHub 連結：`https://github.com/swchen44/personal-knowledge-base-from-ai/blob/main/{分類}/{YYYY-MM-DD}-{ALL-CAPS-TITLE}.md`
 
 ---
 
@@ -1322,7 +1013,6 @@ push 成功後顯示 GitHub 連結：
 ### 📋 前置資料（Frontmatter）確認
 - [ ] 包含 `title`（台灣繁體中文標題）
 - [ ] 包含 `date`、`tags`（至少 3 個）、`source`、`source_type`、`author`、`status`、`links`
-- [ ] `source_type: article` 筆記包含 `TL;DR`；其他適用內容依規則加入
 - [ ] 影片筆記額外包含 `channel`、`duration`、`transcript_method`
 
 ### 🔗 知識圖譜（Knowledge Graph）確認
@@ -1330,34 +1020,10 @@ push 成功後顯示 GitHub 連結：
 - [ ] 至少 **1 個 callout** 用於關鍵洞察、術語或建議
 - [ ] 包含 `## 相關連結` 區塊，附簡短連結理由
 
-### 🆕 Cross-Reference 確認
-- [ ] 步驟 7a 搜尋了既有筆記
-- [ ] 正向連結已填入新筆記的 frontmatter 與正文
-- [ ] 反向連結已回填到既有筆記（上限 8 個）
-- [ ] 回填前已用 grep 確認無重複
-
-### 🆕 索引與日誌確認
-- [ ] LOG.md 已 append 一行（未刪改舊條目）
-- [ ] INDEX.md 已更新（對應分類）
-- [ ] commit message 包含影響範圍
-
-### 🆕 Open Questions 確認
-- [ ] 包含 3–7 條
-- [ ] 每條是「讀完仍無法回答」的問題，不是重點改寫
-- [ ] 含建議搜尋關鍵字
-
 ### 🖼️ 圖片確認
-- [ ] 已用 Read 工具**逐一看過每張下載的圖**，並分類（表格截圖／示意圖／插畫）
-- [ ] **表格截圖已轉成原生 Markdown 表格**，且對應圖檔已從 `assets/` 刪除（不留冗餘截圖）
-- [ ] 非表格圖片（流程圖／架構圖／插畫／封面／照片）才保留，已下載並上傳到 `assets/` 子目錄
+- [ ] 所有文章圖片已下載並上傳到 `assets/` 子目錄
 - [ ] Markdown 中以相對路徑引用圖片
-- [ ] 圖片 alt text 使用中文說明圖片實際內容
-
-### 🧜 Mermaid 圖表確認（筆記含 mermaid 區塊時）
-- [ ] label 內無引號字元與 `&quot;` entity
-- [ ] label 內 `>`/`<` 已寫成 `&gt;`/`&lt;`，含特殊字元的 label 已用雙引號包裹
-- [ ] 已執行 `scripts/validate-mermaid.sh` 且全部 PASS
-- [ ] push 後已開 GitHub blob 頁確認渲染成功，沒有 `Unable to render rich display`
+- [ ] 圖片 alt text 使用中文說明
 
 ### 📁 檔案結構確認
 - [ ] 檔名格式：`{YYYY-MM-DD}-{ALL-CAPS-WITH-HYPHENS}.md`
@@ -1368,19 +1034,6 @@ push 成功後顯示 GitHub 連結：
 - [ ] 分類依**影片內容主題**決定，而非固定放 `Videos/`
 - [ ] 已記錄取得逐字稿（transcript）的方法
 - [ ] `channel`、`duration`、`transcript_method` 欄位已填寫
-
-### 🎩 六頂思考帽回饋確認（Six Thinking Hats）
-- [ ] 文章、教學、方法、決策或明確主張的內容已完成六頂思考帽回饋
-- [ ] 每頂帽子只處理自己的思考模式，沒有把事實、情緒、風險與創意混寫
-- [ ] 最後的藍帽已列出 3 個以內的具體修改項目或下一步
-- [ ] 不適用時已在最後報告標記 `skipped: not applicable`
-
-### 🛡️ 寫入安全與驗證確認（Safety & Verification）
-- [ ] 寫入前已保存 `git status --short`，沒有覆蓋既有未提交變更
-- [ ] 沒有使用 `git add .`、`git add -A` 或破壞性 reset/clean/checkout
-- [ ] `git diff --check` 與 `git diff --cached --check` 通過
-- [ ] staged 檔案清單只包含本次明確修改的路徑
-- [ ] push 後已確認 `status --short --branch`、`rev-parse HEAD` 與 `ls-remote`
 
 ### 💻 程式碼分析筆記額外確認
 - [ ] 包含 **Why / What / How** 三個主要區塊
@@ -1412,3 +1065,13 @@ push 成功後顯示 GitHub 連結：
 - [ ] 應用層至少列出 **2 個可立即執行的具體行動**
 - [ ] 評估層包含與其他替代方案的取捨比較（不只列優點）
 - [ ] **（程式碼／方法類內容）** `### 方案批判三問` 已加入：最大風險、失敗條件、替代方案
+
+---
+
+## 步驟 9：回報結果
+
+完成後告知：
+- ✅ 文章檔名與 GitHub 路徑
+- ✅ 上傳的圖片數量與路徑
+- ✅ GitHub 連結
+- ⚠️ 若有任何失敗的步驟請說明原因
