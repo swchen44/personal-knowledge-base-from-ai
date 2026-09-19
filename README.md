@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [如何表達：Patrick Winston 的演講與溝通方法論](./Career/2026-09-18-HOW-TO-SPEAK-PATRICK-WINSTON-COMMUNICATION-METHODS.md) — 賦能承諾、四種啟發式技巧、板書與道具、求職演講五分鐘法則、Winston's Star 與專業收尾
 - [高中生的學習歷程檔案：20260614生涯公益講座整理](./Education/2026-06-19-HIGH-SCHOOL-LEARNING-PORTFOLIO.md) — 工作區 Markdown 版本，含 39 組案例與完整時間軸意譯整理
 - [Codex CLI vs Claude Code 自動化速查表：快捷鍵、非互動執行與長時間 Agent](./DevTools/2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET.md) — `codex exec`／`claude -p`、JSON events、approval vs sandbox、Git worktree 與 Supervisor recovery 的實作速查
 - [Claude Code Skill 觸發權限矩陣：自動組合、User Only 與 Human Approval Gate](./AI/2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX.md) — 釐清 A→B 為何受 `disable-model-invocation` 阻擋，並以 `skillOverrides` 與 Human Approval Gate 設計特權操作

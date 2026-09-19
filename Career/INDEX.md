@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-09-18-HOW-TO-SPEAK-PATRICK-WINSTON-COMMUNICATION-METHODS]] | Patrick Winston《如何表達》：演講開場、注意力管理、媒介選擇、求職演講與 Winston's Star | 2026-09-18 |
 | [[2026-03-30-STANFORD-STUDY-22YO-EMPLOYMENT-DROPS-20PCT-750-CFOS-AI-LAYOFFS-9X]] | 斯坦福研究：22歲就業暴跌20%！750個CFO承認：今年AI裁員是去年9倍 — 學歷在AI時代的重新定價 | 2026-03-30 |
 | [[2026-03-28-AI-ERA-ENGINEER-CORE-VALUE-MICHAEL-BOLIN-META-E9]] | AI 時代工程師的底牌：Michael Bolin（前 Meta E9）的職涯洞察 | 2026-03-28 |
 | [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] | 給現在工程師的未來：軟體工程邁向多代理人（Multi-Agent）時代 | 2026-03-25 |

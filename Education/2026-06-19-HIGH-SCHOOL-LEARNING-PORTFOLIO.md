@@ -154,6 +154,7 @@ transcript_scope: "完整案例與時間戳意譯整理稿，非逐字轉載"
 - [[2021-02-02-THINK-AGAIN-ADAM-GRANT]] — 可延伸思考如何把失敗、反思與重新框架轉成學習證據。
 - [[SELF-DIRECTED-LEARNING]] — 影片反覆以自主學習作為跨科系作品與長期能力的來源。
 - [[PORTFOLIO-BASED-ADMISSIONS]] — 延伸整理作品集式升學審查與面試驗證的共同原則。
+- [[2026-09-18-HOW-TO-SPEAK-PATRICK-WINSTON-COMMUNICATION-METHODS]] — 補充如何用清楚表達、視覺設計與故事結構呈現學習成果。
 
 ## References
 
