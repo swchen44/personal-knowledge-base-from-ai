@@ -2,6 +2,9 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [持續可觀測性：OpenTelemetry 與 CDEvents 看清 CI/CD 管線](./DevTools/2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES.md) — 影片與 Logz.io 回顧合併、15 個章節時間點、ODD／OaC 分工與官方規範現況查核
+- [從傳統開發到可觀測性驅動開發](./DevTools/2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT.md) — ODD 生命週期、成熟度模型限制與功能驗收卡
+- [可觀測性即程式碼](./DevTools/2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL.md) — 觀測設定的審查、重建、回退與資料治理邊界
 - [如何表達：Patrick Winston 的演講與溝通方法論](./Career/2026-09-18-HOW-TO-SPEAK-PATRICK-WINSTON-COMMUNICATION-METHODS.md) — 賦能承諾、四種啟發式技巧、板書與道具、求職演講五分鐘法則、Winston's Star 與專業收尾
 - [高中生的學習歷程檔案：20260614生涯公益講座整理](./Education/2026-06-19-HIGH-SCHOOL-LEARNING-PORTFOLIO.md) — 工作區 Markdown 版本，含 39 組案例與完整時間軸意譯整理
 - [Codex CLI vs Claude Code 自動化速查表：快捷鍵、非互動執行與長時間 Agent](./DevTools/2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET.md) — `codex exec`／`claude -p`、JSON events、approval vs sandbox、Git worktree 與 Supervisor recovery 的實作速查

@@ -721,6 +721,7 @@ export OTEL_TRACES_EXPORTER=otlp
 ---
 
 ## 相關連結（Related）
+- [[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]]：對照工具內遙測與跨 CI/CD 工具關聯的不同需求。
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]] — 實戰案例：7 人團隊部署 OTel 的完整 Docker Compose 堆疊與 8 個指標分析
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 另一個 AI 工具（gstack）的遙測架構設計比較，採用 JSONL + Supabase 而非 OTel
 - [[2026-04-04-GSTACK-SECURITY-TELEMETRY-CONTROVERSY]] — 遙測功能的隱私爭議：預設開啟 vs opt-in 的治理問題

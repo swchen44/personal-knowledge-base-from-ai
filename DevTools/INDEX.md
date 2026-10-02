@@ -2,6 +2,9 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]] | 訪談與 Logz.io 同名回顧合併；CI/CD 遙測、CDEvents、章節時間點與四來源分工 | 2023-07-10 |
+| [[2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT]] | ODD 生命週期、成熟度模型限制與可執行的功能驗收卡 | 2023-10-15 |
+| [[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL]] | OaC 設定版本控制、重建與回退，區分原文收益主張與研究建議 | 2022-07-25 |
 | [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]] | Codex CLI 與 Claude Code 的互動快捷鍵、非互動自動化、結構化事件、安全邊界與長時間 Agent Supervisor 速查表，含一張可離線閱讀的圖表 | 2026-09-06 |
 | [[2026-07-05-TERMINAL-MEMORY-MANAGEMENT-AND-CROSS-PLATFORM-PERSISTENCE]] | Ghostty / Claude Code 記憶體暴增診斷、環境變數止血、tmux / psmux 工作階段持久化與跨平台終端選型 | 2026-07-05 |
 | [[2026-05-16-CLAUDE-CODE-HEADLESS-MODE-AUTO-MEMORY-DISABLE]] | Headless 模式（-p）完整讀取 auto memory；`CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` 阻斷讀取與背景寫入但不阻止模型直接寫入；四種禁用方法比較 | 2026-05-16 |

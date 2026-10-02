@@ -146,3 +146,6 @@
 | 2026-09-12 16:03 | ingest | 20260614生涯公益講座：逐字稿轉錄後整理 39 組學習歷程、升學與 AI 案例 | （舊筆記已整併並移除） | Education | 2 | 6 |
 | 2026-09-12 16:19 | ingest | 新增「高中生的學習歷程檔案.md」Markdown 版本，保留 39 組案例與時間軸意譯整理 | [[2026-06-19-HIGH-SCHOOL-LEARNING-PORTFOLIO]] | Education | 1 | 6 |
 | 2026-09-19 16:23 | ingest | https://www.youtube.com/watch?v=u9wjz5RJ_bY | [[2026-09-18-HOW-TO-SPEAK-PATRICK-WINSTON-COMMUNICATION-METHODS]] | Career | 4 | 5 |
+| 2026-10-03 06:36 | ingest | https://www.youtube.com/watch?v=FEbyddZFNeo + https://logz.io/blog/continuous-observability-cicd-pipelines/ | [[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]] | DevTools | 3 | 4 |
+| 2026-10-03 06:36 | ingest | https://ithelp.ithome.com.tw/articles/10340025 | [[2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT]] | DevTools | 1 | 4 |
+| 2026-10-03 06:36 | ingest | https://www.techtarget.com/it-infrastructure/tip/Observability-as-code-is-key-to-the-cloud-operating-model | [[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL]] | DevTools | 1 | 4 |

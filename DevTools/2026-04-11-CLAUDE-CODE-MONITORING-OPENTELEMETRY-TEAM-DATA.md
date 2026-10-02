@@ -285,6 +285,7 @@ export OTEL_TRACES_EXPORTER=otlp
 
 ## 相關連結（Related）
 
+- [[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]]、[[2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT]]、[[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL]]：延伸到交付管線觀測、設計階段的觀測問題，以及設定的版本管理。
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 同樣探討 AI 開發工具的遙測架構設計，gstack 用 Supabase，本文用 OpenTelemetry + Prometheus
 - [[2026-03-28-CLAUDE-CODE-USER-VS-PROJECT-LEVEL-CONFIG-GUIDE]] — Claude Code 配置層級管理，本文的團隊統一 `settings.json` 配置即屬此範疇
 - [[2026-01-22-THE-LONGFORM-GUIDE-TO-EVERYTHING-CLAUDE-CODE]] — Token 經濟與快取策略的深度指南，與本文的快取效率監控互補
