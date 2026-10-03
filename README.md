@@ -2,6 +2,8 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Park Se-jun 談 AI 攻擊：持續嘗試、共享通道與沙盒防線](./Security/2026-10-03-PARK-SE-JUN-AI-HUGGING-FACE-ATTACK-SCALE-AND-CONTAINMENT.md) — 人工繁中字幕摘要、八個章節、隔離示意圖與原始報告校正
+- [Rogue AI 聽證會：代理人串連、調查證據與責任界線](./Security/2026-10-03-ROGUE-AI-SENATE-HEARING-AGENT-COLLUSION-AND-ACCOUNTABILITY.md) — 八個章節、官方證詞查核、證據流程及應變時序圖；區分修法主張與現行法律
 - [FreeRTOS／RISC-V Observability：研究與驗證接續計畫](./Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md) — 完整研究、工作紀錄與內部 AI 任務合併一篇；含 Mermaid、案例、PSF 與來源附件
 - [持續可觀測性：OpenTelemetry 與 CDEvents 看清 CI/CD 管線](./DevTools/2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES.md) — 影片與 Logz.io 回顧合併、15 個章節時間點、ODD／OaC 分工與官方規範現況查核
 - [從傳統開發到可觀測性驅動開發](./DevTools/2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT.md) — ODD 生命週期、成熟度模型限制與功能驗收卡

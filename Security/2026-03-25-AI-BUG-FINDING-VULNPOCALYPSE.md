@@ -252,6 +252,7 @@ LLM：
 - [[BITTER-LESSON-RICH-SUTTON]] — Rich Sutton 的原始 Bitter Lesson 論文
 - [[ANTHROPIC-RED-ZERO-DAYS]] — Anthropic Red 發表的 500 bugs 原始部落格
 - [[OSS-FUZZ-HISTORY]] — Google OSS-Fuzz 專案的歷史與成就
+- [[2026-10-03-PARK-SE-JUN-AI-HUGGING-FACE-ATTACK-SCALE-AND-CONTAINMENT]]、[[2026-10-03-ROGUE-AI-SENATE-HEARING-AGENT-COLLUSION-AND-ACCOUNTABILITY]] — 對照授權漏洞研究、代理人越權事件與責任界線。
 
 ## References
 
