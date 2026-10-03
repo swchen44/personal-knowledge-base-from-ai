@@ -152,3 +152,4 @@
 | 2026-10-03 09:23 | ingest | 本地 FreeRTOS／RISC-V 研究文件，三份合併一篇 | [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | Research | 3 | 7 |
 | 2026-10-03 14:53 | ingest | https://www.youtube.com/watch?v=3H9XdDSNL9I | [[2026-10-03-PARK-SE-JUN-AI-HUGGING-FACE-ATTACK-SCALE-AND-CONTAINMENT]] | Security | 3 | 4 |
 | 2026-10-03 14:53 | ingest | https://www.youtube.com/watch?v=gH-dngRZJWU | [[2026-10-03-ROGUE-AI-SENATE-HEARING-AGENT-COLLUSION-AND-ACCOUNTABILITY]] | Security | 3 | 4 |
+| 2026-10-03 15:09 | merge | 3H9XdDSNL9I + gH-dngRZJWU：兩篇整併，移除舊檔；歷史攝入名稱由新篇 aliases 承接 | [[2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY]] | Security | 3 | 7 |

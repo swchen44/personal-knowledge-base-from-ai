@@ -666,7 +666,7 @@ export function evaluatePolicy(
 - [[2026-03-25-AI-BUG-FINDING-VULNPOCALYPSE]] — AI 漏洞研究實戰，展示代理人在安全領域的攻防兩面性
 - [[2026-01-24-CLAUDE-CODE-HOOKS-CODE-ANALYSIS]] — claude-code-hooks 的程式碼分析，含安全防護 hook 的實作細節
 - [[2026-04-15-AI-DEVELOPER-EVOLUTION-PRACTITIONER-GUIDE-PERE-VILLEGA]] — 第 4、10 章含 Trail of Bits 兩層防線、Hetzner + Tailscale + Cloudflare Tunnel 遠端部署的實戰設定
-- [[2026-10-03-PARK-SE-JUN-AI-HUGGING-FACE-ATTACK-SCALE-AND-CONTAINMENT]]、[[2026-10-03-ROGUE-AI-SENATE-HEARING-AGENT-COLLUSION-AND-ACCOUNTABILITY]] — 從共享服務隔離失效，延伸到監督、停止權限與事件證據。
+- [[2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY]] — 從共享服務隔離失效，延伸到監督、停止權限與事件證據。
 
 ## References
 
