@@ -1,0 +1,3 @@
+# Preserve original SDK, build logs and extracted PDF text byte for byte.
+# Whitespace checks remain enabled for the combined note and KB updates.
+snapshot/** -whitespace

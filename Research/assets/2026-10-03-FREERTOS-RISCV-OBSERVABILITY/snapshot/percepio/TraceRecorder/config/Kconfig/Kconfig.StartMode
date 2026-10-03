@@ -1,0 +1,35 @@
+# Copyright (c) 2025 Percepio AB
+# SPDX-License-Identifier: Apache-2.0
+
+choice PERCEPIO_TRC_CFG_START_MODE
+	prompt "Recorder Start Mode"
+	default PERCEPIO_TRC_START_MODE_START_FROM_HOST if PERCEPIO_TRC_STREAM_PORT_BIDIRECTIONAL
+	default PERCEPIO_TRC_START_MODE_START if !PERCEPIO_TRC_STREAM_PORT_BIDIRECTIONAL
+	help
+      Determines when the trace recorder should start tracing.
+
+config PERCEPIO_TRC_START_MODE_START
+	bool "Start at boot"
+	help
+	  Starts the tracing directly at kernel startup.
+
+config PERCEPIO_TRC_START_MODE_START_AWAIT_HOST
+	bool "Await host"
+	depends on PERCEPIO_TRC_STREAM_PORT_BIDIRECTIONAL
+	help
+      Blocks kernel startup until a Start command is received
+	  (e.g. from the "Start Recording" button in Tracealyzer).
+
+config PERCEPIO_TRC_START_MODE_START_FROM_HOST
+	bool "From host"
+	depends on PERCEPIO_TRC_STREAM_PORT_BIDIRECTIONAL
+	help
+	  Starts up without blocking. Tracing will be started when a Start command is received
+	  (e.g. from the "Start Recording" button in Tracealyzer).
+
+config PERCEPIO_TRC_START_MODE_MANUAL
+	bool "Manual"
+	help
+	  Tracing can be started by manually calling xTraceEnable(TRC_START).
+
+endchoice

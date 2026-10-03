@@ -117,6 +117,8 @@ ODD 決定「需要知道什麼」；[[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-T
 - [[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL]]：把收集與告警設定納入版本控制。
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]]：對照先驗證資料流，再建立觀測平台的實作思路。
 
+- [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]]：FreeRTOS／RISC-V 的研究、證據與接續驗證，可對照本文的觀測方法。
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 | 認知層次 | 對本文的具體應用 |

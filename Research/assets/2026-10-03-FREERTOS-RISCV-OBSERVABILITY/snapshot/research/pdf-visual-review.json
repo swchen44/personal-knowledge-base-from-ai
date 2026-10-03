@@ -1,0 +1,116 @@
+{
+  "method": "All 61 PDF pages rendered by Poppler; all document contact sheets visually inspected; important figures enlarged and reviewed",
+  "pdfs": {
+    "63001-Percepio-Improving-the-Reliability-of-the-IoT-April-2022-Final": {
+      "pages": 5,
+      "useful_pages": [
+        4
+      ],
+      "finding": "Customer payload storage and alert signature classification are distinct boundaries."
+    },
+    "63022-Percepio-5tips-Whitepaper-r01": {
+      "pages": 8,
+      "useful_pages": [
+        6
+      ],
+      "finding": "RTOS and application event timeline; no additional CPU or link benchmark."
+    },
+    "Percepio-Continuous-Observability": {
+      "pages": 8,
+      "useful_pages": [
+        3,
+        4,
+        5,
+        7
+      ],
+      "finding": "Serial host collector architecture, dashboard/payload linkage, watchdog/CPU/blocking correlation."
+    },
+    "Percepio_Continuous_Observability_In_Embedded_Systems": {
+      "pages": 8,
+      "useful_pages": [
+        3,
+        4,
+        5,
+        7
+      ],
+      "finding": "Visually equivalent figures and identical extracted text to the other Continuous Observability PDF."
+    },
+    "Percepio-How-to-Visualize-Response-Times-in-FreeRToS-Whitepaper-final": {
+      "pages": 7,
+      "useful_pages": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "finding": "Application CPU/response statistics and queue/scheduling causal chain; not recorder overhead."
+    },
+    "StopGuessing-2021": {
+      "pages": 8,
+      "useful_pages": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "finding": "CPU distribution, communication graph and hardware/software trace comparison."
+    },
+    "TopFiveBugs": {
+      "pages": 5,
+      "useful_pages": [
+        3,
+        4,
+        5
+      ],
+      "finding": "Starvation, jitter, priority inversion, deadlock and heap trends."
+    },
+    "WP-RTOS-101": {
+      "pages": 12,
+      "useful_pages": [
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "finding": "Task/IRQ semantics, synchronization, instances, timing distributions and watchdog before/after."
+    }
+  },
+  "rendered_pdf_pages": 61,
+  "selected_page_images": [
+    "research/images/continuous-architecture-page5.png",
+    "research/images/continuous-watchdog-page7.png",
+    "research/images/cpu-load-page5.png",
+    "research/images/execution-response-page8.png",
+    "research/images/heap-trend-page5.png",
+    "research/images/iot-cloud-architecture-page4.png",
+    "research/images/priority-inversion-deadlock-page4.png",
+    "research/images/response-flow-page4.png",
+    "research/images/response-object-history-page5.png",
+    "research/images/response-statistics-page3.png",
+    "research/images/response-time-page6.png",
+    "research/images/watchdog-before-after-page11.png",
+    "research/images/starvation-jitter-page3.png"
+  ],
+  "unprovided_measurements": [
+    "Actual product recorder CPU loading",
+    "RISC-V board cycles per event",
+    "Hardware UART sustained throughput",
+    "Final FreeRTOS firmware Flash/RAM delta"
+  ],
+  "case_review_update": {
+    "date": "2026-10-03",
+    "rechecked_existing_pages": [
+      "response-object-history-page5",
+      "watchdog-before-after-page11",
+      "priority-inversion-deadlock-page4",
+      "heap-trend-page5"
+    ],
+    "new_selected_page": "TopFiveBugs PDF page 3",
+    "source_caption_discrepancy": "TopFiveBugs PDF page 4 deadlock: side caption says Yellow waits for Sem2; timeline says Sem1, consistent with ownership. Report records discrepancy."
+  }
+}

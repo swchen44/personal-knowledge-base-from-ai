@@ -1,0 +1,11 @@
+flowchart TB
+    Dev["FreeRTOS／RISC-V<br/>RAM trace、摘要、異常偵測"]
+    Dev --> Direct["裝置已有網路<br/>應用層與 TLS"]
+    Dev --> Gateway["UART／其他介面<br/>本地 gateway"]
+    Gateway --> Private["自有伺服器或物件儲存"]
+    Direct --> Private
+    Private --> Index["告警索引與去重<br/>Detect／DevAlert 或自建"]
+    Index --> User["工程師"]
+    Private --> Payload["按需下載 trace／core dump"]
+    Payload --> TZ["本地 Tracealyzer／debugger"]
+    User --> TZ

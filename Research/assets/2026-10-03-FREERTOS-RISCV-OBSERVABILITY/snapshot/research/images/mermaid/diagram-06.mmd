@@ -1,0 +1,13 @@
+stateDiagram-v2
+    state "常態：摘要與關鍵事件" as Normal
+    state "詳細：開啟指定應用事件" as Detail
+    state "異常：凍結或複製 snapshot" as Capture
+    state "保存／排隊上傳" as Store
+
+    [*] --> Normal
+    Normal --> Detail: 經授權的命令或早期警訊
+    Detail --> Normal: 詳細窗口結束
+    Normal --> Capture: 異常觸發
+    Detail --> Capture: 異常觸發
+    Capture --> Store: 完整 snapshot 保存成功
+    Store --> Normal: 恢復收集或重啟後恢復

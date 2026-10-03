@@ -104,6 +104,8 @@ sequenceDiagram
 - [[2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT]]：先定義問題，再決定觀測設定。
 - [[2026-04-11-CLAUDE-CODE-MONITORING-OPENTELEMETRY-TEAM-DATA]]：既有觀測堆疊筆記，可作為設定管理範圍的對照。
 
+- [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]]：FreeRTOS／RISC-V 的研究、證據與接續驗證，可對照本文的觀測方法。
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 | 認知層次 | 對本文的具體應用 |

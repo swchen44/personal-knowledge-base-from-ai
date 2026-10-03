@@ -1,0 +1,10 @@
+flowchart TD
+    A["固定產品版本與建置條件<br/>盤點 task、ISR、driver 與問題"] --> B["對照 FreeRTOS hooks<br/>校正 timestamp／critical section"]
+    B --> C["RAM-only 最小整合<br/>已知事件序列可正確解讀"]
+    C --> D["相同 workload 做 A/B<br/>Flash、RAM、CPU、最差延遲"]
+    D --> E{"符合產品預算？"}
+    E -->|否| F["減少非必要事件<br/>調整收集策略後重測"]
+    F --> C
+    E -->|是| G["UART／collector 壓測<br/>loss、斷線、重連與完整性"]
+    G --> H["用產品真實問題驗證<br/>案例分析與修正前後比較"]
+    H --> I["依需求加入異常保存<br/>內部後端、CI 或 fleet 回報"]

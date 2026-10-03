@@ -1,0 +1,682 @@
+{
+  "date": "2026-10-03",
+  "method": "Compare all explicit user requests with root README, report chapters and handoff tasks; merge repeated requests; suggested topics and user-planned later work remain distinct",
+  "requirements_count": 27,
+  "requirements": [
+    {
+      "id": "R01",
+      "request": "了解每秒系統做什麼、可以觀測哪些資料",
+      "recorded_status": "研究完成；[第 1、4、5 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-1)說明事件、摘要與觀測邊界",
+      "report_sections": [
+        1,
+        4,
+        5
+      ],
+      "primary_category": "M1",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R02",
+      "request": "說明資料夾內容、功能、想解決的問題，以及是否真的解決",
+      "recorded_status": "研究完成；[第 2、3 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-2)區分 source 機制、供應商案例與尚未驗證的產品成效",
+      "report_sections": [
+        2,
+        3,
+        15
+      ],
+      "primary_category": "M1",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R03",
+      "request": "說明運作原理",
+      "recorded_status": "完成；[第 4 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-4)說明 hook、timestamp、event、buffer、transport、host 分析",
+      "report_sections": [
+        4
+      ],
+      "primary_category": "M1",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R04",
+      "request": "評估 code size、RAM、效能與其他代價",
+      "recorded_status": "研究與 recorder object 編譯完成；[第 8～11 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-8)；最終產品增量待量測",
+      "report_sections": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "primary_category": "M3",
+      "pending_product_tasks": [
+        "U02",
+        "U04"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R05",
+      "request": "CPU loading 約多少；單一事件或行為增加多少百分比",
+      "recorded_status": "原廠描述、成本公式與情境試算完成；[第 8 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-8)；板上數字待量測",
+      "report_sections": [
+        8
+      ],
+      "primary_category": "M3",
+      "pending_product_tasks": [
+        "U03"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R06",
+      "request": "Observability 資料產生／傳送速率、介面、bandwidth",
+      "recorded_status": "完成格式推導、介面比較與頻寬試算；[第 5～7 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-5)；實際吞吐待量測",
+      "report_sections": [
+        5,
+        6,
+        7
+      ],
+      "primary_category": "M4",
+      "pending_product_tasks": [
+        "U05"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R07",
+      "request": "UART 能不能用、有哪些實際經驗",
+      "recorded_status": "完成；[第 7 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-7)含 Renesas 原廠 UART 案例、baud 換算、binary／hex 與 DMA 評估；本次未上板",
+      "report_sections": [
+        7,
+        22
+      ],
+      "primary_category": "M4",
+      "pending_product_tasks": [
+        "U05"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R08",
+      "request": "安裝方式與使用方法",
+      "recorded_status": "文件完成；[第 12 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-12)；未安裝到產品韌體",
+      "report_sections": [
+        12
+      ],
+      "primary_category": "M2",
+      "pending_product_tasks": [
+        "U01"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R09",
+      "request": "SDK 使用方法與 API 連結",
+      "recorded_status": "完成；第 12.4、12.7 節含 recorder／DFM API、條件與範例；附本地 source 與官方連結",
+      "report_sections": [
+        12
+      ],
+      "primary_category": "M2",
+      "pending_product_tasks": [
+        "U01"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R10",
+      "request": "SDK 如何 hook 現有 FreeRTOS；是否要改 FreeRTOS source",
+      "recorded_status": "完成；第 12.6 節說明既有 trace 巨集、預處理展開、設定／建置／BSP 的修改範圍及 kernel library 必須重編的情況",
+      "report_sections": [
+        12
+      ],
+      "primary_category": "M2",
+      "pending_product_tasks": [
+        "U01"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R11",
+      "request": "限制與 boundary",
+      "recorded_status": "完成；[第 1、10、11、13 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-11)；含 RISC-V port、SMP、sleep／DVFS、crash、資料遺失與版本差異",
+      "report_sections": [
+        1,
+        10,
+        11,
+        13
+      ],
+      "primary_category": "M1",
+      "pending_product_tasks": [
+        "U07",
+        "U08"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R12",
+      "request": "能否上雲端、是否只能本地；兩者差異與建議",
+      "recorded_status": "完成；[第 14、16、17 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-14)含 gateway、自有後端、payload／signature 邊界與資料量；未部署後端",
+      "report_sections": [
+        14,
+        16,
+        17
+      ],
+      "primary_category": "M7",
+      "pending_product_tasks": [
+        "U10"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R13",
+      "request": "能否動態裁剪資料",
+      "recorded_status": "研究完成；[第 13 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-13)區分編譯裁剪、runtime 控制、host filter、preview 與 cloud retention；自訂策略未實作",
+      "report_sections": [
+        13
+      ],
+      "primary_category": "M5",
+      "pending_product_tasks": [
+        "U09"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R14",
+      "request": "是否便宜、如何評估成本",
+      "recorded_status": "成本面向與小成本方案比較完成；[第 16 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-16)；正式授權報價與實際總費用待評估",
+      "report_sections": [
+        16
+      ],
+      "primary_category": "M7",
+      "pending_product_tasks": [
+        "U11"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R15",
+      "request": "解析已下載 PDF，納入研究",
+      "recorded_status": "完成 8 份 PDF、61 頁文字抽取與逐份解析；[第 15 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-15)",
+      "report_sections": [
+        15
+      ],
+      "primary_category": "M6",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R16",
+      "request": "PDF 圖片也要分析，找出有用資料",
+      "recorded_status": "完成全部頁面渲染與縮圖檢查、重要圖表放大；第 15.4 節含統計值、時間線、架構與證據邊界",
+      "report_sections": [
+        15,
+        22
+      ],
+      "primary_category": "M6",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R17",
+      "request": "閱讀指定 YouTube 的字幕，評估研究用途",
+      "recorded_status": "完成英文字幕閱讀與時間點摘要；[第 18 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-18)；影片為 STM32／STLINK 示範",
+      "report_sections": [
+        18
+      ],
+      "primary_category": "M6",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R18",
+      "request": "產生完整、清楚、不遺漏的 Markdown 學習／研究報告",
+      "recorded_status": "完成 24 個主章節，包含需求對照、驗證邊界、新增案例操作與 MECE 檢查",
+      "report_sections": [
+        0,
+        20,
+        21,
+        22,
+        23
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R19",
+      "request": "使用 Mermaid 架構圖、流程圖、時序圖，方便快速理解",
+      "recorded_status": "完成 12 張 Mermaid 圖；另含狀態圖，全部通過語法檢查，並提供 SVG／PNG",
+      "report_sections": [
+        2,
+        7,
+        12,
+        13,
+        14,
+        15,
+        17,
+        20,
+        22
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R20",
+      "request": "想想還有哪些必須進一步研究的主題",
+      "recorded_status": "完成；[第 19 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-19)按 P0／P1／條件需求列出問題、方法與應產出的證據",
+      "report_sections": [
+        19
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R21",
+      "request": "不猜使用者意圖、保留先前題目、遵循 `i-have-adhd-zh-tw`",
+      "recorded_status": "以明確問題作需求對照；繁體中文敘述，保留 API／code／path；試算前提、產品未知資訊與補充建議明確標示",
+      "report_sections": [
+        0,
+        21,
+        23
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R22",
+      "request": "為後續內部網路分享、比對產品原始碼及持續研究準備",
+      "recorded_status": "完成可攜套件、來源 SHA-256、相對連結與比對方法；[第 20 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-20)；上傳與產品比對由使用者規劃後續執行",
+      "report_sections": [
+        20
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R23",
+      "request": "網路權限更新後重試 npm 安裝",
+      "recorded_status": "完成重試；Mermaid、jsdom 與 Mermaid CLI 安裝成功，後續圖表驗證與渲染完成",
+      "report_sections": [
+        20
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R24",
+      "request": "將要求、過程、已完成／未完成事項寫進 README，再檢查遺漏",
+      "recorded_status": "本檔完成記錄；新增本次需求稽核、README／附件連結檢查並同步套件",
+      "report_sections": [
+        20,
+        21
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R25",
+      "request": "補出未完成事項與目的，讓有產品 source 的內部 AI 繼續完成",
+      "recorded_status": "完成[交接任務檔](research/內部AI-接續研究任務.md)；U01～U16 含目的、source／build 工作、額外條件與驗收；產品工作仍待執行",
+      "report_sections": [
+        20,
+        23
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [
+        "U01",
+        "U08",
+        "U02",
+        "U03",
+        "U04",
+        "U16",
+        "U05",
+        "U06",
+        "U07",
+        "U09",
+        "U12",
+        "U13",
+        "U10",
+        "U11",
+        "U14",
+        "U15"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R26",
+      "request": "把提供的文字／圖片案例寫入報告，說明收集後怎麼用",
+      "recorded_status": "完成[第 22 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-22) 9 組案例索引與操作解讀；桌面 demo 編譯／執行成功，GUI decode 未驗證",
+      "report_sections": [
+        22
+      ],
+      "primary_category": "M6",
+      "pending_product_tasks": [
+        "U12",
+        "U13"
+      ],
+      "document_or_explicit_pending_record_present": true
+    },
+    {
+      "id": "R27",
+      "request": "最後檢查討論是否夠 MECE",
+      "recorded_status": "完成[第 23 節](research/FreeRTOS-RISC-V-Observability-研究報告.md#section-23)；原討論分類軸混用，已補八類主要歸屬、資料生命週期與採用證據檢查",
+      "report_sections": [
+        23
+      ],
+      "primary_category": "M8",
+      "pending_product_tasks": [],
+      "document_or_explicit_pending_record_present": true
+    }
+  ],
+  "pending_tasks_count": 16,
+  "pending_tasks": [
+    {
+      "id": "U01",
+      "task": "將 SDK 接入你們實際 FreeRTOS／RISC-V firmware",
+      "status": "not_completed_on_product",
+      "existing_research": "第 12 節接入方法、API、hooks 與版本限制",
+      "needed_conditions": "產品 source、kernel／BSP 版本及建置設定；本次資料夾未提供完整產品",
+      "primary_category": "M2",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U02",
+      "task": "最終新增 Flash／RAM 的 A/B 比較",
+      "status": "not_completed_on_product",
+      "existing_research": "RV32 recorder object 量級與可重現腳本",
+      "needed_conditions": "相同 compiler／flags 的產品 baseline／instrumented ELF、map；需要包含真正 FreeRTOS／driver／其他依賴",
+      "primary_category": "M3",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U03",
+      "task": "板上總 CPU loading、每類事件 cycles／耗時、單次行為比例",
+      "status": "not_completed_on_product",
+      "existing_research": "原廠量級、成本模型與 A～F 測法",
+      "needed_conditions": "指定晶片、counter、clock、實體板與相同 workload；本次沒有量到板上數字",
+      "primary_category": "M3",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U04",
+      "task": "最差 IRQ 延遲、critical section、request response／deadline",
+      "status": "not_completed_on_product",
+      "existing_research": "已說明平均 overhead 與最差即時性不同",
+      "needed_conditions": "板上 timer／GPIO 等量測與產品 deadline；需要高事件率／滿 buffer 情境",
+      "primary_category": "M3",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U05",
+      "task": "自訂 RISC-V UART streamport／DMA driver 與實際吞吐",
+      "status": "not_completed_on_product",
+      "existing_research": "UART 原廠案例、線速、buffer 與 ownership 方案",
+      "needed_conditions": "實際 UART／DMA／bridge、driver 與 host collector；需要驗證 baud、partial write、loss、斷線與 reconnect",
+      "primary_category": "M4",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U06",
+      "task": "Snapshot 前史、資料遺失、停止／複製／恢復與多次 trigger 的正確性",
+      "status": "not_completed_on_product",
+      "existing_research": "Buffer 歷史與尖峰模型、loss 政策與研究項目",
+      "needed_conditions": "平台壓測、marker／sequence 對照、完整性與空窗量測",
+      "primary_category": "M5",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U07",
+      "task": "RISC-V trap／crash dump、跨 reset／斷電保存與復原後回報",
+      "status": "not_completed_on_product",
+      "existing_research": "Arm 範例 boundary 與 RISC-V 所需資料已列出",
+      "needed_conditions": "產品 trap／startup／linker／storage 實作與 reset／斷電測試",
+      "primary_category": "M5",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "conditional_on_product"
+    },
+    {
+      "id": "U08",
+      "task": "平台 timestamp／sleep／DVFS 正確性，及需要 SMP 時的跨核一致性",
+      "status": "not_completed_on_product",
+      "existing_research": "Counter、IRQ masking、wrap 與 SMP 風險已研究",
+      "needed_conditions": "真正 timer／core／privilege／memory 架構；本次未知道產品是否需要全部條件",
+      "primary_category": "M2",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U09",
+      "task": "Runtime 動態收集策略、trigger、monitor、去重與限流",
+      "status": "not_completed_on_product",
+      "existing_research": "已區分內建功能與需額外整合的策略",
+      "needed_conditions": "實際問題／門檻與產品實作；本次沒有完成客製功能或長測驗收",
+      "primary_category": "M5",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U10",
+      "task": "本地 collector／server 或雲端後端的端到端部署與可靠交付",
+      "status": "not_completed_on_product",
+      "existing_research": "本地／gateway／cloud 架構與 DFM 限制已研究",
+      "needed_conditions": "要選定實際部署、保存／確認／重送方式；本次未部署正式服務",
+      "primary_category": "M7",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U11",
+      "task": "正式授權報價、硬體採購與實際總費用",
+      "status": "not_completed_on_product",
+      "existing_research": "授權模式、每日資料量與成本面向已有比較",
+      "needed_conditions": "裝置數、retention、alert／存取量、產品組合與供應商報價；不能定量證明「便宜」",
+      "primary_category": "M7",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U12",
+      "task": "產品 workload 的問題改善與長期 regression 驗證",
+      "status": "not_completed_on_product",
+      "existing_research": "PDF 案例與 CI／驗收方法已整理",
+      "needed_conditions": "產品問題案例、相同條件的修正前後資料與重複長測",
+      "primary_category": "M6",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U13",
+      "task": "Tracealyzer／decoder 的解碼與分析驗收",
+      "status": "not_completed_on_product",
+      "existing_research": "桌面 PSF 已產生、案例操作流程已整理",
+      "needed_conditions": "實際 viewer／授權；已知事件、XML／symbols、時間／priority／物件對照與操作截圖",
+      "primary_category": "M6",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U14",
+      "task": "Trace 證據格式與產品版本對應",
+      "status": "not_completed_on_product",
+      "existing_research": "Metadata、source hash 與交接模板已整理",
+      "needed_conditions": "產品 build／device／session／symbols／config／loss 格式及保存驗收；目的為可重現與避免錯版本分析",
+      "primary_category": "M8",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U15",
+      "task": "收集生命週期與控制",
+      "status": "not_completed_on_product",
+      "existing_research": "Start／stop／trigger／rearm／config 的研究項目已補",
+      "needed_conditions": "產品狀態表與反覆操作／reset 測試；遠端控制依實際需求；目的為收集行為一致、有界",
+      "primary_category": "M8",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "confirm_against_product"
+    },
+    {
+      "id": "U16",
+      "task": "有省電需求時的電流／能耗驗證",
+      "status": "not_completed_on_product",
+      "existing_research": "第 19 節與交接檔已有測法",
+      "needed_conditions": "若產品有省電目標，量 trace off／RAM／transport 的電量、sleep residency 與喚醒；未確認需求前保持條件式",
+      "primary_category": "M3",
+      "purpose_and_acceptance_document": "research/內部AI-接續研究任務.md",
+      "applicability": "conditional_on_product"
+    }
+  ],
+  "mece": {
+    "scope": "This session research requests and registered continuation tasks, not all unknown product behavior",
+    "assessment_before": "Mixed classification axes; not strictly MECE",
+    "primary_categories": [
+      {
+        "id": "M1",
+        "name": "觀測目的與機制",
+        "requirements": [
+          "R01",
+          "R02",
+          "R03",
+          "R11"
+        ],
+        "pending_tasks": []
+      },
+      {
+        "id": "M2",
+        "name": "平台與 SDK 接合",
+        "requirements": [
+          "R08",
+          "R09",
+          "R10"
+        ],
+        "pending_tasks": [
+          "U01",
+          "U08"
+        ]
+      },
+      {
+        "id": "M3",
+        "name": "裝置資源與即時性",
+        "requirements": [
+          "R04",
+          "R05"
+        ],
+        "pending_tasks": [
+          "U02",
+          "U03",
+          "U04",
+          "U16"
+        ]
+      },
+      {
+        "id": "M4",
+        "name": "資料產生與傳輸",
+        "requirements": [
+          "R06",
+          "R07"
+        ],
+        "pending_tasks": [
+          "U05"
+        ]
+      },
+      {
+        "id": "M5",
+        "name": "捕捉與資料完整性",
+        "requirements": [
+          "R13"
+        ],
+        "pending_tasks": [
+          "U06",
+          "U07",
+          "U09"
+        ]
+      },
+      {
+        "id": "M6",
+        "name": "分析、案例與問題改善",
+        "requirements": [
+          "R15",
+          "R16",
+          "R17",
+          "R26"
+        ],
+        "pending_tasks": [
+          "U12",
+          "U13"
+        ]
+      },
+      {
+        "id": "M7",
+        "name": "部署與金額成本",
+        "requirements": [
+          "R12",
+          "R14"
+        ],
+        "pending_tasks": [
+          "U10",
+          "U11"
+        ]
+      },
+      {
+        "id": "M8",
+        "name": "研究交接與運作管理",
+        "requirements": [
+          "R18",
+          "R19",
+          "R20",
+          "R21",
+          "R22",
+          "R23",
+          "R24",
+          "R25",
+          "R27"
+        ],
+        "pending_tasks": [
+          "U14",
+          "U15"
+        ]
+      }
+    ],
+    "unassigned_or_duplicate_ids": [],
+    "completeness_checks": [
+      "Question and observable types",
+      "Data lifecycle",
+      "Usage and deployment stages"
+    ],
+    "technical_dependencies_cross_reference_allowed": true
+  },
+  "user_planned_future_work": [
+    "Upload package to internal network",
+    "Compare with internal product source and continue research"
+  ],
+  "not_executed_here": [
+    "Internal product source inspection or modification",
+    "Product firmware integration",
+    "Hardware CPU/UART/reset/power measurement",
+    "Production backend deployment",
+    "Formal procurement quotation",
+    "Tracealyzer GUI decode"
+  ],
+  "new_artifacts": [
+    "Root README work record",
+    "Expanded case workflows",
+    "Desktop demo PSF and build/run evidence",
+    "Internal AI continuation tasks",
+    "MECE classification audit"
+  ],
+  "all_product_tasks_completed": false
+}

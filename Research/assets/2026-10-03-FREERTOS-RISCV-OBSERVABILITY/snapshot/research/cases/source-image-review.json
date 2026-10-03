@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-03",
+  "source": "Tracealyzer-STM32CubeIDE-SWO/README.md and img/",
+  "images_in_package": 15,
+  "images_visually_reviewed": [
+    "psf_settings.png",
+    "missed_events.png",
+    "tracealyzer.png"
+  ],
+  "missed_events_screen": {
+    "displayed_data_rate_KBs": 331.9,
+    "displayed_event_rate_events_per_second": 17984,
+    "displayed_missed_events": 385,
+    "rate_window_not_specified": true,
+    "not_a_loss_free_bandwidth_benchmark": true,
+    "not_product_sdk_cpu_overhead": true
+  },
+  "psf_settings_screen": {
+    "host": "127.0.0.1",
+    "port": 5000,
+    "transport": "TCP",
+    "itm_encoded": true,
+    "applies_to": "SWO host bridge; not universal raw UART decoder settings"
+  },
+  "scope": "Original supplier screenshots; not a Tracealyzer GUI run performed in this research"
+}

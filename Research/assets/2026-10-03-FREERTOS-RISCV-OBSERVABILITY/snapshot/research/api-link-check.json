@@ -1,0 +1,50 @@
+{
+  "method": "curl with standard TLS verification",
+  "results": [
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__recorder__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace Recorder APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__timestamp__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace Timestamp APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__string__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace String APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__print__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace Print APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__isr__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace ISR APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__interval__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace Interval APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__state__machine__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace State Machine APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__runnable__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace Runnable APIs"
+    },
+    {
+      "url": "https://percepio.github.io/TraceRecorderSource/group__trace__stack__monitor__apis.html",
+      "status": 200,
+      "title": "Percepio Trace Recorder: Trace Stack Monitor APIs"
+    }
+  ]
+}

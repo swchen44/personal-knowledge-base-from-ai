@@ -1,0 +1,23 @@
+{
+  "host": "macOS-15.7.7-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "build_exit_code": 0,
+  "original_sources_modified": false,
+  "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+  "build_command": "make -j4 (Build-Linux, macOS temporary copy)",
+  "log": "research/cases/desktop-demo-build.log",
+  "run_exit_code": 0,
+  "output": "Tracealyzer SDK demo running...\nTrace file \"trace.psf\" created. Open this in Tracealyzer.\n",
+  "trace_bytes": 7152,
+  "trace_sha256": "32f6421362bda37e3b91411afedb5df0c29741f99fe1df08389cf76e56f79d47",
+  "date": "2026-10-03",
+  "trace": "research/cases/desktop-demo.psf",
+  "source": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64",
+  "tracealyzer_gui_verified": false,
+  "board_measurement": false,
+  "warning_count": 1,
+  "warning": "uiAttempts set but not used",
+  "actual_xml": "my_krnl-v1.0.0.xml",
+  "readme_xml_mismatch": "README mentions EXAMPLE-v1.0.1.xml; header uses my_krnl 1.0.0",
+  "scope": "Host-only simulated RTOS; manual scheduling/mutex events and placeholder critical sections; not product integration or hardware performance"
+}

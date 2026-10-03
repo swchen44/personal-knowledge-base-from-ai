@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-03",
+  "source_workspace": "percepio",
+  "original_archive": {
+    "file": "percepio-observability-research.zip",
+    "bytes": 15211281,
+    "sha256": "6dbc2b37ca34b37188cabc820589b0b20386959ad977fbddee11ef2313562b0a",
+    "entries": 412
+  },
+  "notes": [
+    {
+      "source": "research/FreeRTOS-RISC-V-Observability-研究報告.md",
+      "combined_note": "Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md",
+      "original_sha256": "523e083b75bc4a516482ce30d9b7604bf86e758659d878bd22c7dcb4665e6842",
+      "code_fences_preserved": true
+    },
+    {
+      "source": "README.md",
+      "combined_note": "Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md",
+      "original_sha256": "c750b604192f4684d9dd8c211c41d358a684c5c9d933a990e94ed9a17c1b17ad",
+      "code_fences_preserved": true
+    },
+    {
+      "source": "research/內部AI-接續研究任務.md",
+      "combined_note": "Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md",
+      "original_sha256": "d2c7db5782ee5cf57f12443c091c2b2167f90fadaae74800b07e0a95939b5800",
+      "code_fences_preserved": true
+    }
+  ],
+  "table_conversion": {
+    "omitted_individual_png": "research/images/response-statistics-page3.png",
+    "native_markdown": "research/images/response-statistics-page3.md",
+    "original_pdf_and_zip_preserved": true
+  },
+  "image_review": {
+    "pdf_page_images": "先前已逐頁檢視 61 頁；本次重看統計／Object History 頁",
+    "swo_images": "本次檢視兩張 contact sheets 中的全部 15 張 UI／設定圖片",
+    "mermaid_images": "先前 12 張圖已渲染與檢視"
+  },
+  "source_integrity": "來源程式碼 bytes 不變；Markdown 閱讀附件僅轉寫統計表格連結。原始工具重現使用 ZIP。",
+  "new_work": {
+    "psf_decoder": "not_implemented",
+    "riscv_freertos_harness": "design_pending",
+    "dashboard": "design_pending",
+    "hardware_benchmark": "not_run"
+  },
+  "combined_notes": 1,
+  "backlink_count": 3,
+  "open_question_count": 7,
+  "validation": {
+    "local_links": 459,
+    "broken_links": 0,
+    "original_code_blocks_preserved": 37,
+    "mermaid_blocks": 12,
+    "original_documents_combined": 3,
+    "frontmatter": "passed",
+    "existing_wikilink_targets": "passed",
+    "whitespace_policy": {
+      "original_default_check": "原始 SDK／logs／PDF text 含既有尾端空白；首次 staged check 因此回報",
+      "archive_attribute": "snapshot/** -whitespace，僅閱讀快照；來源 bytes／SHA-256 保留",
+      "authored_note_and_kb_updates": "正常 git whitespace checks"
+    }
+  }
+}

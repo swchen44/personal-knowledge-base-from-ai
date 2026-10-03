@@ -1,0 +1,26 @@
+{
+  "url": "https://www.youtube.com/watch?v=3g2kV2eTKwk",
+  "title": "Tracealyzer streaming with STM32CubeIDE and STLINK v3",
+  "channel": "Percepio AB",
+  "upload_date": "20250205",
+  "duration_seconds": 380,
+  "subtitle_language": "en",
+  "subtitle_type": "provided subtitles (not requested automatic captions)",
+  "subtitle_format": "json3",
+  "subtitle_sha256": "7caf1c931522ceb3585f3d6a541f3cfd9aac04c0c715188ab3f16a5dd74e06e4",
+  "download_method": "yt-dlp --skip-download --write-subs --sub-langs en --sub-format json3 --write-info-json --js-runtimes node",
+  "chapters_seconds": [
+    15,
+    65,
+    140,
+    188,
+    263,
+    289,
+    311
+  ],
+  "reported_event_rate_per_second": 44000,
+  "reported_event_rate_status": "Narrated approximate rate in an STM32/STLINK v3 demonstration; not an independent RISC-V or UART measurement",
+  "cpu_loading_measurement_provided": false,
+  "uart_benchmark_provided": false,
+  "complete_transcript_distributed": false
+}

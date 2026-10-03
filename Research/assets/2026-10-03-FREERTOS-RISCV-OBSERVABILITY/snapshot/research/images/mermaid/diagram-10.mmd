@@ -1,0 +1,10 @@
+flowchart TD
+    Run["裝置正常執行"] --> Metrics["每秒或低頻摘要"]
+    Run --> Ring["RAM 保留近期事件"]
+    Metrics --> Check{"是否超過門檻？"}
+    Check -->|否| Run
+    Check -->|是| Capture["保存一致的 snapshot<br/>附 firmware 與裝置識別"]
+    Ring --> Capture
+    Capture --> Persist["離線保存或可靠排隊"]
+    Persist --> Send["低優先權批次上傳"]
+    Send --> Analyze["集中告警<br/>按需下載 trace 分析"]

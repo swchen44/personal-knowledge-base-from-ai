@@ -1,0 +1,20 @@
+flowchart LR
+    subgraph Device["RISC-V 裝置"]
+        App["應用程式<br/>request、狀態、錯誤"]
+        RTOS["FreeRTOS hooks<br/>排程、queue、mutex"]
+        ISR["ISR instrumentation"]
+        Clock["時間戳來源<br/>cycle 或獨立 timer"]
+        Recorder["TraceRecorder"]
+        Buffer["RAM buffer"]
+        App --> Recorder
+        RTOS --> Recorder
+        ISR --> Recorder
+        Clock --> Recorder
+        Recorder --> Buffer
+    end
+    Buffer --> Local["本地收集端<br/>UART、RTT、TCP 或 snapshot"]
+    Local --> Viewer["Tracealyzer<br/>時間線與統計"]
+    Buffer --> Alert["異常觸發<br/>保存 trace 與 dump"]
+    Alert --> Store["本地儲存或自有後端"]
+    Store --> Team["Detect／DevAlert<br/>或自行建立的收集服務"]
+    Team --> Viewer

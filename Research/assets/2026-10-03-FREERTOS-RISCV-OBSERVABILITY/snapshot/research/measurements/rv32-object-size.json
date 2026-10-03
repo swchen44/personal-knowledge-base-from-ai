@@ -1,0 +1,14 @@
+{
+  "target": "rv32imac / ilp32",
+  "optimization": "-Os, no LTO, no final link/GC",
+  "kernel_port": "BareMetal",
+  "stream_port": "RingBuffer, 10240 bytes",
+  "compiler": "Homebrew clang version 23.1.1",
+  "totals": {
+    "text": 12633,
+    "data": 0,
+    "bss": 13880
+  },
+  "objects": 28,
+  "scope": "All root recorder C files plus BareMetal and RingBuffer ports; standard C function declarations only; excludes libc implementations, FreeRTOS kernel/hook call-site growth, network/TLS/DFM and linker garbage collection"
+}

@@ -1,0 +1,10 @@
+flowchart LR
+    Events["Task／ISR／RTOS events"] --> Rec["TraceRecorder"]
+    Rec --> RAM["事件用 RAM buffer"]
+    RAM --> TzCtrl["TzCtrl 或傳輸 task<br/>取得完整資料區塊"]
+    TzCtrl --> DMA["UART DMA／FIFO 批次傳送"]
+    DMA --> Bridge["USB-UART bridge"]
+    Bridge --> Capture["電腦 binary collector"]
+    Capture --> File["PSF trace file"]
+    Capture --> View["Tracealyzer 串流"]
+    Capture --> Upload["後續上傳自有後端"]

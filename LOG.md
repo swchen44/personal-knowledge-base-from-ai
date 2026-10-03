@@ -149,3 +149,4 @@
 | 2026-10-03 06:36 | ingest | https://www.youtube.com/watch?v=FEbyddZFNeo + https://logz.io/blog/continuous-observability-cicd-pipelines/ | [[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]] | DevTools | 3 | 4 |
 | 2026-10-03 06:36 | ingest | https://ithelp.ithome.com.tw/articles/10340025 | [[2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT]] | DevTools | 1 | 4 |
 | 2026-10-03 06:36 | ingest | https://www.techtarget.com/it-infrastructure/tip/Observability-as-code-is-key-to-the-cloud-operating-model | [[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL]] | DevTools | 1 | 4 |
+| 2026-10-03 09:23 | ingest | 本地 FreeRTOS／RISC-V 研究文件，三份合併一篇 | [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | Research | 3 | 7 |

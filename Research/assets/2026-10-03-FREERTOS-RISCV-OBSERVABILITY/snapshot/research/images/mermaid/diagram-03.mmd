@@ -1,0 +1,7 @@
+flowchart LR
+    STM["STM32 的 Arm ITM"] --> SWO["SWO 實體輸出"]
+    SWO --> Probe["STLINK v3"]
+    Probe --> GDB["電腦上的 GDB server"]
+    GDB --> Python["Python queue 與 bridge"]
+    Python --> TCP["localhost TCP"]
+    TCP --> TZ["Tracealyzer"]

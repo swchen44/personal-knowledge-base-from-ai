@@ -1,0 +1,484 @@
+RTOS 101
+Understand your real-time applications
+with the help of Percepio Tracealyzer
+RTOS 101
+Tasks, Priorities and Analysis
+
+
+
+
+Figure 1: Tracealyzer showing RTOS task scheduling and calls to RTOS services.
+
+               The use of a Real-Time Operating               efficient designs enabled by multi-task-
+               System (RTOS) is increasingly common           ing.﻿
+               in embedded software designs, as an
+               RTOS makes it easy to divide your code         Priority decides scheduling
+               into smaller blocks, tasks, which exe-         An RTOS typically implements pre-
+               cute seemingly in parallel and indepen-        emptive multi-tasking using a periodic
+               dent of each other. An RTOS provides           interrupt routine (the “tick” interrupt)
+               multi-tasking, in a reliable and maintain-     that switches the running task when re-
+               able manner, which makes it easier to          quired. The decision of what task to ex-
+               design applications with multiple con-         ecute is known as task scheduling and
+               current functions such as control, com-        most RTOS use fixed-priority schedul-
+               munication and HMI.                            ing (FPS), where the developers assign
+                                                              each task a static priority level to indi-
+               The overhead of an RTOS is negligible          cate their relative urgency. The RTOS
+               on modern 32-bit processors and is of-         scheduler always chooses the task with
+               ten more than compensated for by more          highest priority from the tasks current-
+
+2                                               A White Paper from Percepio
+ly ready to execute. This is a quite sim-        time), but also by higher priority tasks
+ple and elegant solution that allows the         and interrupts that preempt the task, as
+RTOS scheduler to be very small, highly          illustrated in Figure 1. So if the response
+optimized and thoroughly validated.              time is too long, optimizing the code of
+                                                 the problematic task might be a waste
+It is however important to assign suit-          of time, unless you know what actually
+able task priorities, otherwise the system       causes the long response time.
+performance will suffer or the system
+might even become
+unresponsive. This is
+because high priori-
+ty tasks may prevent
+lower priority tasks
+from executing if they
+consume too much
+processor time.
+
+Analyzing task prior-
+ities and runtime be-
+havior of RTOS-based
+applications requires
+recording and visu-
+alization of the task
+scheduling. For this
+purpose Percepio of-
+fers the Tracealyzer
+tools with over 25 in-
+teractive views that
+make the recorded
+traces easier to com-      Figure 2: Execution time and response time for each execution of two
+prehend and analyze.       tasks.
+
+Task scheduling in Tracealyzer                   Execution time versus response time
+Figure 1 (left) shows the main view of           With Tracealyzer you get many perspec-
+Tracealyzer, a vertical timeline focused         tives of the runtime world, including
+on the execution of tasks and interrupt          plots of task execution times and re-
+handlers (A) annotated with text labels          sponse times like in Figure 2 above. We
+showing events (B) including RTOS API            can see that execution times are pretty
+calls and custom “user events” (C). The          steady for both tasks, but sometimes
+“Selection Details” panel (D) shows              the response time of “SensorZ” is much
+properties of the highlighted task and           higher. By clicking on such a data point,
+the “View Filter” (E) allows for filtering       you open the corresponding interval in
+of the display. Double-clicking on task          the main trace view (Figure 1) and see
+fragments or event labels opens other            the cause. All views in Tracealyzer are in-
+related views showing related points in          terconnected in similar ways.
+the trace, e.g., a chronological list of all
+executions of a selected task.
+
+The response time of a task, i.e., the
+time from activation until completion, is
+affected not just by the actual processor
+time used by the task itself (execution
+
+                                  A White Paper from Percepio                                     3
+RTOS 101
+Semaphores and Queues
+
+                 An RTOS makes it easy to divide your           For instance, consider this situation:
+                 code into smaller blocks, tasks, which
+                 execute seemingly in parallel and inde-          1: while (COM1_busy); // if busy,
+                 pendent of each other, as described in              wait until free
+                 the previous article in this series.             2: COM1_busy = 1;
+                                                                  3: SendBytes(COM1, data);
+                 Having fully independent tasks is rare-          4: COM1_busy = 0;
+                 ly possible in practice. In many cases,
+                 tasks need to be activated on a particu-       The initial loop (line 1) may seem to give
+                 lar event, e.g., from an interrupt service     exclusive access to the COM1 interface
+                 routine or from another task request-          (line 3), but if using an RTOS this is of-
+                 ing a service. In such cases, tasks often      ten not a safe solution. It probably works
+                 need to receive related input, i.e., pa-       most of the time, perhaps often enough
+                 rameters. Moreover, tasks often need to        to pass all testing, but if an interrupt
+                 share hardware resources such as com-          strikes after the initial loop on line 1 but
+                 munication interfaces which can only be        before the assignment at line 2 and this
+                 used by one task at a time, i.e. mutual        results in a task-switch, a second task
+                 exclusion, a type of synchronization.          could get into the critical section before
+                                                                the first task is finished.
+                 Thread-safe is tricky
+                 Inexperienced developers may try to            Implementing a thread-safe critical sec-
+                 use global variables for such purposes,        tion requires either disabling interrupts
+                 but implementing thread-safe commu-            or using special instructions for atomic
+                 nication is tricky and a home-cooked           “test-and-set”. Considering this, it is typ-
+                 solution may fail if a task-switch strikes     ically easier (and safer!) to use the RTOS
+                 at a critical point.                           services intended for this purpose. Most
+
+
+Some common synchronization objects
+Semaphore: a signal between            “taken” before the critical section      ration is made which decrements
+tasks/interrupts that does not         and “given” right after, i.e., in        the counter.
+carry any additional data. The         the same task. A mutex typically
+meaning of the signal is implied       stores the current “owner” task          Queue: a FIFO buffer that allows
+by the semaphore object, so you        and may boost its scheduling             for passing arbitrary messages to
+need one semaphore for each            priority to avoid a problem called       tasks. Typically, each queue has
+purpose. The most common type          “priority inversion”, discussed          just one specific receiver task and
+of semaphore is a binary sema-         below.                                   one or several sender tasks.
+phore, that triggers activation of
+a task. The typical design pattern     Counting Semaphore: a sema-              Queues are often used as input
+is that a task contains a main loop    phore that contains a counter            for server-style tasks that provide
+with an RTOS call to “take” the        with an upper bound. This al-            multiple services/commands. A
+semaphore. If the semaphore is         lows for keeping track of limited        common design pattern in that
+not yet signaled, the RTOS blocks      shared resources. Whenever a             case is to have common data
+the task from executing further        resource is to be allocated, an          structure for such messages
+until some task or interrupt rou-      attempt to “take” the semaphore          consisting of a command code
+tine “gives” the semaphore, i.e.,      is made and the counter is incre-        and parameters, and use a switch
+signals it.                            mented if below the specified            statement in the receiver task
+                                       upper bound, otherwise the               to handle the different message
+Mutex: a binary semaphore for          attempted allocation blocks the          codes. If using a union structure
+mutual exclusion between tasks,        task (possibly with a timeout) or        for the parameters, or even just a
+to protect a critical section. In-     fails directly, depending on the         void pointer, the parameters can
+ternally it works much the same        parameters to the RTOS sema-             be defined separately for each
+way as a binary semaphore, but         phore service. When the resource         command code.
+it is used in a different way. It is   is to be released, a “give” ope­
+
+4                                                 A White Paper from Percepio
+         RTOSes provides many types of mecha-                           Task H until the mutex is available, and
+         nisms for safe communication and syn-                          is often not a problem in itself since a
+         chronization in between tasks and be-                          mutex is typically only held for brief du-
+         tween interrupt routines and tasks.                            rations during a critical section.
+
+                  Tries to take mutex, blocked               Takes mutex             Inheritance
+Task H                                                                               However, as illustrated in
+                                                                                     Figure 1 (left), the blocking
+Task M                         Priority Inversion!                                   may become a lot longer if
+         Takes mutex                                      Gives mutex
+                                                                                     an unrelated medium-pri-
+Task L
+                                                                                     ority task (“Task M”) comes
+                                                                                     in and preempts Task L,
+Figure 1. In principle, a high-priority task (‘H’ above) should                      thereby delaying the re-
+never be blocked by lower-priority tasks. In practice, certain                       lease of the mutex that
+design decisions can result in this happening anyway, a                              Task H is waiting for. This
+condition known as Priority Inversion.                                               phenomenon is called Pri-
+                                                                                     ority Inversion.
+
+         Priority inversion                                             Most RTOSes provide mutexes with
+         Priority Inversion is what caused NASA                         “Priority Inheritance” (or other similar
+         problems on the Mars Pathfinder mis-                           protocols) which raises the scheduling
+         sion. This means that a higher priority                        priority of the owner task if another,
+         task is accidentally delayed by a lower                        higher priority tasks becomes blocked
+         priority task, which normally is not possi-                    by the mutex, which avoids interference
+         ble in RTOSs using Fixed Priority Sched-                       from medium-priority tasks. Priority In-
+         uling. This may however occur, e.g., if                        version can also occur with queues and
+         the high-priority task (“Task H”) needs to                     other similar primitives, as described in
+         take a mutex that is currently held by a                       Customer Case: The mysterious watch-
+         lower priority task (“Task L”). This blocks                    dog reset (see page 10).
+
+
+
+
+         Figure 2. Tracealyzer displays most RTOS calls, including operations on
+         semaphores, mutexes and queues, in the main timeline.
+
+                                                     A White Paper from Percepio                                     5
+                Percepio Tracealyzer allows you to see          for the selected object, as illustrated
+                most RTOS calls made by the applica-            above, showing a separate timeline with
+                tion, including operations on queues,           all operations and states of this specific
+                semaphores and mutexes, in the vertical         object. You can double-click in this view
+                                                                to find the corresponding event in the
+                                                                main trace view.
+
+                                                                For queue objects, you also get a visu-
+                                                                al display of the number of messages in
+                                                                the buffer at any point, and you can even
+                                                                track messages from send to receive or
+                                                                vice versa. For mutex objects you see
+                                                                the name of the current owning task.
+
+                                                                Tracealyzer also provides an overview
+                                                                of the interactions between tasks and
+                                                                interrupts via kernel objects such as
+                                                                queues, semaphores and mutexes.
+                                                                This gives a high-level illustration of
+                                                                the runtime architecture based on the
+Figure 3. Double-clicking an event from the main trace          trace, and you can even generate this
+view brings up the History view for the corresponding           for specified intervals in the trace. An
+object.                                                         example is shown below. Rectangles
+                                                                indicates tasks and interrupts, while el-
+                timeline of the main trace view, in par-        lipses indicate queues or semaphores.
+                allel with the task scheduling, interrupts,     Mutexes are shown as hexagons. Since
+                and logged application events – see             sometimes binary semaphores are used
+                Figure 2 on the previous page.                  as mutexes, the classification of Mutex-
+                                                                es are made based on their usage pat-
+                Revealing history                               tern, so semaphore objects may also be
+                By clicking on any semaphore, queue or          displayed with hexagons if they are used
+                mutex event in the main trace view, you         like a mutex, i.e., taken and given by the
+                open up the Kernel Object History view          same task.
+
+
+
+
+             Figure 4. The
+    Communications Flow
+view can be a good place
+  to start your debugging
+     from, as it shows how
+     messages are passed
+         around within the
+                application.
+
+
+
+
+                                                   Remember:
+                                             implementing thread-safe
+                                              communication is tricky.
+
+
+
+
+6                                                 A White Paper from Percepio
+RTOS 101
+Performance Analysis with Tracealyzer
+
+
+
+
+Figure 1. Actors, Instances and Fragments in Tracealyzer.
+
+
+        When developing firmware using a               or tasks. Moreover, this does not reveal
+        Real-Time Operating System (RTOS),             sporadic cases of unusually long execu-
+        how do you measure the software per-           tions that might cause problems such as
+        formance? One important aspect of              timeouts.
+        performance analysis is response time,
+        the time from point A to point B in the        Tracing with RTOS knowledge
+        code, e.g., from when a task is activated      To get an exact picture of the RTOS be-
+        until it is completed. This can be mea-        havior you need a solution for RTOS-
+        sured in many ways, e.g., by toggling          aware tracing. Tools for this purpose
+        an I/O pin and measuring with a logic          have been around for many years, but
+        analyzer, or by adding some extra code         only for certain operating systems and
+        that measures the number of clock cy-          each tool typically only support a par-
+        cles between the two points. But a basic       ticular operating system. They typically
+        measurement like this only measures the        display a horizontal Gantt chart showing
+        total amount of processor time between         task execution over time. This is how­
+        these points, without any information          ever not ideal for RTOS traces as it is
+        about contributing factors, such as inter-     hard to show other events in parallel,
+        rupts routines or other tasks that inter-      such as RTOS API calls.
+        fere due to preemptive scheduling (see
+        Tasks, Priorities and Analysis, page 2).       Tracealyzer is available for several lead-
+                                                       ing operating systems and provides a
+        Another important performance aspect           sophisticated visualization that makes it
+        of performance analysis is execution           easier to comprehend the traces.
+        time, the actual processor time used by
+        a particular piece of code. You might          The main view of Tracealyzer (Figure 1,
+        use solutions that samples the program         above) uses a vertical timeline, that al-
+        counter and provides a high level over-        lows for showing not only RTOS sched-
+        view of those using the most processor         uling and interrupts, but also other
+        time. This is supported by several com-        events such as RTOS calls or custom
+        mon IDEs and most ARM-based MCUs               User Events, using horizontal text la-
+        provide hardware support for this pur-         bels. These labels “float” and spread
+        pose. This is however an average mea-          out evenly to avoid overlaps. The rec­
+        surement of the typical distribution and       tangles in the scheduling trace corre-
+        is inaccurate for less frequent functions      spond to intervals of uninterrupted ex-
+
+
+                                        A White Paper from Percepio                                 7
+    Figure 2. Plot showing variations in execution time (above) and response time
+    (below), over time.
+
+    ecution. These are called “fragments”          response time of “Control Task” is 3255
+    in Tracealyzer. The term “Actor” is used       µs in this trace, while the highest execu-
+    to denote all execution contexts in the        tion time is just 1087 µs, meaning that
+    traced system, such as tasks and inter-        most of the response time is due to in-
+    rupt handlers. The task scheduling can         terference from other tasks or interrupts.
+    be rendered in different ways, or “View
+    Modes”, with associated buttons found          It’s all connected
+    under the Zoom buttons. In this mode,          All views in Tracealyzer are interconnect-
+    the fragments are ordered in multiple          ed, so by clicking on the plotted data
+    columns, one for each Actor.                   points or the histogram bars, you find
+                                                   the corresponding locations in the main
+    One actor, many instances                      trace view and can see the detailed
+    Tracealyzer has a concept of “instances”       RTOS behavior behind the statistics.
+    not found in other RTOS tracing tools,
+    meaning a particular execution of an Ac-
+                                                           Task Control –Execution Time
+    tor, i.e., from when a “job” is triggered      350
+
+    until it is finished. The instance concept     300                                                  303
+
+    is quite central in Tracealyzer, since in-     250
+
+                                                   200
+    stances are used both in the trace visu-       150
+    alization and for providing timing statis-     100
+    tics. When clicking on the actor fragment        50
+                                                                 45
+                                                                                                   22     22
+                                                                                               1
+    in the Tracealyzer main view, the entire          0
+                                                          40                                              1087       µs
+    Actor Instance is highlighted with a blue
+    rectangle as depicted in Figure 1.             350     Task Control –Response Time
+                                                   300                             302
+
+    Moreover, performance metrics such as          250
+
+
+    execution time and response time are           200
+
+                                                   150
+    calculated for each instance and can be        100
+    visualized as detailed plots showing the        50
+                                                                45
+                                                                      23                  22
+    variations over time (Figure 2 above)             0
+                                                                                                              1
+                                                           40                                                     3255 µs
+    and as histograms showing the distri-
+    butions. The latter is shown in Figure 3       Figure 3. Distribution of execution times and
+    (right) where we can see that the highest      response times (in µs) for the task instances.
+
+8                                    A White Paper from Percepio
+Great, but how is the stream of task             specify what RTOS calls that normally
+scheduling events grouped into task in-          should be counted as IFEs, such as De-
+stances? This is fairly obvious for cyclic       lay calls and QueueRecieve calls. This
+RTOS tasks, where an instance corre-             requires no extra configuration and is
+sponds to an iteration of the main loop,         usually correct. However, for cases these
+delimited by a blocking RTOS call, e.g.,         implicit rules are unsuitable, you may
+a “QueueRecieve” or a “DelayUntil”               generate explicit events (IFEs) that marks
+somewhere in the loop. But a task might          the instance as finished, this by calling
+perform multiple such calls, so how does         a certain function in our recorder library.
+Tracealyzer know where to end the cur-           An example of this is shown in Figure 4
+rent instance and begin a new instance?          (above), where the dark green control
+                                                 task is divided into multiple instances de-
+For this purpose, Tracealyzer has a con-         spite no task-switches occurring at these
+cept of “instance finish events” (IFEs)          points. This way you can manually de-
+that are defined in two ways. Users don’t        cide how to group events into instances,
+need to bother about this in most cas-           and thereby control the interpretation of
+es, as there is a set of standard rules that     the timing statistics.
+
+
+
+
+Figure 4. Instance Finish Events (IFE) allows you to define your own custom intervals.
+
+
+
+
+                                  A White Paper from Percepio                                  9
+Customer Case
+Mysterious Watchdog Reset
+                                                                                     plerTask is running,
+                                                                                     but it does not
+                                                                                     clear the watchdog
+                                                                                     timer in the last
+                                                                                     execution of the
+                                                                                     task, which resets
+                                                                                     the system after a
+                                                                                     while (“Watchdog
+                                                                                     reset!”). So why
+                                                                                     didn’t SamplerTask
+                                                                                     reset the watchdog
+                                                                                     timer? Let’s display
+                                                                                     Kernel Service calls
+                                                                                     to see what the
+                                                                                     task was doing.
+
+                                                                                     The last event of
+                                                                                     SamplerTask is a call
+                                                                                     to xQueueSend, a
+                                                                                     kernel function that
+                                                                                     puts a message in
+                                                                                     a message queue.
+                                                                                     Note that the label
+Figure 1. In Tracealyzer, a User Event (the yellow labels) are used to log and      is red, meaning that
+display user data, somewhat similar to classic printf() statements.                 the xQueueSend
+                                                                                    call blocked the
+                 We collect examples of how Tracealyzer        task, which caused a context-switch to
+                 has been of useful to our customers and       ServerTask before the watchdog timer
+                 have recreated similar issues to illustrate   had been reset, which caused it to ex-
+                 the benefits of our Tracealyzer tools for     pire and reset the system.
+                 embedded software developers.
+                                                               Why the blocking?
+                 In this case, a customer had an issue         So why was xQueueSend blocking the
+                 with a randomly occurring reset. By plac-     task? By double-clicking on this event
+                 ing a breakpoint in the reset exception       label, we open the Object History View,
+                 handler, they figured out that it was the     showing all operations on this particular
+                 watchdog timer that had expired. The          queue, “ControlQueue”, as illustrated
+                 watchdog timer was supposed to be re-         on the next page.
+                 set in a high priority task that executed
+                 periodically.                                 The rightmost column shows the buff-
+                                                               ered messages. We can see that the
+                 The ability to insert custom User Events      message queue already contains five
+                 comes handy in this case. They are sim-       messages and probably is full, hence
+                 ilar to a classic “printf()” call and events  the blocking. But the ControlTask is
+                 have here been added when the watch-          supposed to read the queue and make
+                 dog timer was reset and when it expired.      room, why hasn’t this worked as expect-
+                 User events also support data argu-           ed?
+                 ments, and this has been used to log the
+                 timer value (just before resetting it) to see To investigate this, we look at how the
+                 the watchdog “margin”, i.e., remaining        watchdog margin varies over time. We
+                 time. The result can be seen above, in        have this information in the user event
+                 the yel-
+                 low text
+                 labels.
+
+                We can
+                see that
+                the Sam-     Figure 2. SamplerTask blocks on a send-to-queue operation.
+
+10                                                A White Paper from Percepio
+                                                                               Figure 3. The Object History
+                                                                               view can tell us a lot about
+                                                                               an RTOS object. In this case,
+                                                                               a message queue, one of
+                                                                               the things you can see is the
+                                                                               number of messages in the
+                                                                               queue.
+
+        logging, and by using the User Event           of the CPU time. This is an example of a
+        Signal Plot we can plot the watchdog           Priority Inversion problem, as the Sam-
+        margin over time. Adding a CPU Load            plerTask is blocked by an unrelated task
+        Graph on the same timeline, we can see         of lower priority. A solution could be to
+        how task execution affects the watch-          change the scheduling priorities, so that
+        dog margin, as shown below (left).             ControlTask gets higher priority than
+                                                       ServerTask. Let’s try that and see how it
+        In the CPU Load Graph, we see that the         would look.
+        ServerTask is executing a lot in the sec-
+        ond half of the trace, and this seems to       Switching priorities solves problem
+        impact the watchdog margin. Server-            The right screenshot below shows the
+        Task (bright green) has higher priority        result of switching the task scheduling
+        than ControlTask (dark green), so when         priorities between ServerTask and Con-
+        it is executing a lot in the end of the        trolTask. The system now shows a much
+        trace, we see that ControlTask is getting      more stable behavior. The CPU load of
+        less CPU time. This is an intrinsic effect     SamplerTask (red here) is quite steady
+        of Fixed Priority Scheduling, which is         around 20%, indicating a stable periodic
+        used by most RTOSes. Most likely, this         behavior, and the watchdog margin is a
+        could cause the full message queue,            perfect line, always at 10 ms. It does not
+        since ControlTask might not be able to         expire anymore – problem solved!
+        read messages fast enough when the
+        higher priority ServerTask is using most
+
+
+
+
+Figure 4. In the original system configuration (left) ControlTask could not empty the message
+queue fast enough, finally causing the watchdog timer to expire. After adjusting priorities
+everything works as intended (right).
+
+                                        A White Paper from Percepio                                        11
+   Download
+ Tracealyzer 4
+   https://percepio.com/download
+Free evaluation license available
+
+
+
+
+        Percepio AB, Västerås, Sweden
+             https://percepio.com
+
+
+
+
+                                        ®
+

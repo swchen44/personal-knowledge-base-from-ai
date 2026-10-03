@@ -1,0 +1,65 @@
+{
+  "mermaid_version": "11.12.0",
+  "results": [
+    {
+      "diagram": 1,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 2,
+      "passed": true,
+      "type": "sequence"
+    },
+    {
+      "diagram": 3,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 4,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 5,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 6,
+      "passed": true,
+      "type": "stateDiagram"
+    },
+    {
+      "diagram": 7,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 8,
+      "passed": true,
+      "type": "sequence"
+    },
+    {
+      "diagram": 9,
+      "passed": true,
+      "type": "sequence"
+    },
+    {
+      "diagram": 10,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 11,
+      "passed": true,
+      "type": "flowchart-v2"
+    },
+    {
+      "diagram": 12,
+      "passed": true,
+      "type": "flowchart-v2"
+    }
+  ]
+}

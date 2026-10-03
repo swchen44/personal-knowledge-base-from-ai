@@ -1,0 +1,228 @@
+How to visualize
+response times
+in FreeRTOS
+
+
+Efficient development of FreeRTOS-based
+firmware requires understanding of the timing
+and interactions between tasks, interrupts and
+the kernel.
+
+
+
+
+Copyright ©2022 Percepio AB. All Rights Reserved.
+How to visualize
+response times
+in FreeRTOS
+Efficient development of FreeRTOS-based firmware
+requires understanding of the timing and interactions
+between tasks, interrupts and the kernel.
+
+Percepio Tracealyzer is the premier solution for analysis and visualization
+of FreeRTOS-based embedded software. It provides more than 30
+graphical interconnected views of different aspects of the software’s
+real-time behavior.
+
+We collect and reproduce examples of how customers have applied
+Tracealyzer to real-world issues. In this example, the customer developed
+a networked system running a TCP/IP stack, a flash file system, and
+an RTOS running on an ARM Cortex-M4 microcontroller. The system
+contained several RTOS tasks, including a server-style task that responds
+to network requests, and a log file spooler task. The response time on
+network requests had been an issue in the past and when testing the
+latest build, the situation had deteriorated. Now they really needed to
+figure this out!
+
+They started by comparing the source code between the two versions,
+but they could not find any obvious cause for the longer response time.
+There were many small changes, seemingly due to refactoring, but no
+new functions were added. Therefore, they decided to use Tracealyzer to
+compare the runtime behaviors of the old and new versions.
+                                                                                         3
+
+
+Traces were recorded from both versions under similar
+                                                                        Percepio
+conditions. They began the comparison in the Statistics
+Report (Figure 1A and Figure 1B), which includes high-level
+                                                                        Tracealyzer
+timing statistics such as CPU usage, number of executions,              is the premier
+scheduling priorities and response times.                               solution for
+                                                                        analysis and
+                                                                        visualization
+                                                                        of FreeRTOS-
+                                                                        based embedded
+                                                                        software.
+
+                                                               fig.1A
+
+
+
+
+                                                               fig.1B
+
+
+
+
+As expected, the Statistics Report revealed that response times
+(total time from reception of a message until it is ready to
+receive the next message) for the Server task were about 50
+percent higher in the new version. However, the execution times
+(i.e., the time spent executing) were similar: only about 7 percent
+longer in the new version. This led to the conclusion that the
+main reason for longer response time must be other tasks that
+interfered. But which tasks?
+                                                                                   4
+
+
+To determine which tasks interfered with the Server task, we clicked on
+the extreme values in the Statistics Report. This focused the main trace
+view on the corresponding locations so we could see the details, as
+illustrated below. And by opening parallel instances of Tracealyzer, one
+for each trace, we could easily compare them and spot the differences.
+
+Since the Server task performed several services, two User Events
+were added (a User Event is basically a custom printf statement) to
+mark where the specific requests were received and answered, labeled
+ServerLog in Figure 2A and 2B. The zoom levels are identical, so we
+could clearly see the longer response time in the new version. We
+also saw that the Logger task preempted the Server task 11 times,
+compared to only 6 times in the earlier version.
+
+Moreover, we see that the Logger task ran on a higher priority than
+the Server task, otherwise logging calls would not have preempted the
+Server task.
+
+So there seemed to be new logging calls added in the new version,
+causing the Logger task to interfere more with the Server task. To see
+what was logged, we added another User Event in the Logger task to
+show all log messages in the trace view. Doing so informed us that
+other tasks besides Server generated log messages, for instance the
+
+
+
+   COMMUNICATION FLOW GRAPH
+
+
+
+
+                                                                           fig.4
+                                                                                        5
+
+
+ADC_0 task. To see all tasks sending messages to the Logger task, we
+used Tracealyzer’s Communication Flow graph, illustrated in Figure 4.
+The Communication Flow graph shows a summary of all operations on
+message queues, semaphores and other kernel objects, performed by
+tasks and interrupts in the trace. This visualizes the high-level application
+design as well as runtime dependencies in the recorded situation.
+
+In this case, the Communication Flow revealed that five tasks sent
+logging messages. By double-clicking the LoggerQueue node in the
+graph, we opened the Kernel Object History view to see all operations
+on this message queue (Figure 5). As expected, we saw that Logger task
+received messages frequently, one message at a time, and was blocked
+after each message, as indicated by the red light in the Event column.
+
+But was this really a good design? It is probably not necessary to write
+log messages to file one-by-one. If we could increase the scheduling
+priority of the Server task above that of Logger, then Server would not
+be preempted as frequently and would thereby be able to respond
+
+
+
+
+    OBJECT HISTORY VIEW, SHOWING OPERATIONS ON A PARTICULAR MESSAGE QUEUE.
+
+
+
+
+                                                                                fig.5
+                                                                                  6
+
+
+faster. The log messages could then be buffered in LoggerQueue until
+Server and other high priority tasks have completed. Only then would
+Logger resume and process all buffered messages in a batch.
+
+We tried that. Figure 6 shows the result. The highest response time
+for the Server task was now just 5.4 ms, which was even faster than
+in the earlier version (5.7 ms) despite more logging. This was possible
+because the Logger task processed all pending messages in a batch
+after Server was finished, instead of preempting Server for each log
+message.
+
+We could also see event labels for the message queue operations, and
+as expected there were several xQueueSend calls in sequence, without
+blocking or task preemptions. There were still some preemptions,
+caused by the A/D converter tasks, but this no longer caused extra
+activations of the Logger task.
+
+Problem solved!
+
+
+
+
+    HIGHEST RESPONSE TIME OF SERVER TASK AFTER CHANGING THE PRIORITIES.
+
+
+
+
+                                                                          fig.6
+                                                                                                                                 7
+
+
+How does it work?
+Tracealyzer uses flexible software-defined tracing and works on any
+processor. To record a trace, you only need to include Percepio’s
+recorder library in your build, configure it and start the tracing.
+
+The performance overhead is only a few microseconds per event, and
+you can stream the trace continuously to the host computer via a debug
+probe, TCP/IP, ITM or other channels. The trace can also be kept in a
+target-side RAM buffer and uploaded on demand.
+
+To learn more and get started,
+please refer to the following on-line resources:
+
+      PRODUCT PAGE                          USER GUIDE                                   GETTING STARTED
+
+If you have any questions, please contact support@percepio.com or
+your local distributor.
+
+
+ABOUT THE AUTHOR//
+                           Dr. Johan Kraft is CEO and founder of Percepio AB. Dr. Kraft is the original
+                           developer of Percepio Tracealyzer, a tool for visual trace diagnostics that
+                           provides insight into runtime systems to accelerate embedded software
+                           development. His applied academic research, in collaboration with industry,
+                           focused on embedded software timing analysis. Prior to founding Percepio
+                           in 2009, he worked in embedded software development at ABB Robotics.
+                           Dr. Kraft holds a PhD in computer science.
+
+
+
+
+                                                         About Percepio
+Learn more about why Tracealyzer
+                                                         Percepio is the leading provider of visual trace diagnostics for
+is the premier solution for analysis                     embedded and IoT software systems in development and in the field.
+
+and visualization of FreeRTOS-based                      Percepio Tracealyzer combines software tracing with powerful
+                                                         visualizations, allowing users to visually spot and analyze issues in
+embedded software.                                       software recordings during development and testing.
+
+                                                         Percepio DevAlert is a cloud service for monitoring deployed IoT
+                                                         devices, combining automatic, real-time error reporting with visual
+                                                         trace diagnostics powered by Tracealyzer. Complimentary evaluation
+Visit percepio.com/tracealyzer.                          licenses are available for both products.
+
+
+                                                         For more information, visit Percepio.com.
+
+
+
+
+                                                         Copyright 2022 Percepio AB. All rights reserved. | info@percepio.com
+

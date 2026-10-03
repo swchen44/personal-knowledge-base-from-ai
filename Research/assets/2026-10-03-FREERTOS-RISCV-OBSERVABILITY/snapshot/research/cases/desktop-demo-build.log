@@ -1,0 +1,35 @@
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../main.c -o ./obj/main.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../util.c -o ./obj/util.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcAssert.c -o ./obj/trcAssert.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcCounter.c -o ./obj/trcCounter.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcDependency.c -o ./obj/trcDependency.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcDiagnostics.c -o ./obj/trcDiagnostics.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcEntryTable.c -o ./obj/trcEntryTable.o  
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcError.c -o ./obj/trcError.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcEvent.c -o ./obj/trcEvent.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcEventBuffer.c -o ./obj/trcEventBuffer.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcExtension.c -o ./obj/trcExtension.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcHardwarePort.c -o ./obj/trcHardwarePort.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcHeap.c -o ./obj/trcHeap.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcInternalEventBuffer.c -o ./obj/trcInternalEventBuffer.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcInterval.c -o ./obj/trcInterval.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcISR.c -o ./obj/trcISR.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcKernelPort.c -o ./obj/trcKernelPort.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcMultiCoreEventBuffer.c  -o ./obj/trcMultiCoreEventBuffer.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcObject.c -o ./obj/trcObject.o 
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcPrint.c -o ./obj/trcPrint.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcRunnable.c -o ./obj/trcRunnable.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcSnapshotRecorder.c -o ./obj/trcSnapshotRecorder.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcStackMonitor.c -o ./obj/trcStackMonitor.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcStateMachine.c -o ./obj/trcStateMachine.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcStaticBuffer.c -o ./obj/trcStaticBuffer.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcStreamingRecorder.c -o ./obj/trcStreamingRecorder.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcString.c -o ./obj/trcString.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcTask.c -o ./obj/trcTask.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcTimestamp.c -o ./obj/trcTimestamp.o
+gcc -g -c -Wall -I../TraceRecorder/include -I../TraceRecorder/config -I.. -DBUILD_LINUX ../TraceRecorder/trcStreamPort.c -o ./obj/trcStreamPort.o
+gcc -g ./obj/main.o ./obj/util.o ./obj/trcAssert.o ./obj/trcCounter.o ./obj/trcDependency.o ./obj/trcDiagnostics.o ./obj/trcEntryTable.o ./obj/trcError.o ./obj/trcEvent.o ./obj/trcEventBuffer.o ./obj/trcExtension.o ./obj/trcHardwarePort.o ./obj/trcHeap.o ./obj/trcInternalEventBuffer.o ./obj/trcInterval.o ./obj/trcISR.o ./obj/trcKernelPort.o ./obj/trcMultiCoreEventBuffer.o ./obj/trcObject.o ./obj/trcPrint.o ./obj/trcRunnable.o ./obj/trcSnapshotRecorder.o ./obj/trcStackMonitor.o ./obj/trcStateMachine.o ./obj/trcStaticBuffer.o ./obj/trcStreamingRecorder.o ./obj/trcString.o ./obj/trcTask.o ./obj/trcTimestamp.o ./obj/trcStreamPort.o -o ../tz-sdk-demo 
+../TraceRecorder/trcEvent.c:391:11: warning: variable 'uiAttempts' set but not used [-Wunused-but-set-variable]
+  391 |         uint32_t uiAttempts = 0u;
+      |                  ^
+1 warning generated.

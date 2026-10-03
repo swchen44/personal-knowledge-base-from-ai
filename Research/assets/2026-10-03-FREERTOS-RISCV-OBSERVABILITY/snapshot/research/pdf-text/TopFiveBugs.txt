@@ -1,0 +1,236 @@
+  5
+THE
+       MOST COMMON
+RTOS DEVELOPMENT
+BUGS AND HOW TO SPOT THEM
+
+
+                     WHITE PAPER
+
+
+
+
+                 © Percepio November 2019
+                  WHITE PAPER
+
+
+
+
+   WHAT MAKES
+   RTOS DEVELOPMENT SO HARD?
+    When using a real-time operating system (RTOS), embedded developers
+    work at a higher level of abstraction, similar to the shift from programming
+    in assembly to C, which can make it easier to design complex applications.
+    But while an RTOS reduces the complexity of the application source code,
+    it does not reduce the inherent complexity of the application itself. That
+    can make the application difficult to validate and debug.
+
+   The main job of an RTOS is to provide multitasking, where      issues in the final product. A set of seemingly simple RTOS
+   several program modules—or tasks—can execute in parallel       tasks can result in surprisingly complex runtime behavior
+   to achieve a common goal. The RTOS creates an illusion         when executing together as a system; there can be countless
+   of parallel execution by rapidly switching between tasks.      execution scenarios that are impossible to fully cover by
+   Developers can retain some control over elements such as       testing or code reviews.
+   RTOS task priorities, which in turn enables deterministic      The challenge for developers is that when development
+   real-time behavior, but they also lose some control over the   moved up the abstraction ladder—from assembly code and
+   finer details. For instance, the program flow is no longer     super loops to C and an RTOS with scheduling—debugging
+   apparent from the source code, since the RTOS decides          tools for real-time application development didn’t keep up.
+   which task to execute at any given moment.                     While standard debugging tools are still mostly focused
+   What makes RTOS-based development so difficult is that         on breakpoints and single-stepping through source code,
+   RTOS tasks are not isolated entities, but have dependencies    RTOS trace and visualization gives developers full insight
+   that may delay task execution in unexpected ways. Subtle       into the application’s behavior at system level.
+   coding choices can result in elusive errors or performance
+
+
+
+
+               What makes RTOS-based development so difficult is that
+               RTOS tasks are not isolated entities, but have dependencies
+               that may delay task execution in unexpected ways.
+
+
+
+
+© Percepio November 2019                                                                                                   Page 1
+   We’ve identified five of the most common real-time application bugs.
+   Using RTOS trace and visualization, we show how developers can work at a
+   higher abstraction level and capture timing and synchronization aspects of
+   their application that traditional debuggers can’t see.
+
+   1. CPU Starvation
+       Symptoms: • Tasks run slowly or not at all
+       In embedded systems using multitasking, some tasks               too much CPU time, the latter may receive too little CPU
+       may become starved of CPU time. A common reason is               time to do their jobs. This is known as task starvation.
+       that task priorities are wrong. Higher-priority tasks always
+                                                                        A naïve fix would be to raise priorities of the
+       execute before lower-priority tasks, but if the former use
+                                                                        affected tasks, but this ultimately renders prioritization
+                                                                        useless. Instead, reserve high priority for tasks that are
+                                                                        predictable, execute in a recurring pattern, and have a
+                                                                        short execution time compared to the recurring interval.
+                                                                        High-priority, time-critical tasks that consume a lot of CPU
+                                                                        may need to be split into several tasks. This isolates the
+                                                                        time-critical elements in a small, high-priority task which
+                                                                        then alerts a medium- or low-priority task to do the bulk of
+                                                                        the processing.
+                                                                                                    Learn more about CPU starvation
+
+       Starvation occurs when CPU load approaches 100%.
+
+
+
+   2. Jitter
+       Symptoms: • Poor control performance
+                  • Intermittent data loss or malfunction
+   When a task is supposed to execute at regular intervals,           CPU starvation, which is fixed by getting the task priorities
+   such as to adjust motor speed every 5 milliseconds, the            right and avoiding long-running high-priority tasks, but there
+   system is sensitive to random delays, also known as jitter.        are several other possible causes, such as suboptimal RTOS
+   When a task experiences jitter, it must wait more than             configuration. Developers should also look at the RTOS tick
+   its intended sleep time before the next activation. While          rate (how often the RTOS timer interrupt occurs). Ideally, the
+   minor jitter is hard to avoid and may not be a problem,            time between two ticks should be much shorter than the
+   excessive jitter is a different story.                             period time of the most frequent tasks in the system.
+   The visible symptoms of excessive jitter can be poor control
+   performance and intermittent data loss. The cause can be
+
+
+
+
+                                                                                                              7 MS, 6 MS ON TWO
+                                                                                                              OCCASIONS, 4 MS
+
+
+    Y AXIS: TIME IN
+    MILLISECONDS
+
+
+                                                                                                               5 MS BETWEEN
+                                                                                                               MOST TASK
+                                                                                                               ACTIVATIONS
+
+   X AXIS: TIMELINE
+
+                                                                                                              Learn more about jitter
+
+
+
+© Percepio November 2019                                                                                                          Page 2
+   3. Priority Inversion
+        Symptoms: • System momentarily stops responding
+                   • System crashes randomly
+
+   An RTOS with a fixed-priority scheduler should schedule              message queue or a mutex. Priority inversion can be
+   high-priority tasks ahead of those of lower priority. However,       mitigated, provided the underlying RTOS supports
+   the inverse can sometimes occur and the lower-priority tasks         so-called priority inheritance, but completely eliminating it
+   get run first. This condition is called priority inversion, and it   requires careful application design. The trick is to identify
+   can occur in conjunction with a synchronization object such as a     that it is occurring.
+
+
+   LOW-PRIORITY TASK –
+   takes a binary semaphore                                                                                  Green task should
+   to protect a critical section                                                                             run until it releases
+                                                                                                             the semaphore,
+                                                                                                             allowing red task
+                                                                                                             to proceed.
+
+
+                                                                                                             For some reason, such
+   HIGH-PRIORITY TASK –                                                                                      as a timed wait that has
+   pre-empts the green task                                                                                  expired, a medium-priority
+   and tries to take the same                                                                                (orange) task executes
+   semaphore but is blocked.                                                                                 ahead of the green task,
+                                                                                                             blocking higher-priority
+                                                                                                             red task without holding
+                                                                                                             the semaphore.
+
+
+                                                                                                   Learn more about priority inversion
+
+
+
+   4. Deadlock
+        Symptoms: • Tasks suddenly stop executing, although no higher priority tasks are running
+   A deadlock occurs when two or more application tasks                 unable to proceed. Generally speaking, a deadlock can
+   are blocked waiting for each other, leaving both tasks               be a fatal condition, so identification is critical.
+
+
+
+         Yellow task takes                                                                        • The two tasks block each other
+         semaphore 2 and                                                                             and neither of them can continue
+         is pre-empted by                                                                            execution.
+         red task, which has
+         higher priority.                                                                         • Deadlock is unsatisfactorily
+                                                                                                     resolved by a timeout (the orange
+                                                                                                     event) in the red task. It could not
+                                                                                                     acquire both semaphores, so it
+                                                                                                     released the one it held and went
+                                                                                                     back to sleep, which allowed
+          Red task succeeds in                                                                       yellow task to take semaphore
+          taking semaphore                                                                           1, run to completion, and release
+          1 but blocks on                                                                            both semaphores.
+          semaphore 2,
+          which is taken.
+
+
+
+        Yellow task gets to
+        run again and tries
+        to take semaphore
+        2, which is held by
+        the red task.
+
+
+
+
+                                                                                                            Learn more about deadlock
+
+
+
+© Percepio November 2019                                                                                                              Page 3
+5. Memory Leaks
+    Symptoms: • Memory allocation fails during operation
+Dynamic memory allocation is typically not recommended            A memory leak is especially dangerous if it only occurs
+for embedded software, but is sometimes motivated for             occasionally as a slow memory leak is easily missed
+various reasons (right or wrong). Moreover, third-party           during functional testing but can cause critical errors
+software libraries or external development teams may              later in a deployed unit. Given the long-running nature
+use it without the primary developer’s knowledge.                 of many embedded systems, combined with potentially
+The catch with dynamic memory allocation is that every            deadly or spectacular failures of safety-critical systems, it
+allocated block of memory must be freed once the memory           is important to identify and fix memory leak bugs early.
+block is no longer in use. Any missed case will cause a           With Tracealyzer, developers can monitor RTOS calls for
+memory leak and the application will eventually run out           dynamic memory allocation and highlight suspected
+of memory.                                                        memory leaks.
+
+The Memory Heap Utilization
+view shows the amount of
+currently allocated memory
+over time.
+
+
+
+
+                                                                                                 Learn more about memory leaks
+
+
+
+
+How to Find—and Fix—RTOS Development Bugs
+These are just the five most common RTOS development              interactions between the application and the RTOS. Traditional
+bugs, but there can be countless others hiding in your code.      debugging tools cannot offer this insight.
+You can try to guess your way through debugging, trying           RTOS trace visualization, which can be thought of as a
+one thing after another to get the application to run properly.   slow-motion video of the application’s internals, provides
+But to solve the problem, you need to understand the specific     confidence that an RTOS application runs as designed and
+sequence of software events that caused it, including the         can be the fastest way to detect and correct bugs.
+
+
+                         FIND YOUR BUGS FAST!
+                         Download a free, fully functional evaluation of Tracealyzer
+                         at https://percepio.com/download.
+                         The installer includes a pre-recorded demo trace so you can quickly explore all 30+ interconnected
+                         views. It is available for leading RTOSes and Linux systems and supports most 32-bit and 64-bit
+                         processors out-of-the-box. The Tracealyzer tool runs on Windows and Linux hosts.
+
+
+
+
+                                                                                                             percepio.com
+
+                                                                                                      © Percepio November 2019
+

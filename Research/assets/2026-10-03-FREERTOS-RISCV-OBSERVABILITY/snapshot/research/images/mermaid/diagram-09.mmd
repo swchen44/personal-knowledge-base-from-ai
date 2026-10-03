@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant Producer as 需要定期完成工作的 task
+    participant Q as 有限容量 queue
+    participant Consumer as 負責取出資料的 task
+    participant W as Watchdog
+    Producer->>Q: 送出資料
+    Note over Q,Consumer: Consumer 執行不足，queue 累積
+    Producer->>Q: 下一次 send
+    Q-->>Producer: Queue 滿，進入 blocking
+    Note over Producer,W: 需要完成的工作延後，margin 縮小
+    W-->>Producer: Timeout／reset
+    Note over Producer,Consumer: 分析時對照 ready、switch、queue 與 margin

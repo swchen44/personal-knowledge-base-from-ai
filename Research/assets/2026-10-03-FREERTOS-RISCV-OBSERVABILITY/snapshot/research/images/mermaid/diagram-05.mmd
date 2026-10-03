@@ -1,0 +1,9 @@
+flowchart TD
+    Kernel["編譯 FreeRTOS tasks.c／queue.c"] --> FH["FreeRTOS.h"]
+    FH --> FC["你的 FreeRTOSConfig.h<br/>configUSE_TRACE_FACILITY = 1"]
+    FC --> Recorder["末端 include trcRecorder.h"]
+    Recorder --> Port["FreeRTOS trcKernelPort.h<br/>重新定義 trace 巨集"]
+    Port --> Expand["Kernel 原有 trace 呼叫點<br/>在預處理時展開"]
+    Expand --> API["xTraceTaskSwitch／event API"]
+    API --> Buffer["RAM event buffer"]
+    Buffer --> Transport["選定 streamport／snapshot"]

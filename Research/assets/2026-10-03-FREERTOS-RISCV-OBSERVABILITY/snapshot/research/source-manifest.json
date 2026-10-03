@@ -1,0 +1,1634 @@
+{
+  "recorded_date": "2026-10-03",
+  "workspace_root_is_git_repository": false,
+  "scope": "Local percepio recorder/DFM source, complete GCC desktop SDK demo and README, referenced SWO README and all 15 original attached images; no product firmware inspected",
+  "files": [
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/Build-Linux/Makefile",
+      "size_bytes": 5618,
+      "sha256": "8da9b20b92529471d251129e75dbb91a71cb8ab9b68d8d4ee36f6b36bd7c569b"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/Build-Linux/readme.txt",
+      "size_bytes": 600,
+      "sha256": "6ae6865dd5913d3828c5892e69d96d0e189858fc7195999468d54a553de41493"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/Build-Windows/Makefile",
+      "size_bytes": 5626,
+      "sha256": "88b01721db5366a8b8a170a9c4e3e1426ac32685c09595d607bf0aac8aebe037"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/Build-Windows/readme.txt",
+      "size_bytes": 589,
+      "sha256": "63d37ee2109939321ab08792f654b45619fc0cb5681ac8fa64fa6ca38259a38d"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/README.md",
+      "size_bytes": 2700,
+      "sha256": "edddfb3afe8b4f71230755712ea09567078546f062c4b4803ca2ae9c32eeb6d7"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcConfig.h",
+      "size_bytes": 14981,
+      "sha256": "610a7ecb71efd0175afaa65cc7b307b24ee922ad19f7d4076aeb5c44b70cd881"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcKernelPortConfig.h",
+      "size_bytes": 1696,
+      "sha256": "cb8116b35e82025fa276603c3659161061038c450ac7f03af2b3332f211b5bbd"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcKernelPortSnapshotConfig.h",
+      "size_bytes": 410,
+      "sha256": "9078a22043ec4814057267a47165a63e8c1bb20a632608141ee7a0d326b99329"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcKernelPortStreamingConfig.h",
+      "size_bytes": 433,
+      "sha256": "d8539d71ff1427de1505304f7e92dac0dd4118a73f84df53f83ab019b92530bd"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcSnapshotConfig.h",
+      "size_bytes": 9742,
+      "sha256": "a1d0321a570b48e882d6039f7c0d604913413bfae3cdb920679fd9f40ff3b773"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcStreamPortConfig.h",
+      "size_bytes": 2921,
+      "sha256": "25a3191e278a9d89d9002a8064688fb55518a0991e8257912d94c475678ca153"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/config/trcStreamingConfig.h",
+      "size_bytes": 1510,
+      "sha256": "32f67a4b38f06121b846c52e88de7752195f65564495fa349d418fb047927585"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcAssert.h",
+      "size_bytes": 3620,
+      "sha256": "f68915399e2d1abef4b926c92f4c6a4f33fa2f495e0e6c1045c50e12158a0be1"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcCounter.h",
+      "size_bytes": 6271,
+      "sha256": "ec3608dc4a658e42bfa3e7cb036d987d5b21cdd028d3ec9d12a3e8b619a532f6"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcDefines.h",
+      "size_bytes": 9387,
+      "sha256": "66a4df5131926cdf8f588a323416e4592cbedbc282ddcdce32b4cd796ee5c51a"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcDependency.h",
+      "size_bytes": 1177,
+      "sha256": "29154b776f299c91008937982d851453c1bdfd68074c42b89d27f75c26b99555"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcDiagnostics.h",
+      "size_bytes": 3290,
+      "sha256": "3deb41d341da82f63c585dd38e81783e0ed1c94d9888584711a0358789f8be1b"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcEntryTable.h",
+      "size_bytes": 10505,
+      "sha256": "f44583c02b3f01c19d3011198037b8d7ed8cf662ce04faba8c59e2ecbc19326f"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcError.h",
+      "size_bytes": 1797,
+      "sha256": "9fc99c822e538e8fae816bd517c0bcfa25e177f71566bfee123de357cab38276"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcEvent.h",
+      "size_bytes": 23682,
+      "sha256": "042887cb2686a6ed6a7556bc10c321b5b88b2148ac28d5abb41768849738c26e"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcEventBuffer.h",
+      "size_bytes": 5742,
+      "sha256": "a7f98370e95a01f10e78442c73373ab3fdf7294061c58d638bc7c980dab7543d"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcExtension.h",
+      "size_bytes": 2881,
+      "sha256": "6b336a497ff37edc3ff4486f916d47cc0fa621b03fa3d0ba780d18af9367333c"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcHardwarePort.h",
+      "size_bytes": 32140,
+      "sha256": "9c7956349f907d28f8177f0733d44667c18e2923963137259e4aa84fadb50525"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcHeap.h",
+      "size_bytes": 4958,
+      "sha256": "178dc66b3c10e945922b4933a3aa2dd23813eea30a64ba0515b78b1b8fa9e28c"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcISR.h",
+      "size_bytes": 5881,
+      "sha256": "dcc17cf985f60968f051f41ee581e0745e922c2b28b0ae930f0ffc7ee65596a7"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcInternalEventBuffer.h",
+      "size_bytes": 6054,
+      "sha256": "afb2213c2abff0e5c61b6f2ba780084492ebfa51a83018ac6809cbd307d6f671"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcInterval.h",
+      "size_bytes": 3829,
+      "sha256": "019a767d4432e0f72a8253729203e1416d6b3b59c9d13f406c0952b4b16779b6"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcKernelPort.h",
+      "size_bytes": 6126,
+      "sha256": "8712b2a9a4d69e76118d25d8e8ab950bcb45694653f329b1e732b38cf79b3263"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcMultiCoreEventBuffer.h",
+      "size_bytes": 7921,
+      "sha256": "d84899bb51b3ff3b3469aa7dd793609955881790789ae2ec1d7b6155bf23dcea"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcObject.h",
+      "size_bytes": 5531,
+      "sha256": "007a776791b94bb32dc8e4696319c391c2921e357dc7cf12d33fc16fbca8f720"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcPrint.h",
+      "size_bytes": 16952,
+      "sha256": "af0eb5d1a9f93b979250eb1d31bda4f9febf9e008a7cf7b82cc87675307eba3e"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcRecorder.h",
+      "size_bytes": 66127,
+      "sha256": "0ab06f1194f4ca66d9ce20c4ad0d6dcd373eb9ec28a99d9b6b643a39608003fb"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcRunnable.h",
+      "size_bytes": 4600,
+      "sha256": "a72e84dc67c3ff6f80392d132fc26b47e7ebc2653547f16bdac36181aa2386ca"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcStackMonitor.h",
+      "size_bytes": 3404,
+      "sha256": "fb47228b204a44b98b2d9dc09c1b0bbbd550fb9a1bd416465abe9a76d633c7ca"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcStateMachine.h",
+      "size_bytes": 2419,
+      "sha256": "3d9a76321cd6a3068d4090e8d214e2f6b4714f3dade405821ccca1dcabcb5493"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcStaticBuffer.h",
+      "size_bytes": 2341,
+      "sha256": "7f37715dabefe3ed03a0e853ccdfdd49425f46aca0c47ac5ddc8a2b435cfaada"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcStreamPort.h",
+      "size_bytes": 4940,
+      "sha256": "9179afe983219562c064e84a8b0c555c90a0f758f31922cc55c4667b85a1c973"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcString.h",
+      "size_bytes": 1527,
+      "sha256": "cd5b45b921b64017c9b8750e2802ae337cb20fed5d80c9f88af3fa728d895fd4"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcTask.h",
+      "size_bytes": 7203,
+      "sha256": "b73a6b96022be9d4c4066b8aec74251dd95e459717f07da19fd9d40aace563f1"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcTimestamp.h",
+      "size_bytes": 6862,
+      "sha256": "ee5d574c0c7437d8312352ec4b0bb1ea01f4052e49f848ee5dabc9af173b36b6"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcTypes.h",
+      "size_bytes": 1871,
+      "sha256": "8ad565ac5176e8deac46f92f92560e56ef740c3bbc850f14c3953864f43156c5"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/include/trcUtility.h",
+      "size_bytes": 2179,
+      "sha256": "7792a34eb64483b523e48cc65b99afdb5e90695fd25228990b78011bae7f34de"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcAssert.c",
+      "size_bytes": 3416,
+      "sha256": "436064015e0fa204f87a1736ca601adae47586cf4bdf9864df4fe98e4624662d"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcCounter.c",
+      "size_bytes": 3407,
+      "sha256": "4ada3546bc156222a29ead98ef4ea048534dc2788c2532b875ce90a3733bdb39"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcDependency.c",
+      "size_bytes": 1347,
+      "sha256": "d4410c0b4216ad31ac86b6c8f7457e6bf346e14dbd04424943ce3014ab9503e1"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcDiagnostics.c",
+      "size_bytes": 4351,
+      "sha256": "8ab5556392ce077ed45cbec0e07417145bfcb1d6bb62cd4b329766f62ec9d782"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcEntryTable.c",
+      "size_bytes": 13452,
+      "sha256": "371400bddc47fdf894397a2c4b54e49871323470d3a2d5a5a51d555b99cb3369"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcError.c",
+      "size_bytes": 9763,
+      "sha256": "b6dd2710aefee0457c466bd225dcb2cd302ca057374e0d034f2e8908f6b90502"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcEvent.c",
+      "size_bytes": 23596,
+      "sha256": "6755c0595d1356c978d807634c089584062499f6f20156b666f580cf5f22ff64"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcEventBuffer.c",
+      "size_bytes": 16985,
+      "sha256": "6115baa22d560e9beaca1e7e5573dce3fafc5073edd02b96826d726527e84ee8"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcExtension.c",
+      "size_bytes": 3691,
+      "sha256": "b532a5f7f81fe41a327ce4fbf8b00e6dd2af284ddfc05ce25f1def57ced8a338"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcHardwarePort.c",
+      "size_bytes": 5197,
+      "sha256": "5282b3c0d09b06cb450410e9fec1c539de38b9024fd021cea0ac16fe1fb911eb"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcHeap.c",
+      "size_bytes": 3417,
+      "sha256": "192f5018dd611141305c15b521eaf2d7658dad5daa3c03b9ccf8912c4253ade0"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcISR.c",
+      "size_bytes": 7213,
+      "sha256": "d6af29233b1c8c2a1a6b2c900365200d8a2e65dab092ec9c5ad2dd7d9b5fe991"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcInternalEventBuffer.c",
+      "size_bytes": 3829,
+      "sha256": "9994714fbcaed6bbc7f79d78264fdb7579fc6e9e4e20709108ef95d9ebdadf41"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcInterval.c",
+      "size_bytes": 3550,
+      "sha256": "3296dd754ad521ee9f87d0b0f43dd1d5f83d20dae0966e902ac3848b158cddbb"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcKernelPort.c",
+      "size_bytes": 1574,
+      "sha256": "cba97ce4ec8e9f53ec7fa8d9442ad72d6b1c810e5999f5964d40efd0fabd64eb"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcMultiCoreEventBuffer.c",
+      "size_bytes": 5606,
+      "sha256": "0e0f386460cf439321cf08209dd1d1b577831caae01318e2faf5914b7ffd785f"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcObject.c",
+      "size_bytes": 9578,
+      "sha256": "b7182a2f117db00f7779729f49b1e1baaba7feca3246e8a0dc8068c56bd46100"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcPrint.c",
+      "size_bytes": 10810,
+      "sha256": "bf73c6b5dd99729d59efffdc998a2af4679dffbdbd48242e68dbfaa2bd54a0f1"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcRunnable.c",
+      "size_bytes": 3166,
+      "sha256": "ef0f62d22ce7d8f55214ee82e382f68e63cbe4d9a1530bf54dfb21c711fee4ca"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcSnapshotRecorder.c",
+      "size_bytes": 111536,
+      "sha256": "64cdf8aacd696de1ea1093b0efa8bae9692bf2e74905177420335938982c3cb8"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcStackMonitor.c",
+      "size_bytes": 5592,
+      "sha256": "53785d0ab0c76856ab53d163e3c847893a75c2679cc558446dac7e58509e0b02"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcStateMachine.c",
+      "size_bytes": 3337,
+      "sha256": "a1de59a9478b62541167c90a719d8cbb75dd058322f465d06b1a59177d868919"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcStaticBuffer.c",
+      "size_bytes": 1462,
+      "sha256": "87c7845bff975f6d64d42d232f723e65547e755cd59e44dbe36d079897f42c31"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcStreamPort.c",
+      "size_bytes": 1858,
+      "sha256": "268d0c208de0aa6ee2bd1f29c4e0e44c7ae26ff026fb95025f429495d0c41286"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcStreamingRecorder.c",
+      "size_bytes": 19931,
+      "sha256": "cdf9effa137c342a8e7ad39c564692ec2630e7fd98e32513a91164b038af26bd"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcString.c",
+      "size_bytes": 2303,
+      "sha256": "848e7558a489f6a80669740f6d53364dc797a908110aaafaf7d369fbe04ca0d0"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcTask.c",
+      "size_bytes": 4202,
+      "sha256": "bf71a7e6f7954d8007392ba7c4f6c3b55e6c28d1b6185ee07fd08b60fb85cfce"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/TraceRecorder/trcTimestamp.c",
+      "size_bytes": 4606,
+      "sha256": "b3fdee6d60e5e5b8a0d3bb64bf544e5e0e511ed744d2a514b761b61c237fad73"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/main.c",
+      "size_bytes": 3193,
+      "sha256": "b6994c31567ca0556308c3a2b296fc540898be4483b18b50b325ca3c52bf32f7"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/my_krnl-v1.0.0.xml",
+      "size_bytes": 6273,
+      "sha256": "5efa6cdd753fea5f812f0c03196c9be7c51524497d1c67fc9032e44d5349cea4"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/util.c",
+      "size_bytes": 1920,
+      "sha256": "e14edcdf61c78fb8fa82e143ead8626bd622ade1c8c6faeab141f8c7ef7d9459"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/GCC_MinGW_x86_64/util.h",
+      "size_bytes": 313,
+      "sha256": "d8ce30211fc2cf5c3cb39dc598998e6ab49e5687d4348bbec942e6745700567d"
+    },
+    {
+      "path": "Tracealyzer-SDK-demos/README.md",
+      "size_bytes": 1069,
+      "sha256": "5e2381bbb4d4106d635939fa3f23dbaf4d20a64724db2e2ff8616521a6ca4fad"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/README.md",
+      "size_bytes": 13551,
+      "sha256": "b095a5f008b3d20988de0707d6bf494c513404280f0ba6c508940c056a18e3d2"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/conf_trace.png",
+      "size_bytes": 29299,
+      "sha256": "c04b92dba48937f8a92be96bec21745394686983f673c21a62a0eeadbf56017b"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/debug.png",
+      "size_bytes": 89387,
+      "sha256": "2419160472d3f972424810c988cc81c2dda41772e584977a4d76193d5be2ef9f"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/debug_conf_1.png",
+      "size_bytes": 73825,
+      "sha256": "94042fc4e442d4674de04251e4665e2cdd8d7e023d1a3309b15141468e3f9666"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/debug_conf_2.png",
+      "size_bytes": 62568,
+      "sha256": "8d5d3db6a1e6a2cc88ffea9b3628565b140b0fe3503f623d6a0783a63ab6f80d"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/debug_conf_3.png",
+      "size_bytes": 12537,
+      "sha256": "59d7c8d5c01ca7f0e501ffcec45676559e188054f11f11bc78e0c4bebf4f77db"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/debug_conf_4.png",
+      "size_bytes": 13117,
+      "sha256": "7cf5b49e9d3fa8590dae0a49e9cea24740010c0cca6975cadbe72db66a856a6e"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/ext_tools.png",
+      "size_bytes": 19845,
+      "sha256": "ff8227bd782e03d4e79d390c57ab032c59c8cfbd37f8cb478ee776b6ec0ea53a"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/ext_tools2.png",
+      "size_bytes": 29894,
+      "sha256": "552f36d33edbd7007356c2fa0be23b2d1ab25708fb3d1fcd6f433136a00b001f"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/live_stream.png",
+      "size_bytes": 9043,
+      "sha256": "b645736aef08d336aeed0b6a29e3d3cd9d943cd7ae097450f711d84006bbca2c"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/missed_events.png",
+      "size_bytes": 43136,
+      "sha256": "8c15bf5e4882e75a48bba44cb02468c553459683cd0062f0976375b41ed7d5ce"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/psf_settings.png",
+      "size_bytes": 19202,
+      "sha256": "d0b4f00e2038644f77a4e8d7af438a77a544caf12403cb5ae1f83da57125b526"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/swv1.png",
+      "size_bytes": 7486,
+      "sha256": "70559e94706043f62cd4a28a515e5ab8ab419ff3e6c9c58ead676bba36e8900d"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/swv2.png",
+      "size_bytes": 7325,
+      "sha256": "5c9aca751d03e03ce2b3a925f225593332886085b1c04e5466732c0fa165dd55"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/tracealyzer.png",
+      "size_bytes": 137150,
+      "sha256": "8dcddcaaa0dff08ed0bc478d0f1e754ec9f01abde77ec72f880ffcf80e2ee261"
+    },
+    {
+      "path": "Tracealyzer-STM32CubeIDE-SWO/img/video-link.png",
+      "size_bytes": 112638,
+      "sha256": "3d88825412d6c17290708eb0c201f0223c440695bd31324fada2af0bd5643c67"
+    },
+    {
+      "path": "percepio/DFM/README.txt",
+      "size_bytes": 335,
+      "sha256": "a966675f37fe317da64170e5ab813155c0b4dd4ff6811d1bc4e522947bb4b451"
+    },
+    {
+      "path": "percepio/DFM/cloudports/Dummy/config/dfmCloudPortConfig.h",
+      "size_bytes": 418,
+      "sha256": "3fb063f11e2494e596b5c36dd7eceed99fd7d6cb81156602d6f89491760ed38d"
+    },
+    {
+      "path": "percepio/DFM/cloudports/Dummy/dfmCloudPort.c",
+      "size_bytes": 615,
+      "sha256": "2133ed3643262807a484a50a9f373db8122056fb28a68ec19e2500c2117cf786"
+    },
+    {
+      "path": "percepio/DFM/cloudports/Dummy/include/dfmCloudPort.h",
+      "size_bytes": 1292,
+      "sha256": "6cd4bfbe42a4f7bf6293cda238e31377532ddf759f6260159a8985ba54aa6534"
+    },
+    {
+      "path": "percepio/DFM/cloudports/README.txt",
+      "size_bytes": 88,
+      "sha256": "a3892efde69d30e4b1e5155eafd86413c3c369d7a4f619b407889a1747532a42"
+    },
+    {
+      "path": "percepio/DFM/cloudports/Serial/config/dfmCloudPortConfig.h",
+      "size_bytes": 1209,
+      "sha256": "1899b56328ddce6566d5b10b3e69ebae4ccae383c3960672525e88124fc95503"
+    },
+    {
+      "path": "percepio/DFM/cloudports/Serial/dfmCloudPort.c",
+      "size_bytes": 2619,
+      "sha256": "5e5d00ed4888d1b8ea4555c719090c5383ce35ecb18fb527ad5b6edf0043a6d1"
+    },
+    {
+      "path": "percepio/DFM/cloudports/Serial/include/dfmCloudPort.h",
+      "size_bytes": 1600,
+      "sha256": "0f009ef61456d765253bae043c82a3e748640793d37b6cdec9254ab0130e0e43"
+    },
+    {
+      "path": "percepio/DFM/config/dfmConfig.h",
+      "size_bytes": 3335,
+      "sha256": "12adaace64458a528092a66e6ca5edadbf39283470ec2d612108e74a8c452f65"
+    },
+    {
+      "path": "percepio/DFM/config/dfmCrashCatcherConfig.h",
+      "size_bytes": 743,
+      "sha256": "181e6bc226d2ad602c15b08834a61ad22e9864c6075203426beaa360c8ee2b16"
+    },
+    {
+      "path": "percepio/DFM/dfm.c",
+      "size_bytes": 1900,
+      "sha256": "8e249ad7abe0aa533d31f19942838f6798531acf23d419fcdd297dff4a1be990"
+    },
+    {
+      "path": "percepio/DFM/dfmAlert.c",
+      "size_bytes": 21057,
+      "sha256": "939889cc7905e04fa9429e548aec1873d141ee6dd71be0194c6e5acc949b1249"
+    },
+    {
+      "path": "percepio/DFM/dfmCloud.c",
+      "size_bytes": 4571,
+      "sha256": "f728ac57564f4e22747fa51fac0a79cb2d6c1a91dd059182b1412e4716a79d88"
+    },
+    {
+      "path": "percepio/DFM/dfmCrashCatcher.c",
+      "size_bytes": 9598,
+      "sha256": "221b60ef95fe6aef029d30b05722a1b6817b2941add854c023feb1e4a8b04eb0"
+    },
+    {
+      "path": "percepio/DFM/dfmEntry.c",
+      "size_bytes": 24957,
+      "sha256": "aab4b74bb2b09f419458699e4355c0281cb1982117fa1bc61457ca2ff8071ee6"
+    },
+    {
+      "path": "percepio/DFM/dfmRetainedMemory.c",
+      "size_bytes": 4479,
+      "sha256": "c39eba4cef97aeb13d49b4de9cee1b81db970068065565ab1067920030bf6544"
+    },
+    {
+      "path": "percepio/DFM/dfmSession.c",
+      "size_bytes": 14413,
+      "sha256": "5e6ec8d7c5cd2767e0131efa964f8186669e7b0bcc2b2766fe25760d3794cd95"
+    },
+    {
+      "path": "percepio/DFM/dfmStorage.c",
+      "size_bytes": 5630,
+      "sha256": "c08d1e777318464e7f07a7a7811c684d9d6b45778dae3fa22994f4c1a1b77570"
+    },
+    {
+      "path": "percepio/DFM/include/dfm.h",
+      "size_bytes": 8023,
+      "sha256": "9908fe5f0681f0cbd75647433c223d839d501aeede20a02a97559a5e7c536422"
+    },
+    {
+      "path": "percepio/DFM/include/dfmAlert.h",
+      "size_bytes": 11248,
+      "sha256": "67dd2a2f240f07a15e6e4102deddc2db50887405ab32159bd0a3048f333eef96"
+    },
+    {
+      "path": "percepio/DFM/include/dfmCloud.h",
+      "size_bytes": 1936,
+      "sha256": "72c0b13e2040ce7980162f9ba34490a8e09b746d2c7a5048315aa5eba2ec8f11"
+    },
+    {
+      "path": "percepio/DFM/include/dfmCodes.h",
+      "size_bytes": 1282,
+      "sha256": "963b6bca3abbbc2a4a1646e31946398b7415156a48b5a1da1e41203f26ba57f2"
+    },
+    {
+      "path": "percepio/DFM/include/dfmCrashCatcher.h",
+      "size_bytes": 2524,
+      "sha256": "b106673bf449b8fa70fe63f5a045a14197c0095ffd3b36e096de5dd359fd6137"
+    },
+    {
+      "path": "percepio/DFM/include/dfmDefines.h",
+      "size_bytes": 1154,
+      "sha256": "bc2bef0b7456884a7218e7b69687801e4f003a157ac0cfe6419b7427e7189fb9"
+    },
+    {
+      "path": "percepio/DFM/include/dfmEntry.h",
+      "size_bytes": 10648,
+      "sha256": "9c6df5e46bdaabe2847367ae443c11ed12c4ac94a83cbea77a652d539f3841ef"
+    },
+    {
+      "path": "percepio/DFM/include/dfmRetainedMemory.h",
+      "size_bytes": 3210,
+      "sha256": "470330eb9742c94b354493cb1c5b6e5179fd14802812a7bf5635d62e7c28e5cb"
+    },
+    {
+      "path": "percepio/DFM/include/dfmSession.h",
+      "size_bytes": 6726,
+      "sha256": "4faa212a83fc77f41f09b100d79418ac8e871e1e9bcd039fe91bdf71a637305f"
+    },
+    {
+      "path": "percepio/DFM/include/dfmStorage.h",
+      "size_bytes": 2820,
+      "sha256": "27d8140beba7862afe8cc22c442b287641a205d45a560f9980dd56f8d7663ca4"
+    },
+    {
+      "path": "percepio/DFM/include/dfmTypes.h",
+      "size_bytes": 1135,
+      "sha256": "602d59bb73424a8c9016bb69b8aed5216fd104ef8d0f407ee74cc225689e38b9"
+    },
+    {
+      "path": "percepio/DFM/kernelports/FreeRTOS/cloudports/AWS_MQTT/config/dfmCloudPortConfig.h",
+      "size_bytes": 1066,
+      "sha256": "2565582e2c4d92ad722888a23d7ec593d35cfed93f5a2b30de7f59a3c1543567"
+    },
+    {
+      "path": "percepio/DFM/kernelports/FreeRTOS/cloudports/AWS_MQTT/dfmCloudPort.c",
+      "size_bytes": 9803,
+      "sha256": "e62c87554ea285f343568fb3c1f7db105cbf1cd55f5dc38fd712f79c8a944b29"
+    },
+    {
+      "path": "percepio/DFM/kernelports/FreeRTOS/cloudports/AWS_MQTT/include/dfmCloudPort.h",
+      "size_bytes": 1274,
+      "sha256": "8d2a6bac1dcb18b9d2aecbf7a5450f4c8a2043a4b012b729a7f9ea62873a06d1"
+    },
+    {
+      "path": "percepio/DFM/kernelports/FreeRTOS/dfmKernelPort.c",
+      "size_bytes": 831,
+      "sha256": "c8cabcf0c7edc6e603f74afb3b0051d9943e9b8d39f3f772317cfdca7a476ecd"
+    },
+    {
+      "path": "percepio/DFM/kernelports/FreeRTOS/include/dfmKernelPort.h",
+      "size_bytes": 1087,
+      "sha256": "451f6dd620cccc392fe35fdf90ed10efac5d7b8c73a96c314ab4734f98e486ff"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Generic/dfmKernelPort.c",
+      "size_bytes": 605,
+      "sha256": "44cb146bf62aa649123421245f3561590c26af76da2b4767cfae7b256511f9ba"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Generic/include/dfmKernelPort.h",
+      "size_bytes": 1084,
+      "sha256": "66a5ade6a64a5e92c91b9b4cd126cf8ca97827d11ce3c450b89479adcbd0909f"
+    },
+    {
+      "path": "percepio/DFM/kernelports/README.txt",
+      "size_bytes": 88,
+      "sha256": "a3892efde69d30e4b1e5155eafd86413c3c369d7a4f619b407889a1747532a42"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/Kconfig",
+      "size_bytes": 6889,
+      "sha256": "5b497a94631611a17c8cd2cfadd0b96d9e78f5d97e8e84379a03c4b0d5c8ac35"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/cloudports/Serial/config/dfmCloudPortConfig.h",
+      "size_bytes": 1293,
+      "sha256": "80ff599227e52dd12d08188f918759088e49fb15d52e4e7dd0766f90c9fba34c"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/cloudports/Serial/dfmCloudPort.c",
+      "size_bytes": 2117,
+      "sha256": "fbf1b1ef3d185b57ebc711b82d2c66cfbdfd0714a1204b4056ce3a51d518ca90"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/cloudports/Serial/include/dfmCloudPort.h",
+      "size_bytes": 1636,
+      "sha256": "c317372e6f3a521c47cdab6d9a99445d2d6af7b1e2d1ab804bc66300fe068a76"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/config/dfmConfig.h",
+      "size_bytes": 4687,
+      "sha256": "24220ae1766800941412776aae6ca0527b80cc651fb63ecf653d3dab3721af75"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/dfmKernelPort.c",
+      "size_bytes": 9508,
+      "sha256": "64e881a9eed6fa024a278309a23180fbbeca3a3c741ca446b1b3b80bf6c9216d"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/dfmRetainedMemoryPort.c",
+      "size_bytes": 1626,
+      "sha256": "02c8d01bfd64fb7f9eeb910e503f633e796176c2961414ab4d15fb6b5b7a3267"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/include/dfmKernelPort.h",
+      "size_bytes": 2636,
+      "sha256": "c9e1813c32d12187636ec3040828b7dabc1f45bb1eb778eda4004e8ba7283960"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/include/dfmRetainedMemoryPort.h",
+      "size_bytes": 1911,
+      "sha256": "736e8cfda6b0dd249845f78e50ecf9e70c114a74a98079a473b2651426afdbc4"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/storageports/Filesystem/Kconfig",
+      "size_bytes": 379,
+      "sha256": "72eb4a40be69a80438f6f54950fc38cdd849d453e1371a4270c09f35a9242e2f"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/storageports/Filesystem/dfmStoragePort.c",
+      "size_bytes": 11895,
+      "sha256": "c4187a5624e61515905795dae2d108235413cfb27f71d00b8fe5ec4322504b8e"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/storageports/Filesystem/include/dfmStoragePort.h",
+      "size_bytes": 2740,
+      "sha256": "aa22ed68137066fcd1147028ac8d1de957787faf3e9d5f01e80d1a64f8cb6440"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/storageports/Flash/Kconfig",
+      "size_bytes": 546,
+      "sha256": "f58c7ca6e40b72928b417505df2d176270c95420f3ca782115c0cd7d19631dfc"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/storageports/Flash/dfmStoragePort.c",
+      "size_bytes": 14160,
+      "sha256": "c657691af546471cc0c4ac92d9a30b06239478493578abfeba9c94f0eb35ae0e"
+    },
+    {
+      "path": "percepio/DFM/kernelports/Zephyr/storageports/Flash/include/dfmStoragePort.h",
+      "size_bytes": 2882,
+      "sha256": "ba7b34a6bfecfb490a7a6983d4a6b1f13214b04be11b915158db35d85a0a3812"
+    },
+    {
+      "path": "percepio/DFM/storageports/Dummy/dfmStoragePort.c",
+      "size_bytes": 1287,
+      "sha256": "791bceca343132f80a826395ac868112a240a8dddbadbe577dcb2b45cf4fd222"
+    },
+    {
+      "path": "percepio/DFM/storageports/Dummy/include/dfmStoragePort.h",
+      "size_bytes": 3007,
+      "sha256": "262f762160555ebe26c541f07f846f0175dc33b33d3634285bc390f2cdde7b7b"
+    },
+    {
+      "path": "percepio/DFM/storageports/FLASH/config/dfmStoragePortConfig.h",
+      "size_bytes": 473,
+      "sha256": "264ed3043ebdd9c60b219ad64964dac0613b733e8349921539116a02d15c089d"
+    },
+    {
+      "path": "percepio/DFM/storageports/FLASH/dfmStoragePort.c",
+      "size_bytes": 4013,
+      "sha256": "19f57522c8ae1c8332fed066c73befd420912c8c1b9a0a481a0ccde79f38c9e9"
+    },
+    {
+      "path": "percepio/DFM/storageports/FLASH/include/dfmStoragePort.h",
+      "size_bytes": 3041,
+      "sha256": "f94e83e6bc717c8bc9bb45dfec676ac6d64a2933196dd8c3debf38f7c8ca45e2"
+    },
+    {
+      "path": "percepio/DFM/storageports/README.txt",
+      "size_bytes": 88,
+      "sha256": "a3892efde69d30e4b1e5155eafd86413c3c369d7a4f619b407889a1747532a42"
+    },
+    {
+      "path": "percepio/TraceRecorder/.gitattributes",
+      "size_bytes": 85,
+      "sha256": "f15463fc654a8c62aebedbf17ad7a22a2453aa37bbdde164a91e8fe69e9ef308"
+    },
+    {
+      "path": "percepio/TraceRecorder/Doxyfile",
+      "size_bytes": 123357,
+      "sha256": "b51207b080b5dffa207ec726be8501e68f990bd2a7c9cd9c8257d4f7406bdd8d"
+    },
+    {
+      "path": "percepio/TraceRecorder/LICENSE.md",
+      "size_bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "percepio/TraceRecorder/LICENSE.spdx",
+      "size_bytes": 492,
+      "sha256": "6a36974ed49d2f4bcf3a614e2fa70371a953f669d1d02e9fe1204044181394b6"
+    },
+    {
+      "path": "percepio/TraceRecorder/README.md",
+      "size_bytes": 216,
+      "sha256": "dd6031cf46ff9bb27e7c1e6d4ecddbfd0509e8d0b2f051ca0670fd2165177ce2"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig",
+      "size_bytes": 396,
+      "sha256": "18afec76978f11eaf8d14a9d3e36e3b4d5b127bd7b01e697e36f44f54235d397"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.BufferAllocation",
+      "size_bytes": 1130,
+      "sha256": "d04b9d8aa9be686cdbfd307aeb9e7286cd38513411f57a0bd5d931d07f3e8f84"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.Debug",
+      "size_bytes": 1080,
+      "sha256": "eb27c7d3727ee92b249da55f05b70a9d40cc0699c018750a205002a65fdff6b5"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.EntryTable",
+      "size_bytes": 1316,
+      "sha256": "74e647e7471461b08ff09c28599870ca3b2ad04d2f5c0ec189f1a6b4db7ac66b"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.ISR",
+      "size_bytes": 2870,
+      "sha256": "b216d2ff8ce11cf25cfd04e61eea6cbae4c0f5e2eaeaf0ff792ce9ec526a3aa3"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.InternalBuffer",
+      "size_bytes": 2030,
+      "sha256": "47c6e88476e41b33bcda8d156e07d8ec18b03efc02fecd646b7a03508f3b3b84"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.StackMonitor",
+      "size_bytes": 1822,
+      "sha256": "961a6d5f7b30a8e962ede484636dc8dce2edd6cdd70f54cf5f313c751f4ba6e9"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.StartMode",
+      "size_bytes": 1155,
+      "sha256": "205e1666f3829d5e9dbde5ab08307c8d6c7860642a0c5b15bd638c9a912b5456"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.StreamPort",
+      "size_bytes": 3205,
+      "sha256": "4f1d047b0d9150900e15f8be36b87124527e39f6ea7973a33debba0db377ee50"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.TaskMonitor",
+      "size_bytes": 1136,
+      "sha256": "264cb057556c36abdd66b1e648d4dd2f8717aeb4389864eedcb13fd0a53d5513"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.TraceControl",
+      "size_bytes": 1732,
+      "sha256": "d5d40bcbff00cc0429d6a07d92c58ad75d280ab2189531d1061a6dccce40fb20"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/Kconfig/Kconfig.TraceCoverage",
+      "size_bytes": 4307,
+      "sha256": "7c6ee8df8fec4b0c43f59f1f66dcaf1580b060b6e13e7fcaf94732ccce53a811"
+    },
+    {
+      "path": "percepio/TraceRecorder/config/trcConfig.h",
+      "size_bytes": 14143,
+      "sha256": "c54dd90cdc92238ecb155722a63e14b294c01099a798b3732aae1b0b05f8dcbc"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/ExtensionExample/cfg/MyExtension-v1.2.3.xml",
+      "size_bytes": 1451,
+      "sha256": "0b48e0aec40215b506a299a0741526abcd877ee18a3dbc7df262ff89d2f9b27f"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/ExtensionExample/source/MyExtension.c",
+      "size_bytes": 102,
+      "sha256": "edabecfe826b5158734416d1ac5f5a1d7cd936cb6a51ad69ad0c0368a1c0102a"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/ExtensionExample/source/include/MyExtension.h",
+      "size_bytes": 2793,
+      "sha256": "595248c528bb88ed72d4098e8d186935a936f06322f2a66c21e4d6c2a144817c"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/ExtensionExample/source/main.c",
+      "size_bytes": 734,
+      "sha256": "ad29084ebc9da83cb995686454c246bb4b335f7da125847aca529e7c4f7905e0"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/RunnableExample/source/main.c",
+      "size_bytes": 1253,
+      "sha256": "a5bb0c52474cc68fda7a045334a15743912e3ccf0359d4a3155cdfab4cde2442"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/TraceRecorderInit/TraceRecorderInit.cpp",
+      "size_bytes": 1550,
+      "sha256": "237b3e8c33e4545b8fc4eb644db15885a9b53ef0df7b5be92ca0917f44322e7a"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/TraceRecorderInit/include/TraceRecorderInit.h",
+      "size_bytes": 1141,
+      "sha256": "4d8d128aadd916612b3d4fade06c638d63692c80396f958abd2921d10c373ff9"
+    },
+    {
+      "path": "percepio/TraceRecorder/extras/TraceRecorderInit/readme.txt",
+      "size_bytes": 1283,
+      "sha256": "db9baf8a8cb51f71fbab23953db88cc710b716570a7ab82874575ef834995485"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcAssert.h",
+      "size_bytes": 3455,
+      "sha256": "4a5090a844dfafe91a395b135d84b5149b13cc7ab72048f6b312f6ea85dc5118"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcCounter.h",
+      "size_bytes": 6030,
+      "sha256": "ca0382c86c8807e69a1cf5a32555fec3d4df543f89467a7b9a49a0e84e6c90b0"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcDefines.h",
+      "size_bytes": 8600,
+      "sha256": "cd32b057e16aff20738a3345b5a9614d331487668071a702ba887cdf221909f1"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcDependency.h",
+      "size_bytes": 1089,
+      "sha256": "4d295de9930904ee24e57ed32951505a37cfe269dcd51ba02f6c4c32b23510ed"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcDiagnostics.h",
+      "size_bytes": 3101,
+      "sha256": "6924806ad84e67961c8e566458a0e8d2a6dba40c295c3d0c095825bfba3260fb"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcEntryTable.h",
+      "size_bytes": 13024,
+      "sha256": "ff22170fbfd3acc57a9a7082e3d019b749ff3c49a08a35d989f5c199e6f00e40"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcError.h",
+      "size_bytes": 1615,
+      "sha256": "83163fac1bf84b6e8ae3b8a78f430ad5c2b2c74ca6daab4792e287ebf7710929"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcEvent.h",
+      "size_bytes": 14655,
+      "sha256": "8af6a586c035fb3d0c12ddb8f3e3360ec8ace26974e921a8c1141fcc5cd8ae4e"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcEventBuffer.h",
+      "size_bytes": 5696,
+      "sha256": "5c4c088a72d0adf89cebfd917824ec4145e8159f717e1d88f5d4db380650247c"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcExtension.h",
+      "size_bytes": 3448,
+      "sha256": "3902f96e94932e286e16c1bd3392d5b08d9175da91d5e8c081e467f5a285a4ae"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcHardwarePort.h",
+      "size_bytes": 33297,
+      "sha256": "8fdb4d3210cf7025330550c0f041ac5a73c2076a2ec30f4acc01d49b4b7eecf0"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcHeap.h",
+      "size_bytes": 4880,
+      "sha256": "ea1646b83fb9bda01493a220eb5d81ab431f047f80a7a76f171628245c2c25a9"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcISR.h",
+      "size_bytes": 7363,
+      "sha256": "85d35ec5d750416c2292f6c340056cb862544f87b8d1af581a1de1b60e6a61fe"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcInternalEventBuffer.h",
+      "size_bytes": 6629,
+      "sha256": "612429b048747c27c6e813caf635875c0690dfb63514e6680dda6a9bc5dc8565"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcInterval.h",
+      "size_bytes": 3654,
+      "sha256": "cb7586271efdc507d98e7d3e2d5451409a1462216059aac5285700a68daa3036"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcMultiCoreEventBuffer.h",
+      "size_bytes": 7720,
+      "sha256": "8e9cf450ddd9cd00ec69d17ef2377f63572708551942962a6a12a5de87ad501c"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcObject.h",
+      "size_bytes": 11134,
+      "sha256": "8e64d9a3adf2fb35c4ad316097b95f5ff5230af4ee31622f511ed047bb03f649"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcPrint.h",
+      "size_bytes": 17046,
+      "sha256": "4150c0c5cc00220b3f34b0a14d37f1ce78cf477022657dec989355eee1fe0ecd"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcProcess.h",
+      "size_bytes": 2724,
+      "sha256": "7436587a01263f19acc9a1bd9a8523b09ec80668b2bc1cd8e8dc8cbb4a7c3469"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcRecorder.h",
+      "size_bytes": 12576,
+      "sha256": "24611583c7e966b86f492e1dbd7b1070b141b281fba3bca2fe58fd600b420859"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcRunnable.h",
+      "size_bytes": 4499,
+      "sha256": "f577c97575d23c63becca277cc39392660b80a6e1be8eaf8e113436140099954"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcStackMonitor.h",
+      "size_bytes": 3369,
+      "sha256": "dd355a2fc16592df73fbe51a5a09d08555021b7024d805de442a2dd05bb10661"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcStateMachine.h",
+      "size_bytes": 2203,
+      "sha256": "cc47c99ec3d93e8cebd3069b20efea3c1af446c07afdd5887e708ebfbe84b0d0"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcStaticBuffer.h",
+      "size_bytes": 2150,
+      "sha256": "228558845897ed5a2f97754b3ff1920169c2d26f1cafe0e8451a44a4e95f27da"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcString.h",
+      "size_bytes": 1490,
+      "sha256": "5653cd2255241947d8e1fda9e9fd5e09a05bd89f1ab559757bbc1d31e0f54328"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcTask.h",
+      "size_bytes": 11385,
+      "sha256": "073346a2ec3e9dbbae3b33353883bc9ebbd67a44b5ee8f3e60a1146ca3b91203"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcTaskMonitor.h",
+      "size_bytes": 5954,
+      "sha256": "fd5150b116e3cf3932aa762594d23fca91dd75e7950724cfdfde5574f3e7a0c0"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcThread.h",
+      "size_bytes": 5126,
+      "sha256": "a1fc49953e62591bd9a4cfc1259e93f07deeeed217205a0bade7e3ed62fdb38d"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcTimestamp.h",
+      "size_bytes": 7638,
+      "sha256": "5217d437c676fbf6042022c024cc2f097375aa76733ff97aac3d87d127ecd031"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcTypes.h",
+      "size_bytes": 1773,
+      "sha256": "5cf0e7ea33cd9641992291a39497cfedfb21814d672cfc0e43a949ec13af99fd"
+    },
+    {
+      "path": "percepio/TraceRecorder/include/trcUtility.h",
+      "size_bytes": 2730,
+      "sha256": "e866abc192e2b31156b59466002e42bce4b9e2dd5fbd222d6949621ba14a0aa7"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/BareMetal/config/trcKernelPortConfig.h",
+      "size_bytes": 665,
+      "sha256": "5f8f4addc23e53c55a7f5ca5fc432ccea83b858da7b39230238632ce16e148a6"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/BareMetal/include/trcKernelPort.h",
+      "size_bytes": 6139,
+      "sha256": "6db7c5e491bfbcf5dc0b7d2774c735f5b44a93165559fd0db2ab29a3331bb749"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/BareMetal/trcKernelPort.c",
+      "size_bytes": 1280,
+      "sha256": "e772dff8284f1c31089454bbe97aea8a37f4bd58652a5d1c108761d5fa7f5723"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/CMakeLists.txt",
+      "size_bytes": 5558,
+      "sha256": "c239c3f008e1baf76e94cfe57448bdde295370c3d41e7c1b54e3c9ebe135d40e"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/Kconfig.projbuild",
+      "size_bytes": 775,
+      "sha256": "fd0799754d0cfcff3878fdfa43b873c78df4b90b96caa30753313fde9247b13b"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/component.mk",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/config/trcConfig.h",
+      "size_bytes": 14419,
+      "sha256": "013d14fba271b0697be33daea5b94e7bd6590a8ecdbe07c597da2fa02a8da0e9"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/config/trcKernelPortConfig.h",
+      "size_bytes": 2386,
+      "sha256": "2e90017c3d676b65ad5627fe3b5fa8424145c81c207a885e33b0e7505ef674c8"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/include/trcKernelPort.h",
+      "size_bytes": 57668,
+      "sha256": "004ac83163074a276adcd1567cec2ca0ee6289c26551f5e91ccf9f8d55df3e47"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/lifra.fr",
+      "size_bytes": 76,
+      "sha256": "a7d25f9d4a109113185245fa9dca8355c3bbd944a72acfbfaa8ff10a9fccc9ff"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/ESP_IDF_APPTRACE/Kconfig",
+      "size_bytes": 1077,
+      "sha256": "87fb41ca992d0c62974cb57c36b43f90eb0d68afb235a09f1bab5eef89ad7fce"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/ESP_IDF_APPTRACE/include/trcStreamPort.h",
+      "size_bytes": 4926,
+      "sha256": "92da164dbcb600e5bc1156a6157b0d4d637b2ef1f874d3d3f19da89bc4c45a23"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/ESP_IDF_APPTRACE/trcStreamPort.c",
+      "size_bytes": 3724,
+      "sha256": "df9d40044319979659d31cdefecf9647a62b21a610cd1fc076415c87910f21f4"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/File/config/trcStreamPortConfig.h",
+      "size_bytes": 2051,
+      "sha256": "b190548051afe58f6cccb79649e8d37bc11eb6d58713a1c726d43e6ef2ebbc28"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/RingBuffer/config/trcStreamPortConfig.h",
+      "size_bytes": 1822,
+      "sha256": "c14f86cd5600d4109a6dabc5a0e5e66a0eaabd8ffdbd1c9ab0f956752305ca9e"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/TCPIP/config/trcStreamPortConfig.h",
+      "size_bytes": 2040,
+      "sha256": "2e765994af54039d96b6095cd8d54665f2b80fd031978e0e94380f1d24b88140"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/streamports/UDP/config/trcStreamPortConfig.h",
+      "size_bytes": 2327,
+      "sha256": "5af9d2e806ae052d13dcfef6fcfffc81e097455e9060dcd80c8942206e0de424"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ESP-IDF_FreeRTOS/trcKernelPort.c",
+      "size_bytes": 13136,
+      "sha256": "13b19f5a21596b62dbaca9029fd54e373420a0c72c1c8fc93212f2b987e98deb"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/FreeRTOS/config/trcKernelPortConfig.h",
+      "size_bytes": 4312,
+      "sha256": "4349a6eaa02069c8950fc7194a73500061e642bf26f5e90c11eebe1c3fb2fad3"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/FreeRTOS/include/trcKernelPort.h",
+      "size_bytes": 61676,
+      "sha256": "a8a2745531327c01a468064f971555532d4cc44110025e4fcd80d20b0f5a20ea"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/FreeRTOS/trcKernelPort.c",
+      "size_bytes": 10096,
+      "sha256": "b933a3b0ddc011b488820fba411e00d4a2bec00da87a66103bef5bebd5085935"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/CMakeLists.txt_README.md",
+      "size_bytes": 575,
+      "sha256": "08966f9a32a253aa251e71485bc2cd7d54b0f2045a89630455725b9c2180dcc1"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/config/trcKernelPortConfig.h",
+      "size_bytes": 867,
+      "sha256": "ce5b23525d070e5579531d656fda6fc8885efec63fd5f868a675eff86b00e5a7"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/include/trcCTI.h",
+      "size_bytes": 58975,
+      "sha256": "62b46f24e4175b5c582a1c942de6972c3de092207d8f03291e6768f445acfb3b"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/include/trcKernelPort.h",
+      "size_bytes": 22228,
+      "sha256": "76f56ec7fb34a2c96d75ffbdf4de671396b82a349d1605c16e7e2ae42a8bc31c"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/include/trcKernelPortHooks.h",
+      "size_bytes": 51120,
+      "sha256": "355ce40ef3eefda72541bb435e838e32c91996dbbf6a5d2b00d96088bd6667da"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/trcCTI.c",
+      "size_bytes": 62238,
+      "sha256": "e5c738fac3bef96c0e36b335724e33cfcb9309e338560c7b2d879283263f0c48"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/trcKernelPort.c",
+      "size_bytes": 4294,
+      "sha256": "e5ada784bce2fe313c5e7b0861d2b28fd43ac0b172a348dc0eb3f658890fa993"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/ThreadX/trcKernelPortHooks.c",
+      "size_bytes": 17177,
+      "sha256": "0be8b1291f15c527bac16a6dec9903e9ab6eb8f3eaea448c05578b6b46f3df56"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/Kconfig",
+      "size_bytes": 2438,
+      "sha256": "d5c3d064afc9fffdd2984f3a9ec70addef65c3bfd41b66564403db77404b1cea"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/config/core/trcConfig.h",
+      "size_bytes": 15759,
+      "sha256": "a252fff1e5d6cb13c03896c1addfd6d4cdfab0c878673e19a270a3cad6f7c3aa"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/config/trcKernelPortConfig.h",
+      "size_bytes": 1229,
+      "sha256": "40bddc3e094a08057a174a9949408d7dab9e162b832328e5822872741b588a8a"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/include/tracing_tracerecorder.h",
+      "size_bytes": 68917,
+      "sha256": "f2daa4025f94a18986d88eebccca73e9b038bee420d285a411e73ed2ca42043b"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/include/trcKernelPort.h",
+      "size_bytes": 27093,
+      "sha256": "3069fa8128b1b5b5f91dfe518b5a6d465916d605053f0537ed9b8032536149f1"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/scripts/tz_parse_irqs.py",
+      "size_bytes": 6561,
+      "sha256": "397f4de61b625b4c3a263bfffac632fbc61a2ab32c1d9eafb5ea389e5219462b"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/scripts/tz_parse_syscalls.py",
+      "size_bytes": 4292,
+      "sha256": "71a86a92ed0fe33723b6c0a4aad2efc65ee1855407f8e53938957d351e92d0a6"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/ARM_ITM/config/trcStreamPortConfig.h",
+      "size_bytes": 2401,
+      "sha256": "b13d803a05300a76f3bebb8d29baf4ce4a2eaef0c4680324b95da18a2d83ffb9"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/File/config/trcStreamPortConfig.h",
+      "size_bytes": 2051,
+      "sha256": "b190548051afe58f6cccb79649e8d37bc11eb6d58713a1c726d43e6ef2ebbc28"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/Jlink_RTT/config/trcStreamPortConfig.h",
+      "size_bytes": 5336,
+      "sha256": "03087a6d2fe5a37215f6d418d33b59df82bf98d8ca59fcb3e7a8dc1786155678"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/RingBuffer/config/trcStreamPortConfig.h",
+      "size_bytes": 1822,
+      "sha256": "c14f86cd5600d4109a6dabc5a0e5e66a0eaabd8ffdbd1c9ab0f956752305ca9e"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/Semihost/Kconfig",
+      "size_bytes": 282,
+      "sha256": "a0520164c985c64b755c7b5bd0425c745a680064653263c681b29329bb01fa29"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/Semihost/Readme-Streamport.txt",
+      "size_bytes": 790,
+      "sha256": "7a32c51757d7709085ddca921e0f0a5dbd76c4e289e0eec1d2e0bcb8c525d867"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/Semihost/config/trcStreamPortConfig.h",
+      "size_bytes": 1894,
+      "sha256": "6e9529ccc685309a51a3acca968b1c83b01a0d6fedc7b8d4d2f96567a31294ba"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/Semihost/include/trcStreamPort.h",
+      "size_bytes": 1958,
+      "sha256": "b416c18dd12c92a1b9912bce3dea7237a518f2c46cbc7cfd801a402472613010"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/streamports/Semihost/trcStreamPort.c",
+      "size_bytes": 4794,
+      "sha256": "4d056758bead8d90b5a9ac3ae18c00c81516ee65a80fb13d10a9d568f27b2914"
+    },
+    {
+      "path": "percepio/TraceRecorder/kernelports/Zephyr/trcKernelPort.c",
+      "size_bytes": 64430,
+      "sha256": "661eda54c3e3ab27d7787690098243f0865616a8fceb63f7518fca9c756e2811"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/Kconfig",
+      "size_bytes": 527,
+      "sha256": "f21f4a5322a9980abbe3a4e9f584ee8bff3a9751ab6f73c22cc39d15638d6110"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/Keil-uVision-Tracealyzer-ITM-Exporter.ini",
+      "size_bytes": 1730,
+      "sha256": "09b1f5b6a846c2f56ec436f57a867fbb6778d75fc597006bc4328ad3c3de2ec0"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/Readme-ARM_ITM.txt",
+      "size_bytes": 1724,
+      "sha256": "efa5d9fa4797fde5074974e1e14f9f22c50c937f73c33e1c7a6cfcc59ce866c6"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/Trace32-cmm-scripts.zip",
+      "size_bytes": 2277,
+      "sha256": "73e4d6f99e834c6cc7251263d5ec74f2e793653ed7fd57910c86d02c91d0e2a5"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/config/trcStreamPortConfig.h",
+      "size_bytes": 3142,
+      "sha256": "113bfbe925ee4c9590c7801e7e12adea494408711d85ff81dd61024da7eb9f57"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/include/trcStreamPort.h",
+      "size_bytes": 5057,
+      "sha256": "5b03b2b2bc229cb298e10d69a49ca7ef4e3f6dc2f0fbf70aab980b61618223ac"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/ARM_ITM/trcStreamPort.c",
+      "size_bytes": 5887,
+      "sha256": "d930bda6a8a9533089e3217b3e5ab43e70c17f03c96f1e274ee380803471dee4"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/File/Kconfig",
+      "size_bytes": 273,
+      "sha256": "ac667b154603dfcd2b349c8e71b99392c7a43bb868a1b7239499fcf86c8fe02a"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/File/Readme-Streamport.txt",
+      "size_bytes": 793,
+      "sha256": "d0d1644b026255707def966fc6d65b6c1ed76e1c2d76ea9b69ceb28e45719812"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/File/config/trcStreamPortConfig.h",
+      "size_bytes": 2646,
+      "sha256": "e190f11c1cdb362f7057ff5b80d1ea7a62c4cf77bcea5f9029580f9a5cd9584c"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/File/include/trcStreamPort.h",
+      "size_bytes": 2339,
+      "sha256": "61056b0e3b2f4b493cafe0ce3a9dfde48c4a2f762254d44149a19a8981519802"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/File/trcStreamPort.c",
+      "size_bytes": 4527,
+      "sha256": "7e5f6f4a9c6c38c3f519365a68ec164a42a7b88a3909fe896bdbd7c25b7b02a2"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/Kconfig",
+      "size_bytes": 3539,
+      "sha256": "f13f62b2681ac32f21027ed87798fb9712378bb6fb2c9685d5e9fb026f5d3a24"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/Readme-Streamport.txt",
+      "size_bytes": 887,
+      "sha256": "3878b73aea703b7306ac8bd5ac3d7b8318416c355996c88777ed958c6fb9cd0c"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/SEGGER_RTT.c",
+      "size_bytes": 74420,
+      "sha256": "5025214fd48bcc697b2752ecb76e49bd48880d741935836f43b0dede8da24481"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/config/trcStreamPortConfig.h",
+      "size_bytes": 5608,
+      "sha256": "d47274a0dceafb7be32753e3cc429d6fd0eb2b78c846c3a48cc6f517c2d63999"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/include/SEGGER_RTT.h",
+      "size_bytes": 24266,
+      "sha256": "ee135e8df1e496167f45e9bc548b4943970366aa25f6d678a035fc00a093f4b8"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/include/SEGGER_RTT_Conf.h",
+      "size_bytes": 25401,
+      "sha256": "9bdf1fc907cfc5dea36fa22695dd34d64a708c935daa26658e20ec62dbdd162d"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/include/trcStreamPort.h",
+      "size_bytes": 4035,
+      "sha256": "bdeb166b276d5c537839f9308bd3370acfabc91ed1b2ae5faeca0e0091a5e8e2"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/Jlink_RTT/trcStreamPort.c",
+      "size_bytes": 1748,
+      "sha256": "4a69dab14d5763c2a38c4f3c70156ae31a1d8124d38834b17c762470ecce3021"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/RingBuffer/Kconfig",
+      "size_bytes": 1266,
+      "sha256": "1b02d0bdccca54f4e67c6e3856690efdbc83e687b3b886282c0ceff81d23829f"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/RingBuffer/Readme-Streamport.txt",
+      "size_bytes": 785,
+      "sha256": "f84383968590d46ae68c33664d92c8eb918d4db4bf0255dfe151a4b08a45c2c0"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/RingBuffer/config/trcStreamPortConfig.h",
+      "size_bytes": 1640,
+      "sha256": "7edfc9562e4e4b7c024c79af9427e91daa29acfa4a3674f67f5de80b180ac7f1"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/RingBuffer/include/trcStreamPort.h",
+      "size_bytes": 5463,
+      "sha256": "58ef02c658f522365e22b2aea3f0df0839152d5bfa6815d82a6cdae07dd68758"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/RingBuffer/trcStreamPort.c",
+      "size_bytes": 3296,
+      "sha256": "019b11c671f25760a35c9cd2b005bfbe4b7ce6ce953fffcf7531b8d233f6bbde"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/STM32_USB_CDC/Kconfig",
+      "size_bytes": 71,
+      "sha256": "a0bc7f4ccf3e47cc5c1adc933268c5d7b14c0f42ca98cd7cde0003c36b7ba30a"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/STM32_USB_CDC/Readme-Streamport.txt",
+      "size_bytes": 4389,
+      "sha256": "127b980267f67bbdd280cea7da1c2268a7db8eb3b6198ec96ed90222c3a33e39"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/STM32_USB_CDC/config/trcStreamPortConfig.h",
+      "size_bytes": 2455,
+      "sha256": "1bb0f11c484dc659cdf92fc2a4735fbc5c67a8cca5d874940ff3b2d6615d2bf7"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/STM32_USB_CDC/include/trcStreamPort.h",
+      "size_bytes": 2421,
+      "sha256": "45735be62de895581ee30e2e210516fed9cc7c36e55bf920eb7118b5182cdb4e"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/STM32_USB_CDC/trcStreamPort.c",
+      "size_bytes": 3332,
+      "sha256": "43a2871b4b00f1791c7e791a8dbfd1326830c23367ae3bdb06423f442edf31b1"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP/Kconfig",
+      "size_bytes": 211,
+      "sha256": "26320f54b3914e515a1ca17a2e43410c5e921061e1b4ac2bd067f840e0e87fe5"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP/Readme-Streamport.txt",
+      "size_bytes": 1820,
+      "sha256": "bde0a87eb9fb98948506119db8b74d96731fadd10bcb9095c64755d52dec5bd0"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP/config/trcStreamPortConfig.h",
+      "size_bytes": 2636,
+      "sha256": "1a90a52444e8aed4f60c8f75bfa48e9c246a06199fa79d2f0ee9a7a05a8f7399"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP/include/trcStreamPort.h",
+      "size_bytes": 1521,
+      "sha256": "694a3927fd69ed73245f7cebc29606f32105c0d62b632c543438162a73b26c3c"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP/trcStreamPort.c",
+      "size_bytes": 4919,
+      "sha256": "684845a095862eafd28ccbbd4b507cc85e6e4a86a20a97db354001cb014196f6"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP_Win32/Readme-Streamport.txt",
+      "size_bytes": 1573,
+      "sha256": "fad722ea57eefbba21e1b60ec03c354666afcf495bbf1565e4a6103ab8e8ef9c"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP_Win32/config/trcStreamPortConfig.h",
+      "size_bytes": 2636,
+      "sha256": "495172eee6d2ba31e6ca35c921a64277ad83daf86f29a9e58ce5416d7c1e1a93"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP_Win32/include/trcStreamPort.h",
+      "size_bytes": 1633,
+      "sha256": "3f28a4586b6c68ce57169a8483f8a9bb0a93612b6520b5359fbca7e04ea66ecd"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/TCPIP_Win32/trcStreamPort.c",
+      "size_bytes": 4431,
+      "sha256": "dc004378d57621f950f31d6dc46f837b6e450d308594d3380ff0d896667c58a4"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/UDP/Kconfig",
+      "size_bytes": 374,
+      "sha256": "13adfa5f5d3153048e4cd89dd80de663bb273dc1027f372bf65a478ec6cda750"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/UDP/Readme-Streamport.txt",
+      "size_bytes": 1989,
+      "sha256": "c26fdd43716b2c9bb5f1b8fc04a8d8be5607a8300fc003f53cda97ec3ee24232"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/UDP/config/trcStreamPortConfig.h",
+      "size_bytes": 2774,
+      "sha256": "94f5c00cdd9a549f82df57488302f9235c1d465fd6477905e06466972e20487c"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/UDP/include/trcStreamPort.h",
+      "size_bytes": 1518,
+      "sha256": "a3a512afe9369627d697cdce07d163aa05733f7c0dcc25506f60126e4eabd1b2"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/UDP/trcStreamPort.c",
+      "size_bytes": 3314,
+      "sha256": "be4362fdaf94fb719d58f9041aaa23284a93310f0834ff51c271d843f1f21bfc"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/XMOS_xScope/config/trcStreamPortConfig.h",
+      "size_bytes": 2504,
+      "sha256": "d6c86d9c4b965507e7f2745cfa013f3d62ac1ee18aad51eebbb21f351dd0662b"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/XMOS_xScope/include/trcStreamPort.h",
+      "size_bytes": 2756,
+      "sha256": "9cb4a29f83b27e205da0a23c8b45c0f1e82e464855b096e36931d96ad96b67a5"
+    },
+    {
+      "path": "percepio/TraceRecorder/streamports/XMOS_xScope/trcStreamPort.c",
+      "size_bytes": 1425,
+      "sha256": "fb36ca8d44bcfdd033374340da1a702e1ab78849f7f8c3a7b9cc7ca79d9ef118"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcAssert.c",
+      "size_bytes": 3209,
+      "sha256": "db9f99686a6f122ae448411ba1009859f2c523255843aea4fcce28fc2384304c"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcCounter.c",
+      "size_bytes": 3295,
+      "sha256": "8d75bb26af3f5a4a0843a3847d9ca8c7a94e228a279aa5729a8463e889f4e761"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcDependency.c",
+      "size_bytes": 1288,
+      "sha256": "1c1e4c423fc9e204e592f8943aa375dda25b4db586e32fefab09812ccc5c4689"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcDiagnostics.c",
+      "size_bytes": 4203,
+      "sha256": "1503af7b9b05e24136cf3ffe3f47a6d4c7f24327b62aeb9e9ce415eae4b6c414"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcEntryTable.c",
+      "size_bytes": 13805,
+      "sha256": "18c204977c9cf5b946aec3b30083dd743e611f62a088160c175b890e2f7f80e8"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcError.c",
+      "size_bytes": 9719,
+      "sha256": "d480331f08658f4dd8d3bbed62bbe891cfe8c31d7df6c90c2d326f3e52b39f42"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcEvent.c",
+      "size_bytes": 17069,
+      "sha256": "c3dc8ea5f235a7e0e24db47741d5e0e7776d2436e821e01da7d9f4f1fcadceae"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcEventBuffer.c",
+      "size_bytes": 17003,
+      "sha256": "7f107e0486f2f401a811d1401f85c419d8b1f1a46d79c8570c3d26e39fddf977"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcExtension.c",
+      "size_bytes": 3544,
+      "sha256": "944f1122da4f3a3554c09d6a206918e9a3ddd3b6fe6a731d129e33a0df710732"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcHardwarePort.c",
+      "size_bytes": 4735,
+      "sha256": "8d697696f9ea7839bcd225058ccb3f9635d01e74b13ba4ae45a5868957f7bb01"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcHeap.c",
+      "size_bytes": 3217,
+      "sha256": "b3769e6e80da8b9bbe2379938a4d0ba2be61cd4129c6d57af996b6601a09e909"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcISR.c",
+      "size_bytes": 7854,
+      "sha256": "71ad431cc2ee4c660dfc0c7d3b0df4141d0f7033c8da1ca00b75526093e71361"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcInternalEventBuffer.c",
+      "size_bytes": 3737,
+      "sha256": "5b231e1b0aa0c18b35ae9b17a80af035376ff276fb180364d30e66c27a3ec925"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcInterval.c",
+      "size_bytes": 3396,
+      "sha256": "3858d178a1ed1a9f41c3aec677d035115a443c75e62c62f80234923849498e5e"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcMultiCoreEventBuffer.c",
+      "size_bytes": 5463,
+      "sha256": "f390db4083597f7a61502b97827ece213544a0fa1914ff1804b3fec50ec4cb59"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcObject.c",
+      "size_bytes": 9662,
+      "sha256": "534f461743cdfa1b15f63df3ee1aa71bdc033cac6265f5a6ad3eed8763a1369f"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcPrint.c",
+      "size_bytes": 11957,
+      "sha256": "b34bfe27a41e7bd5e20c69a028bbfc1eb9c31997331e53006f80aaf06e50c21e"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcRunnable.c",
+      "size_bytes": 2623,
+      "sha256": "6588e2a437ee33e737974d07d1667b903f18db24fd8f30eb6756fea8f3097d10"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcStackMonitor.c",
+      "size_bytes": 5341,
+      "sha256": "93d1408695561b2091e086109af32e0632a500726232956ed55be59c4a72bfa3"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcStateMachine.c",
+      "size_bytes": 3183,
+      "sha256": "5eae56df5a1a0eae31ec67def1345ed935a9f66806cb3191db76f4b306c4da67"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcStaticBuffer.c",
+      "size_bytes": 1265,
+      "sha256": "6485a43e9c018447d3f2c59e3c11e55065108ca77c1c9751c869d0ffc2df6ba1"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcStreamingRecorder.c",
+      "size_bytes": 18883,
+      "sha256": "b192aa2af301a3e8a2ea5a682e3bc5d9872c594df60919156cee3171f4d8062f"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcString.c",
+      "size_bytes": 1657,
+      "sha256": "97ccd440dbc243cb389835797af79e3aa4a4f2109a19f74bee91a5dbd8e7d626"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcTask.c",
+      "size_bytes": 3663,
+      "sha256": "52dbd4e07fba879cb1eb99db57ff8016cafadf366c5adcac079b0d67daf70703"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcTaskMonitor.c",
+      "size_bytes": 13062,
+      "sha256": "c5aac58f20bdbbef4cdaccf2c4bd78840c9c0240ad4b66d55a4fe2bedab512dd"
+    },
+    {
+      "path": "percepio/TraceRecorder/trcTimestamp.c",
+      "size_bytes": 4409,
+      "sha256": "ded110389d9d3df900361c2dc685fc6e49110e15141fdc96b6904ce9971c6c62"
+    }
+  ],
+  "extension_date": "2026-10-03",
+  "previous_236_source_hashes_unchanged": true
+}

@@ -1,0 +1,63 @@
+{
+  "pdf_count": 8,
+  "page_count": 61,
+  "unique_extracted_text_count": 7,
+  "files": [
+    {
+      "file": "data_from_web/whitepaper/63001-Percepio-Improving-the-Reliability-of-the-IoT-April-2022-Final.pdf",
+      "pages": 5,
+      "pdf_sha256": "08e1dee92a0e310972fb5320881708a5a601e3e825c34722041bf0ac532247b6",
+      "extracted_text": "research/pdf-text/63001-Percepio-Improving-the-Reliability-of-the-IoT-April-2022-Final.txt",
+      "text_sha256": "ece813898a398ce928672aa55c554a51f73ba331b146a8a51157c503149336c3"
+    },
+    {
+      "file": "data_from_web/whitepaper/63022-Percepio-5tips-Whitepaper-r01.pdf",
+      "pages": 8,
+      "pdf_sha256": "55c7b4873b81cea02514bf259e7e2a22b676f54903ed67c861f51cc23ad067b9",
+      "extracted_text": "research/pdf-text/63022-Percepio-5tips-Whitepaper-r01.txt",
+      "text_sha256": "f22d2dbcb7e91dbbd7f0cf2237d760db3004e1f0ea95979cd4b2fe878e89a89f"
+    },
+    {
+      "file": "data_from_web/whitepaper/Percepio-Continuous-Observability.pdf",
+      "pages": 8,
+      "pdf_sha256": "35922340a920471558ec37fb61dea47f523029c8c42db5dc940038433201ae55",
+      "extracted_text": "research/pdf-text/Percepio-Continuous-Observability.txt",
+      "text_sha256": "835615ce193504a6b08b43ea8fb09cab49bc61b5824a0250207c0eff5e7e4441"
+    },
+    {
+      "file": "data_from_web/whitepaper/Percepio-How-to-Visualize-Response-Times-in-FreeRToS-Whitepaper-final.pdf",
+      "pages": 7,
+      "pdf_sha256": "faf0b2d60844f28a156ea1c70587f00f6e10407ffbb31f75902a58a330457f5f",
+      "extracted_text": "research/pdf-text/Percepio-How-to-Visualize-Response-Times-in-FreeRToS-Whitepaper-final.txt",
+      "text_sha256": "afe26f00d66ce6f2770668f8da3006cd9ca81b6e85e495e4d149993cc2a8048c"
+    },
+    {
+      "file": "data_from_web/whitepaper/Percepio_Continuous_Observability_In_Embedded_Systems.pdf",
+      "pages": 8,
+      "pdf_sha256": "69489021ea46924178ed96c0277331e072917ebb02e0df03475f3ae0b7cad3e5",
+      "extracted_text": "research/pdf-text/Percepio_Continuous_Observability_In_Embedded_Systems.txt",
+      "text_sha256": "835615ce193504a6b08b43ea8fb09cab49bc61b5824a0250207c0eff5e7e4441"
+    },
+    {
+      "file": "data_from_web/whitepaper/StopGuessing-2021.pdf",
+      "pages": 8,
+      "pdf_sha256": "2ffe98ccff6a6ed5a94da9c29e0f06e26dad420036fa5ccc68f12e807a973094",
+      "extracted_text": "research/pdf-text/StopGuessing-2021.txt",
+      "text_sha256": "421a8d2e33b510dbc04d58e09b0b4503e15f6d0da7b0e8fe1535170f19e01e41"
+    },
+    {
+      "file": "data_from_web/whitepaper/TopFiveBugs.pdf",
+      "pages": 5,
+      "pdf_sha256": "2befb98ac49aac7b011c891cc0da3196d6726b5c8a446f2390cbf15337922ce7",
+      "extracted_text": "research/pdf-text/TopFiveBugs.txt",
+      "text_sha256": "66ea32a2f3533605d5b850a79ed6464d85fdfb26d7a192bcf0768d9e450c9134"
+    },
+    {
+      "file": "data_from_web/whitepaper/WP-RTOS-101.pdf",
+      "pages": 12,
+      "pdf_sha256": "80e506f4c16e4785211020febe76c72c0e7b7c7ebceb0a8d55f60347898fa159",
+      "extracted_text": "research/pdf-text/WP-RTOS-101.txt",
+      "text_sha256": "e7f9dc8c936d53f5a4e26cb46ce8383305e817261af931b0bec67b5873eaf913"
+    }
+  ]
+}

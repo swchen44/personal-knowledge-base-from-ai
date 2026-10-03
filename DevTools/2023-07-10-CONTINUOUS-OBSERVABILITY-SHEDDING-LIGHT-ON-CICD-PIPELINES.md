@@ -153,6 +153,8 @@ flowchart LR
 - [[2026-04-13-CLAUDE-CODE-TELEMETRY-OTEL-SOURCE-DEEP-DIVE]]：補充 instrumentation、匯出與上下文的實作視角。
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]]：對照輕量事件收集與 OTel 的適用邊界。
 
+- [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]]：FreeRTOS／RISC-V 的研究、證據與接續驗證，可對照本文的觀測方法。
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 | 認知層次 | 對本文的具體應用 |

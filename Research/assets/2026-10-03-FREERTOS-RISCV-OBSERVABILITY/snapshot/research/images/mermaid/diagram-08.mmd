@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant Sensor as Sensor tasks
+    participant Server as Server task
+    participant Queue as Logger queue
+    participant Logger as Logger task
+    Sensor->>Queue: 新增 log
+    Server->>Queue: 新增 log
+    Note over Server,Logger: Logger 高優先權時，頻繁搶佔 Server
+    Logger->>Queue: 逐筆取出並處理
+    Note over Server,Logger: 修正優先權與批次處理後
+    Server->>Server: 先完成 request
+    Logger->>Queue: 後續批次處理累積 log

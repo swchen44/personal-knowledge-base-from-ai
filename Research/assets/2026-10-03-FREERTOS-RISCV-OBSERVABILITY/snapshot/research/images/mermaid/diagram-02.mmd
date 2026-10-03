@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant Work as Task 或 RTOS hook
+    participant Rec as TraceRecorder
+    participant Buf as RAM buffer
+    participant Tx as 背景傳輸 task
+    participant Host as 電腦
+    Work->>Rec: 記錄 event ID 與參數
+    Note over Rec: 短 critical section、時間戳
+    Rec->>Buf: 寫入完整二進位事件
+    Rec-->>Work: 返回，繼續原本工作
+    Tx->>Buf: 取得已完成的資料區塊
+    Tx->>Host: 批次送出或啟動 DMA
+    Host->>Host: 保存、解析、計算統計
