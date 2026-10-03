@@ -369,6 +369,7 @@ Winston 建議用明確訊號告知活動結束，可以採用：
 - [[2025-12-23-STAKEHOLDER-1-WHY-MORE-WORK-GETS-YOU-STUCK-HR-REVEALS-TRUTH]] — 利害關係人管理需要讓對方理解並採納你的工作，本片提供建立願景、邊界與記憶點的表達工具。
 - [[2026-06-19-HIGH-SCHOOL-LEARNING-PORTFOLIO]] — 學習歷程與自主學習成果也需要用文字、圖片與簡報清楚呈現，兩者都強調讓成果獨立可讀。
 - [[2026-07-02-CONTEXT-CONVERTER-17-VOICE-PROMPTS-TURN-TALK-INTO-WORK-OUTPUT]] — 口語內容轉成工作產出的方法，可與本片的口頭表達、結構化與受眾轉譯觀點一起使用。
+- [[2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE]]：補充英語日常口說的起句、跟讀與無稿情境練習；與演講結構訓練的適用範圍不同。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

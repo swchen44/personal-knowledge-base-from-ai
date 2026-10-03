@@ -155,6 +155,7 @@ transcript_scope: "完整案例與時間戳意譯整理稿，非逐字轉載"
 - [[SELF-DIRECTED-LEARNING]] — 影片反覆以自主學習作為跨科系作品與長期能力的來源。
 - [[PORTFOLIO-BASED-ADMISSIONS]] — 延伸整理作品集式升學審查與面試驗證的共同原則。
 - [[2026-09-18-HOW-TO-SPEAK-PATRICK-WINSTON-COMMUNICATION-METHODS]] — 補充如何用清楚表達、視覺設計與故事結構呈現學習成果。
+- [[2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE]]：可把口說錄音、卡點與修改例句整理成自主學習紀錄，留下可回查的進步證據。
 
 ## References
 
