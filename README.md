@@ -5,7 +5,7 @@
 
 - [英語口說的 15 個常用句型：縮讀、跟讀與情境練習](./Education/2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE.md)：Whisper 全片轉錄與畫面核對，含自編例句、練習流程圖、Bloom 分析及六頂帽子
 - [Hugging Face AI 代理人入侵事件：沙盒失守、協作攻擊與責任討論](./Security/2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY.md) — 兩支影片依七個議題整併；保留 16 個章節時間點、三張 Mermaid 圖與證據界線
-- [FreeRTOS／RISC-V Observability：研究與驗證接續計畫](./Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md) — 完整研究、工作紀錄與內部 AI 任務合併一篇；含 Mermaid、案例、PSF 與來源附件
+- [FreeRTOS／RISC-V Observability：研究與驗證接續計畫](./Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md) — 完整研究、工作紀錄與內部 AI 任務合併一篇；含 Mermaid、案例、PSF 與來源附件（2026-10-04 更新：離線 HTML、20 張截圖與驗證）
 - [持續可觀測性：OpenTelemetry 與 CDEvents 看清 CI/CD 管線](./DevTools/2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES.md) — 影片與 Logz.io 回顧合併、15 個章節時間點、ODD／OaC 分工與官方規範現況查核
 - [從傳統開發到可觀測性驅動開發](./DevTools/2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT.md) — ODD 生命週期、成熟度模型限制與功能驗收卡
 - [可觀測性即程式碼](./DevTools/2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL.md) — 觀測設定的審查、重建、回退與資料治理邊界

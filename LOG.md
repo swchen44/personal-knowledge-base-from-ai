@@ -154,3 +154,4 @@
 | 2026-10-03 14:53 | ingest | https://www.youtube.com/watch?v=gH-dngRZJWU | [[2026-10-03-ROGUE-AI-SENATE-HEARING-AGENT-COLLUSION-AND-ACCOUNTABILITY]] | Security | 3 | 4 |
 | 2026-10-03 15:09 | merge | 3H9XdDSNL9I + gH-dngRZJWU：兩篇整併，移除舊檔；歷史攝入名稱由新篇 aliases 承接 | [[2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY]] | Security | 3 | 7 |
 | 2026-10-03 15:47 | ingest | https://www.youtube.com/watch?v=lKTGTokarqI：無字幕音訊以 MLX Whisper small 轉錄，句型搭配影片畫面核對 | [[2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE]] | Education | 3 | 5 |
+| 2026-10-04 | update | POC 5594d73：離線 HTML、20 張截圖、curl／agent-browser | [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | Research | 0（既有 3 組保留） | 更新已回答與條件式問題 |

@@ -23,4 +23,4 @@ Notes from academic papers, technical deep dives, and research reports.
 
 | 筆記 | 摘要 | 日期 |
 |---|---|---|
-| [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | FreeRTOS／RISC-V 完整研究、工作紀錄與內部 AI 接續任務 | 2026-10-03 |
+| [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | 研究＋RISC-V POC＋單檔離線 HTML；20 張操作截圖與 curl／agent-browser 證據 | 2026-10-03 |

@@ -1,6 +1,7 @@
 ---
 title: FreeRTOS／RISC-V Observability：研究、學習與驗證接續計畫
 date: '2026-10-03'
+updated: '2026-10-04'
 category: Research
 tags:
 - embedded/freertos
@@ -17,6 +18,7 @@ links:
 - '[[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]]'
 original_document_sha256: 523e083b75bc4a516482ce30d9b7604bf86e758659d878bd22c7dcb4665e6842
 research_snapshot_date: '2026-10-03'
+updated: '2026-10-04'
 original_documents:
 - path: research/FreeRTOS-RISC-V-Observability-研究報告.md
   sha256: 523e083b75bc4a516482ce30d9b7604bf86e758659d878bd22c7dcb4665e6842
@@ -36,9 +38,122 @@ original_documents:
 - [延伸學習與未解問題](#knowledge-reflection)
 
 > [!important] 證據邊界
-> 桌面 demo 的 PSF 已產生；新的 PSF→JSON、RISC-V／FreeRTOS 模擬、harness 與 Dashboard 尚未實作，也尚未進行 Tracealyzer GUI 解碼驗收。產品 CPU／UART／deadline 仍需板上量測。
+> 下方原研究正文保留 2026-10-03 的歷史狀態；目前 M1～M3、單 trace 離線 HTML 與指定工具驗收已完成，見本篇最新 POC 章節。產品 CPU／UART／deadline 仍需板上量測，跨機整項暫緩。
 
 [原始可攜 ZIP](assets/2026-10-03-FREERTOS-RISCV-OBSERVABILITY/percepio-observability-research.zip) 保留完整來源與可重現工具；[知識庫轉入清單](assets/2026-10-03-FREERTOS-RISCV-OBSERVABILITY/ingest-manifest.json) 記錄原檔 hash 與表格轉寫。重跑原驗證／封裝工具請先解開原始 ZIP；閱讀附件有表格／連結轉換，不能直接沿用原文件 hash。
+
+## 2026-10-04：最新 POC 與離線 HTML
+
+**已實作：RISC-V／FreeRTOS 真實 PSF、Python parser／harness、本機 SVG Dashboard，以及 Python 預先匯出的單檔離線 HTML。** 本篇仍是一篇合併知識庫；原 PDF／案例／研究內容保留，較早的「尚未實作」屬歷史敘述。
+
+- 使用者選 1A：Python 先解析 PSF，再產生單一 HTML；觀看端不需要 Python、Server 或網路。新 PSF 需重新匯出。
+- 使用者選 2B：跨機重現整項暫緩，不修改工具鏈或宣稱已驗第二平台。
+- E2E 依指定使用 agent-browser，API integration 依指定使用 curl；既有 Playwright 另做回歸。
+- 本輪 103 Python tests、5 Node、11 Playwright regression 通過；curl 5 項 integration、agent-browser 兩條完整流程通過。下載的 events／metrics CSV 與 Server／Python 數值對照。
+- 20 張截圖包含同一 Queue trace 的兩種模式、實際拖曳／排序／欄寬／CSV、截斷警示及明確標 synthetic 的 10,000-event 案例。
+- 邊界：離線單 trace 不含 run registry／oracle compare，Server 保留原比較；CPU share 不等於 SDK overhead，M4 與產品 U01～U16 仍待後續。
+
+固定版本：`5594d730adc432608013c2cd0855aa3794e8dc6e`。[POC README](https://github.com/swchen44/freertos_risvc_observability/blob/5594d730adc432608013c2cd0855aa3794e8dc6e/README.md)、[完整操作指南](https://github.com/swchen44/freertos_risvc_observability/blob/5594d730adc432608013c2cd0855aa3794e8dc6e/docs/offline-guide.md)、[可下載的離線 HTML](https://github.com/swchen44/freertos_risvc_observability/blob/5594d730adc432608013c2cd0855aa3794e8dc6e/artifacts/offline/queue-baseline.html)、[curl 結果](https://github.com/swchen44/freertos_risvc_observability/blob/5594d730adc432608013c2cd0855aa3794e8dc6e/artifacts/verification/offline/http-tests.log)、[agent-browser 離線結果](https://github.com/swchen44/freertos_risvc_observability/blob/5594d730adc432608013c2cd0855aa3794e8dc6e/artifacts/verification/offline/browser-offline.log)、[圖片來源 manifest](assets/2026-10-04-PSF-LAB-OFFLINE/screenshot-manifest.json)。
+
+```mermaid
+flowchart LR
+    A[PSF] --> B[Python parser 與分析]
+    B --> C[本機 HTTP API]
+    B --> D[內嵌資料 JS CSS 的單檔 HTML]
+    C --> E[Server SVG Dashboard]
+    D --> F[file:// 離線 Dashboard]
+    E --> G[Filters 詳情 完整 CSV]
+    F --> G
+```
+
+## 實際畫面與操作
+
+### 1. Server：上傳或選取 trace
+
+啟動 `.venv/bin/python -m psf_lab serve`，開啟 http://127.0.0.1:8000 。可上傳 PSF，或選已驗證案例；這張是尚未載入資料的畫面。
+
+![本機 Server 的資料入口](assets/2026-10-04-PSF-LAB-OFFLINE/server/01-start.png)
+
+### 2. Server 與離線版：同一份 Queue trace
+
+兩圖都使用 281 events 的真實 RV32 Queue PSF。左側 filters，中間時間軸／execution share／事件表，右側來源與品質。離線頁右上角有模式標示，沒有不可用的上傳／案例比較控制。
+
+![Server Queue 全覽](assets/2026-10-04-PSF-LAB-OFFLINE/server/02-overview.png)
+
+![單檔離線 Queue 全覽](assets/2026-10-04-PSF-LAB-OFFLINE/offline/02-overview.png)
+
+### 3. 選 task 與時間窗
+
+選 consumer，再輸入 `[500,50000)` ticks。Task 選取影響 lanes／events，CPU 分母仍保留完整排程。用「重設」恢復；空搜尋結果不代表 CPU 沒執行。
+
+![Server task 與時間窗篩選](assets/2026-10-04-PSF-LAB-OFFLINE/server/03-filter-window.png)
+
+![離線版相同 task 與時間窗](assets/2026-10-04-PSF-LAB-OFFLINE/offline/03-filter-window.png)
+
+### 4. 用滑鼠拖曳時間軸
+
+點「拖曳選取窗口」後，在圖上拖一段區域。窗口、統計、事件表同步更新；「完整時間」或「重設」可還原。
+
+![Server 實際拖曳時間軸](assets/2026-10-04-PSF-LAB-OFFLINE/server/04-timeline-brush.png)
+
+![離線版實際拖曳時間軸](assets/2026-10-04-PSF-LAB-OFFLINE/offline/04-timeline-brush.png)
+
+### 5. Hover／點選事件查來源
+
+滑過事件會預覽細節，點擊會固定右側的原始欄位與 offset；用「解除固定」回到 hover。這些欄位用來對照 PSF／JSON，不是自動根因判斷。
+
+![Server 事件細節](assets/2026-10-04-PSF-LAB-OFFLINE/server/04-event-details.png)
+
+![離線版事件細節](assets/2026-10-04-PSF-LAB-OFFLINE/offline/04-event-details.png)
+
+### 6. 排序與調整欄寬
+
+點「時間 ticks」切成倒序，拖曳欄位右緣擴大欄寬。時間以整數語意排序，不能以字串排序。
+
+![Server 倒序與欄寬](assets/2026-10-04-PSF-LAB-OFFLINE/server/05-sort-resize.png)
+
+![離線版倒序與欄寬](assets/2026-10-04-PSF-LAB-OFFLINE/offline/05-sort-resize.png)
+
+### 7. 匯出完整 CSV
+
+點「匯出事件 CSV」或「匯出統計 CSV」。畫面每頁 20 筆，這份 Queue trace 的完整事件匯出是 281 筆。截圖只表示操作位置；下載列數、排序與數值由 assertions／CSV 檔驗證。
+
+![Server CSV 操作](assets/2026-10-04-PSF-LAB-OFFLINE/server/06-csv.png)
+
+![離線 CSV 操作](assets/2026-10-04-PSF-LAB-OFFLINE/offline/06-csv.png)
+
+### 8. 空結果與品質
+
+搜尋不存在的文字，事件表應清楚顯示 0 筆，排程與 CPU 分母不應一起消失。「查看品質與來源」可查 SHA、時基與完整性限制。PSF 單檔上傳／匯出沒有附獨立 oracle，因此 capture completeness 不冒充已驗證。
+
+![Server 空搜尋結果](assets/2026-10-04-PSF-LAB-OFFLINE/server/07-empty-filter.png)
+
+![離線版空搜尋結果](assets/2026-10-04-PSF-LAB-OFFLINE/offline/07-empty-filter.png)
+
+![Server 品質資訊](assets/2026-10-04-PSF-LAB-OFFLINE/server/08-quality.png)
+
+![離線版品質資訊](assets/2026-10-04-PSF-LAB-OFFLINE/offline/08-quality.png)
+
+### 9. Server 的案例比較
+
+選 Logger 干擾／改善，再點「比較已驗證結果」。`pass` 表示案例符合各自預期；異常案例的 pass 不表示異常不存在。離線單 trace 報告不提供此 registry 比較。
+
+![Server Logger 案例比較](assets/2026-10-04-PSF-LAB-OFFLINE/server/09-comparison.png)
+
+### 10. 離線品質警示與較大資料
+
+以下截斷案例由 desktop PSF 移除末尾 8 bytes 產生，應顯示 `truncated_payload` 警示，不能當完整 trace。
+
+![離線截斷資料警示](assets/2026-10-04-PSF-LAB-OFFLINE/offline/10-partial.png)
+
+以下是明確標為 synthetic 的 10,000-event 容量案例，不是實體效能量測。E2E 另外核對完整下載列數與 SVG marks 數量。
+
+![離線合成容量案例](assets/2026-10-04-PSF-LAB-OFFLINE/offline/11-large-synthetic.png)
+
+
+## 原研究正文（歷史快照）
+
+以下保存原始研究與當時待辦，現在的功能狀態以本篇上方最新 POC 章節為準。
 
 # FreeRTOS／RISC-V Observability 學習與研究報告
 
@@ -2213,7 +2328,7 @@ research/內部AI-接續研究任務.md 及 source-manifest.json。
 
 ## 待補充（Open Questions）
 
-- 選定版本的 PSF header、event ID、pointer width、timestamp 如何映射成可驗證的 JSON？
+- **已回答（目前兩個 v14 schema）**：PSF header／event ID／pointer width／timestamp 已有 parser 與測試；其他版本仍需另驗。原問題：如何映射成可驗證 JSON？
   建議搜尋：`TraceRecorder PSF stream header event ID timestamp pointer size`。
 - SDK 接進實際產品後，每類事件 cycles、總 overhead 與最差 IRQ 延遲是多少？
   建議搜尋：`FreeRTOS RISC-V trace overhead mcycle interrupt latency A B benchmark`。
@@ -2223,7 +2338,7 @@ research/內部AI-接續研究任務.md 及 source-manifest.json。
   建議搜尋：`RTOS minimal trace event set ready mutex queue deadlock`。
 - 自製 Dashboard 與官方分析視圖在哪些推導、事件支援及 filter 上有差距？
   建議搜尋：`Tracealyzer views filters task instance response time reconstruction`。
-- 正常與異常案例的預期行為、容許時間窗口與失敗判準如何固定？
+- **已回答（受控 POC）**：七配置、三組 A/B 與獨立 oracle 已驗；產品 workload 仍需另建。原問題：正常／異常案例判準如何固定？
   建議搜尋：`FreeRTOS deterministic test oracle simulated time golden assertions`。
-- PDF 轉互動 HTML 與 PSF 事件 Dashboard 是否需要兩個獨立輸入流程？
+- **已澄清並實作**：PDF 是先前筆誤；輸入為 PSF。Python 預先轉成互動 HTML，PDF 只作研究來源，不另建 PDF Dashboard。
   建議搜尋：`PDF interactive report PSF trace dashboard input workflow`。

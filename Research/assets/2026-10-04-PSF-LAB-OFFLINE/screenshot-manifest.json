@@ -1,0 +1,453 @@
+{
+  "checked_at": "2026-10-03T22:44:11.755166+00:00",
+  "cross_machine_verified": false,
+  "html_sha256": "9c6eaed20f3a8cf68860ee66038938915150413539f74ebc0009fcc9d8f9f341",
+  "server_offline_metrics_equal": true,
+  "server_offline_csv_equal": "all fields equal; fraction parsed as numeric (scientific/decimal equivalent)",
+  "screenshots": [
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/01-start.png",
+      "description": "本機服務：選擇原始 PSF 或已儲存 trace",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "選擇 PSF，或開啟下方已驗證案例",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "cbffb4d84abca50027dd56f896af69ef186b50ab1056e1bc83d9530532be76f5",
+      "state": {
+        "rows": "—",
+        "search": "",
+        "task": [],
+        "window": "—"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/02-overview.png",
+      "description": "Queue trace：時間軸、CPU 分母與事件來源",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "ea94c9618408e24381011b6cee46beba32c1b1303a90fc70575aa5ebab03969a",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/03-filter-window.png",
+      "description": "選 consumer 與時間窗；統計分母保留完整排程",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "763588fee34317c85c6603e2c9b526cbb3fb9c7e40cecaf990369c62745a993b",
+      "state": {
+        "rows": "符合 22 筆；本頁 20 筆。CSV 匯出全部 22 筆。",
+        "search": "",
+        "task": [
+          "0x80081870:0"
+        ],
+        "window": "[500, 50000) ticks · 4.950 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/04-timeline-brush.png",
+      "description": "實際拖曳選取時間窗，事件與統計同步更新",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "42c5cd51e6380e586f355c12c0a26ae1ab1d6fb8d140df19d9490440821a300a",
+      "state": {
+        "rows": "符合 96 筆；本頁 20 筆。CSV 匯出全部 96 筆。",
+        "search": "",
+        "task": [],
+        "window": "[34725, 92098) ticks · 5.737 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/04-event-details.png",
+      "description": "滑過事件並點選固定原始欄位、offset 與品質",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "4749189f4f7a893ba7325b1b7dfc506421542be95085762db589902907cd72e7",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/05-sort-resize.png",
+      "description": "時間倒序與拖曳調整欄寬",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "db8a3c06b1529f3c5dd98e38abea28ca06facda4c395ccb2dc51b50e1d58e33f",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/06-csv.png",
+      "description": "匯出所有 281 筆事件，不只目前 20 筆；CSV 另以檔案驗證",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "86c152f4243477fff77bf993fad1e3b8726296fd6aedf00a26a149a17f15c983",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/07-empty-filter.png",
+      "description": "沒有符合事件時仍保留正確的排程分母",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "efa813fb7ab910e7153a98635588762a527c1977b857be1971799f0f1de89389",
+      "state": {
+        "rows": "符合 0 筆；本頁 0 筆。CSV 匯出全部 0 筆。",
+        "search": "no-such-message",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/08-quality.png",
+      "description": "來源 SHA、時基、完整性限制與品質",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "55b1a3386b372d3160f2147e62b3795a0698d54d39cd3c54a31b748895488009",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "server",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/server/09-comparison.png",
+      "description": "Logger 干擾／改善，附獨立 oracle 結果",
+      "url": "http://127.0.0.1:8767/",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "33287637908e24fa35a7b7740112dfba5d2dcb11fdbf50a4e2cbdd8b4b799afd",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/02-overview.png",
+      "description": "Queue trace：時間軸、CPU 分母與事件來源",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "88bf56ebbd0d288206a33d785ec10f05c09bea7138f8201ab7579412d5a331c2",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/03-filter-window.png",
+      "description": "選 consumer 與時間窗；統計分母保留完整排程",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "5e7f95c356c4045cbd33c40e328d0cdc0e94c958dea3b18e6a1422e42abd4e6d",
+      "state": {
+        "rows": "符合 22 筆；本頁 20 筆。CSV 匯出全部 22 筆。",
+        "search": "",
+        "task": [
+          "0x80081870:0"
+        ],
+        "window": "[500, 50000) ticks · 4.950 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/04-timeline-brush.png",
+      "description": "實際拖曳選取時間窗，事件與統計同步更新",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "e5f77a7fc3098a6a4ecfc28f6ae14075ee90cc42c4187e23e8c988d621cdda66",
+      "state": {
+        "rows": "符合 96 筆；本頁 20 筆。CSV 匯出全部 96 筆。",
+        "search": "",
+        "task": [],
+        "window": "[34725, 92098) ticks · 5.737 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/04-event-details.png",
+      "description": "滑過事件並點選固定原始欄位、offset 與品質",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "f2cedb3bc4b20a1b38709cb4265e00d13063b6c8df3070806bbb67b72804cc8c",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/05-sort-resize.png",
+      "description": "時間倒序與拖曳調整欄寬",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "1fc68b600908af73778315acf513b0b4fd2666cb2a5891f28f51c7c85d06c1e7",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/06-csv.png",
+      "description": "匯出所有 281 筆事件，不只目前 20 筆；CSV 另以檔案驗證",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "1fc68b600908af73778315acf513b0b4fd2666cb2a5891f28f51c7c85d06c1e7",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/07-empty-filter.png",
+      "description": "沒有符合事件時仍保留正確的排程分母",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "207dd5d05d19cd95678d02ea905af9aaa0b8d0f59d6ab597c39226449193c0f2",
+      "state": {
+        "rows": "符合 0 筆；本頁 0 筆。CSV 匯出全部 0 筆。",
+        "search": "no-such-message",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/08-quality.png",
+      "description": "來源 SHA、時基、完整性限制與品質",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/queue_baseline.html",
+      "source_info": "FreeRTOS · PSF 14 · 281 events · 10000000 Hz · unspecified",
+      "source_sha256": "497fcb40b29fa45f54719e509afce50ce575f177da6448012ca5aa82a0c5f4bd",
+      "sha256": "a8f105204fbd8ee0c1c90962e0df1110f0583d92ea9376585d89a77df3528c2d",
+      "state": {
+        "rows": "符合 281 筆；本頁 20 筆。CSV 匯出全部 281 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 160571) ticks · 16.057 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/10-partial.png",
+      "description": "截斷的 desktop PSF：明確顯示品質警示，不能宣稱完整 capture",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/partial.html",
+      "source_info": "my_krnl · PSF 14 · 308 events · 1000000 Hz · unspecified",
+      "source_sha256": "cfffd9f2368840fc85352458bd87163bb4b484bb8d8a81876f986c6d88c37847",
+      "sha256": "5e4eb158b18e68acaadcecef429242e2eb69160a0a7eb7b04397fc492bdc315e",
+      "state": {
+        "rows": "符合 308 筆；本頁 20 筆。CSV 匯出全部 308 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 5751184) ticks · 5751.184 ms"
+      }
+    },
+    {
+      "mode": "offline",
+      "source_commit": "5c1f8473bda499306f7abce78eeb2f7f798108da",
+      "viewport": [
+        1600,
+        1000
+      ],
+      "agent_browser": "agent-browser 0.26.0",
+      "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "file": "artifacts/screenshots/offline/11-large-synthetic.png",
+      "description": "合成容量案例：完整資料查詢與匯出，不當硬體效能證據",
+      "url": "file:///Users/swchen.tw/git/percepio/poc/artifacts/local/offline-reports/synthetic-10000.html",
+      "source_info": "FreeRTOS · PSF 14 · 10000 events · 10000000 Hz · unspecified",
+      "source_sha256": "2f2943cbf5bfee4cb59aca8d4a9d4f43573b48f19b424e7e54d292ec92fa9f03",
+      "sha256": "0552a169e549abc9ca1c160de56ce44ff891685d9ec5d1bc58996e6241e4d7a2",
+      "state": {
+        "rows": "符合 10000 筆；本頁 20 筆。CSV 匯出全部 10000 筆。",
+        "search": "",
+        "task": [],
+        "window": "[0, 999900) ticks · 99.990 ms"
+      }
+    }
+  ]
+}
