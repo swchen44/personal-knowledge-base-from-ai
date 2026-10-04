@@ -16,6 +16,8 @@ duration: "20:13 + 32:29"
 transcript_method: whisper
 status: notes
 verified_at: 2026-10-04
+updated: 2026-10-05
+supplemental_verified_at: 2026-10-05
 merged_sources: true
 date_basis: "以兩支影片較晚的發布日命名；各自日期列於 sources"
 sources:
@@ -37,6 +39,13 @@ sources:
     transcript_language: zh
     transcript_generated: true
     transcript_model: "mlx-community/whisper-small-mlx"
+  - source_type: document
+    filename: "4 个必须学习的 GPT-6 核心技巧：让你把 Codex 发挥到极致.md"
+    author: "杰森的效率工坊"
+    provided_by: user
+    relates_to: "https://www.youtube.com/watch?v=CDvWRa93Xdg"
+    checked_at: 2026-10-05
+    sha256: "bf61a2faf0e2ca45e76cbe6526daedbdbe8e9bf5fee3ce78015f2c239ca275e5"
 links:
   - "[[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]]"
   - "[[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]]"
@@ -53,15 +62,21 @@ links:
 
 ## 摘要（Summary）
 
-杰森的影片聚焦 GPT-6 時代的上下文、快取、模型分工、提示詞與自主執行；TechShrimp 的影片補上桌面介面、專案、網站、辦公檔案、應用程式快照與 Hooks。本文按工作流程整合重複論點，保留各自案例與回看位置，再以 2026-10-04 的 OpenAI 官方文件查核會隨版本變動的主張。
+杰森的影片聚焦 GPT-6 時代的上下文、快取、模型分工、提示詞與自主執行；TechShrimp 的影片補上桌面介面、專案、網站、辦公檔案、應用程式快照與 Hooks。本文按工作流程整合重複論點，保留各自案例與回看位置；原稿於 2026-10-04 查核官方文件，2026-10-05 再比對使用者提供的杰森 Markdown 附檔，補充交接矩陣、兩種橋接架構、非阻塞澄清與九項流程檢查表。本次補充另查核相關官方文件及第三方專案公開說明，未重新實測所有既有工具。
 
 | 來源 | 發布日／長度 | 取得與核對方式 | 在本文的分工 |
 |---|---|---|---|
 | A：杰森的效率工坊 | 2026-10-03／20:13 | 下載完整繁中字幕；檢視全片取樣畫面及協作架構圖 | 上下文、模型、快取、提示詞、技能與自主性 |
 | B：TechShrimp | 2026-09-29／32:29 | 沒有人工或自動字幕；下載音訊，以 MLX Whisper small 轉錄全片，再搭配畫面核對 | 產品操作、省 token 實務及工具示範 |
+| C：杰森 Markdown 附檔 | 原檔未標發布日；2026-10-05 比對 | 使用者提供下載稿；完整閱讀 340 行，記錄檔名及 SHA-256 | 補齊架構圖、交接表、原始參考資源與流程檢查；與字幕有差異時分別記錄 |
 
 > [!note] 閱讀與證據範圍
 > B 的輸入連結從 06:36 開始，本文仍整理全片。自動轉錄可能誤辨產品、模型及專案名稱；原始檔保留在本機，公開筆記使用意譯。本文分別標示講者經驗、官方查核與整理者建議；沒有實測影片所有工具，也沒有安裝第三方橋接程式、啟用 Hooks 或發布網站。
+
+<!-- Separate callouts. -->
+
+> [!important] 附檔也需要查核
+> C 的頁尾標示作者為杰森的效率工坊，並註明未經允許禁止商用。公開本文使用自行整理的分析與重繪圖，不上傳整份原稿。附檔中的指令優先級範例有誤，部分快取、自主性與風險敘述也過於絕對；不能因為是講者的 Markdown 就直接當成操作規格。
 
 ## 關鍵洞察（Key Insights）
 
@@ -110,6 +125,19 @@ A 在 00:43 起提醒：大容量上下文在資訊檢索與長時間修改程�
 
 這些 slash commands 以 CLI／IDE 的官方介面為準；不要假設網頁版也有相同指令。`/side` 在 CLI 的另一個 side chat 或 review mode 內不可用，IDE 的 `/fork` 用於本機對話。[Developer commands](https://learn.chatgpt.com/docs/developer-commands)
 
+#### 哪些方式仍繼承舊對話？
+
+以下依 C 的比較表重整，並以官方說明核對 Resume、Fork 與 Compact。此處的「新上下文」專指不帶入舊聊天歷史，仍可能載入系統指令、`AGENTS.md`、技能、記憶及此次提供的檔案。
+
+| 方式 | 是否繼承舊聊天歷史 | 是否移除舊聊天負擔 | 適合場景 |
+|---|---|---|---|
+| Resume／Continue | 是，恢復或繼續同一會話 | 否 | 暫時退出後繼續同一工作 |
+| Fork／Branch | 是，新分支沿用起點的歷史 | 否 | 保留共同起點，嘗試另一條主要路線 |
+| Compact | 保留壓縮後的歷史與工作狀態 | 部分減少，仍沿用同一任務 | 同一成果的對話過長 |
+| Handoff → New Session | 不自動繼承；帶入選定交接狀態 | 是，但交接內容仍占 token | 階段切換、獨立工作或需要重新整理背景 |
+
+Fork 不能當成清空上下文的方法；Resume 也不會把工作樹回復成對話當時的版本。官方的建議是先看狀態，同一目標過長時壓縮，主要方向改變時分支。[遠端工程工作指南](https://developers.openai.com/blog/mastering-codex-remote-for-engineering)、[Developer commands](https://learn.chatgpt.com/docs/developer-commands)
+
 以下是整理者依兩支影片重繪的決策流程：
 
 ```mermaid
@@ -150,6 +178,10 @@ A 的例子是開發健康管理軟體：飲食模組尚未完成就續聊；臨
 
 不要複製全部對話、API key 或個人資料到交接文件。新對話應先讀交接、確認目前工作樹與檔案，再繼續。
 
+C 另指向 [Matt Pocock 的 handoff skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md)。2026-10-05 核對時，該技能要求保存到作業系統暫存目錄、列出下一位代理人應選用的技能，並移除敏感資訊。可採用的文件編排原則是：把目前執行狀態寫短；已存在於規格、計畫、架構決策紀錄（ADR）、issue、commit 或 diff 的內容直接引用位置，避免重複維護兩份正文。上方自編範例只示範內容，沒有指定檔案一定要提交到專案。
+
+整理者建議在交接中另外記錄目前 branch／commit、未提交變更、已執行檢查及結果、尚未解決的問題與下一步。接手者應重新核對 Git 與實際檔案；交接裡的「測試通過」只描述當時狀態，不代表後續修改也已驗證。
+
 #### 實驗性上下文設定與 Memories 要分開
 
 A 在 04:59 提到跨上下文結構化筆記，並展示：
@@ -178,7 +210,7 @@ experimental_mode = true
 | 主張 | 本文處理 |
 |---|---|
 | 「150K 是舒適區」 | 保留為講者引用的經驗值，不當成硬上限 |
-| 「超過 227K 輸入會加價」 | 修正為 Astra API 的 **超過 272K**；整個請求的輸入與快取費率乘 2，輸出費率乘 1.5 |
+| A 字幕說「超過 227K 輸入會加價」；C 附檔寫 272K | 字幕在 01:24、01:27 寫 227K，附檔已寫 272K；本文依官方採 **超過 272K**。整個請求的輸入與快取費率乘 2，輸出費率乘 1.5；不要把數字錯誤歸給所有來源版本 |
 | 「GPT-6 對話中換 reasoning effort 不破壞快取」 | 支援的 API 可透過追加 configuration update 保留前綴；不能推導成所有 Codex 客戶端與設定都保證命中 |
 | 「換模型會丟快取」 | 不預期跨模型直接沿用相同快取；不能據此斷言每次一定變慢 |
 | 「ChatGPT 額度比 Codex 好用」 | 保留為講者當時的使用經驗；訂閱 credits、使用限制與 API 費用須分開 |
@@ -241,6 +273,21 @@ Done when：受影響測試通過，原頁返回與無效返回路徑皆已檢�
 
 適合常駐的內容包括專案邊界、權威文件路徑、必要檢查及發布門檻。把詳細架構、資料庫或部署文件按工作類型導向，減少每次都全量讀取。
 
+> [!warning] 附檔的指令優先級不能照搬
+> C 的 `AGENTS.md` 範例將使用者指令置於系統安全規則之上，並泛稱可忽略造成暫停的外部技能。官方 API 說明明確指出，`system` 與 `developer` 指令優先於 `user`。官方所說「使用者指令優先於技能指南」，不能延伸成使用者可覆蓋系統或開發者限制，也不能用本機文件解除工具權限。[Responses API 的訊息層級](https://developers.openai.com/api/reference/java/resources/beta/subresources/responses)、[指令遵循指南](https://developers.openai.com/api/docs/guides/latest-model#instruction-following)
+
+以下是整理者自編的替代規則，可依專案授權範圍調整，未寫入讀者的實際 `AGENTS.md`：
+
+```markdown
+### 工作邊界與規則衝突
+
+- 遵守系統、開發者及執行環境的限制。
+- 依使用者要求界定工作範圍；任務內已授權的讀取、可逆編輯與必要檢查可持續完成。
+- 使用者明確要求與技能指南衝突時，在較高層限制內依使用者要求處理。
+- 規則衝突若影響權限或正確性，說明衝突來源；繼續完成不受影響的已授權工作。
+- 涉及正式部署、付款、重大刪除、權限變更或對外傳送，確認精確目標與相應授權。
+```
+
 [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS|漸進式揭露筆記]]有相似的資訊編排概念，但該篇的 Claude Code 路徑與欄位屬於另一產品；本文只連結概念，不移植設定。
 
 #### Skills：精準觸發、完整執行、按需讀附件
@@ -259,7 +306,7 @@ policy:
 設為 `false` 會停用依描述自動選用；使用者明確呼叫 `$skill` 仍可使用。這項設定控制技能選用，不是安全權限或人工批准機制。[Build skills](https://learn.chatgpt.com/docs/build-skills)
 
 > [!tip] 清理技能時保留必要程序
-> 刪除重複指令與不適用流程；保留授權、來源核對、輸出契約及風險相稱的驗證。只有在已選定技能明確允許時才跳過步驟，不用「省 token」作為忽略使用者指定技能的理由。
+> 刪除重複指令與不適用流程；保留授權、來源核對、輸出契約及風險相稱的驗證。依技能允許的分支或使用者明確要求調整流程，同時遵守較高層限制；不用「省 token」作為忽略使用者指定技能的理由。
 
 #### Plan mode 與釐清技能如何搭配？
 
@@ -278,14 +325,63 @@ A 在 10:00 起展示三種連接深度：將 ChatGPT 討論帶到 Codex、以�
 | 路線 | 影片示範用途 | 本文保留的邊界 |
 |---|---|---|
 | 參考 ChatGPT 對話 | 先討論需求，再交給 Codex 實作 | 確認內容是否真的可取用，必要時以文件交接；不要假設各客戶端入口一致 |
-| `codex-with-chatgpt` | ChatGPT 分析，Codex 修改；橋接中提供專案讀取 | 第三方專案；讀取仍可能傳出原始碼或秘密，不能因唯讀就視為無風險 |
-| `codex-chatgpt-web`／其他完整工具橋接 | 讓網頁模型與本機檔案、工具協作 | 權限及資料流更廣；本文未安裝或查核其安全性、政策適用性與相容性 |
+| [`codex-with-chatgpt`](https://github.com/XiaoDuoYa/codex-with-chatgpt) | ChatGPT 分析，Codex 修改；橋接中提供專案讀取 | 第三方專案；讀取仍可能傳出原始碼或秘密，不能因唯讀就視為無風險 |
+| [`codex-chatgpt-web`](https://github.com/miuuyy/codex-chatgpt-web)／其他完整工具橋接 | 讓網頁模型與本機檔案、工具協作 | 權限及資料流更廣；本文只核對公開說明，未安裝、測試安全性或確認政策適用性與相容性 |
 
 影片提到的星數與「額度更充裕」不是本文的選用依據；第三方橋接也不等同官方原生功能。
 
+#### 兩種橋接的資料流與權限差異
+
+以下依 C 的兩張 Mermaid 重繪，並於 2026-10-05 核對兩個專案的 README。圖示呈現講者及專案描述的設計，未執行程式碼安全稽核，亦未驗證部署後確實符合這些邊界。
+
+**路線一：ChatGPT 分析、Codex 執行。** `codex-with-chatgpt` 的 README 描述以唯讀 MCP 供應專案資料，由 Codex 保留修改、Shell 與 Git 的執行權。README 另描述 Cloudflare tunnel 與 OAuth；「伺服器在本機」不表示資料只在本機流動。[專案說明](https://github.com/XiaoDuoYa/codex-with-chatgpt)
+
+```mermaid
+flowchart LR
+    U[使用者] --> C[Codex]
+    C -->|選用技能| S[codex-with-chatgpt Skill]
+    S -->|控制| B[Codex 內建瀏覽器]
+    B <-->|網頁對話| G[ChatGPT Web]
+    G <-->|MCP 資料請求| T[Cloudflare tunnel]
+    T <-->|OAuth 驗證| M[本機 C2C Bridge]
+    M <-->|唯讀專案資料| W[本機工作區]
+    C <-->|編輯與 Shell、Git、測試| W
+```
+
+「唯讀」限制的是此橋接的寫入能力；傳給模型的程式碼、diff、測試輸出仍須審查。README 宣稱有路徑與敏感檔案防護，本文沒有驗證其完整性。
+
+**路線二：網頁模型接入 Codex 工具。** `codex-chatgpt-web` 的 README 描述 launcher 與內嵌瀏覽器，Full harness mode 再以 MCP 連接當前任務的檔案、終端機、工具與批准流程。這比只供應唯讀資料的權限範圍更廣。[專案說明](https://github.com/miuuyy/codex-chatgpt-web)
+
+```mermaid
+flowchart LR
+    U[使用者] --> C[Codex 任務]
+    C -->|選擇 Web 模型| R[本機 Launcher／Bridge]
+    R -->|瀏覽器自動化| B[專案內嵌瀏覽器]
+    B <-->|網頁對話| G[ChatGPT Web]
+    G -->|請求工具| M[MCP Connector]
+    M --> T[本機 MCP Server]
+    T <-->|工具請求與結果| C
+    C <-->|依任務權限執行| W[檔案、終端機與其他工具]
+```
+
+| 比較面向 | `codex-with-chatgpt` | `codex-chatgpt-web` Full harness |
+|---|---|---|
+| 設計上的模型分工 | ChatGPT 規劃與審查，Codex 執行 | 網頁模型參與 Codex 任務與工具迴圈 |
+| ChatGPT 的本機入口 | 以 MCP 讀取工作區資料 | 以 MCP 請求任務的工具 |
+| 執行權 | 由 Codex 修改與執行 | 依實際 harness、批准與執行環境限制 |
+| 選用前應核對 | 路徑範圍、資料傳出、tunnel、OAuth 與撤銷 | 可呼叫工具、讀寫範圍、批准、帳號登入與撤銷 |
+
+#### 附檔引用的帳號風險：報告存在，因果未證實
+
+C 引用 [`codex-chatgpt-web` issue #703](https://github.com/miuuyy/codex-chatgpt-web/issues/703)。2026-10-05 查核時，回報者稱密集自動使用後會話失效，且 Pro 訂閱被移除；維護者要求提供帳號通知或訂閱截圖，因未收到證據而以 `Closed as not planned` 關閉。
+
+因此，本文把它列為**未獲充分證據支持的使用者回報**，不據此斷定 OpenAI 封號、專案必然導致訂閱移除，或某個請求頻率就是安全門檻。維護者的缺證說明也不能反向證明自動化沒有風險。
+
+C 另外引用個人版使用條款，討論自動擷取輸出與規避限制。本文未查核最新條款版本、帳號所屬地區或這類工具的具體適用性，保留為待確認事項；能操作官方網頁、使用 MCP 或成功完成一次請求，都不足以證明特定自動化方式獲得官方認可。優先使用可明確界定來源與授權的原生交接；不要依星數或額度宣稱替代這些查核。
+
 ![杰森於 11:05 展示 ChatGPT 與 Codex 的第三方橋接資料流，上方路線由 Codex 呼叫技能與內建瀏覽器，經 MCP 讀取專案](../assets/2026-10-03-CODEX-PRACTICAL-WORKFLOWS/chatgpt-codex-bridge.png)
 
-圖像來源為 [A 影片 11:05](https://www.youtube.com/watch?v=CDvWRa93Xdg&t=665s)，保留作為講者示範的證據，並非部署建議。以下時序圖是整理者簡化後的責任分工，不代表任一第三方專案的完整協定：
+圖像來源為 [A 影片 11:05](https://www.youtube.com/watch?v=CDvWRa93Xdg&t=665s)，保留作為講者示範的證據，並非部署建議。上方架構圖讓資料流可搜尋與修改；以下時序圖另說明通用的交接責任，不代表任一第三方專案的完整協定：
 
 ```mermaid
 sequenceDiagram
@@ -416,6 +512,25 @@ A 在 16:44 起提醒，Astra 可能比舊模型更常釐清問題，也可能�
 
 操作權限有兩層：sandbox 限制可存取的檔案及網路，approvals 控制何時審查。調整批准方式不會自動擴大 sandbox。影片中減少中斷的建議，不能直接轉成一律開啟 Full access。[Permissions](https://learn.chatgpt.com/docs/permission-modes)
 
+#### 非阻塞澄清：提問時繼續不依賴答案的工作
+
+C 補充非同步澄清（Async Clarification）：遇到局部歧義時提出問題，同時推進不依賴答案的部分。官方指南支持模型在工作中提出非阻塞問題，但未保證每個 Codex 客戶端都提供相同操作介面，也未保證每個問題都能並行處理。[自主執行指南](https://developers.openai.com/api/docs/guides/latest-model#initiative-and-follow-through)
+
+整理者自編例子：使用者要求製作報表，但圖表配色尚未確定。代理人可以先讀來源、核對欄位、計算數值，同時詢問配色；收到答案後再處理受影響的呈現。若缺的是收件人、正式部署目標或資料存取授權，先完成可審查成果，等待確認後才做對外操作。
+
+```mermaid
+flowchart TD
+    A[發現尚未確定的選擇] --> B{可分出已授權且不依賴答案的工作？}
+    B -->|是| C[提出具體問題]
+    C --> D[繼續獨立部分並保存結果]
+    D --> E{已收到必要答案？}
+    E -->|是| F[確認選擇與授權後完成相依部分]
+    E -->|否| H[保留成果並標記相依工作待確認]
+    B -->|否| G[說明阻塞點並等待必要回答]
+```
+
+可在任務提示中寫「局部選擇待確認時，先完成不依賴答案的已授權工作；必要權限未確認前不要執行相依操作」。這是流程建議，不能保證完全消除暫停，也不會新增工具或權限。沒有非同步提問介面的客戶端仍可先完成獨立部分，再一次提出具體問題。
+
 #### 代理人分工要有獨立範圍
 
 可以把來源查核、唯讀程式探索與獨立測試分開並行；不要讓多個代理人同時改同一段程式，也不要每個人都重讀全部歷史。官方提醒，子代理人會增加模型與工具用量，節省時間不等於節省 token。[Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
@@ -458,6 +573,24 @@ flowchart LR
     H --> G
 ```
 
+#### 九項既有工作流程檢查表
+
+以下依 C 的遷移清單重新整理，供稽核現有專案使用；不是把所有模型直接改成 Astra，也不要求讀者一次變更全部設定。
+
+| 項目 | 檢查與調整 | 保留的限制／驗收 |
+|---|---|---|
+| Prompt | 移除無必要的微操作，寫清 Goal、Context、Constraints、Done when | 必要重現步驟、輸出格式與授權不可刪 |
+| AGENTS.md | 按工作類型指向架構、資料庫與部署文件 | 穩定限制仍常駐；文件不能覆蓋系統或開發者規則 |
+| Skills | 讓描述與觸發範圍精確，附件按需讀取 | 選定技能要完整理解；依合法分支及明確要求調整流程 |
+| Approval | 減少任務內已授權操作的重複詢問 | 正式環境、財務、重大刪除、權限與對外操作依實際授權處理 |
+| Testing | 以變更與成果風險決定檢查範圍 | 新修改、失敗或未解疑慮才擴大；不把小修改當成免驗證 |
+| Model | 比較 Luna、Sol、Astra 或分工方案 | 量測每個已驗收成果的時間、總用量與返工；確認帳號可用性 |
+| Reasoning | 從模型支援的預設值起步，按難度調整 | 不把影片的 UI 名稱當成所有客戶端通用參數；不保證快取命中 |
+| Context | 選擇續聊、Compact、Side、Fork 或交接新對話 | Fork 仍繼承歷史；容量上限不等於建議預載量 |
+| Codex 實驗功能 | 查核版本、可用性與替代方案 | `features.context_management.experimental_mode` 目前不可用，不照原清單直接啟用 |
+
+這張表的優先順序是先整理任務與文件，再比較模型與執行成本；授權與必要驗證始終保留。官方相關原則見[技能與提示詞稽核](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)、[模型工作指南](https://developers.openai.com/api/docs/guides/latest-model)與[設定參考](https://learn.chatgpt.com/docs/config-file/config-reference)。
+
 ## 我的心得（My Takeaways）
 
 整理者最優先採用的順序是：**清楚的完成條件 → 上下文分流 → 精簡常駐指令 → 相稱驗證 → 工具擴充**。前四項不依賴第三方橋接，也較容易在既有工作中比較結果。
@@ -471,7 +604,7 @@ CLI 操作與自動化細節可接續 [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTO
 - 在同一批真實程式任務中，150K 經驗值、主動壓縮與交接新對話，各自如何影響遺漏率與返工量？搜尋：`Codex long context coding handoff compaction task success benchmark`。
 - 各 Codex 客戶端變更 reasoning effort 時，實際如何更新前綴？能否用可觀測的用量欄位驗證，而非僅看速度？搜尋：`Codex reasoning effort configuration_update cached_tokens client behavior`。
 - 同一個已驗收任務採 Luna、GPT-6.1 Sol、Astra 或混合代理人時，總用量與返工成本差多少？搜尋：`Codex GPT-6.1 Sol Astra Luna cost per successful task evaluation`。
-- 影片的第三方橋接在目前版本中，能否可靠限制讀取範圍、阻止秘密外傳及撤銷連接？搜尋：`codex-with-chatgpt C2C Bridge permissions secrets threat model`。
+- 影片的第三方橋接在目前版本中，能否可靠限制讀取範圍、阻止秘密外傳及撤銷連接？現有 README 描述與 issue #703 的缺證回報尚不足以完成安全或帳號風險評估；適用條款也仍待確認。搜尋：`codex-with-chatgpt C2C Bridge permissions secrets threat model ChatGPT automation terms`。
 - 文件、簡報與試算表生成在繁中版面、字型與跨 Office 軟體相容性上，還有哪些系統性限制？搜尋：`Codex document presentation spreadsheet traditional Chinese font rendering compatibility`。
 - Hooks 在事件失敗、重試與多來源合併時，如何避免重複副作用或漏掉檢查？搜尋：`Codex hooks idempotency merged sources fail open retry validation`。
 
@@ -513,7 +646,7 @@ CLI 操作與自動化細節可接續 [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTO
 
 ### 白帽：事實與未知資訊
 
-A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差。官方來源支持技能選用政策、上下文指令與工具能力；實驗性上下文功能目前不可用。150K 舒適區與省 token 幅度沒有本文實驗支持。
+A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差；C 是使用者提供的講者 Markdown 附檔。字幕的 227K 與附檔的 272K 已分別記錄，本文採官方門檻。實驗性上下文功能目前不可用；第三方 README 只是設計宣稱，issue #703 因缺證關閉。150K 舒適區與省 token 幅度沒有本文實驗支持。
 
 ### 紅帽：直覺與讀者反應
 
@@ -525,7 +658,7 @@ A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差。官�
 
 ### 黑帽：風險與限制
 
-靜態價格與介面很快過時；唯讀橋接仍會傳出資料；Appshots 可能包含畫面以外可取得的文字；Hooks 也可能漏檢或重複執行。減少不必要程序時，必須保留授權與必要檢查。
+靜態價格與介面很快過時；唯讀橋接仍會傳出資料；Appshots 可能包含畫面以外可取得的文字；Hooks 也可能漏檢或重複執行。C 的錯誤指令優先級與「完全消除暫停」不能照搬；缺證帳號回報也不能當成已證實因果。減少不必要程序時，必須保留授權與必要檢查。
 
 ### 綠帽：替代方案與新應用
 
@@ -533,8 +666,8 @@ A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差。官�
 
 ### 藍帽：修改項目與下一步
 
-- 已加入版本與證據標示，修正長輸入門檻並標明不可用的實驗功能。
-- 已把工作分流與交付責任畫成 Mermaid，將模型資訊改為原生表格。
+- 已加入附檔來源與字幕版本差異，校正指令層級，保留實驗功能不可用及風險證據不足的標示。
+- 已補上兩種橋接架構、非阻塞澄清流程、交接比較表與九項工作流程檢查表。
 - 優先試清楚驗收與交接流程；模型成本及 Hook 可靠度的實測保留為 Open Questions。
 
 ## References
@@ -543,6 +676,14 @@ A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差。官�
 
 - [A：杰森的效率工坊，GPT-6 核心技巧](https://www.youtube.com/watch?v=CDvWRa93Xdg)，2026-10-03，20:13。
 - [B：TechShrimp，Codex／ChatGPT 更新與省 token 技巧](https://www.youtube.com/watch?v=K9Ed7M_Cms0)，2026-09-29，32:29；[使用者指定的 06:36 起點](https://www.youtube.com/watch?v=K9Ed7M_Cms0&t=396s)。
+
+### 講者附檔與第三方延伸資源
+
+- C：`4 个必须学习的 GPT-6 核心技巧：让你把 Codex 发挥到极致.md`，使用者提供，頁尾署名杰森的效率工坊；2026-10-05 完整比對。未找到可核對的公開下載 URL，原稿不提交公開 KB；檔案指紋列於 frontmatter。
+- [Matt Pocock：handoff skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md)，2026-10-05 核對公開內容；使用前仍應讀取當時版本。
+- [XiaoDuoYa：codex-with-chatgpt](https://github.com/XiaoDuoYa/codex-with-chatgpt)，2026-10-05 核對公開 README；架構與防護是專案宣稱，未安裝或實測。
+- [miuuyy：codex-chatgpt-web](https://github.com/miuuyy/codex-chatgpt-web)，2026-10-05 核對公開 README；Full harness 能力不等於安全或條款適用性驗證。
+- [codex-chatgpt-web issue #703](https://github.com/miuuyy/codex-chatgpt-web/issues/703)，2026-10-05 讀取回報及維護者回覆；因缺少必要證據而關閉，不能作為封號因果的已證實案例。
 
 ### 全部章節回看地圖
 
@@ -576,6 +717,8 @@ A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差。官�
 
 ### 官方查核來源
 
+- [Responses API：系統／開發者與使用者指令的優先關係](https://developers.openai.com/api/reference/java/resources/beta/subresources/responses)
+- [遠端工程工作指南：狀態、旁支、壓縮與分支](https://developers.openai.com/blog/mastering-codex-remote-for-engineering)
 - [Use ChatGPT：Chat／Work／Codex 的分工](https://learn.chatgpt.com/docs/use-chatgpt)
 - [Projects：專案與本機資料夾](https://learn.chatgpt.com/docs/projects)
 - [Developer commands：CLI／IDE 指令](https://learn.chatgpt.com/docs/developer-commands)
@@ -604,4 +747,4 @@ A 有完整字幕；B 以本機 Whisper 全片轉錄，仍有辨識誤差。官�
 
 ### 本機來源保存說明
 
-完整字幕、音訊、自動轉錄與 metadata 保留在工作區 `source-materials/CDvWRa93Xdg/`、`source-materials/K9Ed7M_Cms0/`。音訊、metadata 與第三方完整逐字內容不提交公開 KB。公開本文保留分析、時間點、一張必要架構畫面與三張自編 Mermaid。
+完整字幕、音訊、自動轉錄與 metadata 保留在工作區 `source-materials/CDvWRa93Xdg/`、`source-materials/K9Ed7M_Cms0/`。C 原稿保留在使用者的 Downloads，不移動、不修改，也不提交公開 KB。音訊、metadata 與第三方完整逐字內容不提交公開 KB。公開本文保留分析、時間點、一張必要架構畫面與六張 Mermaid；其中兩張依講者附檔重繪，其餘為整理者自編。

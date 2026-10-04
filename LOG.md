@@ -156,3 +156,4 @@
 | 2026-10-03 15:47 | ingest | https://www.youtube.com/watch?v=lKTGTokarqI：無字幕音訊以 MLX Whisper small 轉錄，句型搭配影片畫面核對 | [[2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE]] | Education | 3 | 5 |
 | 2026-10-04 | update | POC 5594d73：離線 HTML、20 張截圖、curl／agent-browser | [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | Research | 0（既有 3 組保留） | 更新已回答與條件式問題 |
 | 2026-10-04 15:38 | ingest | https://www.youtube.com/watch?v=CDvWRa93Xdg + https://www.youtube.com/watch?v=K9Ed7M_Cms0：兩支合併；B 無字幕，以 MLX Whisper small 全片轉錄 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | DevTools | 3 | 6 |
+| 2026-10-05 06:40 | update | 使用者提供杰森 Markdown 附檔：補來源指紋、227K／272K 版本差異、交接表、兩張橋接架構、非阻塞澄清與九項檢查；校正指令層級，記錄 issue #703 缺證關閉 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | DevTools | 0（既有 3 組保留） | 6 |

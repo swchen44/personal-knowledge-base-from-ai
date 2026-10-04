@@ -3,7 +3,7 @@
 
 ## 📌 Recent Notes
 
-- [Codex 綜合實戰：上下文與快取、技能設計、工具整合與交付驗證](./DevTools/2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS.md)：兩支影片整合九章，含全片語音轉錄、20 個回看時間點、官方查核、三張 Mermaid 與六頂帽子
+- [Codex 綜合實戰：上下文與快取、技能設計、工具整合與交付驗證](./DevTools/2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS.md)：兩支影片整合九章；2026-10-05 核對講者 Markdown，補交接比較、橋接架構、非阻塞澄清與九項檢查表，含六張 Mermaid、20 個回看時間點及六頂帽子
 - [英語口說的 15 個常用句型：縮讀、跟讀與情境練習](./Education/2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE.md)：Whisper 全片轉錄與畫面核對，含自編例句、練習流程圖、Bloom 分析及六頂帽子
 - [Hugging Face AI 代理人入侵事件：沙盒失守、協作攻擊與責任討論](./Security/2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY.md) — 兩支影片依七個議題整併；保留 16 個章節時間點、三張 Mermaid 圖與證據界線
 - [FreeRTOS／RISC-V Observability：研究與驗證接續計畫](./Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md) — 完整研究、工作紀錄與內部 AI 任務合併一篇；含 Mermaid、案例、PSF 與來源附件（2026-10-04 更新：離線 HTML、20 張截圖與驗證）
