@@ -223,6 +223,7 @@ ln -s CLAUDE.md agents.md
 - [[2026-04-19-WRITING-A-GOOD-CLAUDE-MD]] — HumanLayer 原文完整筆記，與本文互補：同一作者的指令預算理論與 agent_docs/ 實踐
 - [[2026-05-01-CLAUDE-MD-COMPLETE-GUIDE]] — 本文教 CLAUDE.md「該放什麼」，與這篇「如何瘦身、用 progressive disclosure 卸載資料」互為正反面
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 白皮書把 progressive disclosure 上升為 static/dynamic context 的一級架構決策，附 token 經濟學論證。
+- [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]]：Codex 的常駐指令、技能描述與按需載入實務；區分共同概念與不同產品的設定。
 
 ## References
 

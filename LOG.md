@@ -155,3 +155,4 @@
 | 2026-10-03 15:09 | merge | 3H9XdDSNL9I + gH-dngRZJWU：兩篇整併，移除舊檔；歷史攝入名稱由新篇 aliases 承接 | [[2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY]] | Security | 3 | 7 |
 | 2026-10-03 15:47 | ingest | https://www.youtube.com/watch?v=lKTGTokarqI：無字幕音訊以 MLX Whisper small 轉錄，句型搭配影片畫面核對 | [[2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE]] | Education | 3 | 5 |
 | 2026-10-04 | update | POC 5594d73：離線 HTML、20 張截圖、curl／agent-browser | [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | Research | 0（既有 3 組保留） | 更新已回答與條件式問題 |
+| 2026-10-04 15:38 | ingest | https://www.youtube.com/watch?v=CDvWRa93Xdg + https://www.youtube.com/watch?v=K9Ed7M_Cms0：兩支合併；B 無字幕，以 MLX Whisper small 全片轉錄 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | DevTools | 3 | 6 |
