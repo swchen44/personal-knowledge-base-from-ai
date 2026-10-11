@@ -136,6 +136,7 @@ links:
 
 ## 相關連結（Related）
 
+- [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] — 將企業 AI 轉型延伸到實體任務，對照資料基礎、組織責任與營運成果的驗收。
 - [[2026-04-11-MANAGEMENT-LOSING-CONTROL-AI-REPLACING-MANAGERS-NOT-ENGINEERS]] — 同樣探討 AI 對管理層的衝擊，本文從老闆視角出發，該文從工程師視角看管理者的價值流失
 - [[2026-03-30-STANFORD-STUDY-22YO-EMPLOYMENT-DROPS-20PCT-750-CFOS-AI-LAYOFFS-9X]] — CFO 層級的 AI 裁員決策數據，與本文「老闆要先理解 AI」的觀點互補
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — IT 人員角色轉型的另一個視角，Steve Yegge 論多代理人時代工程師的未來

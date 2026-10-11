@@ -453,6 +453,7 @@ Prompt 5: Integration & Checkpoint Planner（把補強後的流程接上真實�
 
 ## 相關連結（Related）
 
+- [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] — 實體 AI 同樣需要任務拆解與流程責任，但還須獨立處理設備安全、現場例外及人工接管。
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — 同樣主張人才價值轉向「設計與治理系統」，呼應本文 process owner 的角色升級論
 - [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]] — 把「每個節點包成 skill」的具體三層式架構（Agents／Skills／Standards）
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — decomposition 是 augmenting LLM 的核心技巧，與本文「拆成節點」同源

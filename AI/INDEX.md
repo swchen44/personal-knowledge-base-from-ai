@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | Physical AI：任務導向、落地四階段、部署資料循環與單位經濟；含影片案例、三張 Mermaid、預測年份差異及試點卡 | 2026-09-10 |
 | [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] | Claude Code Skill 的 2×2 觸發權限矩陣：釐清 A→B 為何受 `disable-model-invocation` 阻擋，並用 `skillOverrides` 與 Human Approval Gate 設計特權操作 | 2026-09-06 |
 | [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] | Akshay Kokane 從 FDE 視角釐清 Loop Engineering 與 Harness Engineering：Loop 是 Harness 上方的控制平面，`/goal` 與 maker/checker 停止條件是新意，但簡單工作仍應用腳本而非燒 Token | 2026-06-17 |
 | [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] | 四組平台無關的頂級 Agent Skill：原能力（Skill Creator + f skills）、工程化開發（Superpowers + GStack + M's skill）、前端設計（frontend design + UX Pro Max）、內容創作（寶玉老師 Skill 組） | 2026-05-09 |

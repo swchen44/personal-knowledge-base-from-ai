@@ -3,6 +3,7 @@
 
 ## 📌 Recent Notes
 
+- [Physical AI 的隱藏價值：從機器人展示走向可靠營運與獲利](./AI/2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING.md)：McKinsey 講座字幕核對；任務導向、四階段落地、三張 Mermaid、影片案例與六頂帽子，保留市場預測年份差異
 - [Codex 綜合實戰：上下文與快取、技能設計、工具整合與交付驗證](./DevTools/2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS.md)：兩支影片整合九章；2026-10-05 核對講者 Markdown，補交接比較、橋接架構、非阻塞澄清與九項檢查表，含六張 Mermaid、20 個回看時間點及六頂帽子
 - [英語口說的 15 個常用句型：縮讀、跟讀與情境練習](./Education/2026-09-30-FIFTEEN-ENGLISH-SENTENCE-FRAMES-AND-SHADOWING-PRACTICE.md)：Whisper 全片轉錄與畫面核對，含自編例句、練習流程圖、Bloom 分析及六頂帽子
 - [Hugging Face AI 代理人入侵事件：沙盒失守、協作攻擊與責任討論](./Security/2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY.md) — 兩支影片依七個議題整併；保留 16 個章節時間點、三張 Mermaid 圖與證據界線

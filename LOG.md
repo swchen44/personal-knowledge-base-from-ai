@@ -157,3 +157,5 @@
 | 2026-10-04 | update | POC 5594d73：離線 HTML、20 張截圖、curl／agent-browser | [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]] | Research | 0（既有 3 組保留） | 更新已回答與條件式問題 |
 | 2026-10-04 15:38 | ingest | https://www.youtube.com/watch?v=CDvWRa93Xdg + https://www.youtube.com/watch?v=K9Ed7M_Cms0：兩支合併；B 無字幕，以 MLX Whisper small 全片轉錄 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | DevTools | 3 | 6 |
 | 2026-10-05 06:40 | update | 使用者提供杰森 Markdown 附檔：補來源指紋、227K／272K 版本差異、交接表、兩張橋接架構、非阻塞澄清與九項檢查；校正指令層級，記錄 issue #703 缺證關閉 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | DevTools | 0（既有 3 組保留） | 6 |
+| 2026-10-11 | ingest-local | https://www.youtube.com/watch?v=KnlxZnt6GkM：英文自動字幕、官方回顧核對；三張 Mermaid、案例與六頂帽子；遠端同步尚待成功驗證 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | AI | 3 | 6 |
+| 2026-10-11 | verify | DNS 恢復後接續：Mermaid 3/3 語法與 PNG 渲染檢查通過；Markdown、欄位、五張圖片及雙向連結通過，準備提交發布 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | AI | 0（既有 3 組保留） | 6 |
