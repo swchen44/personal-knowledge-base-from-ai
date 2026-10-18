@@ -159,3 +159,4 @@
 | 2026-10-05 06:40 | update | 使用者提供杰森 Markdown 附檔：補來源指紋、227K／272K 版本差異、交接表、兩張橋接架構、非阻塞澄清與九項檢查；校正指令層級，記錄 issue #703 缺證關閉 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | DevTools | 0（既有 3 組保留） | 6 |
 | 2026-10-11 | ingest-local | https://www.youtube.com/watch?v=KnlxZnt6GkM：英文自動字幕、官方回顧核對；三張 Mermaid、案例與六頂帽子；遠端同步尚待成功驗證 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | AI | 3 | 6 |
 | 2026-10-11 | verify | DNS 恢復後接續：Mermaid 3/3 語法與 PNG 渲染檢查通過；Markdown、欄位、五張圖片及雙向連結通過，準備提交發布 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | AI | 0（既有 3 組保留） | 6 |
+| 2026-10-18 | ingest | QqhyqMvdx5Q + 使用者 handoff.md：v1.3 工作流與 grilling 設計合併；固定 49dd158、六組靜態重算、YAML 原字串差異補正、三張 Mermaid、兩張截圖與六頂帽子 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 4 | 6 |

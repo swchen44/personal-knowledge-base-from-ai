@@ -2,6 +2,7 @@
 
 | 筆記 | 摘要 | 日期 |
 |------|------|------|
+| [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | Matt Pocock Skills v1.3：整合影片與 grilling 設計研究，含權限、描述字元重算、七類回饋、三張 Mermaid 與交付驗證 | 2026-10-17 |
 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | Physical AI：任務導向、落地四階段、部署資料循環與單位經濟；含影片案例、三張 Mermaid、預測年份差異及試點卡 | 2026-09-10 |
 | [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] | Claude Code Skill 的 2×2 觸發權限矩陣：釐清 A→B 為何受 `disable-model-invocation` 阻擋，並用 `skillOverrides` 與 Human Approval Gate 設計特權操作 | 2026-09-06 |
 | [[2026-06-17-WHAT-IS-LOOP-ENGINEERING-HOW-DIFFERENT-HARNESS-ENGINEERING]] | Akshay Kokane 從 FDE 視角釐清 Loop Engineering 與 Harness Engineering：Loop 是 Harness 上方的控制平面，`/goal` 與 maker/checker 停止條件是新意，但簡單工作仍應用腳本而非燒 Token | 2026-06-17 |

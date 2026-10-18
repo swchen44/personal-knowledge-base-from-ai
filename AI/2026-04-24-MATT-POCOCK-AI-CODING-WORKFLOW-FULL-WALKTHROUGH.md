@@ -13,6 +13,7 @@ source_type: video
 author: "Matt Pocock"
 status: notes
 links:
+  - "[[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]"
   - "[[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]]"
   - "[[2026-05-17-GARRY-TAN-TOKENMAXXING-GSTACK-400X-PRODUCTIVITY]]"
   - "[[2026-04-08-SUPERPOWERS-13-SKILLS-PRACTICAL-WALKTHROUGH]]"
@@ -723,6 +724,7 @@ docs/agents/
 
 ## 相關連結（Related）
 
+- [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] — v1.3 接續：implement-spec、pr、retro 與 GLOSSARY.md 遷移；結合 grilling 共用方法的權限、成本及失敗回報研究。
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — 本篇的姊妹文，深入剖析 `/grill-me` 的設計哲學
 - [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 另一套 skill 分類框架（4 group：Plan/Build/Verify/Maintain），可與 Matt 的 6 分類對照
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 對 vibe coding → agentic engineering 的同調觀點

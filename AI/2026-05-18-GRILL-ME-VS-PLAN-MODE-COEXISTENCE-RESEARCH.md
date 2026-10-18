@@ -13,6 +13,7 @@ source_type: research
 author: "本人綜合研究"
 status: notes
 links:
+  - "[[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]"
   - "[[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]]"
   - "[[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]]"
   - "[[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]]"
@@ -238,6 +239,7 @@ HN 上的 grill-me 爆紅貼文（[item 47550391](https://news.ycombinator.com/i
 
 ## 相關連結（Related）
 
+- [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] — 2026-10-18 版本補充：本篇早期「沒有自動觸發／跨 harness 可共存」的推論不可直接套用新版；grilling 可供模型選用，且存在載入與跳過規格階段的回報。
 - [[2026-05-03-CLAUDE-CODE-PLAN-MODE-VS-SUPERPOWERS-CONFLICT-ANALYSIS]] — **必讀對照**：本研究的姊妹篇，那篇講 Superpowers 機制衝突，本篇講 grill-me 為何沒有
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — grill-me 本身的 4 句指令拆解
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]] — grill-me 在 5 skills 工作流中的位置 + 三方對照

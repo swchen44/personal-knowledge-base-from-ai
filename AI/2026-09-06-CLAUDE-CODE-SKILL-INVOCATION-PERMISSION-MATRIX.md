@@ -14,6 +14,7 @@ source_type: article
 author: "Anthropic；GitHub community reports；AI 討論整理"
 status: notes
 links:
+  - "[[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]"
   - "[[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]]"
   - "[[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]]"
   - "[[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]]"
@@ -302,6 +303,7 @@ GitHub issue [#43809](https://github.com/anthropics/claude-code/issues/43809) �
 
 ## 相關連結（Related）
 
+- [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] — grill-me 實例：人類入口委派模型可用的 grilling，與 user-only 子項不同；另補 Codex 政策界線、跨宿主載入及流程停止問題。
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — 原始碼說明模型可見性與 `Skill` tool 驗證的雙重防線。
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — 官方 Skills frontmatter 與載入生命週期的基礎筆記。
 - [[2026-04-16-CLAUDE-CODE-SKILLS-VS-COMMANDS-VS-SUBAGENTS-COMPLETE-COMPARISON]] — 將觸發權限放入 Skills、Commands、Subagents 的架構選型。
