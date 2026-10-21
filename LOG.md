@@ -160,3 +160,4 @@
 | 2026-10-11 | ingest-local | https://www.youtube.com/watch?v=KnlxZnt6GkM：英文自動字幕、官方回顧核對；三張 Mermaid、案例與六頂帽子；遠端同步尚待成功驗證 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | AI | 3 | 6 |
 | 2026-10-11 | verify | DNS 恢復後接續：Mermaid 3/3 語法與 PNG 渲染檢查通過；Markdown、欄位、五張圖片及雙向連結通過，準備提交發布 | [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]] | AI | 0（既有 3 組保留） | 6 |
 | 2026-10-18 | ingest | QqhyqMvdx5Q + 使用者 handoff.md：v1.3 工作流與 grilling 設計合併；固定 49dd158、六組靜態重算、YAML 原字串差異補正、三張 Mermaid、兩張截圖與六頂帽子 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 4 | 6 |
+| 2026-10-22 06:27 | update | 對話補充與官方文件核對：A→B 跨平台名稱解析與載入範本、Claude／Codex 手動入口差異、explicit-only 分層及 user-only 限制；保留未實測界線 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 0（既有 4 組保留） | 6 |

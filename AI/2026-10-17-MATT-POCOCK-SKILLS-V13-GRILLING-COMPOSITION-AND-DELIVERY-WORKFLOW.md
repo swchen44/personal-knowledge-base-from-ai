@@ -1,7 +1,7 @@
 ---
 title: "從 grilling 到交付驗證：Matt Pocock Skills v1.3 更新與共用方法設計研究"
 date: 2026-10-17
-updated: 2026-10-18
+updated: 2026-10-22
 category: AI
 tags:
   - ai/skills
@@ -29,6 +29,7 @@ links:
 
 - v1.3 補上執行、交付與回顧：`implement-spec` 調度整份規格的 tickets，`pr` 呈現驗收證據與合併風險，`retro` 找出工作環境需要改善的地方。
 - `grill-me` 已成為人類入口；`grilling` 承載可共用的問答方法。`grill-with-docs` 再組合 `domain-modeling`，讓決策留下術語與 ADR。
+- A→B 跨平台組合時，父 skill 可寫子 skill 名稱、載入要求與停止條件；Claude Code 的 `/`、Codex CLI／IDE 的 `$` 留在使用者入口。父入口可設 explicit-only，子方法保留模型可呼叫能力；這種寫法仍須依宿主驗證。
 - 三個設計目的須分開驗證：入口控制有作用，共用結構成立；省 context 取決於可見性與描述長度，跨宿主載入及完整流程仍可能失敗。
 - 本次重算修正一個口徑：目前解析後的全部／可見描述為 **3,870／2,150 字元**；原研究的 3,888／2,156 包含 YAML 引號與跳脫字元。兩者都不等於實際 token 成本。
 - 優先建立「理解確認、實作授權、交付驗收」三個明確邊界，再考慮平行代理與技能組合；`CONTEXT.md` 改名為 `GLOSSARY.md` 的遷移也不能漏掉。
@@ -235,6 +236,54 @@ Claude Code 文件則說明 `disable-model-invocation`、描述可見性與載�
 
 > [!tip] 本文的設計建議，尚未實作
 > 結束問答時先保存已定案／未定案項目，明列這次只確認理解；後續選擇產規格、原型或實作，依既有授權範圍處理。高風險寫入應由工具權限與可驗證的階段狀態攔截，不能只依靠 Markdown 裡一句提醒。
+
+#### 5.1 A skill 使用 B skill：跨平台 prefix 怎麼寫？
+
+2026-10-22 補充：**在 A 的 `SKILL.md` 引用 B 的名稱與載入要求，讓 agent 依宿主可用的機制執行；使用者手動選用時再使用該平台的 prefix。** 以 A＝`grill-me`、B＝`grilling` 為例：
+
+| 情境 | Claude Code | Codex CLI／IDE |
+| --- | --- | --- |
+| 使用者手動啟用 A | `/grill-me` | `$grill-me`，或從 skill picker 選取 |
+| A 的正文要求使用 B | 引用 `grilling`，透過可用的 Skill tool 載入 | 引用 `grilling`，依宿主提供的 skill 載入指示操作 |
+| 已安裝名稱帶 namespace | 依實際註冊名稱解析 | 依實際註冊名稱解析 |
+
+手動入口語法依 [Claude Code 官方文件](https://code.claude.com/docs/en/skills) 與 [Codex 官方文件](https://learn.chatgpt.com/docs/build-skills)。表中的名稱是示例；安裝成 plugin 後，應以目前環境註冊的名稱為準。把 `/grilling` 換成 `$grilling` 寫進父 skill，仍未解決載入介面與政策差異。
+
+固定版本的 `grill-me` 正文實際只有一句：`Call the Skill tool with "grilling".`。[原始檔](https://github.com/mattpocock/skills/blob/49dd158d1076134a641b33efb035946536778336/skills/productivity/grill-me/SKILL.md) 它已經省略使用者入口的 prefix，但仍指定 Skill tool；第 7 節所列的跨宿主問題因此仍需處理。
+
+若自行撰寫跨平台 A skill，可採用以下**候選範本**。這是本文的流程建議，未修改上游，也未完成跨宿主實測：
+
+```markdown
+Before implementation, use the `grilling` skill to clarify the plan.
+
+Resolve its registered name from the skills available in this environment,
+then load and follow it using the host's supported skill mechanism.
+Respect its invocation policy.
+
+If the skill is unavailable or invocation is disallowed, report the blocker.
+Do not bypass the restriction by copying or directly executing its instructions.
+
+Resume this workflow only after the user confirms shared understanding,
+and continue within the user's existing authorization.
+```
+
+這段 Markdown 指示 agent 找到並載入 B；沒有提供跨平台自動轉譯、安裝依賴或保證執行的 API。若宿主的既定載入方式是讀取 `SKILL.md`，仍須遵守第 9 節的政策與語意限制；不能自行假定讀檔等同完整的原生 invocation。
+
+#### 5.2 explicit-only 放在哪一層？
+
+對「使用者啟動 A，再由 A 使用 B」的組合，建議將 **A 設為 explicit-only，B 保留讓模型呼叫的能力**：
+
+| 層級 | Claude Code `SKILL.md` frontmatter | Codex `agents/openai.yaml` |
+| --- | --- | --- |
+| A：人類入口，例如 `grill-me` | `disable-model-invocation: true` | `policy.allow_implicit_invocation: false` |
+| B：共用方法，例如 `grilling` | 省略該欄位，或設為 `false` | 省略該欄位，或設為 `true` |
+
+這與第 4.1 節的上游結構一致。B 保留模型可呼叫能力，也代表它可能被模型依用途自行選用；這個組合並未提供「只有 A 能呼叫 B」的存取控制。
+
+若 B 本身設為 user-only，A 裡面一句「使用 B」不能代替使用者的明確選用。Claude Code 文件明確說明 `disable-model-invocation: true` 會限制模型自行呼叫，遭攔截後也不應改用其他方式重演步驟。[Claude Code 呼叫控制](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill) Codex 文件則明確保證關閉 implicit invocation 後仍可明確使用 `$skill`；完整委派行為仍保留為待驗證項目。[Codex invocation policy](https://learn.chatgpt.com/docs/build-skills#optional-metadata)
+
+> [!important] 入口語法、名稱解析與呼叫資格要分開檢查
+> 省略 `/`、`$` 可避免將父流程綁在單一使用者入口語法；仍要確認 B 已安裝、名稱可解析、宿主有可用的載入機制，而且有效政策允許該次呼叫。
 
 ### 6. Context 究竟省在哪裡：重算與反例
 
@@ -453,7 +502,7 @@ handoff 追查的 description commits 還顯示：刪除過長委派條件、以
 - 使用者提供的 `handoff.md`，2026-10-18：〈Matt Pocock grilling skills 的設計、權限與 context 成本查核〉。來源原檔保留於本機 Downloads；不公開其中本機環境路徑。本文第 7–8 節部分討論證據沿用該紀錄，非全面重新爬取。
 - [固定版本 repo](https://github.com/mattpocock/skills/tree/49dd158d1076134a641b33efb035946536778336)、[manifest](https://github.com/mattpocock/skills/blob/49dd158d1076134a641b33efb035946536778336/.claude-plugin/plugin.json)。核心原始檔連結隨各節列出，避免 main 移動後混淆版本。
 - [Matt Pocock：v1 公告](https://www.aihero.dev/skills/skills-changelog-v1-announcement)、[v1.3 公告](https://www.aihero.dev/skills-changelog-v13-implement-spec-pr-retro-and-glossary-md)。作者意圖與版本銜接補充，不作為 runtime benchmark。
-- [Claude Code Skills](https://code.claude.com/docs/en/skills)、[Codex Build Skills](https://learn.chatgpt.com/docs/build-skills)，2026-10-18 查閱；精確行為須再固定宿主版本驗證。
+- [Claude Code Skills](https://code.claude.com/docs/en/skills)、[Codex Build Skills](https://learn.chatgpt.com/docs/build-skills)，2026-10-18 查閱；2026-10-22 再核對手動入口與 invocation policy，補上第 5.1–5.2 節的跨平台候選寫法。精確行為須再固定宿主版本驗證。
 - 本文重算程式、原始口徑差異及來源指紋：[查核紀錄](assets/2026-10-17-matt-pocock-skills-v13/research-receipt.md)。
 
 研究限制：handoff 的 issue 搜尋有每次上限與關鍵字偏差；部分 PR／Discussions 尚未完整查閱。本篇是有界的證據整合，未宣稱窮盡所有回饋。
