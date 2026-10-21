@@ -3,6 +3,8 @@
 
 ## 📌 Recent Notes
 
+- [Skill A 如何呼叫 Skill B：Claude Code／Codex 的組合方式、暫解與證據](./AI/2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE.md)：獨立整理跨宿主呼叫、社群暫解、官方設定與版本證據；含兩張 Mermaid、description 候選範本與未實測界線，與 grilling 主篇雙向連結
+
 - [pstack 用於 C、FreeRTOS 與 Linux 驅動：原始版、移植版與驗證邊界研究](./Research/2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY.md)：session 研究整合；固定版本、跨語言適用性、兩張文字圖、離線 HTML 與未實測界線
 
 - [從 grilling 到交付驗證：Matt Pocock Skills v1.3 更新與共用方法設計研究](./AI/2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW.md)：影片與 handoff 合成一篇；含 implement-spec／pr／retro、共用方法與權限、字元口徑補正、三張 Mermaid、兩張影片截圖及六頂帽子；2026-10-22 補 A→B 跨平台呼叫範本與 explicit-only 分層

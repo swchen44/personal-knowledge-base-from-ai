@@ -435,6 +435,7 @@ handoff 追查的 description commits 還顯示：刪除過長委派條件、以
 
 ## 相關連結（Related）
 
+- [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]]：[A→B 獨立研究文章](./2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE.md)，補跨宿主載入、description 範本、社群暫解、官方語意與版本證據，逐項區分可用程度及未實測部分。
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]]：早期單檔訪談方法；本文補上後來抽出 grilling 的版本差異。
 - [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]]：保留「對齊方法與宿主模式不同層」的比較，但現行觸發與跨宿主結論須依新版證據重驗。
 - [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]]：比較 user-only 子項被呼叫的限制，與本文可供模型使用的子方法。

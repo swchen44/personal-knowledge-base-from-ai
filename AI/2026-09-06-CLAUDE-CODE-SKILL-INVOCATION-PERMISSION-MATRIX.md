@@ -303,6 +303,7 @@ GitHub issue [#43809](https://github.com/anthropics/claude-code/issues/43809) �
 
 ## 相關連結（Related）
 
+- [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] — 補充當則使用者授權、父子 skill 組合暫解與版本差異；附官方說明及社群採用證據。
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] — grill-me 實例：人類入口委派模型可用的 grilling，與 user-only 子項不同；另補 Codex 政策界線、跨宿主載入及流程停止問題。
 - [[2026-04-29-CLAUDE-CODE-DISABLE-MODEL-INVOCATION-SKILL-VISIBILITY-SOURCE-ANALYSIS]] — 原始碼說明模型可見性與 `Skill` tool 驗證的雙重防線。
 - [[2026-03-19-CLAUDE-CODE-SKILLS-DOCUMENTATION]] — 官方 Skills frontmatter 與載入生命週期的基礎筆記。

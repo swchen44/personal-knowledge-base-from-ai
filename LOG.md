@@ -162,3 +162,4 @@
 | 2026-10-18 | ingest | QqhyqMvdx5Q + 使用者 handoff.md：v1.3 工作流與 grilling 設計合併；固定 49dd158、六組靜態重算、YAML 原字串差異補正、三張 Mermaid、兩張截圖與六頂帽子 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 4 | 6 |
 | 2026-10-22 06:27 | update | 對話補充與官方文件核對：A→B 跨平台名稱解析與載入範本、Claude／Codex 手動入口差異、explicit-only 分層及 user-only 限制；保留未實測界線 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 0（既有 4 組保留） | 6 |
 | 2026-10-22 06:33 | ingest-session | pstack session：固定 2026-10-20 原版及移植版；完整研究、離線 HTML、首頁圖及歷史驗證紀錄 | [[2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY]] | Research | 4 | 6 |
+| 2026-10-22 07:14 | ingest-research | Claude #86763 與 linked issues、Matt 固定來源、Claude／Codex 官方文件：獨立整理 A→B 呼叫、暫解與證據；兩張 Mermaid，執行驗證列為未實測 | [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | AI | 3 | 5 |
