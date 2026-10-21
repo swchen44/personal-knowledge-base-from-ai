@@ -1,0 +1,72 @@
+{
+  "research_date": "2026-10-20",
+  "ingested": "2026-10-22 06:33",
+  "source_type": "session research",
+  "publication_base": "a4d7285965d2058c2d98c661e7bea8eff5c1c681",
+  "source_commits": {
+    "original": "ddf824aff1e55ba14bd666b30bce3fc69962abe6",
+    "port": "49b68501b075ec1eb2755dd0d22fbf2492d67e97"
+  },
+  "note": "Research/2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY.md",
+  "files": [
+    {
+      "source": "pstack-embedded-report.html",
+      "path": "Research/assets/2026-10-20-PSTACK-EMBEDDED/pstack-embedded-report.html",
+      "kind": "offline-html",
+      "source_sha256": "6165738654f09424822226eb8c2ad735a25c9f83794605327cb03e9afab90173",
+      "stored_sha256": "6165738654f09424822226eb8c2ad735a25c9f83794605327cb03e9afab90173",
+      "transformed": false
+    },
+    {
+      "source": "report-assets/desktop-cover.png",
+      "path": "Research/assets/2026-10-20-PSTACK-EMBEDDED/desktop-cover.png",
+      "kind": "non-table illustration and report cover screenshot; visually inspected",
+      "source_sha256": "efa0973da0e794931bee113f23d9e5a47f2299af85a1002b2371309ffe17c15a",
+      "stored_sha256": "efa0973da0e794931bee113f23d9e5a47f2299af85a1002b2371309ffe17c15a",
+      "transformed": false
+    },
+    {
+      "source": "research-evidence/upstream-index.json",
+      "path": "Research/assets/2026-10-20-PSTACK-EMBEDDED/research-evidence/upstream-index.json",
+      "kind": "original skill inventory",
+      "source_sha256": "6fd25758c402e7d5a633ec58331bb312a127a8d8626813b19fc322421d7fe923",
+      "stored_sha256": "6fd25758c402e7d5a633ec58331bb312a127a8d8626813b19fc322421d7fe923",
+      "transformed": false
+    },
+    {
+      "source": "research-evidence/report-receipt.json",
+      "path": "Research/assets/2026-10-20-PSTACK-EMBEDDED/research-evidence/report-receipt.json",
+      "kind": "historical report verification receipt; original workspace paths retained as provenance",
+      "source_sha256": "6017f4ebbd54610719ecfa92ea1e80f2723444ba359c0053fed2be5f591cf894",
+      "stored_sha256": "6017f4ebbd54610719ecfa92ea1e80f2723444ba359c0053fed2be5f591cf894",
+      "transformed": false
+    },
+    {
+      "source": "pstack-language-applicability-research.md",
+      "path": "Research/assets/2026-10-20-PSTACK-EMBEDDED/pstack-language-applicability-research.md",
+      "kind": "complete research notes",
+      "source_sha256": "525d9de96a6f427f848d6c085b10833cde894dc19fc5ecb7276785bad05787c0",
+      "stored_sha256": "b9d727a8e8c5b1620c6ad3e9dc18551cf121ab9fafac849be5a2f45d2435cba2",
+      "transformed": true,
+      "transformation": "only local pstack-claude markdown link targets replaced with pinned GitHub URLs"
+    }
+  ],
+  "images": 1,
+  "ascii_diagrams": 2,
+  "crosslinks": [
+    "Research/2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH.md",
+    "AI/2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW.md",
+    "AI/2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS.md",
+    "CodeAnalysis/2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS.md"
+  ],
+  "open_questions": 6,
+  "bloom": "included",
+  "six_thinking_hats": "included",
+  "not_executed": [
+    "new upstream version research",
+    "plugin installation or activation",
+    "target firmware build or hardware acceptance",
+    "new browser verification of archived report"
+  ],
+  "historical_receipt_note": "Receipt screenshots refer to original workspace; only inspected non-table cover is imported. Tables are native Markdown."
+}

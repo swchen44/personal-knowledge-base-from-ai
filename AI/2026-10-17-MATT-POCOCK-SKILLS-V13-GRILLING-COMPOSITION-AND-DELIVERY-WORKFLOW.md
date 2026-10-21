@@ -440,6 +440,8 @@ handoff 追查的 description commits 還顯示：刪除過長委派條件、以
 - [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]]：比較 user-only 子項被呼叫的限制，與本文可供模型使用的子方法。
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]]：早期完整工作流；本文接續 v1.3 執行、交付及回顧階段。
 
+- [[2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY]]：比較 pstack 原版與移植版的跨語言工作方法，以及驗證生成與宿主／硬體適配邊界。
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 | 認知層次 | 核心目的 | 對本文的具體應用 |

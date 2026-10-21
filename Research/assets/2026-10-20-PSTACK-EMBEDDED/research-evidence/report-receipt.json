@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-20",
+  "report": "pstack-embedded-report.html",
+  "original_commit": "ddf824aff1e55ba14bd666b30bce3fc69962abe6",
+  "port_commit": "49b68501b075ec1eb2755dd0d22fbf2492d67e97",
+  "port_version": "0.9.94",
+  "scope": "Source-level applicability research; no target firmware or kernel driver runtime acceptance",
+  "browser": "agent-browser 0.26.0 / Chrome for Testing 153",
+  "viewport_checks": [
+    {
+      "width": 320,
+      "clientWidth": 305,
+      "documentWidth": 305,
+      "pageOverflow": false
+    },
+    {
+      "width": 390,
+      "clientWidth": 375,
+      "documentWidth": 375,
+      "pageOverflow": false
+    },
+    {
+      "width": 768,
+      "clientWidth": 753,
+      "documentWidth": 753,
+      "pageOverflow": false
+    },
+    {
+      "width": 1440,
+      "clientWidth": 1425,
+      "documentWidth": 1425,
+      "pageOverflow": false
+    }
+  ],
+  "tab_checks": [
+    {
+      "tab": "tab-c",
+      "selected": "tab-c"
+    },
+    {
+      "tab": "tab-linux",
+      "selected": "tab-linux"
+    },
+    {
+      "tab": "tab-rtos",
+      "selected": "tab-rtos"
+    }
+  ],
+  "keyboard": "ArrowRight and ArrowLeft changed active tab",
+  "clipboard": "Native click produced 提示詞已複製。",
+  "console_messages": 0,
+  "page_errors": 0,
+  "external_runtime_dependencies": 0,
+  "screenshots": [
+    "report-assets/desktop-cover.png",
+    "report-assets/desktop-full.png",
+    "report-assets/mobile-cover.png",
+    "report-assets/mobile-full.png"
+  ],
+  "report_sha256": "6165738654f09424822226eb8c2ad735a25c9f83794605327cb03e9afab90173",
+  "report_bytes": 40282,
+  "static_checks": {
+    "unique_ids": true,
+    "internal_anchors_valid": true,
+    "local_links_exist": true
+  }
+}

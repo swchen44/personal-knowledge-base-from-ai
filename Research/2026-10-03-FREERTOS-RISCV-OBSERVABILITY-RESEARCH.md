@@ -2276,6 +2276,8 @@ research/內部AI-接續研究任務.md 及 source-manifest.json。
 - [[2022-07-25-OBSERVABILITY-AS-CODE-IS-KEY-TO-THE-CLOUD-OPERATING-MODEL]]：OaC 將收集設定、Dashboard 與 filter 的變更納入版本管理。
 - [[2023-07-10-CONTINUOUS-OBSERVABILITY-SHEDDING-LIGHT-ON-CICD-PIPELINES]]：CI/CD 持續可觀測性提供 build／run 身分與下游證據關聯的思路。
 
+- [[2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY]]：對照 pstack 的 C／FreeRTOS／Linux 驅動適用性，區分通用工作流與板端觀測及驗收證據。
+
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
 | 層次 | 本篇要學會的內容 |

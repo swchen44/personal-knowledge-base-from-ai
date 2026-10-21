@@ -178,6 +178,8 @@ AI 最大的風險不是做不到，而是每次做法都不一樣。Standards �
 - [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 把流程拆成可包成 skill 的獨立節點，是本文三層架構在「個人流程」尺度的具體操作
 - [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]] — 將 Skill 分為 Knowledge、Composable Workflow、Privileged Action，並在特權邊界加入 Human Approval Gate
 
+- [[2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY]]：以 pstack 用於 C、FreeRTOS 與 Linux 驅動為例，具體區分可攜流程與專案本地規範。
+
 ## References
 
 - [原文：別只寫 Prompt！先工程化你的 AI 協作系統](https://www.soft4fun.net/tech/ai/ai-workflow-agents-skills-standards.htm)

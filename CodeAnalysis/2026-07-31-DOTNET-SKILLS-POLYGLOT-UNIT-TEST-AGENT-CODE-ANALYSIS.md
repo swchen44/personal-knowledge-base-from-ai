@@ -456,6 +456,8 @@ Generate unit tests.
 - [[2026-05-22-SKILLOPT-SELF-EVOLVING-AGENT-SKILLS-CODE-ANALYSIS]] — SkillOpt 用優化器自動改進 skill,dotnet/skills 用 baseline 對照 eval 人工迭代 skill——自動 vs 人工的 skill 改進方法對照
 - [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — generator 的固定 RPI pipeline + 兩層 fan-out 是「graph 工程」的輕量實例:確定性拓撲 + retry 上限 + 強制閘門,對應三層排障地圖的結構層
 
+- [[2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY]]：比較跨語言流程與領域驗證：pstack 用於 C／FreeRTOS／driver 時仍須接上實際工具與目標環境。
+
 ## References
 
 - [原文:From generated code to trusted code with a unit-test agent](https://devblogs.microsoft.com/dotnet/polyglot-unit-testing-agent/)
