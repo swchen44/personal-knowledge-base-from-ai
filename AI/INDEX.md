@@ -73,4 +73,4 @@
 | [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] | 四來源整合的三層排障+圖工程決策框架：症狀→層→修法決策表、五層演進階梯、Loop 五缺陷+目標失明、可跑的圖 V/E/S/P、三拓撲、Verifier 設計、每日簡報 Loop vs Graph 對比、Anthropic 90.2%/15x token 判準、工作圖 vs 角色圖治理紅線；LangChain 官方回應 + Why QQ + 最佳拍档雙導讀 | 2026-07-19 |
 | [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] | 純 C 零依賴從零打造神經網路(3→4→1 房價預測):ReLU、前向/反向傳播、梯度下降完整教學;筆記加值:ccq 解析 call graph + 實際編譯執行,揭露原文超參數其實學得很差 | 2026-02-06 |
 | [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] | Mario Zechner 的 MCP vs CLI 論戰兩部曲＋browser-tools 實證：225 tokens README 取代 18k MCP 清單（60–80×）、120-run 對照實驗（協定只是 plumbing）、Haiku 安全掃描 1.3M vs 35K 的隱藏成本、先 CLI 後 MCP 決策順序 | 2025-11-02 |
-| [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | Skill A→B 專題：Claude／Codex 呼叫政策、Matt 組合範例、暫解取捨、官方說明與 issue 留言證據；含兩張 Mermaid、驗證計畫及六頂帽子 | 2026-10-22 |
+| [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | Skill A→B 專題：逐項區分官方說明、repo 原始檔、具名回報與 Codex 建議；目前無可用 Claude 驗證環境，A→B 未實測；含兩張 Mermaid 與證據連結 | 2026-10-22 |

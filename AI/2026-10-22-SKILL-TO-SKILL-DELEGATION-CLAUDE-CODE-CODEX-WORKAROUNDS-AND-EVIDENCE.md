@@ -12,11 +12,15 @@ tags:
   - research/skill-composition
 source: "https://github.com/anthropics/claude-code/issues/86763"
 source_type: article
-author: "swchen（研究整理）；Anthropic、OpenAI、Matt Pocock 與 GitHub 社群（來源）"
+author: "Codex（AI 研究整理與撰寫）；swchen（議題與需求）"
 research_date: 2026-10-22
 matt_skills_commit: "5beb35b040e3de97e54fa9e386d7e42d15c295c2"
 claude_changelog_commit: "1132b8a98e93300bb3822197fb7eee12ce4fb906"
 runtime_validation: not-performed
+evidence_basis: source-review-only
+claude_runtime_validation: unavailable
+codex_runtime_validation: not-performed
+proposal_author: Codex
 status: notes
 links:
   - "[[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]"
@@ -26,11 +30,11 @@ links:
 
 ## TL;DR
 
-- A→B 要分開檢查名稱解析、載入機制、呼叫資格與完成結果。把 Claude 的 `/B` 改成 Codex 的 `$B`，只能處理使用者入口的語法。
-- Matt 的 `grill-me`／`grill-with-docs` 明確點名共用方法；`grilling` 保留模型可呼叫能力，也保留自主觸發條件。它沒有實作「B 只接受 A 委派」。
-- 部分暫解可用：人工執行 B 後返回 A、使用者當則訊息明確授權 B、將純共用指示拆成 reference。各自的人工成本與原生 skill 語意不同。
-- 窄 description 能降低誤觸發；`allowed-tools`、auto mode、隱藏選單及監測欄位各處理不同問題。查核到的資料未證明它們能通用地強制「允許委派、禁止自主選用」。
-- 本文是 2026-10-22 的多來源研究，附官方文件、固定原始碼及 issue 留言。尚未在 Claude Code／Codex 跑 A→B 實驗；不要把來源查核當成本機驗收。
+- **原始檔紀錄**：Matt repo 的 `grill-me`／`grill-with-docs` 明確點名共用方法；`grilling` 的描述仍保留自主觸發條件。本研究只讀取原始檔，沒有執行這套流程。
+- **他人自述**：`SteveM74` 說採用人工執行 B 後返回 A；`lengocanh2005it` 說直接讀取依賴檔案可在其 Codex 環境工作。本文未重現這些結果。
+- **官方說明**：Claude 文件描述當則訊息的 slash 授權；Codex 文件描述 implicit policy。官方規則不能直接當成本文完整 A→B 案例已成功的證據。
+- **Codex 建議，未實測**：收窄 description、將純共用指示拆成 reference、檢查載入與產物。是否能減少誤觸發或可靠組合，尚無本研究的量測結果。
+- **驗證狀態**：使用者目前沒有可用的 Claude 驗證環境；Claude Code／Codex 的 A→B 執行驗證均未完成。已做的是來源查核與 Markdown／Mermaid 語法檢查。
 
 ## 摘要（Summary）
 
@@ -38,7 +42,23 @@ links:
 
 本文日期是這份原創綜合研究的建立日。各 issue 的原始發布日期另列，並非將 #86763 的發布日改成今天。快速查詢：第 2 節看官方設定，第 3 節看別人怎麼寫，第 4 節比較暫解，第 7 節看驗證方式。
 
+## 來源歸屬與驗證狀態
+
+> [!important] 本文沒有 Claude 執行驗證結果
+> 使用者於 2026-10-22 確認目前沒有可用的 Claude 驗證環境。先前取得的 CLI `--version` 輸出只能證明版本資訊，不能證明可登入或執行 Claude 工作流。本文也未執行 Codex 的 A→B 測試。以下的「官方說明」「他人回報」「Codex 建議」分別標示，不能互相替代。
+
+| 證據類型 | 誰說的／出自哪裡 | 本文如何使用 |
+| --- | --- | --- |
+| 官方說明 | Anthropic 的 Claude Skills／Monitoring 文件、OpenAI 的 Codex Skills 文件 | 轉述文件規則並附原頁；沒有宣稱本機已驗證 |
+| 原始檔紀錄 | `mattpocock/skills` 固定 commit 的 SKILL.md 與設計文件 | 說明 repo 寫了什麼；不當成實際執行成功 |
+| 他人回報 | `SteveM74`、`lengocanh2005it`、`SebastianoTomasi`、`sandipb` 等具名帳號 | 保留各自的環境與自述；不外推所有版本 |
+| 功能提案 | `mike-albrecht` 的 #86763、`devotox` 的 #55989 | 記錄需求與建議語法；不當成已支援功能 |
+| 帳號發布的 AI 生成回覆 | #79560 中 `bcherny` 帳號發布、明示 Claude Code 生成的關閉留言 | 與後續反例並列，不當成本文重現 |
+| Codex 分析／建議，未實測 | 本文的比較判斷、兩張 Mermaid、目錄與提示範本、選型及測試計畫 | 明確標示為本次 AI 整理或提出的方案，沒有來源作者背書 |
+
 ## 關鍵洞察（Key Insights）
+
+以下是 **Codex 根據來源提出的分析**，不是來源作者共同聲明，也不是本機實測結論。
 
 1. **組合呼叫與自主發現需要分開設計。** B 可供模型呼叫，未必代表希望模型自行挑選 B；#86763 正是在要求將兩者分開控制。
 2. **description 承擔選用提示，無法驗證呼叫者。** 「只在 A 委派時使用」是可測試的提示設計，不能當成 caller allowlist。
@@ -55,7 +75,7 @@ links:
 | 模型自行選用（proactive／implicit invocation） | 使用者只說「檢查方案」，模型選了 B | description 是否符合？政策是否允許？ |
 | 父流程委派（delegated／nested invocation） | 人啟動 A，A 要求模型載入 B | 父流程的要求如何交給宿主？B 是否可被呼叫？ |
 
-這是本文分析用的三分法。它不表示每個宿主都提供三個獨立設定。#86763 提出同樣的區分，目前仍是 open 的功能要求。[問題與提案](https://github.com/anthropics/claude-code/issues/86763)
+這是 Codex 整理時採用的三分法。`mike-albrecht` 在 #86763 也提出此區分與功能要求；本次查核時仍為 open。[問題與提案](https://github.com/anthropics/claude-code/issues/86763)
 
 ```mermaid
 flowchart LR
@@ -69,11 +89,11 @@ flowchart LR
     L --> O[遵循方法並驗證產物]
 ```
 
-圖中畫的是應檢查的步驟。它沒有假定宿主會替父流程保留委派來源，也沒有假定三條入口得到同樣授權。可與 [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX|既有觸發權限矩陣]] 對照。
+**圖的歸屬：Codex 自製的檢查示意，未實測。** 圖中步驟是建議檢查的項目，沒有宣稱宿主會保留委派來源或授予相同權限。可與 [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX|既有觸發權限矩陣]] 對照。
 
 ### 2. 官方文件明確支持什麼
 
-| 設定／介面 | 已有說明 | 對 A→B 的意義 |
+| 設定／介面 | 官方文件的說明 | Codex 對 A→B 的解讀，未實測 |
 | --- | --- | --- |
 | Claude `disable-model-invocation: true` | 限制模型呼叫；遭攔截時不得另行重演該流程 | A 的文字不能自行解除 B 的限制 |
 | Claude `user-invocable: false` | 關閉人類 slash 入口，模型仍可呼叫 | 不會禁止自主選用 |
@@ -83,19 +103,19 @@ flowchart LR
 
 來源：[Claude Skills 官方文件](https://code.claude.com/docs/en/skills)、[Codex Skills 官方文件](https://learn.chatgpt.com/docs/build-skills)。兩個欄位不能僅因名稱相近，就假定所有宿主語意完全相同。
 
-使用者入口可寫 Claude `/B`、Codex CLI／IDE `$B`；父文件則點名 B，依實際註冊名稱與宿主機制載入。plugin 可能帶 namespace，不能只比短名。這是命名與載入的設計規則，仍須驗證可用性。[Matt 呼叫約定](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/.agents/invocation.md)
+官方文件列出使用者入口語法：Claude `/B`、Codex CLI／IDE `$B`。**Codex 的跨宿主建議**是讓父文件點名 B，再依實際註冊名稱與宿主機制載入；此建議也參考 Matt repo 的呼叫約定，尚未做跨宿主驗證。[Matt 呼叫約定](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/.agents/invocation.md)
 
 ### 3. 別人實際怎麼做
 
-#### 3.1 Matt：人類入口 A，模型可呼叫的方法 B
+#### 3.1 Matt repo 原始檔：人類入口 A，共用方法 B
 
-固定 commit 的 `grill-me` 正文要求：
+**歸屬：固定版本的 repo 內容，僅靜態查核。** 本研究沒有在 Claude 執行 `grill-me`。該 commit 的 `grill-me` 正文要求：
 
 ```text
 Call the Skill tool with "grilling".
 ```
 
-`grill-with-docs` 要求分別呼叫 `grilling` 與 `domain-modeling`。A 可以是人類入口，B 則承載共用方法；這種組合沒有靠 B 的 description 取得委派授權。[grill-me 原始檔](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/grill-me/SKILL.md)、[grill-with-docs 原始檔](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering/grill-with-docs/SKILL.md)
+`grill-with-docs` 原始檔要求分別呼叫 `grilling` 與 `domain-modeling`。**Codex 的解讀**是：A 作為人類入口，B 承載共用方法；原始檔未展示以 B 的 description 驗證父呼叫者的機制。[grill-me 原始檔](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/grill-me/SKILL.md)、[grill-with-docs 原始檔](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering/grill-with-docs/SKILL.md)
 
 `grilling` 的 description 仍涵蓋壓力測試想法及 grill 關鍵詞，允許模型直接選用。相近的 `codebase-design` 也有「其他 skill 需要共用詞彙」的條件，但同時保留直接觸發條件；兩者都不是 delegated-only 範例。[grilling](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/grilling/SKILL.md)、[codebase-design](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering/codebase-design/SKILL.md)
 
@@ -103,41 +123,43 @@ Call the Skill tool with "grilling".
 
 #### 3.2 跨宿主使用者：Skill tool 指令無法照抄
 
-Matt repo [#1123](https://github.com/mattpocock/skills/issues/1123) 指出 `Call the Skill tool` 綁定載入介面。Codex 使用者回報環境沒有這個工具，並建議改成明確讀取依賴檔案。[2026-09-26 留言](https://github.com/mattpocock/skills/issues/1123#issuecomment-5846657237)
+Matt repo [#1123](https://github.com/mattpocock/skills/issues/1123) 討論 `Call the Skill tool` 綁定載入介面。**`lengocanh2005it` 於 2026-09-26 自述**，其 Codex 環境沒有這個工具，直接讀取兩個依賴的 SKILL.md 是可工作的暫解。這是該使用者的成功敘述，本研究未重現。[具名留言與建議措辭](https://github.com/mattpocock/skills/issues/1123#issuecomment-5846657237)
 
 本次查核 #1123 仍 open，固定原始檔仍採 Skill tool 措辭。直接讀檔是該討論的替代提案；若要採用，須另確認路徑解析與執行語意，不能寫成 upstream 已完成通用 adapter。
 
 #### 3.3 審查工作流：人工執行 B，再把結果交回 A
 
-`SteveM74` 的 `/gt-review` 原本組合內建 `code-review` 和 `security-review`。受限後，實際暫解是停下流程，讓開發者手動執行 `/code-review`，再將結果納回。[採用者留言](https://github.com/anthropics/claude-code/issues/79560#issuecomment-5028888183)
+**據 `SteveM74` 自述**，其 `/gt-review` 原本組合內建 `code-review` 和 `security-review`。受限後，其團隊採用的暫解是停下流程，讓開發者手動執行 `/code-review`，再將結果納回。本研究沒有操作該工作流。[採用者留言](https://github.com/anthropics/claude-code/issues/79560#issuecomment-5028888183)
 
-這保留真正的 B，代價是人工交接。它提供了「工作能繼續」的案例，沒有提供全自動委派。
+**Codex 的判讀**：這個回報支持「有人採用人工交接」，不能當成我們已確認有效，也不能支持全自動委派。
 
 #### 3.4 同一套 skills 用在 Codex／Claude：使用者經驗有差異
 
 `SebastianoTomasi` 表示，Codex 設 `allow_implicit_invocation: false` 後，仍可由其他 skills 明確呼叫；在 Claude 則須開放 B 的模型呼叫。[2026-10-09 留言](https://github.com/anthropics/claude-code/issues/86763#issuecomment-6089675182)
 
-另一篇 [Matt Discussion #786](https://github.com/mattpocock/skills/discussions/786) 回報，從 agent 指示引用這類 skill 會遇到發現問題。兩者可能涉及不同版本、入口及載入機制，資料不足以直接判定矛盾。第一則未附完整重現步驟，不能推成所有 Codex 安裝的保證。
+`sandipb` 在 [Matt Discussion #786](https://github.com/mattpocock/skills/discussions/786) 回報，從 agent 指示引用這類 skill 會遇到發現問題。**Codex 的判讀**：兩者可能涉及不同版本、入口及載入機制，資料不足以判定原因；`SebastianoTomasi` 未附完整重現步驟，不能推成所有 Codex 安裝的保證。
 
 ### 4. 暫解比較：解決了什麼，保留了什麼
 
-| 暫解 | A→B 自動化 | B 不自主選用 | 原生 B 語意 | 證據與判斷 |
+以下取捨由 **Codex 依來源整理，全部未在本研究重現**；最後一欄標示誰提出或回報。
+
+| 暫解 | A→B 自動化 | B 不自主選用 | 原生 B 語意 | 來源歸屬與證據狀態 |
 | --- | --- | --- | --- | --- |
-| 人工執行 B，再返回 A | 需人工交接 | 可保留 user-only 設計 | 保留 | #79560 有採用者紀錄 |
-| 使用者當則訊息明確授權 B | 可能在同則回覆內銜接；完整案例待測 | 不必全域開放模型呼叫 | 依宿主正常載入 | 官方有當則授權說明，非 A 自行授權 |
-| 移除 B 的 disable-model-invocation | 恢復模型呼叫資格 | 不保留硬限制 | 保留 | #43809 的 workaround，也明說代價 |
-| 保持可呼叫，收窄 description | 可以組合 | 依模型遵循提示，無強制保證 | 保留 | 本文候選設計，須測誤觸發 |
-| 將共用規則設計為普通 reference | A 按需讀取 | 沒有獨立 B skill 觸發項目 | 不具獨立 skill 語意 | Matt 設計文件有此做法 |
-| A 讀現有 B 的 SKILL.md | 讀到指示 | 視原政策；不得用來規避限制 | 不等價 | #86763 明列語意落差 |
-| allowed-tools／auto mode | 可減少核准中斷 | 不控制自主路由 | 要先有呼叫資格 | #56912 處理核准問題 |
-| name-only／隱藏選單 | 視宿主與安裝方式 | 未提供只允許委派的保證 | 視載入結果 | 顯示設定與呼叫政策須分開看 |
-| requires／skill-allowlist | 尚無已驗證實作 | 尚無已驗證實作 | 未定 | #55989 是提案 |
+| 人工執行 B，再返回 A | 需人工交接 | Codex 判斷可保留 user-only 設計 | 依該回報為原生執行 | SteveM74，#79560 自述 |
+| 使用者當則訊息明確授權 B | 完整 A→B 案例待測 | 對 user-only B 的效果待驗證 | 實際載入待驗證 | Anthropic 文件規則＋Codex 自編案例 |
+| 移除 B 的 disable-model-invocation | 提報者稱可恢復呼叫 | 依該回報會失去限制 | 未在此重現 | stefansimik，#43809 自述與代價說明 |
+| 保持可呼叫，收窄 description | 依宿主資格，結果待測 | 能否減少誤觸發待測，無強制保證 | 實際載入待驗證 | Codex 建議，未測觸發率 |
+| 將共用規則設計為普通 reference | Codex 建議 A 按需讀取 | 不註冊獨立 B skill | 不具獨立 skill 語意 | Matt 設計文件＋Codex 自編範本 |
+| A 讀現有 B 的 SKILL.md | 使用者稱在其 Codex 環境可行 | 視原政策；不得用來規避限制 | 不等價 | lengocanh2005it 自述；mike-albrecht 說明語意落差 |
+| allowed-tools／auto mode | 提報者稱 auto mode 不再詢問 | 本研究無自主路由測試 | 要先有呼叫資格 | ncaq，#56912 的核准行為回報 |
+| name-only／隱藏選單 | 視宿主與安裝方式 | 尚無本研究的委派限制證據 | 視載入結果 | 官方顯示規則＋Codex 解讀 |
+| requires／skill-allowlist | 尚無此案的實作證據 | 尚無此案的實作證據 | 未定 | devotox，#55989 功能提案 |
 
 表中的「保留」只描述機制取捨，不代表本文已在本機完成執行驗收。
 
 #### 4.1 當則訊息明確授權 B：有官方依據的候選操作
 
-Claude 文件說明，slash 名稱放在一般文字後、以空白分隔且沒有黏附標點時，代表使用者允許模型在當則回覆期間呼叫該 skill，不會立即執行。以下是本文自編的操作示例，完整 A→B 行為仍待測：
+**官方文件說明**：slash 名稱放在一般文字後、以空白分隔且沒有黏附標點時，代表使用者允許模型在當則回覆期間呼叫該 skill，不會立即執行。**以下範例由 Codex 自編，沒有在 Claude 執行，也沒有證明 user-only B 能依此成功被 A 委派**：
 
 ```text
 請執行 /a-workflow 並在檢查步驟使用 /b-review
@@ -149,7 +171,7 @@ Claude 文件說明，slash 名稱放在一般文字後、以空白分隔且沒�
 
 Matt 的設計文件明確提出：多個人類入口需要的共用參考內容，可以放在 skill 系統之外的普通檔案。[SKILL-MECHANICS.md](https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/productivity/writing-for-agents/SKILL-MECHANICS.md)
 
-本文建議的目錄與父流程寫法如下，尚未套用到現有 `kb-create`：
+**以下目錄與父流程寫法由 Codex 建議，未實測，也未套用到現有 `kb-create`**：
 
 ```text
 kb-create/
@@ -168,13 +190,13 @@ Resume the workflow only after the review's required outputs are present.
 
 #### 4.3 為何 allowed-tools 和 auto mode 不足以解這一題
 
-#56912 的父 skill 列出 `Skill(commit-style)`，仍在 default mode 被詢問；auto mode 則不問。子 skill 使用的是 `user-invocable: false`，並未證明它能越過 `disable-model-invocation: true`。該案是 Claude Code 2.1.114 的核准行為回報，後因 inactivity 關閉。[原始設定與重現步驟](https://github.com/anthropics/claude-code/issues/56912)
+**`ncaq` 在 #56912 回報**，父 skill 列出 `Skill(commit-style)`，仍在 default mode 被詢問；auto mode 則不問。子 skill 使用的是 `user-invocable: false`。**Codex 的判讀**：這沒有證明它能越過 `disable-model-invocation: true`。該回報版本為 Claude Code 2.1.114，後因 inactivity 關閉，本研究未重現。[原始設定與重現步驟](https://github.com/anthropics/claude-code/issues/56912)
 
 因此，將 `Skill(B)` 加入 allow 規則可以是核准設定的一環，但無法據此宣稱 B 已變成「僅限 A 呼叫」。
 
-### 5. description 怎麼寫：減少誤觸發的候選範本
+### 5. Codex 建議，未實測：description 與父流程候選範本
 
-以下內容由本文提出，未經觸發率評測，也不是 Matt repo 的現成設定。
+以下內容由 **Codex 提出**，目的在於讓觸發條件與委派步驟更明確。沒有量測能否降低誤觸發或漏觸發，也不是 Matt repo 的現成設定。
 
 **A 的責任：點名 B、提供輸入、要求完成證據。** 跨宿主父文件可採用以下候選指示：
 
@@ -210,17 +232,17 @@ B 正文再要求必要輸入、產出格式及缺資料時的處理方式。這
 
 以下是 2026-10-22 的查核快照。issue 版本均為提報者當時的環境；未外推至目前全部安裝。
 
-| 來源 | 狀態／版本 | 可支持的結論 |
+| 來源／提出者 | 狀態／版本 | Codex 對該來源的判讀，非本機重現 |
 | --- | --- | --- |
-| [Claude #86763](https://github.com/anthropics/claude-code/issues/86763) | 2026-08-14 建立；open | 三種呼叫模式獨立控制仍是功能要求 |
-| [Claude #43809](https://github.com/anthropics/claude-code/issues/43809) | 2.1.92；closed / not_planned，inactivity | 移除旗標的暫解犧牲自主選用限制；未確認修復 |
-| [Claude #77795](https://github.com/anthropics/claude-code/issues/77795) | 2.1.210；open | Agent prompt 的 slash 文字可能未載入 skill |
-| [Claude #55989](https://github.com/anthropics/claude-code/issues/55989) | closed / not_planned，inactivity | requires／skill-allowlist 尚無此案的實作證據 |
-| [Claude #56912](https://github.com/anthropics/claude-code/issues/56912) | 2.1.114；closed，inactivity | 核准提示差異，不能證明委派權限已解決 |
+| [Claude #86763](https://github.com/anthropics/claude-code/issues/86763)，mike-albrecht | 2026-08-14 建立；open | 三種呼叫模式獨立控制仍是功能要求 |
+| [Claude #43809](https://github.com/anthropics/claude-code/issues/43809)，stefansimik | 2.1.92；closed / not_planned，inactivity | 移除旗標的暫解犧牲自主選用限制；未確認修復 |
+| [Claude #77795](https://github.com/anthropics/claude-code/issues/77795)，neostar | 2.1.210；open | 提報者稱 Agent prompt 的 slash 文字未載入 skill |
+| [Claude #55989](https://github.com/anthropics/claude-code/issues/55989)，devotox | closed / not_planned，inactivity | requires／skill-allowlist 尚無此案的實作證據 |
+| [Claude #56912](https://github.com/anthropics/claude-code/issues/56912)，ncaq | 2.1.114；closed，inactivity | 核准提示差異，不能證明委派權限已解決 |
 | [Claude #79560](https://github.com/anthropics/claude-code/issues/79560) | closed；修復留言後仍有反例 | code-review 曾有特定回歸與 server-side 差異 |
 | [Matt #1123](https://github.com/mattpocock/skills/issues/1123) | open | 載入措辭跨宿主問題仍有討論 |
 
-#86763 的概念設定如下，**僅是提案，請勿當成可用 frontmatter**：
+`mike-albrecht` 在 #86763 提出的概念設定如下，**僅是其功能提案，請勿當成可用 frontmatter**：
 
 ```yaml
 invocation:
@@ -231,17 +253,19 @@ invocation:
 
 #### 6.1 code-review：已有恢復呼叫的變更，但不提供通用 delegated-only
 
-[#79560 的關閉留言](https://github.com/anthropics/claude-code/issues/79560#issuecomment-5303328132) 由 `bcherny` 帳號發布，標示 Claude Code 生成，稱 2.1.233 的 first-party 情境成功。隨後使用者仍回報 2.1.234、組織管理的 first-party 帳號失敗，指出 gate 與快取差異。[反例與環境](https://github.com/anthropics/claude-code/issues/79560#issuecomment-5360398546)
+[#79560 的關閉留言](https://github.com/anthropics/claude-code/issues/79560#issuecomment-5303328132) 由 `bcherny` 帳號發布，標示 Claude Code 生成，稱 2.1.233 的 first-party 情境成功。隨後 `austinbutler` 仍回報 2.1.234、組織管理的 first-party 帳號失敗，指出 gate 與快取差異。本研究未重現任一結果。[反例與環境](https://github.com/anthropics/claude-code/issues/79560#issuecomment-5360398546)
 
-較新的官方 changelog **2.1.246** 明確重新開放 `code-review` 的模型自主啟動，包含 Bedrock、Vertex、Foundry、Claude apps gateway，以及關閉 telemetry 或 non-essential traffic 的環境。它修補特定內建功能的可呼叫性，也允許自主啟動；不能推論自訂 B 已獲得「僅限委派」機制。[固定版本更新紀錄](https://github.com/anthropics/claude-code/blob/1132b8a98e93300bb3822197fb7eee12ce4fb906/CHANGELOG.md#21246)
+**官方 changelog 的聲明**：2.1.246 重新開放 `code-review` 的模型自主啟動，包含 Bedrock、Vertex、Foundry、Claude apps gateway，以及關閉 telemetry 或 non-essential traffic 的環境。**Codex 的解讀**：此變更描述特定內建功能且允許自主啟動，不能推論自訂 B 已獲得「僅限委派」機制。這不是本研究的執行驗證。[固定版本更新紀錄](https://github.com/anthropics/claude-code/blob/1132b8a98e93300bb3822197fb7eee12ce4fb906/CHANGELOG.md#21246)
 
 #### 6.2 失敗偵測與監測，可以讓暫解更可驗證
 
-#77795 的留言建議在 spawn 前檢查引用能否載入，將結果分成 `SUCCESS`、`EXPLICIT_FAILURE`、`SILENT_TIMEOUT`。這是使用者的設計建議，未附程式碼或測試產物。[2026-09-18 留言](https://github.com/anthropics/claude-code/issues/77795#issuecomment-5732207208)
+`chenhz01` 在 #77795 留言建議，在 spawn 前檢查引用能否載入，將結果分成 `SUCCESS`、`EXPLICIT_FAILURE`、`SILENT_TIMEOUT`。這是該使用者的設計建議，未附程式碼或測試產物；本文未實作該檢查器。[2026-09-18 留言](https://github.com/anthropics/claude-code/issues/77795#issuecomment-5732207208)
 
 官方 monitoring 文件已有 `invocation_trigger`，值為 `user-slash`、`claude-proactive`、`nested-skill`。它可用於觀察啟動來源；成功的 nested 事件仍不代表已驗證呼叫者資格，也不能證明方法與產物正確。[官方事件欄位](https://code.claude.com/docs/en/monitoring-usage#skill-activated-event)
 
-### 7. 如何選擇與驗證
+### 7. Codex 建議，未實測：選型與未來驗證計畫
+
+以下流程圖與測試表由 Codex 整理，供未來有適用環境時評估。它們不是官方流程，也不表示目前已有可用的 Claude 驗證環境。
 
 ```mermaid
 flowchart TD
@@ -272,11 +296,11 @@ flowchart TD
 
 固定宿主版本、provider、安裝方式、實際註冊名稱、設定及模型；分別記錄「有載入」「依方法執行」「產物符合要求」。單次未誤觸只代表該次結果，不能推成永遠不會觸發。
 
-本次本機唯讀版本檢查為 Claude Code `2.1.261`、Codex CLI `0.163.0`。來源查核與文章驗證有完成；上述 A→B 呼叫矩陣尚未執行。
+先前只執行 CLI `--version`，取得 Claude Code `2.1.261`、Codex CLI `0.163.0` 的版本字串。**使用者目前沒有可用的 Claude 驗證環境**；版本字串不能證明 Claude 可執行。上述兩個宿主的 A→B 呼叫矩陣均未執行，文章格式與 Mermaid 語法檢查則另有完成。
 
 ## 我的心得（My Takeaways）
 
-對自己的 `kb-create`，我會先判斷共用部分是否只是寫作、證據分級或回饋規則。這些內容適合 reference，減少獨立 skill 的路由問題。只有確實需要獨立執行語意時，才保留 B，並接受相應的宿主限制與測試成本。
+**本節為 Codex 的分析與建議，未實測。** 對本知識庫的 `kb-create`，Codex 建議先判斷共用部分是否只是寫作、證據分級或回饋規則，再考慮 reference；需要獨立執行語意時才保留 B。這是選型提議，尚未修改或驗證現有 skill。
 
 最值得借用的是 #77795 的可觀察性要求：父流程應拿到 B 的載入結果與完成證據，不能僅因 prompt 寫了名稱就往下走。本文沒有修改現有 skill 行為；這是一項可另行實作與評測的建議。
 
@@ -295,6 +319,8 @@ flowchart TD
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]]：解釋直接讀 Markdown 為何不能當成 fork、hooks 與工具政策都已啟用。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
+
+本節由 Codex 編寫，屬於學習與分析框架，沒有新增執行證據。
 
 | 認知層次 | 核心目的 | 對本文的具體應用 |
 | --- | --- | --- |
@@ -320,13 +346,15 @@ flowchart TD
 
 ## 六頂思考帽回饋（Six Thinking Hats Feedback）
 
+本節由 Codex 編寫，為 AI 的文章回饋與建議，不代表來源作者或使用者的親身經驗。
+
 ### 藍帽：問題與範圍
 
 評估「A 能使用 B，B 的啟動仍符合使用者意圖」，將名稱、載入、權限及產物分開檢查。
 
 ### 白帽：事實與未知資訊
 
-已知有原始檔、官方說明、版本變更與使用者回報。未知的是這些方案在本機兩個宿主的完整正反例結果。
+已知有原始檔、官方說明、版本變更與具名使用者回報。使用者目前沒有可用的 Claude 驗證環境；兩個宿主的完整正反例均無本研究的實測結果。
 
 ### 紅帽：直覺與讀者反應
 
