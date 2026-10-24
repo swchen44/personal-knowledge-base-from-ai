@@ -3,6 +3,8 @@
 
 ## 📌 Recent Notes
 
+- [把 Matt Pocock Skills 接到我的 V-model](./AI/2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING.md)：AI随风實測影片與舊文比較；正式 27 項分類、需求至修復的七階段映射、V-model 驗證與交接契約，明列來源與未實測建議
+
 - [Skill A 如何呼叫 Skill B：Claude Code／Codex 的組合方式、暫解與證據](./AI/2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE.md)：區分官方說明、repo 原始檔、具名回報與 Codex 建議；明列目前無可用 Claude 驗證環境、A→B 未實測，保留兩張 Mermaid 與 grilling 主篇雙向連結
 
 - [pstack 用於 C、FreeRTOS 與 Linux 驅動：原始版、移植版與驗證邊界研究](./Research/2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY.md)：session 研究整合；固定版本、跨語言適用性、兩張文字圖、離線 HTML 與未實測界線

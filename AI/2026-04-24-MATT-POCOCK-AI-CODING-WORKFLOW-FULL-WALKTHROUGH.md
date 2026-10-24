@@ -724,6 +724,7 @@ docs/agents/
 
 ## 相關連結（Related）
 
+- [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：以較新的常用流程實測影片補實務對照，將正式 27 項接回使用者 V-model，保留需求變更與除錯／修復的不同路線。
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] — v1.3 接續：implement-spec、pr、retro 與 GLOSSARY.md 遷移；結合 grilling 共用方法的權限、成本及失敗回報研究。
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]] — 本篇的姊妹文，深入剖析 `/grill-me` 的設計哲學
 - [[2026-05-09-STOP-RANDOM-SKILL-4-CORE-GROUPS-FOR-AGENT-PRODUCTIVITY]] — 另一套 skill 分類框架（4 group：Plan/Build/Verify/Maintain），可與 Matt 的 6 分類對照

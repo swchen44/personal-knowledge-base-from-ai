@@ -164,3 +164,5 @@
 | 2026-10-22 06:33 | ingest-session | pstack session：固定 2026-10-20 原版及移植版；完整研究、離線 HTML、首頁圖及歷史驗證紀錄 | [[2026-10-20-PSTACK-C-FREERTOS-LINUX-DRIVER-APPLICABILITY]] | Research | 4 | 6 |
 | 2026-10-22 07:14 | ingest-research | Claude #86763 與 linked issues、Matt 固定來源、Claude／Codex 官方文件：獨立整理 A→B 呼叫、暫解與證據；兩張 Mermaid，執行驗證列為未實測 | [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | AI | 3 | 5 |
 | 2026-10-22 07:20 | clarify-evidence | 使用者確認目前沒有可用 Claude 驗證環境：逐項標示官方說明、原始檔、具名使用者回報與 Codex 建議；將成效敘述改為自述或未實測候選，保留原有證據連結與雙向連結 | [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | AI | 0（既有 3 組保留） | 5 |
+| 2026-10-25 07:48 | ingest-research | cN0xrbc_7uQ：無字幕，MLX Whisper small 全片 343 段至 22:34；抽樣 8 幀，保留 1 圖；正式 27 項分類、七階段 V-model 映射、影片／repo 校正、兩張 Mermaid 與六頂帽子，映射未實測 | [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]] | AI | 3 | 6 |
+| 2026-10-25 07:48 | update | 新片與固定版本比對：正式 skills 無變更；新增第 11 節與 V-model 專篇導讀，保留舊研究、補雙向連結及來源／建議界線 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 0（專篇回填另計） | 6 |

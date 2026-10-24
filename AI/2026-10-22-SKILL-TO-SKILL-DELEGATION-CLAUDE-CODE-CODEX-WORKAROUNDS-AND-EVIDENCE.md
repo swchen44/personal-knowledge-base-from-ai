@@ -314,6 +314,7 @@ flowchart TD
 
 ## 相關連結（Related）
 
+- [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：以使用者 V-model 流程分類與選用正式 skills，區分 repo 直接依賴、建議的文件交接，以及未驗證的宿主組合。
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]：[grilling 主篇](./2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW.md) 涵蓋 v1.3 與交付流程，本篇集中保存 A→B 暫解、官方語意及 issue 證據。
 - [[2026-09-06-CLAUDE-CODE-SKILL-INVOCATION-PERMISSION-MATRIX]]：觸發權限基礎；本篇補當則授權、版本變更與暫解取捨。
 - [[2026-04-16-CLAUDE-CODE-SKILL-FRONTMATTER-FORK-AGENT-HOOKS-SOURCE-DEEP-DIVE]]：解釋直接讀 Markdown 為何不能當成 fork、hooks 與工具政策都已啟用。

@@ -74,3 +74,4 @@
 | [[2026-02-06-BUILDING-A-NEURAL-NETWORK-IN-C-FROM-SCRATCH]] | 純 C 零依賴從零打造神經網路(3→4→1 房價預測):ReLU、前向/反向傳播、梯度下降完整教學;筆記加值:ccq 解析 call graph + 實際編譯執行,揭露原文超參數其實學得很差 | 2026-02-06 |
 | [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] | Mario Zechner 的 MCP vs CLI 論戰兩部曲＋browser-tools 實證：225 tokens README 取代 18k MCP 清單（60–80×）、120-run 對照實驗（協定只是 plumbing）、Haiku 安全掃描 1.3M vs 35K 的隱藏成本、先 CLI 後 MCP 決策順序 | 2025-11-02 |
 | [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | Skill A→B 專題：逐項區分官方說明、repo 原始檔、具名回報與 Codex 建議；目前無可用 Claude 驗證環境，A→B 未實測；含兩張 Mermaid 與證據連結 | 2026-10-22 |
+| [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]] | 以使用者 V-model 對應正式 27 項 skills：七階段、三條變更／修復路線、交接契約與驗證；比較新片與 v1.3 舊文，映射為 Codex 未實測建議 | 2026-10-21 |

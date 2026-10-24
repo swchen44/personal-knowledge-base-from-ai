@@ -1,7 +1,7 @@
 ---
 title: "從 grilling 到交付驗證：Matt Pocock Skills v1.3 更新與共用方法設計研究"
 date: 2026-10-17
-updated: 2026-10-22
+updated: 2026-10-25
 category: AI
 tags:
   - ai/skills
@@ -418,6 +418,18 @@ handoff 追查的 description commits 還顯示：刪除過長委派條件、以
 | [08:47](https://www.youtube.com/watch?v=QqhyqMvdx5Q&t=527s) | 人挑選要改的檔案、內容與預期行為 | retro 不應自行無限擴張修改；白話變體未驗收 |
 | [09:37](https://www.youtube.com/watch?v=QqhyqMvdx5Q&t=577s) | 整體工作流；後續提到 wayfinder／prototype | 與共用方法研究整合；預告未展開內容不自行補成影片結論 |
 
+### 11. 2026-10-25 補充：新實測影片與我的 V-model 怎麼接？
+
+AI随风的 [2026-10-21 影片](https://www.youtube.com/watch?v=cN0xrbc_7uQ) 以報銷審批案例展示 setup、ask-matt、grill-with-docs、to-spec、to-tickets 與 implement-spec。它補的是常用流程的操作銜接；本次靜態比對 `49dd158…` 與 `5beb35b…`，27 個正式 skills 與 manifest 無差異，只有未正式收錄的 chief-of-staff 實驗稿與 changeset 改動。[固定版本差異](https://github.com/mattpocock/skills/compare/49dd158d1076134a641b33efb035946536778336...5beb35b040e3de97e54fa9e386d7e42d15c295c2)
+
+使用者平常採用「需求、計畫、設計、實作、需求變更、除錯、bug fix」與 V-model，因此另寫 [V-model 工作流映射專篇](./2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING.md)：
+
+- 以既有階段挑方法：釐清未決需求、保存跨 session 規格、拆工作、設計、實作或診斷，無須每次跑完整示範路線。
+- 將需求變更、原因未知的除錯、原因有證據的 bug fix 分開管理；`diagnosing-bugs` 原始檔已包含 fix 與 regression，分階段是 Codex 配合使用者流程提出的整理。
+- 補需求／設計與單元、整合、系統及使用情境驗證的對照；skills 產出文件或 review，不能代替專案實際驗證。
+
+**上述映射、交接條件與採用順序為 Codex 建議，未做整套工作流實測；新影片的操作與耗時則屬講者展示或自述。** 本篇保留原有版本、權限與成本研究，新篇集中保存影片差異、正式 27 項分類與使用者流程對照。
+
 ## 我的心得（My Takeaways）
 
 這兩份資料合讀後，最有用的是把責任拆清楚：**方法負責如何思考，流程負責何時交棒，工具與驗證負責哪些事真的可以做、做到哪裡。** 可共用的 Markdown 能減少維護重複，但仍需要宿主與測試支撐。
@@ -435,6 +447,7 @@ handoff 追查的 description commits 還顯示：刪除過長委派條件、以
 
 ## 相關連結（Related）
 
+- [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：[V-model 映射與新影片比較](./2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING.md)，依需求、計畫、設計、實作、變更、除錯與修復分類正式 skills；附驗證對照與未實測界線。
 - [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]]：[A→B 獨立研究文章](./2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE.md)，補跨宿主載入、description 範本、社群暫解、官方語意與版本證據，逐項區分可用程度及未實測部分。
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]]：早期單檔訪談方法；本文補上後來抽出 grilling 的版本差異。
 - [[2026-05-18-GRILL-ME-VS-PLAN-MODE-COEXISTENCE-RESEARCH]]：保留「對齊方法與宿主模式不同層」的比較，但現行觸發與跨宿主結論須依新版證據重驗。
