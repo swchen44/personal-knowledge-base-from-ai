@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Colab＋MiniMax H3 vs Kie.ai＋Seedance 2.5：AI 短片工作流程](./AI/2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW.md)：完整字幕整理，含試映、漏音失敗、生成成本界線與混搭策略。
 
 - [把 Matt Pocock Skills 接到我的 V-model](./AI/2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING.md)：AI随风實測影片與舊文比較；正式 27 項分類、需求至修復的七階段映射、V-model 驗證與交接契約，明列來源與未實測建議
 

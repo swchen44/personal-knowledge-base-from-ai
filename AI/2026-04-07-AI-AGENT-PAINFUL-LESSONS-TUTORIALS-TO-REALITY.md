@@ -245,6 +245,7 @@ links:
 - [[2026-01-09-NEWTYPE-OS-MULTI-AGENT-CONTENT-PRODUCTION-ORCHESTRATION]] — 用信心路由（Confidence Router）應對 Agent 品質問題的實作範例
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的七面之差與護欄三層篩選，為 Agent 實戰痛苦提供結構化解方
 - [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 「看了教程仍做不對」的根因即默會知識未外化，本篇用「從成品反推判斷」給出解法
+- [[2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW]]：以 AI 短片實作對照長任務可靠性，保留角色、參考音及鏡頭輸入。
 
 ## References
 - [YouTube 影片](https://www.youtube.com/watch?v=eWFKPPgHMCw)
