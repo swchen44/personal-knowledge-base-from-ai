@@ -139,6 +139,7 @@ Codex 最終達成了端到端的功能開發能力：
 - [[2026-04-29-ANDREJ-KARPATHY-FROM-VIBE-CODING-TO-AGENTIC-ENGINEERING-SOFTWARE-3-0]] — Karpathy 的 Agentic Engineering 理論框架，與 Harness Engineering 實踐案例互補
 - [[2026-05-04-STANFORD-AUGMENTING-LLMS-FIVE-TECHNIQUES-AI-BUILDER-TOOLKIT]] — Stanford 課程的 Agentic Workflow 框架，OpenAI 零手寫程式碼實踐是其極端案例
 - [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]]：把文件導航、上下文、Skills、Hooks 與風險相稱的驗證整合成 Codex 日常工作流程。
+- [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：Anthropic 的審查與發布實務對照，說明可執行驗證、人工責任、審查收斂及快速回復如何串接。
 
 ---
 

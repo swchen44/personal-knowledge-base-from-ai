@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Code 團隊如何審查 AI 程式碼：從驗證、風險核准到發布與回復](./AI/2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW.md)：以 Anthropic 原文為主、馬克影片補充，整理七層流程、核准限制、事故評測與收斂；保留 4 張圖與 2 張 Mermaid，區分內部制度及公開服務能力。
 - [Colab＋MiniMax H3 vs Kie.ai＋Seedance 2.5：AI 短片工作流程](./AI/2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW.md)：完整字幕整理，含試映、漏音失敗、生成成本界線與混搭策略。
 
 - [把 Matt Pocock Skills 接到我的 V-model](./AI/2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING.md)：AI随风實測影片與舊文比較；正式 27 項分類、需求至修復的七階段映射、V-model 驗證與交接契約，明列來源與未實測建議

@@ -167,3 +167,4 @@
 | 2026-10-25 07:48 | ingest-research | cN0xrbc_7uQ：無字幕，MLX Whisper small 全片 343 段至 22:34；抽樣 8 幀，保留 1 圖；正式 27 項分類、七階段 V-model 映射、影片／repo 校正、兩張 Mermaid 與六頂帽子，映射未實測 | [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]] | AI | 3 | 6 |
 | 2026-10-25 07:48 | update | 新片與固定版本比對：正式 skills 無變更；新增第 11 節與 V-model 專篇導讀，保留舊研究、補雙向連結及來源／建議界線 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 0（專篇回填另計） | 6 |
 | 2026-10-25 08:03 | ingest | https://www.youtube.com/watch?v=lneWkkZrg70；完整繁中字幕與作者 README 靜態核對；未執行影片工作流程 | [[2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW]] | AI | 3 | 6 |
+| 2026-10-26 08:34 | ingest-research | https://claude.dev/blog/solving-code-review-at-anthropic/ 為主；h0ALH6qBb7k 的 978 段繁中字幕補充；核對官方產品邊界，保留 4 圖、2 張 Mermaid，數值圖轉表格，含 Bloom／六頂帽子；審查服務與交付制度未實測 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | AI | 3 | 6 |

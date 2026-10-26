@@ -379,6 +379,7 @@ Before handing off, record:
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]：[v1.3／grilling 主篇](./2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW.md)，保留版本、組合、權限、成本與交付研究；本篇補工作流映射。
 - [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]]：A→B 的官方說明、具名回報與未實測暫解，解釋流程箭頭的執行限制。
 - [[2026-04-24-MATT-POCOCK-AI-CODING-WORKFLOW-FULL-WALKTHROUGH]]：較早的完整操作研究，可與本片與使用者階段對照閱讀。
+- [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：補足 V-model 交付端的獨立審查、風險核准、合併佇列與事故評測；區分原文制度、影片解釋及未實測建議。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

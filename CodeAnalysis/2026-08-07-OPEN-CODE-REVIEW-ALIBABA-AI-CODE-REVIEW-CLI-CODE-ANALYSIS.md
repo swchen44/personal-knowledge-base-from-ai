@@ -646,6 +646,7 @@ ocr review
 - [[2026-04-07-GSTACK-TELEMETRY-ARCHITECTURE]] — 另一套工具鏈的遙測設計(本地寫入+背景同步),與 OCR 的 OTLP 直送對照
 - [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]] — 自建 benchmark 的方法論參照:OCR 的 1/9 宣稱同樣面臨「自建自測」的可信度問題
 - [[2026-07-31-DOTNET-SKILLS-POLYGLOT-UNIT-TEST-AGENT-CODE-ANALYSIS]] — Microsoft 的鏡像案例:同樣「專用 harness 打素的通用 agent」,但買的是可靠性(失敗 -63%、token +3.2%)而非 token 效率——兩條正交的專用化路線
+- [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：把專用 reviewer 的偵測與成本取捨，放回包含 CI、風險核准、發布回復及事故評測的完整交付流程。
 
 ## References
 
