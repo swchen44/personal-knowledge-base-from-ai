@@ -30,3 +30,4 @@
 | [[2026-05-30-MOSHI-MOBILE-TERMINAL-FOR-CODING-AGENTS]] | 用手機遠端操控 Claude Code/Codex 等 AI 編碼代理人的 iOS/Android 終端機 App | 2026-05-30 |
 | [[2026-08-30-MARKDOWN-RENDERER-SPEC-RESEARCH-COMMONMARK-GFM-OBSIDIAN]] | Markdown 渲染器前期研究：CommonMark/GFM 兩層規格、Obsidian 實作即規格、擴充語法完整對照與實作路線圖 | 2026-08-30 |
 | [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]] | 兩支 Codex 技巧影片與講者附檔核對：上下文、快取、技能、工具與驗證；2026-10-05 補交接比較、橋接架構、非阻塞澄清、九項檢查表與風險證據限制 | 2026-10-03 |
+| [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]] | 通用 prompt、subagent／fork、內建 review 與 headless 對照；官方文件、固定原始檔與社群經驗分列，方法未實測；Astra high 文稿 review 取消並保留待辦。 | 2026-10-26 |

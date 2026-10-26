@@ -613,6 +613,7 @@ CLI 操作與自動化細節可接續 [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTO
 - [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]]：CLI 指令、sandbox／approval、長時間工作與恢復流程。
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]]：以專案文件、工具與驗證建立可持續的代理人環境。
 - [[2026-01-18-STOP-BLOATING-YOUR-CLAUDE-MD-PROGRESSIVE-DISCLOSURE-AI-CODING-TOOLS]]：常駐指令與按需文件的編排；產品設定仍須分別查核。
+- [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]]：研究新上下文審查的實作入口、通用任務包與具名公開用法；保留來源與尚未驗證的界線。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

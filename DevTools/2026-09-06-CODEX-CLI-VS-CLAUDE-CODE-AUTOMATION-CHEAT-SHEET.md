@@ -301,6 +301,7 @@ Resume Agent
 - [[2026-03-31-CLAUDE-CODE-WORKTREE-X-REPO-MULTI-REPO-PARALLEL-DEVELOPMENT]] — 將 Git Worktree 做成多 Agent 隔離與恢復邊界的實作指南。
 - [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 把 Supervisor 的 state、recovery 與 observability 放入完整 Agent engineering 分層。
 - [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]]：補充新版上下文、快取、技能設計、桌面工具與交付驗證；CLI 指令仍需依客戶端查核。
+- [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]]：把非互動入口用於獨立程式碼審查，分開對話、輸入、版本與權限；範本及方法均未執行驗證。
 
 ## References
 

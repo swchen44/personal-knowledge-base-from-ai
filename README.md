@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [通用 AI 程式碼審查實作：Codex、Claude Code 的 Prompt、Subagent 與 Headless 方法](./DevTools/2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE.md)：可複製任務包、上下文機制、內建與非互動入口、具名公開做法；僅來源研究，方法未實測，Astra high 文稿 review 改列待辦。
 - [Claude Code 團隊如何審查 AI 程式碼：從驗證、風險核准到發布與回復](./AI/2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW.md)：以 Anthropic 原文為主、馬克影片補充，整理七層流程、核准限制、事故評測與收斂；保留 4 張圖與 2 張 Mermaid，區分內部制度及公開服務能力。
 - [Colab＋MiniMax H3 vs Kie.ai＋Seedance 2.5：AI 短片工作流程](./AI/2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW.md)：完整字幕整理，含試映、漏音失敗、生成成本界線與混搭策略。
 

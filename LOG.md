@@ -168,3 +168,4 @@
 | 2026-10-25 07:48 | update | 新片與固定版本比對：正式 skills 無變更；新增第 11 節與 V-model 專篇導讀，保留舊研究、補雙向連結及來源／建議界線 | [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]] | AI | 0（專篇回填另計） | 6 |
 | 2026-10-25 08:03 | ingest | https://www.youtube.com/watch?v=lneWkkZrg70；完整繁中字幕與作者 README 靜態核對；未執行影片工作流程 | [[2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW]] | AI | 3 | 6 |
 | 2026-10-26 08:34 | ingest-research | https://claude.dev/blog/solving-code-review-at-anthropic/ 為主；h0ALH6qBb7k 的 978 段繁中字幕補充；核對官方產品邊界，保留 4 圖、2 張 Mermaid，數值圖轉表格，含 Bloom／六頂帽子；審查服務與交付制度未實測 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | AI | 3 | 6 |
+| 2026-10-26 13:07 | research | Codex／Claude 官方文件、固定版本原始檔、Matt／Addy／Peter 公開流程及具名社群回報；新增通用審查任務包與 headless 範本；未執行審查方法，使用者取消 Astra high 文稿 review，改列待辦 | [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]] | DevTools | 3 | 6 |
