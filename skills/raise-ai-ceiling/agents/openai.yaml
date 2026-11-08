@@ -1,0 +1,4 @@
+interface:
+  display_name: "放大 AI 任務上限"
+  short_description: "從成果、專業方法與跨領域技巧重構任務，保留驗收與授權界線"
+  default_prompt: "使用 $raise-ai-ceiling 改善這個任務，保留我的限制，找出更值得解決且可以驗證的目標。"

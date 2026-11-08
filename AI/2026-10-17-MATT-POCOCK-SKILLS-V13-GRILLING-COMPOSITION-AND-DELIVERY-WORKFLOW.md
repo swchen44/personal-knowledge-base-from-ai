@@ -447,6 +447,7 @@ AI随风的 [2026-10-21 影片](https://www.youtube.com/watch?v=cN0xrbc_7uQ) 以
 
 ## 相關連結（Related）
 
+- [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：從成果高度、專業深度與跨領域方法改善任務，附可重用 skill，再接回釐清與交付流程。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：[V-model 映射與新影片比較](./2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING.md)，依需求、計畫、設計、實作、變更、除錯與修復分類正式 skills；附驗證對照與未實測界線。
 - [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]]：[A→B 獨立研究文章](./2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE.md)，補跨宿主載入、description 範本、社群暫解、官方語意與版本證據，逐項區分可用程度及未實測部分。
 - [[2026-03-23-GRILL-ME-SKILL-DEEP-DIVE]]：早期單檔訪談方法；本文補上後來抽出 grilling 的版本差異。

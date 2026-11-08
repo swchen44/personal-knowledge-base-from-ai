@@ -344,6 +344,7 @@ Report only; do not edit files or publish comments.
 
 ## 相關連結（Related）
 
+- [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：以外部驗證連接任務升級與成果判定；附來源分析、任務卡及未驗證成效的 skill。
 - [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：制度與理論主篇；本篇補可操作的方法候選與他人經驗。
 - [[2026-09-06-CODEX-CLI-VS-CLAUDE-CODE-AUTOMATION-CHEAT-SHEET]]：對照非互動介面、權限與 session 管理；各版本仍需查核。
 - [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]]：連接上下文、交接、工具與可追溯的交付證據。
