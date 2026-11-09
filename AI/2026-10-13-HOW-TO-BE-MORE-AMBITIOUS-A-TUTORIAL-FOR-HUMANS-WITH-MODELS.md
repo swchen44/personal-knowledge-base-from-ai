@@ -244,6 +244,7 @@ Felix 原文以 Francisco Goya 的《Modo de volar／A Way of Flying》作為配
 
 ## 相關連結（Related）
 
+- [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]]：補企業導入、行為規格與具名討論；對照探索時放大解法，交付時維持必要證據與責任。
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]：釐清、共用方法與交付流程，協助把升級後任務接到工作流。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：沿用需求至修復的日常階段，保留需求追溯與驗收。
 - [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]]：外部回饋、審查輸入與驗證界線；另一模型同意不等於驗收。

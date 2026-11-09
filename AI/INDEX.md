@@ -78,3 +78,4 @@
 | [[2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW]] | Agent 串接 Colab H3 與 Seedance：分鏡試映、角色參考音漏送、771 秒與成本界線、按鏡混搭。 | 2026-10-23 |
 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | Anthropic 原文為主、馬克影片補充：七層審查與發布、風險及信任限制、事故評測與收斂；4 張原圖、2 張 Mermaid，區分內部政策與公開產品能力。 | 2026-10-15 |
 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | Felix 原文與 Gary 影片整合：速度、高度、深度、廣度；任務卡、V-model、來源限制與 raise-ai-ceiling skill，含 2 圖及 2 張 Mermaid；成效未實測。 | 2026-10-13 |
+| [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | Basis 原文與完整原講、中文解說及具名評價；行為規格、fork／模擬、NA 原因與企業採用限制，含 2 張 Mermaid 及 1 圖；方法未實測。 | 2026-11-04 |
