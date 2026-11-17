@@ -28,6 +28,7 @@ links:
 - 從 Home Repo 啟動 agent，再依任務進入相關 repo，先讀取各 repo 的規則並分別檢查 Git 狀態、驗證與交付。
 - 最大好處是共用內容有明確維護位置；前提是每個人更新到相同版本，且 agent 確實能存取目標與載入所需指引。
 - 本篇整理兩支影片、Matt 原文與實務建議。這是候選做法，未在本次執行跨 repo 實驗，也不保證所有工具自動載入相同規則。
+- 影片留言既有團隊採用的正面經驗，也有人擔心專案 skills 無法載入、IDE／LSP 限制，以及它和 monorepo、submodule 或 plugin 有何差別；見下方留言整理。
 
 ## 摘要（Summary）
 
@@ -113,6 +114,36 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 ### 好處與成本如何衡量？
 
 可比較導入前後：共用指引更新所需的修改位置、版本落差次數、建立跨 repo 任務所需時間、規則載入失敗、每個 repo 的驗證及整合缺陷。收集相同期間與任務類型的資料，保留例外與回退成本；沒有量測前不宣稱節省多少時間。
+
+### 熱門留言與使用者經驗：大家怎麼看？
+
+2026-11-18 從 [Matt 的影片](https://www.youtube.com/watch?v=hWe-j78vNpc)依 YouTube 的熱門排序取得前 150 則留言；以下讚數是擷取時的快照，會隨時間變化。**高讚留言與較低讚但提供具體操作、疑慮的留言分開標記**；這不是全部留言的統計，也不能代表所有使用者。留言者身分、團隊規模及成果均未獨立驗證。
+
+#### 較熱門的觀點
+
+| 留言與當時讚數 | 觀眾的觀點 | 本文的判讀 |
+| --- | --- | --- |
+| [@bashovski](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugxxhz3oyuMArXZdooF4AaABAg)，68 讚 | 覺得這像是逐步重新發明 monorepo。 | 類比有幫助：兩者都想讓跨專案工作更方便；但 Home Repo 本身不會把各產品 repo 的 Git 歷史合成一個，也不提供 monorepo 的原子提交。 |
+| [@broomva](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgzEo9BCN5k9Xv511ol4AaABAg)，29 讚 | 自述使用類似方式一年以上，覺得累積效益明顯。 | 是個人使用經驗；未提供對照組、時間或品質數據，不能推論一般團隊必然有同樣效果。 |
+| [@edoardogiordano3282](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugy0mJhDhms6nz1YHxp4AaABAg)，27 讚 | 使用 umbrella repo，讓子 repo 不納入其追蹤，將 ADR、上下文和文件放在入口；自述目前運作良好。 | 展示一種目錄組織；仍要分別管理子 repo 版本、權限與狀態。 |
+| [@yeykawb](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgxAhGiLU2g9ZUt0w254AaABAg)，13 讚 | 想進一步了解為什麼要選 monorepo，並質疑這與自己的經驗不同。 | 這是值得討論的取捨，不能從影片推出所有團隊都應遷移到 monorepo。 |
+| [@felixkoller5871](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgzzNxv7y3ox8lWGKfF4AaABAg)，11 讚 | 自述在多微服務團隊集中 specs、wiki 和 skills，並使用漸進揭露；提及 100 多個 repo、100 多人。 | 是單一留言者的規模與成效自述，不是已稽核的導入案例；仍需了解權限、版本及維護方式。 |
+| [@arpitagarwal016](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgwsYaEJcjHrHOa3Lw94AaABAg)，7 讚 | 自述帶領約 15 個主要 repo 的團隊，搭配客製工具採用類似方式。 | 客製工具可能是其效果的一部分；單靠目錄結構不能推論同樣結果。 |
+| [@fabriciovanazzi5241](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgxNeceqYKYmXON1y_J4AaABAg)，5 讚 | 問從 Home Repo 開啟 session 時，如何使用必須留在專案中的 skills 和 MCP。 | 這是實際導入前的重要問題；載入及可見性取決於工具、設定、版本與啟動位置，不能一概認定會或不會載入。 |
+
+#### 其他具體經驗與疑慮
+
+以下留言讚數較低，但補足熱門留言未展開的實作細節，均為留言者自述或提問，**尚未在本次實測**：
+
+- **專案規則載入**：[@JuLabs-v8y](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugzyogt2oViN5fD12GN4AaABAg) 回報自己的類似設定遇到 `CLAUDE.md` 與 path-scoped rules 的延遲載入問題；[@rogersmj](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgwTep9TcG8m5IwLRk94AaABAg) 則詢問子 repo 的專屬 skills 是否仍會被發現。這些反映特定經驗與未決問題，不足以判定所有工具都有相同行為。
+- **IDE 與語言伺服器**：[@doggnamedchip](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgyjQgAxLF2MT1Mq3Gl4AaABAg) 回報自己在 C# 情境下，從 Home Repo 啟動時遇到 LSP 行為問題，懷疑和 solution 目錄有關；[@brandonpaul6139](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgxWe_VTKBGn6c33wVd4AaABAg) 問 IDE 整合的 agent session 如何接入。應針對自己的 IDE、語言與啟動目錄驗證，不能由此斷言所有 LSP 都不支援。
+- **權限與機密**：[@harambeexpress](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgxW9efL3kSYqJnA5FR4AaABAg) 希望依角色分層上下文；[@DerylSpielman](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugz_WYp3dvNLg4s7kk54AaABAg) 詢問不想分享的敏感資訊如何處理。Home Repo 是導航與組織方式，不是存取控制；仍需依實際權限和資料分級配置。
+- **目錄與版本替代方案**：[@elementone9513](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugx75XASVo-Ciz7e1k14AaABAg) 自述用 symlink 組出任務工作區；[@williamattie294](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgyvllQPM1vNiTKEQzV4AaABAg) 提出 submodule 可固定各 repo 版本；[@NDQ1](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugw0L0nHHZkrWoXCbVN4AaABAg) 詢問只需共用工具時能否使用私人 plugin。它們回答的問題不同：symlink 導航本機位置、submodule 記錄特定 commit、plugin 主要封裝及分發工具；是否能共同使用仍取決於實際環境。
+- **平行工作與規則維護**：[@mad_villain8580](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=Ugx4iTBYJO5Hghbjk0h4AaABAg) 自述用附帶建置設定的 worktree 隔離多個 agent；[@LucasHoezee](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgyELxogcEV_pUga-P54AaABAg) 自述以 `repos.json` 記錄相依關係，並用初始化 skill 檢查依賴。這些是可研究的設計，不代表已驗證其工具或安全性。
+- **共用知識與草稿**：[@gangle7183](https://www.youtube.com/watch?v=hWe-j78vNpc&lc=UgzwoCVyqvbyEkmPIfV4AaABAg) 自述區分共同 wiki 與分支專屬草稿，在重大合併後整理草稿。這啟發一個維護問題：哪些資訊已經核准、何時更新共同知識、誰有權刪除舊草稿，都應由團隊明確定義。
+
+> [!tip] 根據留言補充的試行檢查
+> 選兩個 repo，記錄啟動目錄與工具版本；分別確認專案專屬 instructions、skills、MCP、IDE／LSP 及權限是否如預期可用。再讓 agent 回報實際讀到的路徑，並核對兩個 repo 的 Git 狀態與驗證結果。這是 Codex 根據留言提出的試行方式，本次尚未執行。
 
 ## 我的心得（My Takeaways）
 
