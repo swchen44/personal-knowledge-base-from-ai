@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [AI 原生企業如何轉型？李開復與簡立峰](./AI/2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE.md)：整合兩場訪談、企業試點、工作未來及證據界線。
 - [AI 程式碼如何避免變成 slop：架構、驗證與軟體工廠](./AI/2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY.md)：整合原講、中文影片及熱門留言，區分講者自述與尚待驗證的質疑。
 - [重新思考 Claude Code 工作方式](./DevTools/2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE.md)：兩片整合，說明權限、sandbox、hooks、驗證與多工，方法未實測。
 - [GetEbook 創業案例：AI 電子書、行銷與數字核對](./AI/2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE.md)：整合兩支影片，核對 MRR 字幕與畫面期間；商業成效未獨立審計。

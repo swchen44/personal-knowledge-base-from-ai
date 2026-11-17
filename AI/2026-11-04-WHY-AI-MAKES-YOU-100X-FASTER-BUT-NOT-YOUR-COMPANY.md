@@ -273,6 +273,8 @@ description: 交付驗證必須對應目前產物，缺少證據時清楚揭露�
 
 ## 相關連結（Related）
 
+- [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]]：李開復與簡立峰對 AI 原生企業、責任與職涯的觀點。
+
 - [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]]：AI 產品、獲客與財務口徑案例，區分訪談自述與畫面證據。
 
 - [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：探索時提高目標與方法，交付時補上可檢查的必要行為。

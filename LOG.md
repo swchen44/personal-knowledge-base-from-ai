@@ -177,3 +177,4 @@
 | 2026-11-17 23:56 | update-research | YQuPSmmRIik：189 段繁中字幕併入 Anthropic 既有主題；新增七防線導讀、一般 AI 任務範例，核對 Spotify 原文及事故範圍；建議未實測 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | AI | 0（保留既有連結） | 6 |
 | 2026-11-18 00:14 | ingest-research | O_zcc6Xl12g、DJJJ9ltVuGQ：兩片字幕與 30＋4 則可見留言、1 張原講截圖及 2 張 Mermaid；方法與團隊成效未實測 | [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] | AI | 3 | 5 |
 | 2026-11-18 00:23 | update-research | hWe-j78vNpc：整理熱門排序前 150 則留言中高讚觀點與具體經驗；補規則載入、IDE、權限及替代方案，觀眾自述與建議未實測 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（保留既有連結） | 5 |
+| 2026-11-18 00:44 | ingest-research | mEo5rAMcyDk 與 1xsDhApBGbw：合併 1,352 段英文及 1,534 段中文字幕；核對 McKinsey、ILO；1 Mermaid，方法未實測 | [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]] | AI | 3 | 6 |
