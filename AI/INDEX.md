@@ -76,7 +76,7 @@
 | [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] | Skill A→B 專題：逐項區分官方說明、repo 原始檔、具名回報與 Codex 建議；目前無可用 Claude 驗證環境，A→B 未實測；含兩張 Mermaid 與證據連結 | 2026-10-22 |
 | [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]] | 以使用者 V-model 對應正式 27 項 skills：七階段、三條變更／修復路線、交接契約與驗證；比較新片與 v1.3 舊文，映射為 Codex 未實測建議 | 2026-10-21 |
 | [[2026-10-23-COLAB-MINIMAX-H3-VS-KIE-AI-SEEDANCE-2-5-PAID-AI-VIDEO-WORKFLOW]] | Agent 串接 Colab H3 與 Seedance：分鏡試映、角色參考音漏送、771 秒與成本界線、按鏡混搭。 | 2026-10-23 |
-| [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | Anthropic 原文為主、馬克影片補充：七層審查與發布、風險及信任限制、事故評測與收斂；4 張原圖、2 張 Mermaid，區分內部政策與公開產品能力。 | 2026-10-15 |
+| [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | Anthropic 原文、馬克與寶拉影片：七道防線、一般 AI 任務的應用、Spotify 案例與證據界線；含原圖及 Mermaid。 | 2026-10-15 |
 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | Felix 原文與 Gary 影片整合：速度、高度、深度、廣度；任務卡、V-model、來源限制與 raise-ai-ceiling skill，含 2 圖及 2 張 Mermaid；成效未實測。 | 2026-10-13 |
 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | Basis 原文與完整原講、中文解說及具名評價；行為規格、fork／模擬、NA 原因與企業採用限制，含 2 張 Mermaid 及 1 圖；方法未實測。 | 2026-11-04 |
 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | Home Repo 跨 repo 入口、實作流程、效益與常見問題；兩支影片合併，方法未實測。 | 2026-11-12 |

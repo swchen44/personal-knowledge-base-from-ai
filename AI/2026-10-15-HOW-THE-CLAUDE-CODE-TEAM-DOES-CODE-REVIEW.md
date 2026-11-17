@@ -20,6 +20,11 @@ supplementary_title: "如何审核 AI 写的代码？从写代码到上线，一
 supplementary_channel: "马克的技术工作坊"
 supplementary_date: 2026-10-25
 supplementary_duration: "24:34"
+additional_video: "https://www.youtube.com/watch?v=YQuPSmmRIik"
+additional_video_title: "讓 AI 審查 AI 差點出事？Anthropic 揭秘「七道防線」運作方法"
+additional_video_channel: "Paula 寶拉"
+additional_video_date: 2026-11-02
+additional_video_transcript: "zh-TW；189 段；字幕非自動產生；未逐字核對音訊"
 transcript_method: youtube-transcript-api
 transcript_language: zh-Hant
 transcript_generated: false
@@ -36,11 +41,11 @@ links:
 - 審查涵蓋 PR 前驗證、PR 檢查、依風險核准、合併佇列、逐步發布與快速回復；每一層都有漏失的可能。
 - 低風險免人工核准有受信任作者等前提；必要的人員核准不能由 AI 代替，核准也只涵蓋特定 commit。
 - 審查器要同時追蹤真實缺陷、誤報與收斂輪數。超過三輪時提醒作者重新檢視方案，而非持續追加微小修改。
-- 影片補充四階段導讀與具體例子；「縮小重審範圍幾乎不漏問題」等解釋不視為原文已證明的結論。
+- 兩支影片分別用四階段與七道防線導讀；寶拉補充一般 AI 任務的運用與 Spotify 案例，須保留各自資料的範圍。
 
 ## 摘要（Summary）
 
-本文以 Anthropic 於 **2026-10-15** 發布的〈How the Claude Code team does code review〉為主，整理團隊如何將程式碼審查（Code Review）放進完整交付流程。再以馬克於 **2026-10-25** 發布的 24:34 影片補充章節導覽、教學例子與容易混淆之處。
+本文以 Anthropic 於 **2026-10-15** 發布的〈How the Claude Code team does code review〉為主，整理團隊如何將程式碼審查（Code Review）放進完整交付流程。以馬克於 **2026-10-25** 發布的 24:34 影片和 Paula 寶拉於 **2026-11-02** 發布的 10:35 影片補充章節導覽、教學例子與容易混淆之處。
 
 原文的目標，是在回復提交（revert）與事故（incident）沒有惡化的條件下，降低每份 PR 消耗的人力。只縮短看 diff 的時間，卻增加後續救火時間，不能算節省。這個觀點可接到既有的 [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING|V-model 與 Matt skills 對照]]：需求與設計決定該做什麼，驗證與交付證據決定能否放心交付。
 
@@ -50,8 +55,11 @@ links:
 | --- | --- | --- |
 | 內部七層流程、風險政策、指標與限制 | Anthropic 原文及其官方 Markdown | 本文主體；數字均為作者的內部自述，未取得原始資料重算 |
 | 四階段教學、函式改動例子、個人判斷 | 馬克影片；取得 978 段 `zh-Hant` 字幕 | 作為補充；字幕 API 標記為非自動產生，本文未逐字人工校對音訊 |
+| 七道防線的白話說明、一般 AI 任務的使用方式與 Spotify 案例 | Paula 寶拉影片；取得 189 段 `zh-TW` 字幕 | 字幕 API 標記為非自動產生，未逐字核對音訊；Spotify 的數字與限制另查原文 |
 | 公開 Code Review 服務的權限與行為 | [Claude Code 官方產品文件](https://code.claude.com/docs/en/code-review)，2026-10-26 查核 | 補足內部制度與對外產品的邊界 |
 | 中文 Mermaid、與個人流程的對照、採用順序與範本 | **Codex 整理與建議** | 未在使用者專案實施，亦未驗證 Claude Code 審查服務 |
+
+寶拉影片另抽樣檢視 8 個畫面，包含驗證方式、既有問題標記、發布與 59% 指標；這些重點已整合於文字與原文圖表。抽樣不等於逐格檢查整支影片。
 
 > [!important] 本篇完成的是來源研究與文件驗證
 > 沒有建立 Claude Code 審查服務、風險分類器、分支保護或正式環境回復機制。原文的成效、影片的解釋與本篇建議，均不代表這些流程已在使用者環境驗收。
@@ -63,6 +71,40 @@ links:
 3. **驗證能力要先於放寬人工核准。** 執行輸出、CI、風險限制與回復能力，是採用較輕核准流程的前提。
 4. **收斂也是審查品質。** 每輪都多找出一個問題，可能造成 agent 作者反覆修改、重新提交與重跑檢查；輪數必須與缺陷偵測一起量測。
 5. **公開審查產品與內部合併政策分開。** 安裝 AI reviewer 不會自動得到 Anthropic 的風險分類與合併規則。
+
+## 快速導覽：影片的七道防線
+
+[寶拉影片 02:32](https://www.youtube.com/watch?v=YQuPSmmRIik&t=152s) 把原文流程講成七道關卡：每一層都有可能漏掉問題，所以需要檢查、人工決策與回復能力互相支援。下表依原文核對，層次是理解工具，不保證每個團隊或每次 PR 都嚴格按同一順序執行。
+
+| 防線 | 要解決的問題 | 實際動作 |
+| --- | --- | --- |
+| 1. 提交前驗證 | 作者聲稱完成，沒有可檢查證據 | 執行測試、建置或畫面比對，交出輸出；再由新上下文審查 diff |
+| 2. PR 的 AI 審查 | 一個 reviewer 可能漏錯或誤報 | 對照需求與程式脈絡找問題；候選發現再由其他 agent 檢查；逐項處理 |
+| 3. 安全審查 | 一般審查未必抓到安全缺陷 | 獨立檢查；未處理的發現須修正或附理由結案 |
+| 4. 自動檢查 | 人不適合反覆做一致的機械檢查 | 以 CI 執行 lint、型別、測試與建置；記錄如何測試及如何回復 |
+| 5. 風險分級與人工核准 | 不同變更的損害與可回復性不同 | 按政策分配人員核准；同時檢查作者信任、敏感路徑與核准的 commit |
+| 6. 合併與逐步發布 | 各自通過的變更合併後可能衝突 | 在合併佇列的最新基線重跑檢查；用功能開關、內部試用和逐步發布縮小影響 |
+| 7. 觀測與回復 | 所有前置防線仍可能漏錯 | 作者及值班人員觀察；需要時關閉功能、修復或 revert，再把事故加入評測 |
+
+影片用[「起司理論」](https://www.youtube.com/watch?v=YQuPSmmRIik&t=588s)比喻每一道防線都有漏洞；它幫助理解層層防護，並未證明各層錯誤互相獨立。原文的流程圖和下方 Mermaid 顯示各層如何連接。
+
+### 從影片補到一般 AI 工作：可先做什麼？
+
+[影片 10:05](https://www.youtube.com/watch?v=YQuPSmmRIik&t=605s) 建議讓 AI 提供證據、開新對話檢查、按風險決定審查深度，三輪後仍不收斂就重新檢討做法。以下是 **Codex 整理的應用範例，尚未做成效實驗**：
+
+1. **任務與驗收**：先寫下目的、輸入、預期結果及不能出錯的部分；請 AI 交付可核對的來源、測試結果或操作紀錄。
+2. **獨立檢查**：另開對話或 subagent，提供需求、產物與必要背景，請它找可能失敗的情境並指出證據。新上下文不需要攜帶作者全部推理，但也不應省略審查所需的需求和系統脈絡。
+3. **修正與收斂**：逐項決定修正或附理由不改；將同類問題合併處理。三輪後仍反覆出錯時，先由人重新評估需求、方案和檢查範圍。
+4. **依後果把關**：低影響草稿可以採用較輕流程；涉及權限、資料或無法輕易撤銷的操作時，由負責人深入檢查並先準備回復方式。
+5. **留下學習材料**：如影片 [09:20](https://www.youtube.com/watch?v=YQuPSmmRIik&t=560s) 所述，人的理解速度也可能成為瓶頸；可請 AI 畫模組或變更示意圖，再對照程式和執行證據，不能把圖當成事實保證。
+
+需要可複製的 Codex／Claude Code 任務與 prompt，接續參考 [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE|通用實作補篇]]；該篇方法也標明尚待實測。
+
+### Spotify 案例：影片補充，但證據範圍有限
+
+影片 [01:36](https://www.youtube.com/watch?v=YQuPSmmRIik&t=96s) 引用 Spotify：兩年 8 月合併變更約從 8,100 增至 17,000，並概括 AI 撰寫的程式沒有比較容易出錯。[Spotify 工程原文](https://engineering.atspotify.com/2026/9/ai-changed-how-spotify-builds-what-we-learned-and-fixed-about-quality-at-higher-velocity) 更精確地說：在**當時已檢討的重大事故**中，沒有發現 AI 撰寫的程式碼是重大的直接肇因；但變更量增加確實讓某些驗證控制跟不上。Spotify 亦回報自動依賴更新通過檢查後仍造成正式環境問題，並觀察 PR 大小及複雜度上升。
+
+這是 Spotify 的公司內部回顧，不是對所有 AI 程式碼缺陷率的受控比較，也不表示未來不會發生 AI 直接造成的事故。它與 Anthropic 的觀察共同指向：**產出增加時，要同步增強驗證、觀測及回復能力**；兩家公司不是同一組資料。
 
 ## 詳細內容（Details）
 
@@ -360,7 +402,7 @@ flowchart TD
 
 ### 白帽：事實與未知資訊
 
-已取得原文、官方 Markdown、978 段字幕、官方產品文件與五張來源圖。原文的數字與政策可查；原始案例集、分類器、統計方法及使用者環境的成效仍未知。
+已取得原文、官方 Markdown、馬克影片 978 段字幕、寶拉影片 189 段字幕、官方產品文件與原文來源圖，並查核 Spotify 工程文章。原文的數字與政策可查；原始案例集、分類器、統計方法及使用者環境的成效仍未知。
 
 ### 紅帽：直覺與讀者反應
 
@@ -389,5 +431,7 @@ flowchart TD
 - [Anthropic 原文：How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/)，2026-10-15；本文的主要來源。
 - [官方 Markdown 版本](https://claude.dev/blog/solving-code-review-at-anthropic.md)，與網頁文字及圖說交叉核對。
 - [馬克影片：如何审核 AI 写的代码？从写代码到上线，一套保证产品质量的全流程](https://www.youtube.com/watch?v=h0ALH6qBb7k)，2026-10-25；978 段繁體中文字幕，未逐字人工校對音訊。
+- [Paula 寶拉：讓 AI 審查 AI 差點出事？Anthropic 揭秘「七道防線」運作方法](https://www.youtube.com/watch?v=YQuPSmmRIik)，2026-11-02；189 段繁體中文字幕，字幕標記非自動產生，未逐字人工校對音訊。
+- [Spotify Engineering：AI Changed How Spotify Builds](https://engineering.atspotify.com/2026/9/ai-changed-how-spotify-builds-what-we-learned-and-fixed-about-quality-at-higher-velocity)，2026-09-16；核對寶拉影片引用的合併量與事故回顧。
 - [Claude Code 官方 Code Review 文件](https://code.claude.com/docs/en/code-review)，2026-10-26 查核公開服務的讀取、執行、提交及核准邊界。
 - [原文模組學習示意圖](https://claude.dev/media/d4fafcbf3d2137bc64eb7f0707ba91809ff1ed4d098785e36d7422b3b07f6c40.png)；另三張流程圖取自原文 inline SVG，保留來源文字與配色後轉成 PNG。Fig D 的數字另列為 Markdown 表格。
