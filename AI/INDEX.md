@@ -80,3 +80,4 @@
 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | Felix 原文與 Gary 影片整合：速度、高度、深度、廣度；任務卡、V-model、來源限制與 raise-ai-ceiling skill，含 2 圖及 2 張 Mermaid；成效未實測。 | 2026-10-13 |
 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | Basis 原文與完整原講、中文解說及具名評價；行為規格、fork／模擬、NA 原因與企業採用限制，含 2 張 Mermaid 及 1 圖；方法未實測。 | 2026-11-04 |
 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | Home Repo 跨 repo 入口、實作流程、效益與常見問題；兩支影片合併，方法未實測。 | 2026-11-12 |
+| [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]] | GetEbook 兩片整合：AI 電子書、創業、行銷與財務口徑核對；方法未實測。 | 2026-11-11 |

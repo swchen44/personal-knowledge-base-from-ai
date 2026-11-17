@@ -273,6 +273,8 @@ description: 交付驗證必須對應目前產物，缺少證據時清楚揭露�
 
 ## 相關連結（Related）
 
+- [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]]：AI 產品、獲客與財務口徑案例，區分訪談自述與畫面證據。
+
 - [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：探索時提高目標與方法，交付時補上可檢查的必要行為。
 - [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：連接風險、審查與發布證據，防止把流程通過等同成果正確。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：將需求端的預期行為接到驗證端，沿用自己的工作階段。

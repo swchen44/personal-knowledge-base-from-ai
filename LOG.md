@@ -172,3 +172,4 @@
 | 2026-11-09 06:59 | ingest-research-skill | MzklWMQ87Yw：392 段繁中字幕；找到 Felix 2026-10-13 原文，核對人類目標研究、LIFT 與五秒測試；附 2 圖、2 張 Mermaid、任務卡及 raise-ai-ceiling skill；方法成效未實測 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | AI | 3 | 6 |
 | 2026-11-09 20:57 | ingest-research | PEUs59xg-uo：197 段中文與原講 550 段英文字幕；找到 Basis 原文及行為規格，讀取 40＋5 則留言與相關 LinkedIn 討論；固定官方示例核對 NA 原因；2 張 Mermaid、1 圖、未執行方法或效益驗證 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | AI | 3 | 6 |
 | 2026-11-17 23:00 | ingest-research | hWe-j78vNpc 與 P_MpsJm4adg；合併字幕、原文與 OpenAI 文件，實作方法未實測 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 3 | 5 |
+| 2026-11-17 23:13 | ingest-research | P3RVeg8YCg0、W27VL50a-YM：合併字幕、核對 Stripe 畫面與 MRR 誤辨，兩張 Mermaid；財務未獨立審計 | [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]] | AI | 3 | 5 |

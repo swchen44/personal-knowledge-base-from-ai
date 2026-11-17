@@ -261,6 +261,8 @@ Karpathy 坦言自己正在成為系統的瓶頸——資訊仍然必須進入�
 - **後果**：若依照 Karpathy 的建議全面擁抱 Agentic Engineering，12 個月後可能出現什麼副作用？例如：工程師是否會因過度依賴 agent 而喪失手動除錯能力？
 
 ## 相關連結（Related）
+
+- [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]]：AI 產品、獲客與財務口徑案例，區分訪談自述與畫面證據。
 - [[2026-04-03-KARPATHY-AI-INSANITY-AGENTS-AUTORESEARCH-MODEL-SPECIATION]] — Karpathy 稍早的「AI 精神錯亂」演講，涵蓋 agent 工作流、鋸齒狀能力等主題的早期版本
 - [[2026-04-02-KARPATHY-LLM-WIKI-PATTERN]] — 本演講中直接提到的 LLM 知識庫模式，是「理解無法外包」論點的實踐工具
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — Karpathy 知識庫架構的延伸實踐，多模型角色分工
