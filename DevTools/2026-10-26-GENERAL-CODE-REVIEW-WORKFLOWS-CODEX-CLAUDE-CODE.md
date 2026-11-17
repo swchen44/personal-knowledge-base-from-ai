@@ -344,6 +344,8 @@ Report only; do not edit files or publish comments.
 
 ## 相關連結（Related）
 
+- [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] — Lauren Tan 演講與觀眾討論：架構約束、驗證及自動化品質界線。
+
 - [[2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE]]：Claude Code 多工、安全邊界與驗證責任的兩片整合。
 
 - [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：以外部驗證連接任務升級與成果判定；附來源分析、任務卡及未驗證成效的 skill。

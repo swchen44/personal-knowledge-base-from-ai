@@ -219,6 +219,8 @@ FreeRTOS ISR API 與優先序規則依 port 判讀，Cortex-M 的 interrupt 數�
 
 ## 相關連結（Related）
 
+- [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] — Lauren Tan 演講與觀眾討論：架構約束、驗證及自動化品質界線。
+
 - [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]]：補上 task／ISR、trace 與目標量測的實際觀察介面；兩篇的驗收結果各自獨立。
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]：對照共用方法、宿主入口、授權及交付驗證如何組合。
 - [[2026-03-31-AI-WORKFLOW-AGENTS-SKILLS-STANDARDS]]：對照可攜流程與專案本地規範的責任分工。

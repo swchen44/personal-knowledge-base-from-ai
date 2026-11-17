@@ -81,3 +81,4 @@
 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | Basis 原文與完整原講、中文解說及具名評價；行為規格、fork／模擬、NA 原因與企業採用限制，含 2 張 Mermaid 及 1 圖；方法未實測。 | 2026-11-04 |
 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | Home Repo 跨 repo 入口、實作流程、效益與常見問題；兩支影片合併，方法未實測。 | 2026-11-12 |
 | [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]] | GetEbook 兩片整合：AI 電子書、創業、行銷與財務口徑核對；方法未實測。 | 2026-11-11 |
+| [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] | Lauren Tan 原講與中文影片：架構、lint、驗證、軟體工廠及熱門留言，明列成效證據界線。 | 2026-11-14 |

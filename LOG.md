@@ -175,3 +175,4 @@
 | 2026-11-17 23:13 | ingest-research | P3RVeg8YCg0、W27VL50a-YM：合併字幕、核對 Stripe 畫面與 MRR 誤辨，兩張 Mermaid；財務未獨立審計 | [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]] | AI | 3 | 5 |
 | 2026-11-17 23:28 | ingest-research | vlfCjWuv4es、-m3yj9YLmxs：整合 528 段英文及 146 段中文字幕，核對官方 sandbox 與 hook 文件；未執行 Claude Code 驗證 | [[2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE]] | DevTools | 3 | 5 |
 | 2026-11-17 23:56 | update-research | YQuPSmmRIik：189 段繁中字幕併入 Anthropic 既有主題；新增七防線導讀、一般 AI 任務範例，核對 Spotify 原文及事故範圍；建議未實測 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | AI | 0（保留既有連結） | 6 |
+| 2026-11-18 00:14 | ingest-research | O_zcc6Xl12g、DJJJ9ltVuGQ：兩片字幕與 30＋4 則可見留言、1 張原講截圖及 2 張 Mermaid；方法與團隊成效未實測 | [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] | AI | 3 | 5 |

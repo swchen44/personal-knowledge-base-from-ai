@@ -358,6 +358,8 @@ flowchart TD
 
 ## 相關連結（Related）
 
+- [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] — Lauren Tan 演講與觀眾討論：架構約束、驗證及自動化品質界線。
+
 - [[2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE]]：Claude Code 多工、安全邊界與驗證責任的兩片整合。
 
 - [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]]：行為規格、過程監督與企業導入分析；保留結果驗證、judge 限制及公開反對意見。
