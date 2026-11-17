@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [重新思考 Claude Code 工作方式](./DevTools/2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE.md)：兩片整合，說明權限、sandbox、hooks、驗證與多工，方法未實測。
 - [GetEbook 創業案例：AI 電子書、行銷與數字核對](./AI/2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE.md)：整合兩支影片，核對 MRR 字幕與畫面期間；商業成效未獨立審計。
 - [Home Repo：多 repo AI agent 實戰](./AI/2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW.md)：兩片合併，含操作流程、風險與比較；方法未實測。
 - [個人用 AI 變快，公司為何沒跟上？Basis 原講與公開討論](./AI/2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY.md)：找到原文與行為規格文件，核對兩份字幕、45 則留言與 LinkedIn 回應；補 2 張 Mermaid、1 圖、NA 原因與證據界線，方法未實測。

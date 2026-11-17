@@ -316,6 +316,8 @@ flowchart TD
 
 ## 相關連結（Related）
 
+- [[2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE]]：Claude Code 多工、安全邊界與驗證責任的兩片整合。
+
 - [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]]：行為規格、過程監督與企業導入分析；保留結果驗證、judge 限制及公開反對意見。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：把審查、證據與回歸測試接到需求至修復的既有流程；避免把 skill 名稱當成驗收。
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]]：影片片尾的人機分工參照；可對讀環境、可執行規則及回饋機制。

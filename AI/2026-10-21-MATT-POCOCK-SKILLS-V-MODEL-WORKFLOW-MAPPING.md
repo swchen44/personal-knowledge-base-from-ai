@@ -376,6 +376,8 @@ Before handing off, record:
 
 ## 相關連結（Related）
 
+- [[2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE]]：Claude Code 多工、安全邊界與驗證責任的兩片整合。
+
 - [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]]：多 repo 共用入口、規則載入與跨專案驗證。
 
 - [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]]：將需求端重要行為接到驗證端的 trace 與結果，區分執行 skill、行為規格及評測職責。
