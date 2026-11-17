@@ -376,6 +376,8 @@ Before handing off, record:
 
 ## 相關連結（Related）
 
+- [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]]：多 repo 共用入口、規則載入與跨專案驗證。
+
 - [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]]：將需求端重要行為接到驗證端的 trace 與結果，區分執行 skill、行為規格及評測職責。
 - [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：補任務定義的四方向框架及 skill，沿用需求到修復階段，將挑戰目標接到驗收與停止條件。
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]：[v1.3／grilling 主篇](./2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW.md)，保留版本、組合、權限、成本與交付研究；本篇補工作流映射。

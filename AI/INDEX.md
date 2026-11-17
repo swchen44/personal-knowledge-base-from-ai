@@ -79,3 +79,4 @@
 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | Anthropic 原文為主、馬克影片補充：七層審查與發布、風險及信任限制、事故評測與收斂；4 張原圖、2 張 Mermaid，區分內部政策與公開產品能力。 | 2026-10-15 |
 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | Felix 原文與 Gary 影片整合：速度、高度、深度、廣度；任務卡、V-model、來源限制與 raise-ai-ceiling skill，含 2 圖及 2 張 Mermaid；成效未實測。 | 2026-10-13 |
 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | Basis 原文與完整原講、中文解說及具名評價；行為規格、fork／模擬、NA 原因與企業採用限制，含 2 張 Mermaid 及 1 圖；方法未實測。 | 2026-11-04 |
+| [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | Home Repo 跨 repo 入口、實作流程、效益與常見問題；兩支影片合併，方法未實測。 | 2026-11-12 |

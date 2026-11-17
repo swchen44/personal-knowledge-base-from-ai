@@ -171,3 +171,4 @@
 | 2026-10-26 13:07 | research | Codex／Claude 官方文件、固定版本原始檔、Matt／Addy／Peter 公開流程及具名社群回報；新增通用審查任務包與 headless 範本；未執行審查方法，使用者取消 Astra high 文稿 review，改列待辦 | [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]] | DevTools | 3 | 6 |
 | 2026-11-09 06:59 | ingest-research-skill | MzklWMQ87Yw：392 段繁中字幕；找到 Felix 2026-10-13 原文，核對人類目標研究、LIFT 與五秒測試；附 2 圖、2 張 Mermaid、任務卡及 raise-ai-ceiling skill；方法成效未實測 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | AI | 3 | 6 |
 | 2026-11-09 20:57 | ingest-research | PEUs59xg-uo：197 段中文與原講 550 段英文字幕；找到 Basis 原文及行為規格，讀取 40＋5 則留言與相關 LinkedIn 討論；固定官方示例核對 NA 原因；2 張 Mermaid、1 圖、未執行方法或效益驗證 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | AI | 3 | 6 |
+| 2026-11-17 23:00 | ingest-research | hWe-j78vNpc 與 P_MpsJm4adg；合併字幕、原文與 OpenAI 文件，實作方法未實測 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 3 | 5 |
