@@ -27,7 +27,7 @@ links:
 - Home Repo 是一個獨立版本控制的工作入口，集中共用規則、skills、文件及其他 repo 的路徑；產品程式碼仍各自保留在原 repo。
 - 從 Home Repo 啟動 agent，再依任務進入相關 repo，先讀取各 repo 的規則並分別檢查 Git 狀態、驗證與交付。
 - 最大好處是共用內容有明確維護位置；前提是每個人更新到相同版本，且 agent 確實能存取目標與載入所需指引。
-- 本篇整理兩支影片、Matt 原文與實務建議。這是候選做法，未在本次執行跨 repo 實驗，也不保證所有工具自動載入相同規則。
+- 本篇整理兩支影片、Matt 原文的四階段設定方法與實務建議。這是候選做法，未在本次執行跨 repo 實驗，也不保證所有工具自動載入相同規則。
 - 影片留言既有團隊採用的正面經驗，也有人擔心專案 skills 無法載入、IDE／LSP 限制，以及它和 monorepo、submodule 或 plugin 有何差別；見下方留言整理。
 
 ## 摘要（Summary）
@@ -94,6 +94,152 @@ Matt 偏好在適合時使用 monorepo，也指出公開與私有 repo 混合、
 ```
 
 原作者文章的 setup prompt 建議先盤點、釐清及確認遷移計畫，再開始修改。文章另提供具體範本；不要直接將它當作已在本機執行的操作紀錄。
+
+### Matt 原文的完整建置方法：四階段、先讀取再遷移
+
+[Matt 的實作文章](https://www.aihero.dev/the-home-repo-pattern)提供四階段 setup prompt。它的目的不只是產生一份 `AGENTS.md`：先取得 repo 與既有指引的全貌，再逐輪決定範圍，**計畫核准前只讀取**，核准後才執行。原文建議在放置各 repo 的父資料夾啟動新的 agent session；prompt 會掃描使用者家目錄下的 repo，因此應先依自身情況縮小範圍。
+
+![Matt 原文的 Home Repo 示意：acme/home 集中 skills 與工具，並以箭頭指向 storefront、payments-api 等獨立 repo](assets/2026-11-12-HOME-REPO/home-repo-overview.png)
+
+*圖：Matt Pocock／AI Hero，[原文](https://www.aihero.dev/the-home-repo-pattern)。`acme/home` 是導航與共用資源的版本庫；圖上的箭頭是指引，不會自動 clone、賦予權限或同步版本。*
+
+```mermaid
+flowchart TD
+    A["1 盤點 repo 與遠端"] --> B["逐輪確認範圍與入口"]
+    B --> C["2 盤點 skills 與指引"]
+    C --> D["分類並比較重複項"]
+    D --> E["3 提出遷移表與導航草案"]
+    E --> F{"使用者確認計畫？"}
+    F -- "否或尚未確認" --> E
+    F -- "是" --> G["4 複製共用內容至 Home Repo"]
+    G --> H["各來源 repo 建立本機分支並處理舊副本"]
+    H --> I["逐項報告結果、分支與跳過原因"]
+    I --> J["Home Repo commit；是否 push 由使用者決定"]
+```
+
+此圖由 Codex 根據原文整理；核准是 **Matt 在其 setup prompt 中設定的工作方式**。它適用於實際執行該 prompt 的遷移工作；本次只更新知識庫，沒有操作或搬遷讀者的 repo。
+
+#### 第 1 階段：盤點 repo，決定哪些納入
+
+Matt 的 prompt 請 agent 找出使用者家目錄下的 Git repo，略過相依套件資料夾，記錄**本機路徑、remote、公開／私有狀態、最後一次 commit 日期**。接著依回合確認：哪些 repo 要納入；Home Repo 是新建或沿用、放在哪裡；是個人或團隊共用；目前 harness 啟動時讀 `AGENTS.md`、`CLAUDE.md`，或兩者都讀。
+
+- 原文建議優先考慮近期仍有提交的 repo，並以新建私有 repo 為起點；這是建議，並非一定合適。
+- 每個 repo 必須明確標記「納入／不納入」，才能完成本階段；如無法判定 remote 的可見性，記為未知並查明，別猜成公開或私有。
+- 原文要求秘密留在原處，`.env` 與其他 secret 檔不讀取。**Codex 建議**：限定盤點路徑、跳過套件與封存目錄，保留既有工作樹狀態；這些範圍需按個人環境決定。
+
+盤點表示例，內容為 Codex 虛構；不是使用者機器的實際清單：
+
+| repo | 路徑／remote | 最近提交 | 權限 | 決策 |
+| --- | --- | --- | --- | --- |
+| storefront | `../storefront`；`git@github.com:acme/storefront.git` | 已查日期 | private | 納入 |
+| payments | `../payments`；`git@github.com:acme/payments.git` | 已查日期 | private | 納入 |
+| archive | `../archive`；remote 待確認 | 已查日期 | 未知 | 暫不納入 |
+
+#### 第 2 階段：盤點指引，分成四類
+
+原文請 agent 在已選 repo 與使用者層級的 skill 目錄中，列出包含 `SKILL.md` 的 skill 資料夾、`AGENTS.md`、`CLAUDE.md`，以及 coding standards、glossary、ADR 等 agent 文件。每項各歸一類：
+
+| 分類 | 判斷 | 原文預定處置 |
+| --- | --- | --- |
+| 共用（shared） | 對多個 repo 都成立 | 放到 Home Repo |
+| 重複（duplicate） | 多處存在同一項 | 比較差異、標示最新版，整併為一份 |
+| 專屬（repo-specific） | 僅描述某 repo 的程式、指令或領域 | 留在原 repo |
+| 已安裝（installed） | 來自公開 skills repo 或 marketplace | 繼續以安裝來源管理 |
+
+> [!warning] 最新時間不等於正確版本
+> 原文以「最新版本」整併重複項；**Codex 建議**先看 `diff`、來源、適用範圍與 Git 歷史。不同 repo 的同名文件可能有必要差異，不能只依檔案修改時間刪掉其他版本。分類不確定時保留待確認。
+
+#### 第 3 階段：呈現遷移計畫與導航草案
+
+原文要求呈現每項「目前位置 → 目的地」及 Home Repo 的 `AGENTS.md` 草案，並逐輪處理相依的決策：一個問題尚未決定時，依賴它的問題留待下一輪。計畫表與指引**都經使用者核准**才進入實際修改。
+
+以下是 Codex 自編的規劃表示例；`copy → compare → decide` 是較保守的遷移方式：
+
+| 項目 | 原位置 | 類別 | 擬定目的地／處置 | 檢查 |
+| --- | --- | --- | --- | --- |
+| 共用 review skill | `storefront/.agents/skills/review/` | 共用 | 複製完整資料夾到 Home Repo | 包含 `SKILL.md` 與其 scripts、references |
+| 付款專案測試指令 | `payments/AGENTS.md` | 專屬 | 保留原處，導航要求先讀 | 不把只適用付款服務的命令提升為共用規則 |
+| 已安裝第三方 skill | 使用者安裝目錄 | 已安裝 | 沿用來源安裝方式 | 記錄版本與更新途徑 |
+| 名稱相同但內容不同的文件 | 兩個 repo | 待判斷 | 先比較、由維護者確認 | 不以較新日期直接覆蓋 |
+
+導航檔可先從短小的 `AGENTS.md` 開始。以下只是 **Codex 自編範例**，不是原文完整檔案：
+
+```markdown
+# Home Repo
+
+本 repo 保存跨專案共用的工作方法與文件。
+開始跨 repo 工作前，先確認相關 repo 的 Git 狀態與專屬指引。
+
+## Other Repos
+
+- Storefront：../storefront；網站前台。
+  不存在時，依授權從 git@github.com:acme/storefront.git 取得。
+  修改前讀取該 repo 的 AGENTS.md，確認測試方式。
+- Payments：../payments；付款 API。
+  不存在時，依授權從 git@github.com:acme/payments.git 取得。
+  修改前讀取該 repo 的 AGENTS.md，確認安全與測試要求。
+
+## Shared Docs
+
+- 團隊準則：docs/coding-standards.md
+- 用語：docs/glossary.md
+```
+
+原文建議如果 harness 載入不同入口檔，增加一行指向 `AGENTS.md`；例如 `CLAUDE.md` 可以提示先讀取它。**一行文字只是指示**，不能證明 Claude Code、Codex 或其他工具會自動追隨、載入專案 skills，或跨 repo 套用優先順序；應在實際版本檢查讀取結果。若 repo 已存在，應保留並合併原有指引，不能覆寫成單行。
+
+#### 第 4 階段：依核准計畫執行並回報
+
+Matt 建議先建立 Home Repo 與入口指引，將要共用的項目**完整複製**進來；再於各來源 repo 建立新的本機分支，移除已搬遷的重複副本，專屬內容保留。Home Repo 做 commit，是否 push 留給使用者決定。最後逐列報告結果、各來源 repo 的分支及跳過原因。
+
+**Codex 補充的安全與驗收方式**：
+
+1. 開始前記錄各 repo `git status --short --branch`、目前分支與 commit；若有既存工作，保留原狀，另外規劃隔離方式，不覆寫或混入。
+2. 複製完整 skill 後比較必要檔案，確認 references／scripts 等相依路徑可找到；從 Home Repo 的實際啟動方式確認工具能發現及讀取，不能只憑檔案存在認定成功。
+3. 確認新來源可用、使用者已同意移除且相關引用已更新，再依表格在各 repo 的獨立分支移除舊副本；逐一檢查 diff。若發現未預期的工作或權限限制，先保留並回報。
+4. 在每個 repo 分別驗證規則、測試與差異，記錄 commit／分支與相依版本；提交及 push 的授權與範圍分別確認。跨 repo 驗證通過與上線完成也分開紀錄。
+
+#### 在 Home Repo 開始工作：目錄與一個完整任務
+
+原文的基本做法不需要新 CLI；Home Repo 由 Git 管理，其他 repo 可在相鄰目錄，也可依團隊設計 clone 在其中並排除於 Home Repo 追蹤。下面是 Codex 示意，不代表唯一布局：
+
+```text
+repos/
+├── home/                         # 獨立 Git repo；從這裡啟動 agent
+│   ├── AGENTS.md                 # 共用入口與 repo 導航
+│   ├── .agents/skills/           # 依實際 harness 的支援位置決定
+│   ├── docs/                     # 共用標準、術語與跨專案決策
+│   └── repos/                    # 規模大時的分領域導航
+├── storefront/                   # 獨立 Git repo 與專屬指引
+└── payments/                     # 獨立 Git repo 與專屬指引
+```
+
+例如「調整結帳狀態顯示」同時涉及前台與付款 API：
+
+1. 在 `home/` 啟動 session，給出功能目標，請 agent 先讀 Home Repo 入口並定位兩個 repo。
+2. 分別確認兩邊的本機路徑、`AGENTS.md`／其他專屬規則、工作樹與當前版本；沒有權限或工作樹不乾淨就記錄限制，不自行清理。
+3. 釐清 API 契約、測試與跨 repo 交付順序，先列計畫。若需平行修改，依兩個 repo 的情況各建 worktree／分支，不能共用一個 repo 的 worktree 來取代另一個。
+4. 實作後，分別跑前台及 API 的相關測試，再做雙方的契約或整合驗證；記錄各 repo 的檔案、分支、commit 和測試結果。
+5. 分別提交／交付各 repo，說明所需相依版本；Home Repo 不提供跨 repo 的原子 commit，若部分交付失敗需有協調或回退方案。
+
+以下可作為任務啟動 prompt，為 **Codex 自編範本**，不是 Matt 原文：
+
+```text
+請先讀取本 Home Repo 的 AGENTS.md，協助規劃跨 repo 的結帳狀態顯示。
+先找出相關 repo，分別回報路徑、目前分支、Git 工作樹狀態與版本，
+並讀取各 repo 適用的專屬指引。請列出 API 契約、預期修改範圍、
+每個 repo 的測試、跨 repo 的整合驗證，以及需要決定的事項。
+先提出計畫，經我確認後才修改；保留既有未提交工作。
+```
+
+#### 規模、其他方案與 CI
+
+- **約 20 個 repo**：Matt 認為平面導航仍可用；**約 400 個**時，他建議按業務領域拆成多份索引，例如 `repos/billing.md`，再由入口指向它們。這些是他的經驗式示例，不是效能測試結論。
+- **更多使用者與 repo**：他認為到數千個 repo 時，可考慮 skills marketplace；這是分發及版本治理選項，是否適合取決於管理成本。
+- **Submodule／monorepo**：原文認為少量 repo 可以使用 submodule，也可用普通路徑指標；submodule 可記錄特定 commit，但有額外維護成本。能採 monorepo 時它也是可選方案；公開與私有 repo 混用等情境不一定適合遷移。
+- **CI／sandbox**：原文構想把 Home Repo 放進 sandbox，依任務 clone 其他 repo。是否能工作仍取決於實際網路、憑證、路徑、觸發條件與存取權限；不要把憑證或 `.env` 提交到 repo。
+
+原文的完整英文 setup prompt 可在[作者文章「Set one up」](https://www.aihero.dev/the-home-repo-pattern)複製。本文以中文拆解其操作與決策，並增加可直接套用的自編範例。
+
 
 ### 問題、原因與處理方式
 
@@ -216,5 +362,5 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 
 - [Matt Pocock 原影片](https://www.youtube.com/watch?v=hWe-j78vNpc)，2026-11-12。
 - [AI懶人報中文解說](https://www.youtube.com/watch?v=P_MpsJm4adg)，2026-11-16。
-- [Matt Pocock：The Home Repo Pattern](https://aihero.dev/the-home-repo-pattern)。
+- [Matt Pocock：The Home Repo Pattern](https://www.aihero.dev/the-home-repo-pattern)，原文標示更新日期 2026-11-12；包含 setup prompt、FAQ 與原文示意圖。
 - [OpenAI：Codex Prompting Guide](https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide)。

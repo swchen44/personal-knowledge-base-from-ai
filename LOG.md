@@ -178,3 +178,4 @@
 | 2026-11-18 00:14 | ingest-research | O_zcc6Xl12g、DJJJ9ltVuGQ：兩片字幕與 30＋4 則可見留言、1 張原講截圖及 2 張 Mermaid；方法與團隊成效未實測 | [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] | AI | 3 | 5 |
 | 2026-11-18 00:23 | update-research | hWe-j78vNpc：整理熱門排序前 150 則留言中高讚觀點與具體經驗；補規則載入、IDE、權限及替代方案，觀眾自述與建議未實測 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（保留既有連結） | 5 |
 | 2026-11-18 00:44 | ingest-research | mEo5rAMcyDk 與 1xsDhApBGbw：合併 1,352 段英文及 1,534 段中文字幕；核對 McKinsey、ILO；1 Mermaid，方法未實測 | [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]] | AI | 3 | 6 |
+| 2026-11-18 20:40 | update-research | Matt 原文四階段盤點與遷移、原圖、目錄／導航／任務範例及風險；保留既有內容，未執行 Home Repo 遷移 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（既有保留） | 5 |

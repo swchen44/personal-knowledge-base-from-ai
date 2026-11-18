@@ -6,7 +6,7 @@
 - [AI 程式碼如何避免變成 slop：架構、驗證與軟體工廠](./AI/2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY.md)：整合原講、中文影片及熱門留言，區分講者自述與尚待驗證的質疑。
 - [重新思考 Claude Code 工作方式](./DevTools/2026-11-12-RETHINKING-CLAUDE-CODE-BEST-PRACTICES-LYDIA-HALLIE.md)：兩片整合，說明權限、sandbox、hooks、驗證與多工，方法未實測。
 - [GetEbook 創業案例：AI 電子書、行銷與數字核對](./AI/2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE.md)：整合兩支影片，核對 MRR 字幕與畫面期間；商業成效未獨立審計。
-- [Home Repo：多 repo AI agent 實戰](./AI/2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW.md)：兩片合併，補熱門留言與專案規則、IDE、權限和替代方案的討論；方法未實測。
+- [Home Repo：多 repo AI agent 實戰](./AI/2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW.md)：兩片與 Matt 原文整合，加入四階段遷移步驟、原圖、可複製任務範例及留言；方法未實測。
 - [個人用 AI 變快，公司為何沒跟上？Basis 原講與公開討論](./AI/2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY.md)：找到原文與行為規格文件，核對兩份字幕、45 則留言與 LinkedIn 回應；補 2 張 Mermaid、1 圖、NA 原因與證據界線，方法未實測。
 - [放大人與 AI 的工作上限：四方向框架與可重用 Skill](./AI/2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS.md)：Felix 原文與 Gary 影片比較，附任務卡、V-model 對照、2 張圖片、2 張 Mermaid，以及 raise-ai-ceiling skill；方法成效未實測。
 - [通用 AI 程式碼審查實作：Codex、Claude Code 的 Prompt、Subagent 與 Headless 方法](./DevTools/2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE.md)：可複製任務包、上下文機制、內建與非互動入口、具名公開做法；僅來源研究，方法未實測，Astra high 文稿 review 改列待辦。
