@@ -181,3 +181,4 @@
 | 2026-11-18 20:40 | update-research | Matt 原文四階段盤點與遷移、原圖、目錄／導航／任務範例及風險；保留既有內容，未執行 Home Repo 遷移 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（既有保留） | 5 |
 | 2026-11-22 05:25 | ingest-research | Mm689dbEfCM：312 段繁中字幕、23 項案例來源清單，畫面辨識 Anatomy；原案與未定位分開，專案未實測 | [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]] | AI | 3 | 6 |
 | 2026-11-22 05:51 | ingest-research | Mm689dbEfCM 07:13 核對 Sol 原案；下載獨立 Wall-e 固定版本靜態研究；結合 13–16 候選題與學習歷程；未接設備實測 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 3 | 6 |
+| 2026-11-22 | update-research | 比較 Sol 與 Tal 公開原始紀錄；Wall-e 固定版本 prompt、程式邊界與法國歷史 BOM 分階段試算；新增 Mermaid 與學生觀察範本，未實測硬體或提示詞 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 0（既有 3 組保留） | 7 |

@@ -2,7 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
-- [從人工種植到 AI 照顧植物：Sol 與學習歷程](./Education/2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY.md)：原案、Wall-e 程式、候選題與真實素材紀錄。
+- [從人工種植到 AI 照顧植物：Sol 與學習歷程](./Education/2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY.md)：Sol／Tal 實驗、Wall-e 程式與提示詞、預估 BOM、候選題及真實素材紀錄。
 - [20 多個 Claude 真實應用及專案網址](./AI/2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE.md)：影片案例、原始專案、證據限制與安全。
 - [AI 原生企業如何轉型？李開復與簡立峰](./AI/2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE.md)：整合兩場訪談、企業試點、工作未來及證據界線。
 - [AI 程式碼如何避免變成 slop：架構、驗證與軟體工廠](./AI/2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY.md)：整合原講、中文影片及熱門留言，區分講者自述與尚待驗證的質疑。
