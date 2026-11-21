@@ -220,6 +220,8 @@ flowchart LR
 
 ## 相關連結（Related）
 
+- [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]]：Claude 的實體、開源與安全案例及原始來源整理。
+
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 對照管理者、資料基礎與組織改造的責任。
 - [[2026-05-25-HUMAN-SOP-TO-AGENTIC-WORKFLOW-PROMPT-TOOLKIT]] — 對照任務拆解、人工介入與流程擁有者；不把軟體工作流直接套成機器人控制規格。
 - [[2023-10-15-OBSERVABILITY-DRIVEN-DEVELOPMENT]] — 把部署觀察接回設計，支援本文的例外資料與驗收思路。

@@ -358,6 +358,8 @@ flowchart TD
 
 ## 相關連結（Related）
 
+- [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]]：Claude 的實體、開源與安全案例及原始來源整理。
+
 - [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]]：李開復與簡立峰對 AI 原生企業、責任與職涯的觀點。
 
 - [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] — Lauren Tan 演講與觀眾討論：架構約束、驗證及自動化品質界線。

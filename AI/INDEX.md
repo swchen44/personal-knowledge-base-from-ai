@@ -83,3 +83,4 @@
 | [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]] | GetEbook 兩片整合：AI 電子書、創業、行銷與財務口徑核對；方法未實測。 | 2026-11-11 |
 | [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] | Lauren Tan 原講與中文影片：架構、lint、驗證、軟體工廠及熱門留言，明列成效證據界線。 | 2026-11-14 |
 | [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]] | 李開復與簡立峰兩場訪談：AI 原生企業、DRI、職涯與美中競爭；核對 6% 調查定義。 | 2026-11-13 |
+| [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]] | 酷可實驗室二十多個 Claude 案例；追查 Anatomy、Universal Modder、PactUp 與原案，區分證據與未定位。 | 2026-11-20 |

@@ -151,6 +151,8 @@ Lydia 描述多個雲端 session 可各自在不同環境工作；CI 對提交�
 
 ## 相關連結（Related）
 
+- [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]]：Claude 的實體、開源與安全案例及原始來源整理。
+
 - [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]]：fresh session、審查輸入與非互動 review。
 - [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：Anthropic 團隊的風險核准與發布制度。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：沿用需求到修復階段與驗收對照。
