@@ -28,7 +28,7 @@ links:
 
 - 影片的番茄是 Martin DeVido／AutonCorp 的 **Sol Biodome**：作者回報 Claude 每約 30 分鐘根據感測與影像決策，100 天後結出 6–8 顆成熟番茄。
 - Sol 官方公開了[百日紀錄](https://autoncorp.com/sol.html)；本次**未找到可確認由 Sol 原作者公開的原始碼**。已下載的 [Wall-e](https://github.com/Vistawizard/wall-e) 是另一位作者受 Sol 啟發的實作，不能當成 Sol 的程式。
-- Tal 的 Farmer Claude 公開任務、日誌與操作紀錄；與 Sol 比較要注意植物、感測器及人的參與不同，不能當控制實驗。
+- Tal 的 Farmer Claude 公開任務、日誌、架構與獨立操作紀錄；與 Sol 比較要注意植物、感測器及人的參與不同，不能當控制實驗。
 - 分階段 BOM 以 Wall-e 的法國歷史價格試算；system prompt 比較區分文字要求、程式限制與人工責任。
 - Wall-e 使用 Raspberry Pi 讀感測器與執行設備，Mac 執行 Claude Code、記錄與發布；本篇是固定版本的靜態研究，未接設備或實測。
 - 對照你的 [Plant-Based Living Lab 計畫](https://github.com/swchen44/plant-based-living-lab/blob/main/docs/MASTER_PLAN.md)：第 13–16 題可選擇性串連，先人工觀察，再比較光照、供水、規則提醒與 AI 建議；**16 題均為候選，尚未選題或完成實驗**。
@@ -151,6 +151,93 @@ flowchart TD
 | 驗證 | 比對原始日誌、感測或獨立照片 | 用抽樣方式核對摘要是否忠於原紀錄、缺失是否被保留 |
 
 Wall-e 的近期紀錄＋定期摘要可以在其原始碼檢查；**不能反推 Sol 也用相同檔名或實作**。
+
+
+### 二之二、Farmer Claude 的系統架構：一個攝影機、一台 Pi 與可追溯紀錄
+
+[作者文章](https://www.talraviv.co/p/fable-grows-my-food)記錄的是實驗者的設計與感受；[固定版本封存 README](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/README.md)保留 Pi 檔案、排程、可讀 session、照片與設備操作紀錄。以下架構由 Codex 根據兩者繪製；**固定版本是結束時的快照，不能假設每個元件從第一天就相同**。
+
+```mermaid
+flowchart LR
+    H["人：設定任務、播種、建置設備與必要補水"] --> M["MISSION.md：照顧植物至收成"]
+    M --> A["Raspberry Pi 4：Claude Code / Fable"]
+    C["cron：依排程啟動 check-in"] --> A
+    J["CHECKIN.md、JOURNAL.md：程序與記憶"] <--> A
+    P["攝影機：植物、土壤表面與水罐影像"] --> A
+    A --> S["工具腳本：拍照、燈、水泵"]
+    S --> W["Wi-Fi 智慧插座"]
+    W --> L["植物燈"]
+    W --> U["水泵 → 管路 → 托盤 → 椰纖盆"]
+    U --> P
+    L --> P
+    X["獨立觀察：定時照片、操作紀錄、快照"] -.供事後核對.-> R["研究者檢視"]
+    S -.寫入操作紀錄.-> X
+    P -.定時拍攝.-> X
+    J -.版本快照.-> X
+```
+
+攝影機提供影像，不直接測量土壤含水量。人準備的工具腳本封裝攝影機與智慧插座；作者指出這些是 CLI 工具，和 MCP 有相似的工具使用概念，**不表示它們是 MCP server**。實驗者另外設置 agent 未被告知的觀察工作，用來保存每小時影像、操作紀錄和資料夾版本；這有助於事後對照，但單靠紀錄仍不能證明實際水量或植物健康狀態。
+
+![Farmer Claude 的 2026-08-25 定時照片，顯示水罐、管路、托盤與椰纖盆](assets/2026-11-20-SOL-PLANT-LEARNING/farmer-2026-08-25-1245.jpg)
+![Farmer Claude 的 2026-09-24 定時照片，顯示同一裝置內長出的密集幼苗](assets/2026-11-20-SOL-PLANT-LEARNING/farmer-2026-09-24-1245.jpg)
+
+*圖：實驗者封存的定時影像，日期時間為加州時間。可比較裝置和植物外觀，但不能僅憑這兩張判定含水量、植物品種或失敗原因。來源：[8 月 25 日](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/.farmer-ground-truth/timelapse/hourly-camera/auto_2026-08-25_1245.jpg)、[9 月 24 日](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/.farmer-ground-truth/timelapse/hourly-camera/auto_2026-09-24_1245.jpg)。作者對其擁有的封存資料採 [CC0 1.0](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/LICENSE)。*
+
+#### 一次 check-in 怎麼運作？
+
+```mermaid
+sequenceDiagram
+    participant Cron as cron
+    participant Agent as Claude Code / Fable
+    participant Files as 任務、檢查程序、日誌
+    participant Camera as 攝影機
+    participant Device as 燈與水泵工具
+    participant Evidence as 獨立操作紀錄
+    Cron->>Agent: 依排程執行 claude -p
+    Agent->>Files: 讀任務、CHECKIN 和 JOURNAL
+    Agent->>Camera: 拍照並觀察
+    Camera-->>Agent: 植物、土壤表面和水罐影像
+    Agent->>Device: 檢查燈狀態；視情況提出操作
+    Device-->>Agent: 回報狀態或執行結果
+    Device-->>Evidence: 保存水泵或燈的操作紀錄
+    Agent->>Files: 寫下觀察、判斷、行動與緊急事項
+```
+
+固定版 [crontab](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/var/spool/cron/crontabs/bubbles)可見三次每日檢查，並以獨立排程控制早晚燈光；斷電後另有 `@reboot` 同步燈狀態。這是該快照的配置，並非證明整段實驗的排程都不變。每次檢查若認證或程式失敗，agent 的判斷步驟可能根本沒有執行；燈的獨立排程與 AI 檢查也可能有不同結果。
+
+| 檔案／來源 | 誰建立、用來做什麼 | 核對時要注意 |
+| --- | --- | --- |
+| [MISSION.md](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/farmer-claude/MISSION.md) | 人寫目標，告知 agent 可自行排定喚醒 | 這是任務文件；公開 session 中的 Claude Code system prompt 副本已由作者移除 |
+| [CHECKIN.md](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/farmer-claude/CHECKIN.md)、[JOURNAL.md](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/farmer-claude/JOURNAL.md) | agent 寫檢查步驟、長期規則及事件紀錄 | 是 agent 的觀察與判斷，可能誤讀；應對照照片和其他紀錄 |
+| [水泵紀錄](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/.farmer-ground-truth/water_log.jsonl)、[定時照片](https://github.com/talsraviv/farmer-claude-archive/tree/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/.farmer-ground-truth/timelapse/hourly-camera) | 實驗者安排的獨立觀察；水泵程式記錄操作結果 | 紀錄到的泵浦秒數不是經流量計驗證的實際出水量；定時照片不是 agent 每次都看過的照片 |
+| [可讀 session](https://github.com/talsraviv/farmer-claude-archive/tree/179498ddd12e9dee869b68ad69018a2c0e6ac868/archive-extras/readable-transcripts) | 作者依原始 session 製作易讀版本，可看工具呼叫與回應 | 不等於完整心智推理；作者說部分 8 月 24 日至 9 月 1 日的 session 因自動清理而遺失 |
+
+作者另標示：版本快照從 8 月 26 日開始；9 月 6 日以前的系統 log 因斷電重啟而缺失，初始 session 的結尾也不完整。README、易讀 session、照片分類是發布時整理過的形式，不代表所有檔案原樣存在於 agent 工作目錄。
+
+#### 安全限制與實驗經驗
+
+固定版 [`water.py`](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/farmer-claude/tools/water.py) 顯示單次上限 **8 秒**、兩次至少間隔 **30 分鐘**、每日總上限 **60 秒**；程式嘗試關閉泵浦並核對關閉狀態，失敗時記錄緊急事件。這些是程式意圖和靜態檢查，不是實際硬體安全測試。[權限設定](https://github.com/talsraviv/farmer-claude-archive/blob/179498ddd12e9dee869b68ad69018a2c0e6ac868/home/bubbles/farmer-claude/.claude/settings.json)也允許直接呼叫 `kasa`，因此不能宣稱所有可能的控制路徑都強制經過 `water.py`。例如程序中斷、連線失敗或直接控制設備時，仍需另外驗證保護是否生效。
+
+| 經驗與證據 | 學到什麼 | 對學習歷程／下一版的建議，尚未實測 |
+| --- | --- | --- |
+| 第一次供水後出現虹吸與管路位置問題；人調整後，agent 再拍照與短脈衝核對。 | 即使指令執行成功，水實際流到哪裡仍是另一個問題。 | 畫出水路、先量測流量並拍前後照；保留人工介入與修改原因。 |
+| agent 為燈光安排固定排程，斷電後增加同步腳本。 | 適合規則化的工作可以交給排程；恢復後也要檢查狀態。 | 記下預期狀態、重啟後實際狀態與恢復耗時；不要只展示成功情境。 |
+| 作者指出水位影像解讀有誤，也觀察到 agent 在缺水警告與節水判斷上不穩定。 | 影像只能提供有限線索；信心高不等於量測正確。 | 設可讀水位標記並以人工量測交叉核對，記錄判斷錯誤與修正。 |
+| agent 日誌提到 OAuth 失效，`checkin.log` 可見認證失敗。 | 排程存在不等於任務確實完成，憑證生命週期也會影響植物。 | 建立獨立成功心跳、失敗通知與人工接手規則；以實際事件測試。 |
+| agent 自己寫日誌並提出植物下垂的假設；作者沒有吃到蘿蔔。 | 可觀察的推理和可用成果是不同的評估面向；單案無法判定某個唯一成因。 | 事先寫成果指標、觀察指標與限制；保留失敗和不確定性。 |
+
+作者文章說後續沒有再與 agent 對話，也承認曾補水；封存 README 另列出人工登入修復及健康檢查的 session。這些證據顯示人有不同形式的維運活動，不能將「無後續對話」擴張為整個系統無人碰觸。是否每項維運影響植物照護，須逐一查時間與內容。
+
+#### 三案架構如何對應到學生選題？
+
+| 設計問題 | Sol：作者報告的原案 | Farmer Claude：封存可查 | Wall-e：固定版設計 |
+| --- | --- | --- | --- |
+| 決策與硬體 | 官方描述 30 分鐘循環，多種 biodome 感測與控制；細節未完整公開 | Pi 4 上執行 agent；一個攝影機、Wi-Fi 燈和泵 | Mac 執行決策，Pi API 讀取感測並控制設備 |
+| 記憶與證據 | 官方總結成長過程；本次未找到可核對逐輪記憶的原始碼 | 程序、日誌、session、泵浦紀錄、照片及版本快照 | 源碼描述近期紀錄、摘要及設備回報；本文未實測 |
+| 故障與人 | 官方稱日常決策不靠人工澆水或開燈；完整故障紀錄待查 | 可查虹吸、斷電後同步、認證錯誤，以及人工補水等紀錄 | 程式包含 watchdog、泵浦與水位限制；未驗證實體故障 |
+| 學生適合借用 | 定義跨週期觀察問題，將長期目標拆成階段 | 保留人的任務、AI 假設、可獨立核對的照片與操作紀錄 | 把資料、決策和設備控制分層；先在無設備模式檢查建議 |
+
+推薦先選一個可在學期內回答的問題，例如「人工目視澆水判斷與盆重紀錄是否一致？」先由學生量測、留下不同判斷與證據，再決定是否加入 AI 整理或控制。這是本文的研究建議，不是三案已驗證的比較結果。
 
 
 ### 三、Wall-e 的人與 agent：從 GitHub 看一種實作
