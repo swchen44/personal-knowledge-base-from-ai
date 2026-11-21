@@ -74,7 +74,7 @@ links:
 | [06:04 食物過敏抗體](https://www.youtube.com/watch?v=Mm689dbEfCM&t=364s) | 影片稱一個月提出約 3.5 萬種設計，早期篩出候選。 | [Anthropic／Divergence Labs 原始報告](https://www.anthropic.com/research/early-progress-drug-development)；候選物經篩選、實驗室測試，**尚非人體療效或上市藥物**。 |
 | [06:40 火星車](https://www.youtube.com/watch?v=Mm689dbEfCM&t=400s) | 以 Claude 輔助規劃 Perseverance 路線。 | [NASA 原報告](https://www.nasa.gov/centers-and-facilities/jpl/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/)：2025 年兩趟共 456 公尺；JPL 人員使用地面數位分身檢查後才送出命令。不是模型直接在火星即時駕駛。 |
 | [06:55 實驗室與工廠](https://www.youtube.com/watch?v=Mm689dbEfCM&t=415s) | 透過共通標準銜接儀器，縮短整合。 | [Model Hardware Standard 研究預覽](https://www.anthropic.com/news/model-hardware-standard-research-preview)；廠商與設備支援、權限及操作安全仍需確認。影片的時間比較不是所有設備的保證。 |
-| [07:09 AI 種植物](https://www.youtube.com/watch?v=Mm689dbEfCM&t=429s) | agent 使用鏡頭、感測與工具來控制設備。 | [Tal Raviv 的 Fable 種植實驗](https://www.talraviv.co/p/fable-grows-my-food)；概念相符，但影片所說番茄、設備與此篇細節是否同案**尚未確認**。 |
+| [07:09 AI 種植物](https://www.youtube.com/watch?v=Mm689dbEfCM&t=429s) | agent 使用鏡頭、感測與工具來控制設備。 | 影片畫面顯示 [Dries Buytaert 對 Sol 的記錄](https://dri.es/claude-is-growing-a-tomato-plant)，對應 Martin DeVido 的 [Sol 官方百日紀錄](https://autoncorp.com/sol.html)；另見 [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY|專篇]]。Tal Raviv 是不同實驗。 |
 | [07:33 Luna 店長](https://www.youtube.com/watch?v=Mm689dbEfCM&t=453s) | AI 參與店鋪選品、定價及招募。 | [Andon Labs 原始介紹](https://andonlabs.com/blog/andon-market-launch)與 [Andon Market](https://andonlabs.com/market)；實驗由公司提供資金、店面與人員，不等於 AI 自行承擔法律與財務責任。 |
 | [08:17 燈具控制](https://www.youtube.com/watch?v=Mm689dbEfCM&t=497s) | 影片稱花 3.5 小時、91 美元做替代控制程式。 | 尚未定位原始專案，成本與設備未核實。 |
 | [08:29 五種家電](https://www.youtube.com/watch?v=Mm689dbEfCM&t=509s) | 影片稱逆向多個自有設備，找到裝置設定及隱藏命令。 | 尚未定位確切原始專案；攝影機燈號與錄影狀態不得假設永遠一致。 |
@@ -130,9 +130,11 @@ flowchart TD
 3. 家具搬家、車商比價、燈具、五設備與雲霄飛車案例的直接作者及原始連結是什麼？搜尋：`Claude Code furniture house tour game park lighting reverse engineering`。
 4. 睡眠眼罩廠商是否確認並修補跨使用者資料存取？搜尋：`Aimilios sleep mask MQTT vendor remediation`。
 5. Microduck 說明書是否有獨立實際組裝紀錄？搜尋：`Victor Mustar LEGO Microduck physical build`。
-6. 影片種植案例與 Tal Raviv 實驗是否為同一系統？搜尋：`Claude tomato plants every 30 minutes camera pump`。
+6. Sol 的完整原始感測紀錄與程式是否公開？搜尋：`AutonCorp Sol biodome source code Martin DeVido`。
 
 ## 相關連結（Related）
+
+- [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]]：Sol 百日種植、可研究的 Wall-e 程式及學生從人工到 AI 的學習紀錄。
 
 - [[2026-09-10-PHYSICAL-AI-THE-HIDDEN-VALUE-POOLS-LEADERS-ARE-MISSING]]：實體環境與 AI 可靠性。
 - [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：分層檢查、人工責任與事故回復。

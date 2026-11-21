@@ -220,6 +220,8 @@ flowchart LR
 
 ## 相關連結（Related）
 
+- [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]]：Sol 百日種植、可研究的 Wall-e 程式及學生從人工到 AI 的學習紀錄。
+
 - [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]]：Claude 的實體、開源與安全案例及原始來源整理。
 
 - [[2026-04-20-AI-REVOLUTION-STARTS-FROM-BOSS-CHIEN-LI-FENG-MEGA-TALK]] — 對照管理者、資料基礎與組織改造的責任。

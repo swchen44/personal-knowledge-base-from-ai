@@ -180,3 +180,4 @@
 | 2026-11-18 00:44 | ingest-research | mEo5rAMcyDk 與 1xsDhApBGbw：合併 1,352 段英文及 1,534 段中文字幕；核對 McKinsey、ILO；1 Mermaid，方法未實測 | [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]] | AI | 3 | 6 |
 | 2026-11-18 20:40 | update-research | Matt 原文四階段盤點與遷移、原圖、目錄／導航／任務範例及風險；保留既有內容，未執行 Home Repo 遷移 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（既有保留） | 5 |
 | 2026-11-22 05:25 | ingest-research | Mm689dbEfCM：312 段繁中字幕、23 項案例來源清單，畫面辨識 Anatomy；原案與未定位分開，專案未實測 | [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]] | AI | 3 | 6 |
+| 2026-11-22 05:51 | ingest-research | Mm689dbEfCM 07:13 核對 Sol 原案；下載獨立 Wall-e 固定版本靜態研究；結合 13–16 候選題與學習歷程；未接設備實測 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 3 | 6 |
