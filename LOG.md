@@ -183,3 +183,4 @@
 | 2026-11-22 05:51 | ingest-research | Mm689dbEfCM 07:13 核對 Sol 原案；下載獨立 Wall-e 固定版本靜態研究；結合 13–16 候選題與學習歷程；未接設備實測 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 3 | 6 |
 | 2026-11-22 | update-research | 比較 Sol 與 Tal 公開原始紀錄；Wall-e 固定版本 prompt、程式邊界與法國歷史 BOM 分階段試算；新增 Mermaid 與學生觀察範本，未實測硬體或提示詞 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 0（既有 3 組保留） | 7 |
 | 2026-11-22 | update-research | 補 Tal 原文與固定版本封存：Pi 架構、check-in 流程、獨立觀察、泵浦安全邊界及三案經驗比較；加入 2 張原始照片及 2 張 Mermaid，靜態研究未實測 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 0（既有 3 組保留） | 7 |
+| 2026-11-22 07:05 | ingest-research | JQye0oXHj1w、czosBPhFnDI、公開案例與 ARCP 固定版本；三套流程留待對照 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | AI | 4 | 6 |

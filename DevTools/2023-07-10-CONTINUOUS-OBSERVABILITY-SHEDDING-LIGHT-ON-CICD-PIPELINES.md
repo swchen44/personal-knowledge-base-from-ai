@@ -155,6 +155,7 @@ flowchart LR
 
 - [[2026-10-03-FREERTOS-RISCV-OBSERVABILITY-RESEARCH]]：FreeRTOS／RISC-V 的研究、證據與接續驗證，可對照本文的觀測方法。
 - [[2026-10-03-HUGGING-FACE-AI-AGENT-INCIDENT-CONTAINMENT-AND-ACCOUNTABILITY]]：將跨代理人與共享服務活動關聯為獨立可查核證據；觀測仍不能替代權限限制。
+- [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] — 延伸閱讀：用 V-model、工單證據與人時／token 比較三套 AI 流程，以及共用知識的取捨。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

@@ -280,6 +280,7 @@ description: 交付驗證必須對應目前產物，缺少證據時清楚揭露�
 - [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]]：探索時提高目標與方法，交付時補上可檢查的必要行為。
 - [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]：連接風險、審查與發布證據，防止把流程通過等同成果正確。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]：將需求端的預期行為接到驗證端，沿用自己的工作階段。
+- [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] — 延伸閱讀：用 V-model、工單證據與人時／token 比較三套 AI 流程，以及共用知識的取捨。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
