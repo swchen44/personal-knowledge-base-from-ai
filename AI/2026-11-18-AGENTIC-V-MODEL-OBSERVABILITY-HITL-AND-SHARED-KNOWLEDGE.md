@@ -10,7 +10,7 @@ tags:
   - ai/evals
 source: "https://www.youtube.com/watch?v=JQye0oXHj1w"
 source_type: video
-author: "AI懶人報；Annie Wang（Google Cloud Tech）"
+author: "AI懶人報、Annie Wang（Google Cloud Tech）、Diyi Yang（Stanford Online）"
 channel: "AI懶人報"
 duration: "20:03"
 transcript_method: yt-dlp
@@ -28,6 +28,12 @@ sources:
     duration: "09:05"
     transcript_method: "mlx-whisper small，本機英語 ASR"
     human_verified: false
+  - url: "https://www.youtube.com/watch?v=DGI4vucR71w"
+    date: 2026-11-09
+    channel: "Stanford Online"
+    speaker: "Diyi Yang"
+    duration: "1:09:36"
+    transcript_method: "yt-dlp, English CC; 參照 Stanford 官方投影片第 1 講"
 links:
   - "[[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]]"
   - "[[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]]"
@@ -37,18 +43,18 @@ links:
 
 ## TL;DR
 
-- AI懶人報用找東西、修 bug 和寄信教你辨識 Agent。Google Cloud 用同一件退款案，示範單一 Agent、Agent 團隊和圖形工作流程的分工。
+- 三課先辨識誰決定下一步，再用 Google Cloud 退款案比較架構，最後讀 Stanford 原講，拆解 ReAct、記憶、工具呼叫與可靠性。
 - 人力、等待、Agent 花費的時間、token 和交付品質可以各自量測。Claude Code 與 Codex 有部分原生訊號，跨工具比較仍需要同一個工作項目 ID、明確的時間區間和欄位定義。
 - 外部做法有共用行為規格、共用可觀測契約、共用知識入口和共用執行平台。每往上一層都多一種協調成本。知識是否值得集中，可量查找成功率、適配與例外維護時間、以及改一次要通知多少流程。
 - 本文提供可以回填 A／B／C 的比較表與測量方法。三套流程都已在運作，詳細內容尚未提供，因此各欄維持待填，公開專案只當對照案例。
 
 ## 摘要
 
-把兩支影片的客服案例放進軟體交付的 V-model，可以同時研究三件事。第一，需求到驗收的證據怎麼連。第二，誰消耗了時間和 token，等在哪裡。第三，一次失敗如何回饋到測試、知識和工作方式。這三個問題有不同的共用範圍。Claude Code 和 Codex 是已知的執行工具，三套流程的領域、責任人、任務類型、資料、審批政策及共用價值都留待觀察。
+把影片的 Agent 架構與客服案例放進軟體交付的 V-model，可以同時研究三件事。第一，需求到驗收的證據怎麼連。第二，誰消耗了時間和 token，等在哪裡。第三，一次失敗如何回饋到測試、知識和工作方式。這三個問題有不同的共用範圍。Claude Code 和 Codex 是已知的執行工具，三套流程的領域、責任人、任務類型、資料、審批政策及共用價值都留待觀察。
 
 ## 影片講義｜AI Agent 怎麼運作，系統又該怎麼設計？
 
-讀完這節，你應該能分辨單次模型呼叫、工作流程（workflow）和 Agent，並能用同一件退款案，說明為什麼設計者會選單一 Agent、Agent 團隊或圖形工作流程（graph workflow）。
+讀完這節，你應該能分辨單次模型呼叫、工作流程（workflow）和 Agent，並能用同一件退款案，說明為什麼設計者會選單一 Agent、Agent 團隊或圖形工作流程（graph workflow）。第三課用 Stanford 原講的查證案例，補上元件、工具呼叫與可靠性評估。
 
 ### 第一課｜AI懶人報想教什麼？從「誰決定下一步」認識 Agent
 
@@ -72,11 +78,28 @@ links:
 
 ### 第二課｜Google Cloud 想教什麼？用同一件退款案比較三種架構
 
+#### 核心主張（Idea）｜用任務的需求選架構
+
 Annie Wang 用一個客戶情境貫穿整支影片：客戶說包裹一直沒到，想退款。系統要找出訂單、取得物流證據、判斷是否符合規則、執行退款，再把實際結果告訴客戶。三種架構分別回答**誰選下一步、誰負責哪一塊、哪些步驟必須依規則發生**。[影片 00:20](https://www.youtube.com/watch?v=czosBPhFnDI&t=20s) · [07:56 架構總覽](https://www.youtube.com/watch?v=czosBPhFnDI&t=476s)
 
 1. **單一 Agent（single agent）讓同一個角色處理全案。** 它先查訂單拿追蹤碼，再查物流。確認遺失就查退款政策，若還在運送就給更新的到貨資訊，找不到訂單就向客戶補問。模型在同一個 Agent 迴圈可以被呼叫多次。退款工具本身仍要檢查操作是否合法。[影片 00:45](https://www.youtube.com/watch?v=czosBPhFnDI&t=45s) · [01:13 案例](https://www.youtube.com/watch?v=czosBPhFnDI&t=73s)
 2. **Agent 團隊（agent team）把專業責任拆開。** 協調者先讓物流 Agent 查包裹，再把遺失證據交給帳務 Agent 核對付款與退款資格。兩位專家可使用同一個底層模型，各自有工作指示、可用工具與上下文。這個案子的兩步有依賴，所以影片示範的是交接。多一層交接也會增加延遲、成本和漏傳資訊的機會。[影片 02:43](https://www.youtube.com/watch?v=czosBPhFnDI&t=163s) · [03:12 角色圖](https://www.youtube.com/watch?v=czosBPhFnDI&t=192s)
 3. **圖形工作流程（graph workflow）規定步驟、分支與前置條件。** 程式先讀資料並核對訂單歸屬。Agent 團隊回傳調查結果與建議。程式按付款紀錄檢查重複申請並計算可退金額，合格才呼叫退款服務。缺資料就詢問客戶並重回調查，政策例外交給人。付款服務回報成功之後，模型才撰寫退款確認。工作流程可在單一節點內放進一個 Agent 或一整組團隊。[影片 04:43](https://www.youtube.com/watch?v=czosBPhFnDI&t=283s) · [06:00 流程圖](https://www.youtube.com/watch?v=czosBPhFnDI&t=360s)
+
+#### 架構（Architecture）｜各元件負責什麼？
+
+| 架構 | 元件怎麼接 | 何時有用 | 要付出的成本 |
+| --- | --- | --- | --- |
+| 單一 Agent | 客戶 → 一個 Agent → 訂單、物流、政策、退款等工具 | 一個角色能理解整案，下一步常要視查到的資料決定。 | 工具和政策越多，同一套指示越難維護。模型會多輪選擇工具，需要停止條件。 |
+| Agent 團隊 | 客戶 → 協調者 → 物流 Agent／帳務 Agent → 協調者整合 | 不同角色需要不同工具、規則或上下文，可各自維護。 | 交接要保留證據及待確認項目，否則帳務 Agent 可能把推測當成已確認的物流結果。 |
+| 圖形工作流程 | 讀取與查核程式 → 調查節點 → 規則分流 → 退款、補問或人工覆核 → 回覆 | 步驟有強依賴，某些檢查每次必跑，完成與例外路徑要能說清楚。 | 要另外定義狀態、分支和恢復點。規則改變時需更新流程和測試。 |
+
+#### 流程（Flow）｜用四個問題走完退款案
+
+1. **這筆訂單是誰的？** 程式先讀訂單和付款資料，確認訂單屬於提出請求的客戶。後續節點才有足夠資料調查。
+2. **包裹發生什麼事？** 物流 Agent 查承運商紀錄。帳務 Agent 依物流發現與付款資料，比對退款政策。這一步交付的是調查結果與建議。
+3. **現在可以退多少？** 程式按付款紀錄檢查資格、是否重複申請，以及剩餘可退金額。符合條件才呼叫退款函式。資料不足先補問，政策例外轉人工。
+4. **真的退成功了嗎？** 付款服務的結果提供可確認的狀態，模型根據結果寫客服回覆。退款函式本身也執行必要檢查，因此換成單一 Agent 或其他架構時，仍有相同的操作邊界。[影片 05:26](https://www.youtube.com/watch?v=czosBPhFnDI&t=326s) · [06:39](https://www.youtube.com/watch?v=czosBPhFnDI&t=399s) · [07:09](https://www.youtube.com/watch?v=czosBPhFnDI&t=429s)
 
 下圖依 Google Cloud 影片 [06:00 的畫面](https://www.youtube.com/watch?v=czosBPhFnDI&t=360s) 重繪，標出 Agent、程式和人的分工。
 
@@ -92,6 +115,63 @@ flowchart LR
     F --> H["依覆核結果回覆"]
 ```
 
+#### 核心概念與重點（Concepts & Key Takeaways）
+
+- **節點（node）與邊（edge）。** 節點可以是普通程式、單次模型呼叫、一個 Agent 或一組團隊。邊定義何時接下一步、何時分流，以及資料回來後是否重走調查。
+- **工具和必跑節點的差異。** 把查核提供為 Agent 工具，執行時點取決於模型是否選它。把查核設成退款前的必要節點，流程可以保證經過這一步。查核的正確性仍要靠程式和測試。
+- **分工是一個獨立決策。** 可以採用 graph workflow 搭配單一 Agent，也可以用團隊處理其中一個調查節點。先看是否真的需要不同角色，再決定是否值得增加交接成本。[影片 07:25](https://www.youtube.com/watch?v=czosBPhFnDI&t=445s) · [08:06](https://www.youtube.com/watch?v=czosBPhFnDI&t=486s)
+
+### 第三課｜Stanford CS329Z 原講：拆開一個 AI Agent
+
+#### 核心主張（Idea）
+
+Diyi Yang 在 CS329Z 第一講把課題從「模型能回答什麼」推進到「怎麼把模型、工具、記憶和評估組成可以反覆執行的系統」。課程以較早的 action–observation 迴圈與 AlphaGo 類系統為背景，接到 ReAct 與 LLM Agent。第一課用日常比喻介紹這些概念，這裡把原講的元件、處理流程和評估問題拆開。[Stanford 原講 07:40](https://www.youtube.com/watch?v=DGI4vucR71w&t=460s) · [14:00](https://www.youtube.com/watch?v=DGI4vucR71w&t=840s) · [官方投影片](https://web.stanford.edu/class/cs329z/slides/lecture01.pdf)
+
+#### 架構（Architecture）｜五個部分怎麼接？
+
+| 元件 | 作用 | 用第二課退款案舉例（講義延伸） |
+| --- | --- | --- |
+| 模型核心（LLM core） | 讀目標、上下文和觀察，提出下一個動作或回覆。 | 理解客戶描述，判斷要先查訂單或補問。 |
+| 規劃與推理（planning and reasoning） | 把目標拆成可做的步驟，隨新資料調整。 | 發現包裹已遺失，接著核對退款資格。 |
+| 記憶（memory） | 保存可供下一輪取用的事件、事實與方法。 | 本案查過哪些資料、目前採用哪版政策、調查要走哪些步驟。 |
+| 工具（tools） | 受控地查詢或改動外部狀態。 | 查訂單、查物流、讀付款紀錄。 |
+| 環境（environment） | 接收動作與回傳觀察的外部系統。 | 訂單資料庫、承運商系統、付款服務。 |
+
+下圖參考官方投影片第 30、58 頁重繪，將構成與執行時的資料方向畫在一起。[原講 22:05](https://www.youtube.com/watch?v=DGI4vucR71w&t=1325s) · [投影片第 30 頁](https://web.stanford.edu/class/cs329z/slides/lecture01.pdf#page=30)
+
+```mermaid
+flowchart LR
+    Goal["目標與上下文"] --> Core["LLM 核心與規劃"]
+    Mem["可取用的記憶"] --> Core
+    Core -->|提出工具與參數| Harness["執行層驗證參數與權限"]
+    Harness --> Tool["工具"]
+    Tool -->|執行動作| Env["外部環境"]
+    Env -->|觀察結果| Core
+    Core -. "依記憶策略保存事件" .-> Mem
+    Core -->|完成或需協助| End["回覆或交接"]
+```
+
+#### 流程（Flow）｜ReAct 為何要讓觀察回到模型？
+
+原講的 HotpotQA 例子問 Apple Remote 原本搭配的軟體可用什麼其他方式控制。模型先查 Apple Remote，得到 **Front Row** 這個軟體名稱。直接查名稱找不到合適條目，因此改用含「software」的關鍵字，最後找到鍵盤功能鍵的資料。觀察結果改變了接下來的行動，也提供了可核對的答案依據。[原講 31:13](https://www.youtube.com/watch?v=DGI4vucR71w&t=1873s) · [投影片第 36 頁](https://web.stanford.edu/class/cs329z/slides/lecture01.pdf#page=36)
+
+工具呼叫還有執行層。投影片用讀取 `test.py` 當例子，依序選擇工具、填入檔案路徑、驗證參數型別、執行並把結果帶回上下文。工程上可以分別檢查「參數格式正確」與「此執行環境允許讀取該檔案」。前者由 schema 提供依據，後者由執行權限與沙盒決定。[原講 58:41](https://www.youtube.com/watch?v=DGI4vucR71w&t=3521s) · [投影片第 58 頁](https://web.stanford.edu/class/cs329z/slides/lecture01.pdf#page=58)
+
+#### 概念（Concepts）｜原講多教了哪些東西？
+
+| 概念 | 讀講義時要抓住的差異 |
+| --- | --- |
+| 推理鏈（CoT）、ReAct、Reflexion | CoT 提供中間推演，ReAct 讓下一步使用外部觀察，Reflexion 則用任務回饋整理失敗經驗，讓後續嘗試能取用。可分別問這一輪是否需要查證、下一輪是否需要保留經驗。[28:19](https://www.youtube.com/watch?v=DGI4vucR71w&t=1699s) · [35:05](https://www.youtube.com/watch?v=DGI4vucR71w&t=2105s) |
+| 情節、語意、程序記憶 | 情節記憶保存「上次發生什麼」，語意記憶保存「歸納後知道什麼」，程序記憶保存「下次怎麼做」。同一個退款案可以留下失敗事件、已確認的規則及經驗證的處理步驟。[44:54](https://www.youtube.com/watch?v=DGI4vucR71w&t=2694s) |
+| 複合 AI 系統、RAG 與 MCP | 複合系統可以把模型、檢索、工具和驗證組在一起。RAG 先取回相關內容供模型使用，MCP 提供宿主和工具／資料來源的標準連接方式。系統仍需決定步驟、授權和完成條件。[53:31](https://www.youtube.com/watch?v=DGI4vucR71w&t=3211s) · [1:00:14](https://www.youtube.com/watch?v=DGI4vucR71w&t=3614s) |
+| 可靠性與安全 | 課程分別問同一任務重跑是否一致、輸入或工具小幅變動時是否穩定，以及失敗是否可預期、可恢復。成功率也要與是否遵守授權一起檢查。[1:01:05](https://www.youtube.com/watch?v=DGI4vucR71w&t=3665s) · [投影片第 61–64 頁](https://web.stanford.edu/class/cs329z/slides/lecture01.pdf#page=61) |
+
+#### 必記重點（Key Takeaways）
+
+1. **觀察要能改變下一步。** 用 trace 檢查 Agent 是否真的讀到工具結果，遇到錯誤時有沒有換路線、補問或停止。
+2. **記憶可以分開維護。** 發生過的事件、已查證的規則和可執行的方法，各自需要可追溯的來源與適用範圍。將一次失敗轉成流程改進時，先保留原始事件，再驗證歸納出的做法。
+3. **把成功和可靠性都寫成驗收情境。** 退款案可以測正常、資料缺漏、重複退款及工具暫時失敗。每條都要定義應有結果、允許的操作及應保留的證據。這是把原講的評估框架帶回第二課與 V-model 的講義練習。
+
 ### 課堂練習｜遇到新任務，先決定哪裡需要判斷
 
 | 題目 | 參考答案 |
@@ -101,10 +181,10 @@ flowchart LR
 | 收到模糊的 bug 描述，要依 log 和程式碼線索找原因。CI 測試有固定清單。 | Agent 選調查順序，CI 執行規定的檢查。這是講義延伸題。 |
 | Agent 建議退款，但付款紀錄顯示先前已退過。 | 程式做重複檢查並依規則停止或轉人工覆核，客服只回報已確認的處理結果。 |
 
-第一支給讀者一套判斷方法，第二支把它放進實際的系統分工。設計時可以逐步問：**哪些步驟要靠觀察才能選路？哪些規則每次都得跑？哪些例外要由人判斷？** 三種架構可以同時出現在同一個系統裡，也可以從固定流程起步。[Google Cloud 07:50](https://www.youtube.com/watch?v=czosBPhFnDI&t=470s)
+三課分別處理辨識 Agent、安排系統分工，以及驗證 Agent 如何行動與失敗。設計時可以逐步問：**哪些步驟要靠觀察才能選路？哪些規則每次都得跑？哪些例外要由人判斷？** 三種架構可以同時出現在同一個系統裡，也可以從固定流程起步。[Google Cloud 07:50](https://www.youtube.com/watch?v=czosBPhFnDI&t=470s)
 
 > [!note] 來源與延伸閱讀
-> 第一支依繁中字幕整理，第二支依本機 ASR 與關鍵畫面整理，帳務角色用畫面確認為 billing。上述練習是本講義的教學設計。以下各節把概念接到 V-model、可觀測性與工作流程比較。
+> 第一支依繁中字幕整理，第二支依本機 ASR 與關鍵畫面整理，帳務角色用畫面確認為 billing。第三支依 Stanford Online 英文 CC 和第 1 講官方投影片整理。上述練習是本講義的教學設計。以下各節把概念接到 V-model、可觀測性與工作流程比較。
 
 > [!note] 可觀測性有兩個對象
 > Agent 需要看得到工具結果與當前狀態，才能決定下一步。操作者則需要看得到每次執行的證據、責任、等待與成本，才能重現問題、及早介入並比較流程。
@@ -284,7 +364,7 @@ flowchart TD
 | 帽子 | 回饋 |
 | --- | --- |
 | 藍帽 | 先建立能比較三套流程的研究框架，待有流程資料再判斷可共用的部分。 |
-| 白帽 | 兩支影片已核對字幕或 ASR 與畫面。公開專案有靜態證據，三套流程的實測資料仍待提供。 |
+| 白帽 | 三支影片已核對字幕或 ASR，並參照課程投影片與架構畫面。公開專案有靜態證據，三套流程的實測資料仍待提供。 |
 | 紅帽 | 讀者可能擔心把時間記錄變成監看個人，也可能對額外登記感到負擔。 |
 | 黃帽 | 有一致的工作項目與人工覆核證據後，可以找出真正卡在人的環節，也能復用已經有效的回歸案例。 |
 | 黑帽 | 只看通過案例會漏掉返工成本。過早集中規格容易增加例外適配，跨流程更新也可能放大事故。 |
@@ -295,5 +375,7 @@ flowchart TD
 
 - [AI懶人報 EP480](https://www.youtube.com/watch?v=JQye0oXHj1w)
 - [Annie Wang，3 ways to design your agentic system](https://www.youtube.com/watch?v=czosBPhFnDI)
+- [Diyi Yang，Stanford CS329Z Lecture 1](https://www.youtube.com/watch?v=DGI4vucR71w)
+- [Stanford CS329Z Lecture 1 官方投影片](https://web.stanford.edu/class/cs329z/slides/lecture01.pdf)
 - [Stanford CS329Z 課程與原始材料](https://cs329z.stanford.edu/)
 - 上文各節連結分別指向架構文件、可觀測性文件、公開研究及固定版本原始碼。

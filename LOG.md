@@ -185,3 +185,4 @@
 | 2026-11-22 | update-research | 補 Tal 原文與固定版本封存：Pi 架構、check-in 流程、獨立觀察、泵浦安全邊界及三案經驗比較；加入 2 張原始照片及 2 張 Mermaid，靜態研究未實測 | [[2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY]] | Education | 0（既有 3 組保留） | 7 |
 | 2026-11-22 07:05 | ingest-research | JQye0oXHj1w、czosBPhFnDI、公開案例與 ARCP 固定版本；三套流程留待對照 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | AI | 4 | 6 |
 | 2026-11-22 11:11 | update-handout | JQye0oXHj1w、czosBPhFnDI：補影片主張、案例、三種架構與課堂練習 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | AI | 0（既有 4 組） | 6 |
+| 2026-11-22 11:49 | update-handout | 擴充 Google Cloud 退款架構與流程，加入 Stanford CS329Z 原講、投影片及 Mermaid | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | AI | 0（既有 4 組） | 6 |
