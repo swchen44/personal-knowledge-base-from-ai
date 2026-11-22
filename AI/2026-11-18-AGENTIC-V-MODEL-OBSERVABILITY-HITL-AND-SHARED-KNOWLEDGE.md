@@ -37,7 +37,7 @@ links:
 
 ## TL;DR
 
-- 兩支影片的交集是「誰決定下一步」。固定檢查交給程式或工作流程，開放式調查可由 Agent 決定下一步，需要價值判斷或授權時讓人決定。
+- AI懶人報用找東西、修 bug 和寄信教你辨識 Agent。Google Cloud 用同一件退款案，示範單一 Agent、Agent 團隊和圖形工作流程的分工。
 - 人力、等待、Agent 花費的時間、token 和交付品質可以各自量測。Claude Code 與 Codex 有部分原生訊號，跨工具比較仍需要同一個工作項目 ID、明確的時間區間和欄位定義。
 - 外部做法有共用行為規格、共用可觀測契約、共用知識入口和共用執行平台。每往上一層都多一種協調成本。知識是否值得集中，可量查找成功率、適配與例外維護時間、以及改一次要通知多少流程。
 - 本文提供可以回填 A／B／C 的比較表與測量方法。三套流程都已在運作，詳細內容尚未提供，因此各欄維持待填，公開專案只當對照案例。
@@ -46,17 +46,37 @@ links:
 
 把兩支影片的客服案例放進軟體交付的 V-model，可以同時研究三件事。第一，需求到驗收的證據怎麼連。第二，誰消耗了時間和 token，等在哪裡。第三，一次失敗如何回饋到測試、知識和工作方式。這三個問題有不同的共用範圍。Claude Code 和 Codex 是已知的執行工具，三套流程的領域、責任人、任務類型、資料、審批政策及共用價值都留待觀察。
 
-## 兩支影片說了什麼
+## 影片講義｜AI Agent 怎麼運作，系統又該怎麼設計？
 
-| 影片與定位 | 時間點 | 內容 |
-| --- | --- | --- |
-| AI懶人報整理 Stanford CS329Z | [01:48](https://www.youtube.com/watch?v=JQye0oXHj1w&t=108s)、[03:00](https://www.youtube.com/watch?v=JQye0oXHj1w&t=180s) | Agent 根據觀察重新決定接下來要做什麼。以找物品、搜尋和客服退款說明推理、行動、觀察的迴圈。 |
-| 同上 | [06:32](https://www.youtube.com/watch?v=JQye0oXHj1w&t=392s)、[08:56](https://www.youtube.com/watch?v=JQye0oXHj1w&t=536s)、[12:08](https://www.youtube.com/watch?v=JQye0oXHj1w&t=728s) | 模型、規劃、記憶、工具、環境是拆解視角。摘要可能只需一次模型呼叫，固定分類可編排成 workflow，路徑得看查詢結果時才考慮 Agent。 |
-| 同上 | [14:09](https://www.youtube.com/watch?v=JQye0oXHj1w&t=849s)、[15:13](https://www.youtube.com/watch?v=JQye0oXHj1w&t=913s)、[16:17](https://www.youtube.com/watch?v=JQye0oXHj1w&t=977s) | 說明主管派工與產出後評審。重要操作先取得人的決定，迴圈要有停止條件，先在隔離環境測試。片中的刪信屬於講者援引的案例。 |
-| Google Cloud Tech，Annie Wang | [00:45](https://www.youtube.com/watch?v=czosBPhFnDI&t=45s)、[02:30](https://www.youtube.com/watch?v=czosBPhFnDI&t=150s)、[03:12 畫面](https://www.youtube.com/watch?v=czosBPhFnDI&t=192s) | 同一件未收到包裹的退款請求，比較單一 Agent 與由 coordinator 分派給物流、帳務兩種 specialist 的團隊。兩個角色的工具權限與工作上下文可有各自的範圍。 |
-| 同上 | [04:43](https://www.youtube.com/watch?v=czosBPhFnDI&t=283s)、[06:00 畫面](https://www.youtube.com/watch?v=czosBPhFnDI&t=360s)、[07:56 畫面](https://www.youtube.com/watch?v=czosBPhFnDI&t=476s) | Graph workflow 可把程式、單次模型呼叫與整組 Agent 放進不同節點。查證權屬與規則交給程式，缺資料回頭詢問，例外給人處理，退款成功後才產生確認回覆。 |
+讀完這節，你應該能分辨單次模型呼叫、工作流程（workflow）和 Agent，並能用同一件退款案，說明為什麼設計者會選單一 Agent、Agent 團隊或圖形工作流程（graph workflow）。
 
-Google 影片的章節標籤與實際講解起點有時差，表中使用內容或畫面錨點。英文 ASR 把 billing 辨識為 building，已用 [03:12 的角色與工具圖](https://www.youtube.com/watch?v=czosBPhFnDI&t=192s) 核對。上述是教學案例，文章中的 V-model 與三流程比較是研究者延伸。原始字幕、音訊、ASR 和取樣影格保留在本機工作區。
+### 第一課｜AI懶人報想教什麼？從「誰決定下一步」認識 Agent
+
+這支影片整理 Stanford CS329Z 的入門概念。它用一個實用判準來區分不同工具：**拿到結果後，誰決定要不要再做一步，以及下一步做什麼？** 人看完一則 AI 回答再下指令，是人在帶路。程式安排模型和工具依預設路線走，是 workflow。若模型根據剛取得的結果，選擇接下來要查什麼或問誰，這一段就是 Agent 在運作。[影片 01:48](https://www.youtube.com/watch?v=JQye0oXHj1w&t=108s) · [08:56](https://www.youtube.com/watch?v=JQye0oXHj1w&t=536s)
+
+> [!example] 例子一：找不到東西，下一步怎麼辦？
+> 打開第一個櫃子，裡面沒有，就換一個找。影片把同樣的概念用在網路搜尋：第一次搜尋沒有找到相關資料，Agent 會依結果換關鍵字。這是「判斷 → 行動 → 看結果 → 再判斷」的迴圈。實作時要能判定何時完成、何時停止重試或交給人。[影片 03:00](https://www.youtube.com/watch?v=JQye0oXHj1w&t=180s) · [05:00](https://www.youtube.com/watch?v=JQye0oXHj1w&t=300s) · [16:22](https://www.youtube.com/watch?v=JQye0oXHj1w&t=982s)
+
+影片把 Agent 拆成五個部分。**模型**解讀請求與結果，**規劃**決定先做哪一步，**記憶**保存已經試過的方法與取得的資料，**工具**讓它能查訂單或操作系統，**環境**則是它讀取或改動的地方，例如物流或客服系統。看新產品時，可以從這五個部分問出它究竟能完成哪類任務。[影片 06:32](https://www.youtube.com/watch?v=JQye0oXHj1w&t=392s)
+
+| 影片中的例子 | 想說明什麼 |
+| --- | --- |
+| 把一封客訴信整理成三個重點 | 資料和輸出都清楚時，一次模型呼叫通常就足以交出摘要。[12:08](https://www.youtube.com/watch?v=JQye0oXHj1w&t=728s) |
+| 大綱→檢查大綱→寫全文，或把客服問題分成退款、帳單、技術問題 | 串接和分流都可以用預先定好的路徑。分流節點即使用模型分類，後續仍由流程規定。[10:30](https://www.youtube.com/watch?v=JQye0oXHj1w&t=630s) |
+| 三個章節同時寫，或同一份合約從三個角度審 | 平行化可以事先分好工作。若事先不知道該查哪些系統，可由主 Agent 看過線索再派工。[11:03](https://www.youtube.com/watch?v=JQye0oXHj1w&t=663s) · [14:52](https://www.youtube.com/watch?v=JQye0oXHj1w&t=892s) |
+| Agentless 和 SWE-agent 都做修 bug | 影片用這兩者對比預設流程與動態調查。前者按既定階段找位置、修補、驗證。後者可以看結果再選下一個檔案或動作。[09:27](https://www.youtube.com/watch?v=JQye0oXHj1w&t=567s) |
+| 一個模型翻譯，另一個對著原文找漏譯 | 產出者加評審者的做法需要清楚的評分依據，才能判斷改稿是否真的進步。[15:13](https://www.youtube.com/watch?v=JQye0oXHj1w&t=913s) |
+
+> [!example] 例子二：草稿可以先寫，寄出由人確認
+> 影片用電子郵件說明授權邊界，也援引兩個失敗案例。刪信案例用來說明上下文壓縮可能漏掉關鍵限制，買菜案例則說明缺少地址時，系統應先詢問。工程含意是把重要動作的覆核做進流程或工具，並設重試上限與停止條件。刪信與買菜屬於講者引用的案例。[影片 16:12](https://www.youtube.com/watch?v=JQye0oXHj1w&t=972s) · [16:40](https://www.youtube.com/watch?v=JQye0oXHj1w&t=1000s) · [17:49](https://www.youtube.com/watch?v=JQye0oXHj1w&t=1069s)
+
+### 第二課｜Google Cloud 想教什麼？用同一件退款案比較三種架構
+
+Annie Wang 用一個客戶情境貫穿整支影片：客戶說包裹一直沒到，想退款。系統要找出訂單、取得物流證據、判斷是否符合規則、執行退款，再把實際結果告訴客戶。三種架構分別回答**誰選下一步、誰負責哪一塊、哪些步驟必須依規則發生**。[影片 00:20](https://www.youtube.com/watch?v=czosBPhFnDI&t=20s) · [07:56 架構總覽](https://www.youtube.com/watch?v=czosBPhFnDI&t=476s)
+
+1. **單一 Agent（single agent）讓同一個角色處理全案。** 它先查訂單拿追蹤碼，再查物流。確認遺失就查退款政策，若還在運送就給更新的到貨資訊，找不到訂單就向客戶補問。模型在同一個 Agent 迴圈可以被呼叫多次。退款工具本身仍要檢查操作是否合法。[影片 00:45](https://www.youtube.com/watch?v=czosBPhFnDI&t=45s) · [01:13 案例](https://www.youtube.com/watch?v=czosBPhFnDI&t=73s)
+2. **Agent 團隊（agent team）把專業責任拆開。** 協調者先讓物流 Agent 查包裹，再把遺失證據交給帳務 Agent 核對付款與退款資格。兩位專家可使用同一個底層模型，各自有工作指示、可用工具與上下文。這個案子的兩步有依賴，所以影片示範的是交接。多一層交接也會增加延遲、成本和漏傳資訊的機會。[影片 02:43](https://www.youtube.com/watch?v=czosBPhFnDI&t=163s) · [03:12 角色圖](https://www.youtube.com/watch?v=czosBPhFnDI&t=192s)
+3. **圖形工作流程（graph workflow）規定步驟、分支與前置條件。** 程式先讀資料並核對訂單歸屬。Agent 團隊回傳調查結果與建議。程式按付款紀錄檢查重複申請並計算可退金額，合格才呼叫退款服務。缺資料就詢問客戶並重回調查，政策例外交給人。付款服務回報成功之後，模型才撰寫退款確認。工作流程可在單一節點內放進一個 Agent 或一整組團隊。[影片 04:43](https://www.youtube.com/watch?v=czosBPhFnDI&t=283s) · [06:00 流程圖](https://www.youtube.com/watch?v=czosBPhFnDI&t=360s)
 
 下圖依 Google Cloud 影片 [06:00 的畫面](https://www.youtube.com/watch?v=czosBPhFnDI&t=360s) 重繪，標出 Agent、程式和人的分工。
 
@@ -71,6 +91,20 @@ flowchart LR
     D -->|退款成功| G["用模型撰寫確認回覆"]
     F --> H["依覆核結果回覆"]
 ```
+
+### 課堂練習｜遇到新任務，先決定哪裡需要判斷
+
+| 題目 | 參考答案 |
+| --- | --- |
+| 一封客訴信已經在手上，只需要三點摘要。 | 先試單次模型呼叫。 |
+| 三種客服問題有對應的處理路徑，但使用者的說法各不相同。 | 模型可分類，workflow 選已定義的分支。 |
+| 收到模糊的 bug 描述，要依 log 和程式碼線索找原因。CI 測試有固定清單。 | Agent 選調查順序，CI 執行規定的檢查。這是講義延伸題。 |
+| Agent 建議退款，但付款紀錄顯示先前已退過。 | 程式做重複檢查並依規則停止或轉人工覆核，客服只回報已確認的處理結果。 |
+
+第一支給讀者一套判斷方法，第二支把它放進實際的系統分工。設計時可以逐步問：**哪些步驟要靠觀察才能選路？哪些規則每次都得跑？哪些例外要由人判斷？** 三種架構可以同時出現在同一個系統裡，也可以從固定流程起步。[Google Cloud 07:50](https://www.youtube.com/watch?v=czosBPhFnDI&t=470s)
+
+> [!note] 來源與延伸閱讀
+> 第一支依繁中字幕整理，第二支依本機 ASR 與關鍵畫面整理，帳務角色用畫面確認為 billing。上述練習是本講義的教學設計。以下各節把概念接到 V-model、可觀測性與工作流程比較。
 
 > [!note] 可觀測性有兩個對象
 > Agent 需要看得到工具結果與當前狀態，才能決定下一步。操作者則需要看得到每次執行的證據、責任、等待與成本，才能重現問題、及早介入並比較流程。
