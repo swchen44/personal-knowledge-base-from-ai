@@ -187,3 +187,4 @@
 | 2026-11-22 11:11 | update-handout | JQye0oXHj1w、czosBPhFnDI：補影片主張、案例、三種架構與課堂練習 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | AI | 0（既有 4 組） | 6 |
 | 2026-11-22 11:49 | update-handout | 擴充 Google Cloud 退款架構與流程，加入 Stanford CS329Z 原講、投影片及 Mermaid | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | AI | 0（既有 4 組） | 6 |
 | 2026-11-24 06:46 | ingest-research | Anthropic 原文與 single-agent-loop-kit 固定版本，封存數據重算與離線驗證 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | AI | 3 | 4 |
+| 2026-11-24 07:27 | update-research | 核對 single-agent-loop-kit 固定版本，補齊 20 支 Python 的功能、用途與閱讀順序 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | AI | 0（既有 3 組） | 4 |

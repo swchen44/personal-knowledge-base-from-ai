@@ -108,6 +108,62 @@ flowchart TD
 
 `reference_loop` 要求寫入工具有批准 callback，之後按實際 usage 才記 token。若需要控制付費上限，還要核對模型呼叫前的預算管理及子代理是否有回報用量。整套範例是參考實作，README 明示不維護。實際使用時，在 clone 路徑以 Python 3.10+ 可直接跑離線測試。即時模型路徑另需 Python 虛擬環境、`anthropic` SDK、`KIT_MODEL` 與 SDK 可用憑證。[參考迴圈](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/reference_loop/loop.py) · [操作手冊](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/RUNBOOK.md)
 
+## Python 檔案索引（20 支）
+
+依固定版本的 Git 追蹤清單盤點，包含套件入口、範例、腳本、範本與測試。每個檔案連到同一個 commit。客服範例中的路徑相對於 `examples/support-desk/`，其餘相對於 repo 根目錄。
+
+**閱讀順序**：先從 `app/orchestrator.py` 看原版怎麼派工，再看 `single_loop/agent.py` 怎麼重新分工。要移植執行架構，接著看 `reference_loop/loop.py`。要核對遷移結果，從 `evals/run_eval.py` 讀到 `skill/scripts/compare.py`。
+
+### 客服範例｜原版多代理
+
+| 檔案 | 功能 | 什麼時候用 |
+| --- | --- | --- |
+| [`app/__init__.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/__init__.py) | 對外匯出 `orchestrator.new_conversation`。 | 讓評估器用 `--app app` 建立原版對話，與改版共用同一個入口名稱。 |
+| [`app/backend.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/backend.py) | 提供固定日期與合成資料，模擬訂單、物流、退貨、帳號、裝置日誌與理賠。每次寫入會追加到 `actions`。 | 做成可重複的測試環境。評估器可以查系統是否真的建立退貨或更改資料。 |
+| [`app/fake_model.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/fake_model.py) | 提供 `FakeClient`，用關鍵字和預先定義的規則模擬模型回覆、工具呼叫與交接。 | 設定 `KIT_MODEL=fake` 時離線測試管線。模型品質和新版選路能力需要其他測試。 |
+| [`app/llm.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/llm.py) | 讀取 `KIT_MODEL`，選擇假模型或 Anthropic SDK，集中 API 呼叫並透過 `Meter` 按代理記錄呼叫與 token。 | 讓原版與改版使用同一套模型介接及用量統計。 |
+| [`app/orchestrator.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/orchestrator.py) | 維護主對話，依 router 的工具請求委派給五類專家，或把整段對話轉交 `ClaimsSession`。 | 讀懂遷移前有哪些路由、交接及回傳邊界。 |
+| [`app/subagents.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/subagents.py) | 載入各專家的 prompt、執行獨立工具迴圈並回傳最終文字。`ClaimsSession` 則跨使用者回合保留理賠對話。 | 分辨一次性委派與整段對話移交，也可追蹤個別代理的使用量和工具呼叫。 |
+| [`app/tools.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/app/tools.py) | 為各專家定義可見工具和參數，將呼叫派到 backend；退貨、改地址等寫入需通過批准 callback。 | 查某個代理能用哪些工具，以及會有什麼副作用。 |
+
+### 客服範例｜單迴圈改版
+
+| 檔案 | 功能 | 什麼時候用 |
+| --- | --- | --- |
+| [`single_loop/__init__.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/single_loop/__init__.py) | 對外匯出 `agent.new_conversation`。 | 讓評估器改用 `--app single_loop`，沿用相同的測試入口。 |
+| [`single_loop/agent.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/single_loop/agent.py) | 把客服工作組成主迴圈。訂單與物流整合成查件工具，退貨使用 Skill 和工具，診斷保留為子代理工具，理賠維持移交。 | 看不同遷移方式怎麼共存，並對照批准、驗證診斷回傳格式與用量紀錄如何接入。 |
+| [`single_loop/customer.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/single_loop/customer.py) | 以 session 提供的客戶身分包裝 backend，核對訂單、追蹤碼、裝置等紀錄的歸屬。 | 讓主代理與子代理共用資料權限層，避免模型用聊天內容指定要操作的客戶身分。 |
+
+### 客服範例｜評估與資料
+
+| 檔案 | 功能 | 什麼時候用 |
+| --- | --- | --- |
+| [`evals/run_eval.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/evals/run_eval.py) | 載入 golden cases，替每次執行建立新 backend，按回覆和實際動作評分。輸出 `results.jsonl`、個別 trace、`run.json`，另記錄執行錯誤。 | 用同一批任務比原版與改版，或用離線替身驗證評估管線。 |
+| [`traces/make_traces.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/traces/make_traces.py) | 用固定亂數種子與預設流量分布產生合成 trace，每行代表一次子代理呼叫。 | 做可重現的稽核輸入，供 `coupling_map.py` 與 `chain_coverage.py` 練習；樣本流量屬於示範資料。 |
+
+### 通用單迴圈
+
+| 檔案 | 功能 | 什麼時候用 |
+| --- | --- | --- |
+| [`reference_loop/__init__.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/reference_loop/__init__.py) | 標記 `reference_loop` 為 Python 套件，檔案僅含授權標頭。 | 程式從 `reference_loop.loop` 匯入；套件初始化沒有額外執行邏輯。 |
+| [`reference_loop/loop.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/reference_loop/loop.py) | 定義 `Agent`、`Tool`、`Budget`、`Result`。管理多輪訊息、按需載入 Skill 和工具、並行讀取、依序批准寫入及可選的回覆驗證。 | 要移植單迴圈時從這裡看。客服業務規則由範例的工具和資料層提供。 |
+
+### 遷移分析工具
+
+| 檔案 | 功能 | 什麼時候用 |
+| --- | --- | --- |
+| [`skill/scripts/coupling_map.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/scripts/coupling_map.py) | 把 JSONL 依 trace 分組，計算代理出現比例、配對共現、呼叫序列和合併候選。 | 稽核哪些工作經常跑在一起。共現結果用於挑候選，仍要確認是否真的依賴相同資料。 |
+| [`skill/scripts/chain_coverage.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/scripts/chain_coverage.py) | 比對 production trace 中出現的代理集合與 baseline 評估結果。如果某個組合缺案例，回傳非零狀態。 | 改動前找未覆蓋的交接。是否測了正確的結果與副作用，還要閱讀案例的評分條件。 |
+| [`skill/scripts/compare.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/scripts/compare.py) | 把兩個 variant 的共同案例對齊，比較完成率、延遲、呼叫與 token，也列出路徑和寫入差異；有輸入價格才估成本。 | 重算封存結果，或判斷一項變更該保留、修正、回退或追加重跑。 |
+| [`skill/scripts/estimate.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/scripts/estimate.py) | 從已量測的 probe 或 baseline 讀取 token，依案例數、重跑次數和較重任務估算下一輪，可與實際結果對照。 | 在付費評估前估計規模，或核對用量偏差。 |
+| [`skill/templates/skill_loader.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/skill/templates/skill_loader.py) | 提供可移植的 Skill 載入範本。讀取 `SKILL.md` 的名稱與描述，產生工具定義，按需回傳全文，也能略過指定 Skill。 | 為自有 harness 加入漸進揭露，並做有／無 Skill 的對照。 |
+
+### 測試
+
+| 檔案 | 功能 | 什麼時候用 |
+| --- | --- | --- |
+| [`tests/test_kit.py`](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/tests/test_kit.py) | 用 fixtures、替身模型和 `unittest` 驗證遷移腳本、原版與改版範例、工具權限、預算與 verifier 行為。 | 在 repo 根目錄跑 `python3 -m unittest discover tests`，確認範例和分析管線仍可運作。 |
+
 ## 結果（Results）
 
 ### 官方封存資料重算
