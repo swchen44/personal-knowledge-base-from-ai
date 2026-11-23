@@ -330,6 +330,7 @@ flowchart TD
 
 ## 相關連結（Related）
 
+- [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] — 對照 Anthropic 子代理併入準則、按需載入及客服評估結果。
 - [[2026-10-21-MATT-POCOCK-SKILLS-V-MODEL-WORKFLOW-MAPPING]] — 既有需求、計畫、設計、實作、需求變更、除錯與 bug fix 的 skill 對照。
 - [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] — 共用入口、工具，及多 repo 原始資料的歸屬。
 - [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] — 從 Basis 的行為規格與 trace 評估推進到團隊尺度。

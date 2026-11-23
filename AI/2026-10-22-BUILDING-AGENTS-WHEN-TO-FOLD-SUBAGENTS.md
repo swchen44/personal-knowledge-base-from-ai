@@ -1,0 +1,196 @@
+---
+title: "什麼時候該把子代理併入主迴圈？Anthropic 遷移方法與客服實驗"
+date: 2026-10-22
+category: AI
+tags:
+  - ai/agents
+  - ai/harness
+  - ai/evals
+  - ai/skills
+source: "https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop"
+source_type: article
+author: "Diane Sarkis（Anthropic）"
+status: notes
+repository: "https://github.com/anthropics/single-agent-loop-kit"
+source_revision: "c43796287b83bec847db923f07131d1cc8de750d"
+github_language: Python
+github_stars: 595
+repo_metadata_checked: 2026-11-24
+runtime_validation: offline-tests-and-recorded-result-replay
+links:
+  - "[[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]]"
+  - "[[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]]"
+  - "[[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]]"
+---
+
+## TL;DR
+
+- **問題**：一個客戶任務跨越多個子代理時，下游只收到摘要，容易遺失證據。每層還增加模型呼叫、提示詞與維護成本。
+- **方法**：先建立端到端評估。每次只改一個邊界，選擇合併常一起出現的子代理、把領域步驟併成 Skill 與工具，或保留獨立子代理但改由主 Agent 當工具呼叫。
+- **結果**：樣本客服系統併入退貨子代理後，平均延遲由 27.3 降至 19.4 秒，完成由 22/24 增至 23/24，但原本通過的查件情境有一次退步。把 diagnostics 改成工具的全套首輪由 32/34 降至 31/34，追加重跑後作者保留該分支。
+- **怎麼用**：拿同一批案例比完成、路徑、寫入副作用、延遲和 token。把獨立驗證、大量資料、權限隔離和可平行研究視為保留獨立上下文的候選理由。
+
+## 摘要（Summary）
+
+Diane Sarkis 的文章談的是一個已經部署了 router／orchestrator 加 specialist subagents 的團隊，如何在保留能力的前提下減少重複協調。配套的 `single-agent-loop-kit` 是 Apache-2.0 的 Python 參考專案，包含遷移 Skill、共用評估工具、單一迴圈範例和可跑的虛構家電客服系統。原文另報告一位企業客戶的單迴圈約快兩倍。該數字屬於客戶經驗，配套 GitHub 提供的是另外兩項小規模試驗的原始記錄。[Anthropic 原文](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) · [固定版本 repo](https://github.com/anthropics/single-agent-loop-kit/tree/c43796287b83bec847db923f07131d1cc8de750d)
+
+## 為什麼要改（Why）
+
+照部門分代理，起初能快速分工。但「包裹沒送到，可否退貨」可能跨訂單、物流、退貨。下游如果只拿到上游一句「已確認」，就失去原始查詢和判斷依據。各組只看自己的評估，還可能看不到整件事是否完成。原文希望改用**上下文依賴**決定代理邊界。高度依賴同一段對話、同一筆資料或同一條決策鏈的任務，可以先測合併。低耦合、需要大量獨立探索的任務，適合保留局部上下文。
+
+![Anthropic 比較依任務類型交接與依上下文分工的架構](assets/2026-10-22-SINGLE-AGENT-LOOP/split-by-context.png)
+
+上圖的例子由同一個 Agent 寫功能和測試，另一個角色只跑測試並回報。這是一種分工示意。若要評估規格是否完整或測試是否測錯，仍需為驗證者提供規格與獨立判準。[原圖](https://assets.claude.com/cd4b9c4417d5ba31776e8aa79e204966c08c6a43.png)
+
+## 方法與架構（What & How）
+
+### 漸進揭露（Progressive Disclosure）
+
+主 Agent 預先看到技能與工具的簡短索引，工作做到相應領域才讀完整 Skill 或查出對應工具。Skill 管程序及判斷，工具做即時查詢、固定格式輸出和外部操作，知識庫存參考資料。不可省略的業務檢查、授權和寫入限制由程式執行。原文也建議由小型核心團隊維護系統提示詞和端到端測試，各領域團隊維護自己的技能、工具和測試案例。[Anthropic 原文](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop#how-several-teams-can-contribute-to-a-single-agent)
+
+```text
+┌──────────────────┐     ┌─────────────────────────────┐
+│ 使用者與對話歷程 │ ──► │ 主 Agent 與同一份執行上下文 │
+└──────────────────┘     └─────────────┬───────────────┘
+                      ┌────────────────┼───────────────────┐
+                      ▼                ▼                   ▼
+                技能按需載入     資料工具與寫入閘     保留的獨立子代理
+                      └────────────────┴─────────┬─────────┘
+                                         結果回到主迴圈
+```
+
+| 判斷 | 如何做 | 客服例子 |
+| --- | --- | --- |
+| **Merge** | 合併經常串接或經常交換資料的子代理，縮減交接次數 | 稽核把 orders 和 shipping 列為候選。實驗紀錄沒有執行這一項。 |
+| **Fold** | 將領域指示變成按需讀取的 Skill，資料查詢或動作變成薄工具 | returns 的程序進 Skill，主 Agent 可使用退貨相關工具。 |
+| **As tool** | 讓主 Agent 維持對話，用有結構回傳的工具呼叫獨立子代理 | diagnostics 在獨立上下文讀裝置日誌，回傳精簡診斷資訊。 |
+| **Keep** | 保留既有分工，明定輸入、輸出和獨立上下文的理由 | 例如結果須獨立驗證、任務可並行、指示衝突、或測得主上下文明顯膨脹。 |
+
+### 遷移流程
+
+```text
+[盤點分工與 trace] → [固定評估和 baseline] → [只改一個邊界]
+                                                  │
+                                                  ▼
+[更新計畫，進下一項] ← [人決定保留／修正／回退／追加重跑]
+                                                  ▲
+                                                  │
+                             [比較每題、路徑、寫入及資源]
+```
+
+```mermaid
+flowchart TD
+    A["盤點現有子代理與實際交接"] --> B["凍結測試案例與驗收判準"]
+    B --> C["測量目前版本"]
+    C --> D["每次只做一項合併或改寫"]
+    D --> E["同一套評估重跑並逐題看 trace"]
+    E --> F{"結果和副作用可以接受？"}
+    F -->|保留| G["更新基準與研究紀錄"]
+    F -->|結果不明| H["以舊版和新版追加重跑"]
+    H --> E
+    F -->|不接受| I["修正或回退"]
+    I --> D
+```
+
+> [!note] 評估要能抓到交接消失後的退步
+> 每條會被改動的交接鏈都需要案例，且要評分到鏈尾。套件可檢查關聯的子代理集合有無測試，仍需人工閱讀驗收條件，確認必要工具、寫入和拒絕分支真的有被評分。結果通過但路徑繞遠，也可能多花時間和 token。
+
+## Repo 入口與使用案例
+
+| 使用案例 | 入口 → 處理 → 產物 |
+| --- | --- |
+| 安裝遷移 Skill | README 的 clone 和 copy → 來源 `skill/` 複製到目標專案 `.claude/skills/single-agent-loop/`。在 Claude Code 明確要求使用後，`SKILL.md` 按需讀 `steps/00-audit.md` 到 `05-upkeep.md`，工作紀錄落在目標 repo 的 `single-loop/PLAN.md` 和 `inventory.tsv`。 |
+| 驗證範例能否跑起來 | `examples/support-desk/evals/run_eval.py` → `app/orchestrator.py` 和 `app/subagents.py` → `app/fake_model.py`；預設輸出到範例內 `.claude/hillclimb/support-desk/<variant>/`，包含結果、trace 和執行資訊。付費路徑才走 `app/llm.py` 的 Anthropic SDK。 |
+| 分析路徑與估算 | `skill/scripts/coupling_map.py` 讀 trace 匯出，找共現與覆蓋率；`chain_coverage.py` 檢查哪些組合缺案例。 |
+| 比較改動 | `skill/scripts/compare.py` 讀兩個 variants 的 `results.jsonl` 等檔案，輸出逐題結果、模型呼叫、token、路徑、寫入及延遲；`estimate.py` 從已測資料估下輪 token。 |
+| 參考執行迴圈 | `reference_loop/loop.py` 的 `Agent.run` → 讀取對話與工具定義 → 批次執行 → 把結果放回同一段對話；讀取可並行，寫入依序走批准 callback。提供 turn、token 與 batch 限制、按需 Skill、延遲載入工具與可選 verifier。 |
+| 範例終態與歷史變更 | `examples/support-desk/single_loop/agent.py` 是可讀的終態示例。兩次歷史評估各有自己的 `.diff` 和記錄，可對照單項變更。 |
+
+`reference_loop` 要求寫入工具有批准 callback，之後按實際 usage 才記 token。若需要控制付費上限，還要核對模型呼叫前的預算管理及子代理是否有回報用量。整套範例是參考實作，README 明示不維護。實際使用時，在 clone 路徑以 Python 3.10+ 可直接跑離線測試。即時模型路徑另需 Python 虛擬環境、`anthropic` SDK、`KIT_MODEL` 與 SDK 可用憑證。[參考迴圈](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/reference_loop/loop.py) · [操作手冊](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/RUNBOOK.md)
+
+## 結果（Results）
+
+### 官方封存資料重算
+
+兩次歷史實驗皆用 `claude-opus-5`，基準和變更各每題跑兩次。下表以成功次數表示完成率，延遲與 token 為每個案例執行的平均。兩次的題庫大小不同，各自和自己的 baseline 比。
+
+| 比較 | 完成次數 | 平均延遲 | 模型呼叫／次 | 輸入／輸出 token |
+| --- | --- | --- | --- | --- |
+| returns 併入主迴圈，12 題 | 22/24 → 23/24 | 27.3 → 19.4 秒 | 6.3 → 4.8 | 18,154／1,539 → 18,203／1,051 |
+| diagnostics 改成工具，17 題首輪 | 32/34 → 31/34 | 30.8 → 28.3 秒 | 6.3 → 6.0 | 15,377／1,774 → 15,832／1,611 |
+| diagnostics 比較追加重跑，只看 t01、t10 | 8/8 → 8/8 | 25.1 → 29.4 秒 | 6.8 → 7.4 | 7,549／1,240 → 9,074／1,495 |
+
+- **returns**：跨領域 t11 從 0/2 到 2/2，兩次都完成建立退貨。查件 t01 則從 2/2 到 1/2，其中一次漏了依賴物流查詢的確認。原版 12 題還缺 `account → returns` 串接和禁止退貨的情境，也沒有完成有／無 Skill 的對照。整體改善不能回答這些情境。[returns 封存說明](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/example-run/README.md)
+- **diagnostics**：首跑 t01 從 2/2 降到 1/2，追加的兩題兩邊都通過，但 t10 的路徑仍有變動。作者最後保留該分支。當時的 router 沒有可獨立覆核診斷的資料工具，也尚未實測第二輪才提供序號與不存在序號的兩題。[diagnostics 封存說明](https://github.com/anthropics/single-agent-loop-kit/blob/c43796287b83bec847db923f07131d1cc8de750d/examples/support-desk/example-run/as-tool/README.md)
+
+### 本機驗證與快速上手
+
+以下在已下載的 repo 根目錄起跑。這次 48 個 unit tests 通過，離線替身模型跑 19 個案例、0 個 harness error，三組封存比較均成功重算。替身只按規則選路，離線結果用來確認管線。模型品質、企業部署成效與實際 API 帳單未在本機重測。
+
+```sh
+python3 -m unittest discover tests
+cd examples/support-desk
+KIT_MODEL=fake python3 evals/run_eval.py --variant smoke
+python3 ../../skill/scripts/compare.py example-run/results baseline v1
+python3 ../../skill/scripts/compare.py example-run/as-tool/results baseline v1
+python3 ../../skill/scripts/compare.py example-run/as-tool/results baseline-t01-t10 v1-t01-t10
+```
+
+## 我的心得（My Takeaways）
+
+對接已有 V-model 與 HITL 的工作流程時，可以把改動前後的驗收與逐題 trace 當成設計變更證據。適合按需載入的是大家都在同一上下文中讀得到、又能單獨維護的規則。重要的操作則要能由工具或外層流程強制檢查。需要隔離的 reviewer 可以使用獨立上下文，並帶著工單規格、明確的驗收問題及可比對的證據。這樣才能分清楚省下的是模型呼叫、經過時間，或人的審查時間。
+
+## 待補充（Open Questions）
+
+- 當工作經常跨領域，什麼程度的 trace 共現才代表同一上下文有益？搜尋 `agent trace coupling handoff quality`。
+- 併入 returns 後，移除 Skill 是否立刻使重要退貨案例退步？搜尋 `skill ablation task completion eval`。
+- 以獨立驗證或不同資料權限為主的工作，什麼隔離程度能兼顧評分品質與成本？搜尋 `independent verifier context isolation agent evaluation`。
+- 長對話的上下文膨脹、快取、多人審查與 P95 延遲，如何影響是否併入的決定？搜尋 `long horizon agent cache human review latency`。
+
+## 相關連結（Related）
+
+- [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] — 對照第二課 Google Cloud 退款案例、人的審查與時間量測。
+- [[2026-07-19-AGENT-HARNESS-VS-LOOP-VS-GRAPH-ENGINEERING-THREE-LAYERS]] — 對照工具迴圈、外層 graph 和執行邊界。
+- [[2026-10-22-SKILL-TO-SKILL-DELEGATION-CLAUDE-CODE-CODEX-WORKAROUNDS-AND-EVIDENCE]] — 對照 Skill 按需載入及跨工具的組合限制。
+
+## 知識層次分析（Bloom's Taxonomy Analysis）
+
+| 層次 | 本文可練習的事 |
+| --- | --- |
+| 記憶 | 說出 fold、merge、as tool、keep 各保留了多少上下文。 |
+| 理解 | 解釋一條交接鏈如何因摘要遺失細節，及為何共用上下文可能改善。 |
+| 分析 | 從 t01／t11 的變化分析平均值掩蓋了什麼，找出是否有路徑或寫入變化。 |
+| 應用 | 盤點一條高頻交接鏈，挑出一個必跑檢查及例外情境，再固定案例跑基準。 |
+| 評估 | 比較同一迴圈、獨立工具式子代理、舊路徑三種做法的完成、延遲與權限成本。 |
+
+### 分析型追問
+
+- **澄清**：共用角色和共用上下文有何區別？
+- **假設**：按需載入的 Skill 沒被模型選到時，哪個規則仍會執行？
+- **證據**：若 t01 在基準也偶爾失敗，要怎麼重跑和定位？
+- **觀點**：維護既有獨立代理的團隊，會要求保留什麼資料權限？
+- **後果**：若半年後主要任務的上下文加倍，哪些量測能看出原決定需要重審？
+
+### 方案批判三問
+
+1. **最大風險**：逐題退步或越權副作用被整體指標掩蓋。
+2. **失敗條件**：跨領域的關鍵鏈沒有測試、工具選擇出現可量測的退化，或主上下文承擔原需隔離的資料。
+3. **替代方案**：需要隔離或可靠並行時，保留子代理並以固定 schema 回傳。流程依賴明確時，用程式固定必要步驟，調查環節仍可交給 Agent。
+
+## 六頂思考帽回饋（Six Thinking Hats Feedback）
+
+| 思考帽 | 回饋 |
+| --- | --- |
+| 藍 | 每次決定一個代理邊界，用同一套評估比較。 |
+| 白 | 已重算兩次封存比較與追加重跑，本機另有 48 個測試和 19 個離線案例。 |
+| 紅 | 平均延遲變短會讓人想立即採用，但原本正常的客戶流程退步時很容易反感。 |
+| 黃 | 領域邏輯保留原始證據，子代理的上下文可留給真的有獨立價值的工作。 |
+| 黑 | 樣本很小。規則、路徑和副作用若漏測，較快的版本仍可能造成客戶問題。 |
+| 綠 | 保留審查代理、只合併高耦合程序，或把強制檢查放回外層 graph 都值得比較。 |
+| 藍 | 先補 t01 類查件、失敗寫入和未覆蓋交接，再談架構取捨。 |
+
+## References
+
+- [Diane Sarkis，Building agents: When to fold subagents into your main agent loop](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)
+- [Anthropic single-agent-loop-kit，固定版本](https://github.com/anthropics/single-agent-loop-kit/tree/c43796287b83bec847db923f07131d1cc8de750d)
+- [原文架構比較動畫](https://assets.claude.com/a7cb2cf08bfcef461166310c0c55f28b72c33b0d.gif) · [原文遷移方法動畫](https://assets.claude.com/ed6bd97496ffdab88763806d9e14f1ec61ed9255.gif)

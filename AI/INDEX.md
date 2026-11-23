@@ -85,3 +85,4 @@
 | [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]] | 李開復與簡立峰兩場訪談：AI 原生企業、DRI、職涯與美中競爭；核對 6% 調查定義。 | 2026-11-13 |
 | [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]] | 酷可實驗室二十多個 Claude 案例；追查 Anatomy、Universal Modder、PactUp 與原案，區分證據與未定位。 | 2026-11-20 |
 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | 三課講義：退款架構、Stanford 原講與工具迴圈，延伸到 V-model、HITL、人時與 token 量測及 A／B／C 比較表。 | 2026-11-18 |
+| [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | Anthropic 子代理併入、Skill 與工具，附 repo 架構、官方封存數據重算及本機離線測試。 | 2026-10-22 |

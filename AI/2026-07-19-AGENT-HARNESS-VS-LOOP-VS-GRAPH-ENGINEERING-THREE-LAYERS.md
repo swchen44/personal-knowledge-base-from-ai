@@ -370,6 +370,7 @@ Why QQ 的三個前瞻判斷也值得記錄：①**Harness 層標準化加速**�
 
 ## 相關連結（Related）
 
+- [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] — 對照 Anthropic 子代理併入準則、按需載入及客服評估結果。
 - [[2026-05-01-GOOGLE-WHITEPAPER-NEW-SDLC-VIBE-CODING-TO-AGENTIC-ENGINEERING]] — Google 白皮書的 harness 六大件是管理層敘事，本文三層是工程層排障手冊；兩者的 harness 定義可互相映射。
 - [[2026-04-24-AGENT-HARNESS-12-MODULES-COMPLETE-GUIDE]] — Harness 十二模組完全解析；本文的 harness 六內容是更粗粒度的同主題切分。
 - [[2026-04-02-HARNESS-ENGINEERING-COMPLETE-GUIDE]] — Harness Engineering 完整指南；本文把它放進三層座標的第一層。
