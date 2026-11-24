@@ -80,15 +80,15 @@ Diane Sarkis 的文章談的是一個已經部署了 router／orchestrator 加 s
 
 ```mermaid
 flowchart TD
-    A["盤點現有子代理與實際交接"] --> B["凍結測試案例與驗收判準"]
-    B --> C["測量目前版本"]
-    C --> D["每次只做一項合併或改寫"]
-    D --> E["同一套評估重跑並逐題看 trace"]
-    E --> F{"結果和副作用可以接受？"}
-    F -->|保留| G["更新基準與研究紀錄"]
-    F -->|結果不明| H["以舊版和新版追加重跑"]
+    A["【程式】計算流量 【AI】盤點分工"] --> B["【AI】整理 【人】確認案例與驗收"]
+    B --> C["【人】核准付費執行 【程式】跑 eval 並評分"]
+    C --> D["【AI】逐項改碼或提示詞"]
+    D --> E["【程式】重跑與比較 【AI】看逐題差異"]
+    E --> F{"【人】接受結果與副作用？"}
+    F -->|保留| G["【AI】更新基準與紀錄"]
+    F -->|結果不明| H["【程式】在核准後重跑兩版"]
     H --> E
-    F -->|不接受| I["修正或回退"]
+    F -->|不接受| I["【AI】依決定修正或回退"]
     I --> D
 ```
 
@@ -166,29 +166,42 @@ flowchart TD
 
 ## 從程式碼看遷移工具怎麼運作
 
+> [!note] 誰在決定？
+> **【程式】** 按程式碼、資料及設定執行。**【AI】** 由模型依上下文產生或判斷。**【人】** 由操作者定義或核准。**【資料】** 是輸入或紀錄，本身不做決策。下圖的模型端以真實模型為例，離線 `FakeClient` 走程式規則。
+
+| 動作 | 由誰處理 | 實作中的分界 |
+| --- | --- | --- |
+| 啟動評估、選版本與模型 | 【人】→【程式】 | 人選參數或由 CI 設定，`run_case()` 逐輪送出測試資料，SDK 負責傳輸。 |
+| 選子代理、載入 Skill、挑工具與填參數 | 【AI】提出 →【程式】執行 | 模型產生 `tool_use`。原版 `_router_turn()` 先用 `_refusal()` 過濾，再交 `run_subagent()`；改版由 `Agent._execute()` 查工具表，`load_skill` 按名稱讀檔。 |
+| 調查與回答 | 【程式】取資料 →【AI】解讀與撰寫 | Backend 回傳訂單、物流或日誌；主模型決定下一步。呼叫 diagnostics 工具時，工具內仍有一個獨立模型迴圈。 `checked_response()` 用程式檢查回傳形狀，形狀合格不代表診斷正確。 |
+| 權限、預算、退貨和寫入 | 【程式】強制執行 →【人】或 callback 決定授權 | `Agent._execute()` 檢查工具、預算及批准 callback，`CustomerBackend` 核對客戶歸屬。評估注入 `allow_all_writes`，因此沒有真人逐筆批准；業務規則和身分檢查仍有各自的程式入口。 |
+| 合成 trace、評分和產生報表 | 【程式】 | `make_traces.main()` 生成資料；`grade()` 依案例規則檢查文字與動作；配對、覆蓋、差異與 token 估算都由 Python 計算。評分時沒有另請一個模型當裁判。 |
+| 把子代理合併或併入 Skill／工具 | 【AI】提案與改碼 →【程式】重跑 →【人】決定 | Claude Code 依遷移步驟讀報表、檢查上下文依賴並修改程式。腳本的 merge candidate 是統計門檻產生的建議，實際保留、修正或回退由人決定。 |
+
 ### 1. 客服是由誰呼叫模型？
 
 **人可以啟動評估，也可以在 Claude Code 下達遷移任務。客服評估中的顧客由測試資料扮演。** `evals/run_eval.py` 裡的 `run_case()` 依序把 `golden.jsonl` 的 `case["turns"]` 送進 `Conversation.send()`。Python 應用程式才是每次模型請求的呼叫者，沒有真人逐輪扮演客服顧客。同一段顧客輸入可能觸發多次模型呼叫。
 
 ```mermaid
 sequenceDiagram
-    actor Human as 人或 CLI
-    participant Eval as run_eval.py run_case()
-    participant App as Conversation.send()
-    participant Client as client.messages.create()
-    participant Backend as Backend.actions
+    actor Human as 【人】操作者
+    participant Eval as 【程式】run_eval.py run_case()
+    participant App as 【程式】Conversation.send() 和工具執行
+    participant Client as 【AI】模型（經 SDK 呼叫）
+    participant Backend as 【程式】Backend 與 actions
     Human->>Eval: 啟動 eval 並選 --app 與 KIT_MODEL
     loop case 中每個 turn
         Eval->>App: 送入預先寫好的顧客訊息
         alt 原版 app
             App->>Client: llm.create() 呼叫 router
-            Client-->>App: 要求 delegate
-            App->>Client: run_subagent() 可進行多輪呼叫
+            Client-->>App: 【AI】挑子代理與填寫 delegate 參數
+            App->>App: 【程式】_refusal() 檢查 tool_use
+            App->>Client: 【程式】run_subagent() 可發出多輪請求
         else 單迴圈 single_loop
             App->>Client: Agent.run() 經 Agent._run() 呼叫
-            Client-->>App: 工具呼叫或回覆
+            Client-->>App: 【AI】選工具與參數，或產生回覆
         end
-        App->>Backend: 若有已執行寫入則留下紀錄
+        App->>Backend: 【程式】執行通過檢查的操作，記錄寫入
         App-->>Eval: 回傳當輪文字
     end
     Eval->>Backend: 讀取 actions
@@ -208,13 +221,13 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    A["baseline 與 v1 的 results.jsonl"] --> B["compare.load() 按案例 ID 分組"]
-    ER["errors.jsonl"] --> B
-    B --> C["main() 找共同案例與單側缺題"]
-    C --> D["summarise() 先算逐題平均，再算總分"]
-    C --> E["_path_changes() 比 by_agent 出現比例"]
-    C --> F["_writes() 比 actions 的動作名稱"]
-    D --> G["render() 輸出逐題差異與 verdict"]
+    A["【資料】baseline 與 v1 的 results.jsonl"] --> B["【程式】compare.load() 按案例 ID 分組"]
+    ER["【資料】errors.jsonl"] --> B
+    B --> C["【程式】main() 找共同案例與單側缺題"]
+    C --> D["【程式】summarise() 先算逐題平均，再算總分"]
+    C --> E["【程式】_path_changes() 比 by_agent 出現比例"]
+    C --> F["【程式】_writes() 比 actions 的動作名稱"]
+    D --> G["【程式】render() 輸出逐題差異與 verdict"]
     E --> G
     F --> G
 ```
@@ -239,18 +252,18 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    GEN["make_traces.main(): PATTERNS 與 PROFILE"] --> T["traces.jsonl: trace_id ts agent duration_ms input_tokens"]
-    T --> LOAD["coupling_map.load(): dict trace_id 到呼叫清單"]
-    LOAD --> MAP["analyse(): Counter 呼叫量、相鄰配對及完整序列"]
-    LOAD --> CH["chain_coverage.main(): Counter frozenset 代理集合"]
-    R["run_eval.py: 每個 prompt_id 與 rep 一筆結果"] --> BASE["baseline/results.jsonl"]
-    R --> NEW["v1/results.jsonl"]
-    BASE --> TASK["chain_coverage.load_tasks(): case 到 agents passes reps"]
-    CH --> COVER["以集合包含檢查組合是否被案例覆蓋"]
+    GEN["【程式】make_traces.main(): PATTERNS 與 PROFILE"] --> T["【資料】traces.jsonl: trace_id ts agent duration_ms input_tokens"]
+    T --> LOAD["【程式】coupling_map.load(): dict trace_id 到呼叫清單"]
+    LOAD --> MAP["【程式】analyse(): Counter 呼叫量、相鄰配對及完整序列"]
+    LOAD --> CH["【程式】chain_coverage.main(): Counter frozenset 代理集合"]
+    R["【程式】run_eval.py: 送測試輸入、記錄及評分"] --> BASE["【資料】baseline/results.jsonl"]
+    R --> NEW["【資料】v1/results.jsonl"]
+    BASE --> TASK["【程式】chain_coverage.load_tasks(): case 到 agents passes reps"]
+    CH --> COVER["【程式】以集合包含檢查組合是否被案例覆蓋"]
     TASK --> COVER
-    BASE --> COMP["compare.load() 與 summarise()"]
+    BASE --> COMP["【程式】compare.load() 與 summarise()"]
     NEW --> COMP
-    BASE --> EST["estimate.load() 與 main(): 依題目平均乘 reps"]
+    BASE --> EST["【程式】estimate.load() 與 main(): 依題目平均乘 reps"]
     NEW -. "--actual 可選" .-> EST
 ```
 
