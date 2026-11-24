@@ -27,8 +27,9 @@ links:
 - Home Repo 是一個獨立版本控制的工作入口，集中共用規則、skills、文件及其他 repo 的路徑；產品程式碼仍各自保留在原 repo。
 - 從 Home Repo 啟動 agent，再依任務進入相關 repo，先讀取各 repo 的規則並分別檢查 Git 狀態、驗證與交付。
 - 最大好處是共用內容有明確維護位置；前提是每個人更新到相同版本，且 agent 確實能存取目標與載入所需指引。
-- 本篇整理兩支影片、Matt 原文的四階段設定方法與實務建議。這是候選做法，未在本次執行跨 repo 實驗，也不保證所有工具自動載入相同規則。
+- 本篇整合三支影片、Matt 原文的四階段設定方法與實務建議。這是候選做法，未在本次執行跨 repo 實驗，也不保證所有工具自動載入相同規則。
 - 影片留言既有團隊採用的正面經驗，也有人擔心專案 skills 無法載入、IDE／LSP 限制，以及它和 monorepo、submodule 或 plugin 有何差別；見下方留言整理。
+- 01Coder 的 Antigravity 示範補了一個具體案例：在工具 repo 改模板，到內容 repo 驗證。會話入口、目錄存取、skill 發現與 Git 變更歸屬需要各自確認。
 
 ## 摘要（Summary）
 
@@ -241,6 +242,32 @@ repos/
 原文的完整英文 setup prompt 可在[作者文章「Set one up」](https://www.aihero.dev/the-home-repo-pattern)複製。本文以中文拆解其操作與決策，並增加可直接套用的自編範例。
 
 
+### 01Coder 實例：在工具 repo 修改，到內容 repo 驗證
+
+01Coder（小木頭）於 2026-11-24 發布這支 9 分 37 秒的影片。[YouTube 中文字幕](https://www.youtube.com/watch?v=kwhlEbhhGHg)由 `youtube-transcript-api` 取得，共 235 段。API 將字幕標為非自動生成。本次依字幕整理，未逐句核對音訊，也未重跑影片的 Antigravity 操作。
+
+| 時間 | 影片展示 | 對原筆記的補充 |
+| --- | --- | --- |
+| [02:19–03:28](https://www.youtube.com/watch?v=kwhlEbhhGHg&t=139s) | Pi 把 coding agent、agent runtime、模型介面與 TUI 等套件放在同一個 Git repo。 | 已有共同 Git 根目錄能涵蓋日常改動時，可直接從該根目錄開始。需要協作的專案保有獨立 Git 歷史與發布流程時，再考慮加 Home。Pi 的公開 repo 可核對套件結構。 |
+| [03:29–05:01](https://www.youtube.com/watch?v=kwhlEbhhGHg&t=209s) | `github-home` 放共用原則、任務與導航。Antigravity 專案另外把 `boring-video-studio` 和部落格 `verysmallwoods` 加為資料夾資源。 | 專案配置決定 agent 可以使用哪些目錄，Home 的導航交代目錄的職責。兩者各有一份需要維護的設定。 |
+| [05:02–07:01](https://www.youtube.com/watch?v=kwhlEbhhGHg&t=302s) | 在 `boring-video-studio` 改關係流程圖、並列對比、資訊卡片三種模板，到部落格的影片目錄生成樣例並查看結果。 | 同一個 Home 會話可以在不同目錄執行命令。任務應寫清楚修改 repo、驗證 repo 與各自的驗收條件。影片中的樣例驗證屬講者示範。 |
+| [07:02–08:16](https://www.youtube.com/watch?v=kwhlEbhhGHg&t=422s) | 講者在這次 Antigravity 設定新增業務目錄後，觀察到可用 skill 清單增加。 | 清單增加只證明示範中有更多項目出現。要確認某個 skill 實際有用，還要核對清單項目指向的來源、能否叫用，以及任務是否執行了所需步驟。 |
+
+> [!tip] 用一筆任務記錄四個位置
+> 分別記下會話入口、納入工作區的目錄、每個命令的工作目錄，以及每份變更所屬的 Git repo。若要驗證工具 repo 的候選變更在內容 repo 生效，另記錄驗證端實際載入的工具版本或本機路徑。只留下三張樣例，日後很難確認是否用到新模板。
+
+Google 的文件分別說明 Antigravity 的多資料夾專案與 App、CLI、IDE 的 skill 搜尋位置。試行時可以用同一個 skill 記錄三個結果：目錄可讀、skill 在清單出現、明確叫用後產生預期輸出。各項結果要連同工具介面與版本一起留存。若要保留專案專屬 skill 的單一來源，可在 Home 記錄它的路徑及宿主支援的載入方式，再用樣例確認。 [Antigravity Projects](https://antigravity.google/docs/projects)、[Antigravity Agent skills](https://antigravity.google/docs/skills)
+
+### 01Coder 影片留言：什麼情況只需要全域規則？
+
+2026-11-25 以熱門排序擷取到 6 則留言，包括 3 則主留言與 3 則作者回覆。這是當時的討論快照。
+
+| 討論串 | 留言內容 | 對導入決策的啟發 |
+| --- | --- | --- |
+| [「本地管家」構想](https://www.youtube.com/watch?v=kwhlEbhhGHg&lc=Ugw1t0oy6pLA_sfkQsF4AaABAg) | 觀眾希望跨專案維護時降低對特定 harness 的依賴，作者追問效果。擷取時還沒有後續成果。 | Repo 導航與任務說明可以用普通 Markdown 保存。要評估跨工具能否共用，仍得逐一核對工作區、指引與 skill 的接入方式。 |
+| [初次看完仍不懂用途](https://www.youtube.com/watch?v=kwhlEbhhGHg&lc=UgxeANQofWfR3TCVhkd4AaABAg) | 作者用重複維護相似 `AGENTS.md` 或 skills，以及 Home 內的專案地圖重新說明。 | 導航的第一個例子就寫明「到哪裡改、到哪裡驗」，讀者比較容易掌握為什麼需要這份地圖。 |
+| [全域規則就能解決嗎？](https://www.youtube.com/watch?v=kwhlEbhhGHg&lc=UgxjHzIOxFgUVkoBnux4AaABAg) | 觀眾認為需求可能只涉及全域規則，作者回覆這是解決特定問題的個人經驗，可依情境調整。 | 只共用自己的偏好，可以先用宿主的全域設定。經常需要辨識跨 repo 的職責、共用版本化導航、安排修改與驗證時，Home 才有明確的用途。 |
+
 ### 問題、原因與處理方式
 
 | 問題 | 可能影響 | 處理方式 |
@@ -302,6 +329,7 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 - 多 repo 同時變更如何確保部署與介面版本相容？搜尋：`cross repository contract testing release coordination`。
 - 導航分層何時比平面清單更有效？搜尋：`repository navigation agent context evaluation`。
 - 獨立 worktree 與既有未提交工作如何共存並交接？搜尋：`git worktree multi agent shared checkout`。
+- 同名 skill 同時出現在 Home、業務 repo 與全域目錄時，各宿主介面會顯示、選用哪一份？新增工作區目錄後何時重新掃描？搜尋：`Antigravity multi-folder skill discovery duplicate skill precedence`。
 
 ## 相關連結（Related）
 
@@ -340,7 +368,7 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 聚焦可重複的多 repo AI 工作流程及其限制。
 
 ### 白帽：事實與未知資訊
-原片、中文解說與原作者文章已讀取；跨工具載入與效率尚未實測。
+原片、中文解說與原作者文章已讀取；跨工具載入與效率尚未實測。01Coder 的案例有模板產出與 skill 清單變化的講者觀察，可據此設計分項驗證。
 
 ### 紅帽：直覺與讀者反應
 集中入口容易理解；權限及不同 repo 的例外可能讓初學者困惑。
@@ -357,7 +385,7 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 ### 藍帽：修改項目與下一步
 - 確認各工具的實際載入與權限。
 - 為每個 repo 記錄驗證及交付狀態。
-- 用共同指標比較試行前後成本。
+- 用共同指標比較試行前後成本，並記錄驗證端實際使用的工具版本。
 
 ## References
 
@@ -365,3 +393,7 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 - [AI懶人報中文解說](https://www.youtube.com/watch?v=P_MpsJm4adg)，2026-11-16。
 - [Matt Pocock：The Home Repo Pattern](https://www.aihero.dev/the-home-repo-pattern)，原文標示更新日期 2026-11-12；包含 setup prompt、FAQ 與原文示意圖。
 - [OpenAI：Codex Prompting Guide](https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide)。
+- [01Coder：试试 Matt Pocock 备受欢迎的 Home Repo 工作模式](https://www.youtube.com/watch?v=kwhlEbhhGHg)，2026-11-24。本文新增個人專案案例及影片留言。
+- [Pi 官方 repo](https://github.com/earendil-works/pi)，可核對 monorepo 的套件與職責。
+- [Boring Video Studio 公開 repo](https://github.com/sugarforever/boring-video-studio)，影片說明欄連結。
+- [Google Antigravity：Projects](https://antigravity.google/docs/projects)與 [Agent skills](https://antigravity.google/docs/skills)，用來核對多資料夾工作區及 skill 搜尋範圍。

@@ -79,7 +79,7 @@
 | [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]] | Anthropic 原文、馬克與寶拉影片：七道防線、一般 AI 任務的應用、Spotify 案例與證據界線；含原圖及 Mermaid。 | 2026-10-15 |
 | [[2026-10-13-HOW-TO-BE-MORE-AMBITIOUS-A-TUTORIAL-FOR-HUMANS-WITH-MODELS]] | Felix 原文與 Gary 影片整合：速度、高度、深度、廣度；任務卡、V-model、來源限制與 raise-ai-ceiling skill，含 2 圖及 2 張 Mermaid；成效未實測。 | 2026-10-13 |
 | [[2026-11-04-WHY-AI-MAKES-YOU-100X-FASTER-BUT-NOT-YOUR-COMPANY]] | Basis 原文與完整原講、中文解說及具名評價；行為規格、fork／模擬、NA 原因與企業採用限制，含 2 張 Mermaid 及 1 圖；方法未實測。 | 2026-11-04 |
-| [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | Home Repo：兩支影片、Matt 原文四階段設定與遷移實例、原圖及留言觀點；方法未實測。 | 2026-11-12 |
+| [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | Home Repo：Matt 的四階段設定、三支影片與留言，補 01Coder 的 Antigravity 跨 repo 驗證案例及 skill 載入邊界。 | 2026-11-12 |
 | [[2026-11-11-GETEBOOK-AI-WRAPPER-PRODUCT-AND-MARKETING-CASE]] | GetEbook 兩片整合：AI 電子書、創業、行銷與財務口徑核對；方法未實測。 | 2026-11-11 |
 | [[2026-11-14-ALL-CODE-IS-SLOP-ARCHITECTURE-VERIFICATION-AND-SOFTWARE-FACTORY]] | Lauren Tan 原講與中文影片：架構、lint、驗證、軟體工廠及熱門留言，明列成效證據界線。 | 2026-11-14 |
 | [[2026-11-13-AI-NATIVE-ENTERPRISE-KAI-FU-LEE]] | 李開復與簡立峰兩場訪談：AI 原生企業、DRI、職涯與美中競爭；核對 6% 調查定義。 | 2026-11-13 |
