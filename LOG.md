@@ -191,3 +191,4 @@
 | 2026-11-25 06:12 | update-research | 補模型呼叫、評估欄位、合成 trace、遷移分析資料流及 Skill 修改邊界，重跑統計與覆蓋 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | AI | 0（既有 3 組） | 4 |
 | 2026-11-25 06:25 | update-research | 在遷移、客服時序及分析圖標記程式、AI、人員與資料的責任，新增動作對照表 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | AI | 0（既有 3 組） | 4 |
 | 2026-11-25 06:44 | update-research | kwhlEbhhGHg：加 01Coder 的 Antigravity 跨 repo 案例、skill 載入判讀與留言 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（既有連結保留） | 6 |
+| 2026-11-27 19:16 | ingest-research | Uber Engineering 原文＋K_ixtIBNQbw，含 7 張原圖與最小導入建議 | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | AI | 3 | 5 |

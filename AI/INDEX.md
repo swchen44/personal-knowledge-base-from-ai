@@ -86,3 +86,4 @@
 | [[2026-11-20-CLAUDE-20-USE-CASES-PROJECTS-AND-EVIDENCE]] | 酷可實驗室二十多個 Claude 案例；追查 Anatomy、Universal Modder、PactUp 與原案，區分證據與未定位。 | 2026-11-20 |
 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | 三課講義：退款架構、Stanford 原講與工具迴圈，延伸到 V-model、HITL、人時與 token 量測及 A／B／C 比較表。 | 2026-11-18 |
 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | Anthropic 子代理併入、Skill 與工具，附 repo 架構、20 支 Python 索引、遷移工具資料流與封存數據重算及本機離線測試。 | 2026-10-22 |
+| [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | Uber skill 市集、規格與執行軌跡、有／無盲測、Code Mode 和 papercut 回報。 | 2026-11-23 |

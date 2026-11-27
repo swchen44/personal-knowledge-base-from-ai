@@ -337,6 +337,7 @@ Home Repo 解決共用入口和導航；Git worktree 用來讓同一個 repo 的
 - [[2026-10-17-MATT-POCOCK-SKILLS-V13-GRILLING-COMPOSITION-AND-DELIVERY-WORKFLOW]]：共用技能組合與交付證據。
 - [[2026-10-03-CODEX-PRACTICAL-WORKFLOWS-CONTEXT-CACHING-SKILLS-AND-TOOLS]]：Codex 上下文、工具及交接流程。
 - [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] — 延伸閱讀：用 V-model、工單證據與人時／token 比較三套 AI 流程，以及共用知識的取捨。
+- [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]]，從跨 repo 共用設定延伸到 skill 評估、分級發布及版本回報。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
