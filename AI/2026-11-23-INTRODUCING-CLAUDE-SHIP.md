@@ -5,6 +5,8 @@ category: AI
 tags: [ai/agents, tools/code-review, github/pull-requests, productivity/workflows]
 author: Anthropic
 source: "https://claude.com/resources/articles/introducing-claude-ship"
+engineering_source: "https://claude.dev/blog/solving-code-review-at-anthropic/"
+engineering_source_date: 2026-10-15
 source_type: article
 status: notes
 reviewed_on: 2026-11-28
@@ -53,6 +55,37 @@ links:
 ![GitHub 顯示文件 PR 符合核准政策的理由與檢查狀態](assets/2026-11-23-CLAUDE-SHIP/5.png)
 
 **怎麼讀成效數字？** Anthropic 回報自家 Claude Code 團隊六月至九月合併的 PR 超過原來兩倍，被 revert 的比例下降超過 40%。當時審查只是整套工程流程的一層。要估計自己的收益，應比較相近風險與規模的 PR，至少記錄等待時間、退回率、人工介入次數和用量。官方文章另有一個可追的實例：PM 發現 Analytics API 文件把金鑰適用範圍寫得容易誤解，開 PR 後仍經文件審查者簽核，當晚合併。[案例與團隊觀察](https://claude.com/resources/articles/introducing-claude-ship)
+
+## 從十月的內部審查，到十一月的 Claude Ship
+
+把兩篇文章放在一起，可以看出兩個瓶頸。十月的工程團隊要解決「誰有時間讀完這麼多改動，又能及早攔下錯誤？」十一月的產品要解決「即使有人找到問題，接下來誰盯著修正、重跑和核准？」前者解釋完整的交付流程，後者把其中可重複的 PR 工作交給三個角色。[工程團隊實務](https://claude.dev/blog/solving-code-review-at-anthropic/) · [產品發布](https://claude.com/resources/articles/introducing-claude-ship)
+
+| 一項改動走到哪裡 | Claude Code 團隊怎麼取得證據 | 對照 Claude Ship，誰接下一棒？ |
+|---|---|---|
+| 開 PR 前 | 作者先交測試、建置輸出或畫面比對，再用獨立上下文檢查 diff | 團隊可沿用自己的驗證方式，將預期行為寫進 PR，供 reviewer 核對 |
+| PR 有發現 | 多個 agent 找候選問題，另一組驗證後才留言。作者修正或留下理由結束討論 | Code Review 提出帶位置的發現，Steward 處理回饋與失敗 CI，將新 commit 交回檢查 |
+| 需要核准 | 內部依風險及作者信任條件決定需要幾位人員。敏感路徑另有要求，新提交也可能使既有核准失效 | 使用 Ship 的團隊自行寫 Approvals 政策，再以 GitHub required checks 和分支保護執行 |
+| 合併後 | 合併佇列檢驗與最新 main 的組合；功能開關、漸進發布、值班與回復接手線上風險 | Ship 的產品流程走到 PR 可合併。部署、觀測與決定何時回復，仍要由服務擁有者安排 |
+
+![工程文原圖：從作者驗證、PR 審查與核准到逐步發布及回復](assets/2026-10-15-CLAUDE-CODE-REVIEW/life-of-a-change.png)
+
+**讀圖時先找 merge queue。** 排在它上方的綠燈回答「這個改動目前通過哪些檢查」；佇列還要驗兩個原先各自通過的改動合在一起是否正常。再往下才是使用者是否受到影響。這也是閱讀產品頁的 *ready to merge* 時要保留的界線。[工程文章](https://claude.dev/blog/solving-code-review-at-anthropic/)
+
+### 為什麼 reviewer 與 fixer 都能工作，PR 卻遲遲無法結束？
+
+工程團隊遇過一個 CLI PR，一夜之間審查與修正超過五十輪。團隊回查反覆被指出的程式碼，約 59% 在第一輪審查時已經存在。若每次修完一行都重新檢視整個範圍，reviewer 就可能繼續找到既有問題；fixer 每回應一次，又產生下一輪。作者採取四個調整：三輪後提醒作者重新檢視做法、前幾輪後縮小複審差異、同類缺陷集中提出、已提過的問題去重。三輪是要求重新判斷的時點。文章沒有把它列成 Ship 的預設停止條件。[工程文章的收斂實驗](https://claude.dev/blog/solving-code-review-at-anthropic/)
+
+| 內部 PR 收斂指標 | 調整前 | 調整後 |
+|---|---:|---:|
+| 一輪審查與修正後通過的比例 | 65% | 78% |
+| 需要至少五輪的比例 | 8.9% | 1.5% |
+| 通過前平均審查次數 | 2.08 | 1.32 |
+
+這組數字描述審查流程調整前後。要知道是不是少抓了問題，團隊同時追蹤已知缺陷的召回率，並在已知乾淨的 PR 上檢查 reviewer 是否提出會造成傷害的修改。更上層才看每個 PR 的人工核准數（中位數與 p95）、人工留言、等待人的時間，以及 revert 和事故率。[指標與評測方法](https://claude.dev/blog/solving-code-review-at-anthropic/)
+
+![工程文原圖：由專家核對事故案例，加入每日 reviewer 評測](assets/2026-10-15-CLAUDE-CODE-REVIEW/incidents-to-evals.png)
+
+**這張圖有兩種會變動的東西。** 上排用事故擴充題庫，下排用同一套題庫評估新的 reviewer。把兩者拆開，才有機會回答「新版能否抓到上次漏掉的錯」，也能用乾淨案例檢查它是否只是更愛留言。完整分層防護與團隊知識交接圖解見 [[2026-10-15-HOW-THE-CLAUDE-CODE-TEAM-DOES-CODE-REVIEW]]。
 
 ## 使用方法：先選個人 PR 或整個版本庫
 
@@ -144,6 +177,8 @@ flowchart TD
 
 **第一個 session 就能做的事**：在一張測試票上手填 PR URL，用唯讀權限擷取兩個相鄰 commit 的狀態，輸出 `ticket / PR / head / 缺哪項證據 / 下一位負責人`。把事件順序打亂重播一次。若輸出還會把舊 head 認作 ready，先修資料模型。後續以每 PR 的人工切回次數、首次送審到 ready 的時間、誤放行件數、每次有效修正用量評估收益。
 
+**ARCP 試點練習（提案）**：在唯讀交接單放入三次審查事件。第一輪指出時間單位錯誤；第二輪換句話重提同一位置；第三輪驗出修補在另一條路徑也漏了單位轉換。驗收時，第二輪應連回同一發現，第三輪要保留新位置和測試證據。再用一個已知正確的 PR 當對照。若輪數減少，卻連第三輪的真缺陷也消失，就得重調去重條件。每筆紀錄帶 PR、head SHA、發現位置、處置理由與驗證結果，方便維護者重播。
+
 **驗證紀錄**：在上述 clone 執行 `PYTHONPATH=src python3 tests/test_grader.py`（15/15）、`tests/test_approval.py`、`tests/test_idempotency.py`（後兩個同樣用 Python 與相同 PYTHONPATH，皆 PASS）。涵蓋現有 grader、派工前表單與 Jira 重放情境。Claude Ship 的產品行為來自官方文件；ARCP 的 PR 流程尚屬設計，沒有開測試 PR 或執行端對端合併。
 
 ## 我的心得
@@ -196,6 +231,8 @@ flowchart TD
 | 藍・收斂 | 選樣本、做逐版本交接單、核對錯放案例，再決定寫入權限。 |
 
 ## References
+
+- [Anthropic 工程團隊的程式碼審查流程與收斂實驗](https://claude.dev/blog/solving-code-review-at-anthropic/)，2026-10-15。
 
 - [Anthropic 發布文章與產品畫面](https://claude.com/resources/articles/introducing-claude-ship)
 - [Claude Ship 團隊版文件](https://code.claude.com/docs/en/claude-ship)

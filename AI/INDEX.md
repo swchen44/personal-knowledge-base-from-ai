@@ -88,4 +88,4 @@
 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | Anthropic 子代理併入、Skill 與工具，附 repo 架構、20 支 Python 索引、遷移工具資料流與封存數據重算及本機離線測試。 | 2026-10-22 |
 | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | Uber skill 市集、規格與執行軌跡、有／無盲測、Code Mode 和 papercut 回報。 附封面與 16 張原圖導讀、12 項指標的 Codex／Claude Code 欄位與實作練習，以及 sys-assistant 驗收清單。 | 2026-11-23 |
 | [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]] | AI 宮廷短劇分鏡、Threads 華語與繁中字幕、YouTube 英文配音對照及雙語驗收方法。 | 2026-11-26 |
-| [[2026-11-23-INTRODUCING-CLAUDE-SHIP]] | Claude Ship 三個角色、本機操作與 ARCP 的逐版本 PR 交接計畫。 | 2026-11-23 |
+| [[2026-11-23-INTRODUCING-CLAUDE-SHIP]] | Claude Ship 操作、Anthropic 內部審查的收斂指標，以及 ARCP 逐版本交接與去重練習。 | 2026-11-23 |
