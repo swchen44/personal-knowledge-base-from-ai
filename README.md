@@ -2,6 +2,7 @@
 📚 Personal knowledge base — articles, videos, and research notes curated with AI. Obsidian-compatible with tags, links, and knowledge graph support.
 
 ## 📌 Recent Notes
+- [Claude Ship 與 ARCP 的 PR 交接流程](./AI/2026-11-23-INTRODUCING-CLAUDE-SHIP.md) — Claude Ship 三個角色、本機操作與 ARCP 的逐版本 PR 交接計畫。
 - [《仁愛路宮鬥戲》：華語、英文配音與繁中字幕對照](./AI/2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES.md)：AI 宮廷短劇分鏡、Threads 華語與繁中字幕、YouTube 英文配音對照及雙語驗收方法。
 - [Uber 如何評估每月逾百萬次 Agent Skill 呼叫](./AI/2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH.md)：Uber skill 市集、規格與執行軌跡、有／無盲測、Code Mode 和 papercut 回報。 附專案導入檢查表、觀察與驗收 TODO。
 - [什麼時候該把子代理併入主迴圈？](./AI/2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS.md)：Anthropic 遷移方法、20 支 Python 檔案索引、分析工具流程圖與客服比較和離線驗證。

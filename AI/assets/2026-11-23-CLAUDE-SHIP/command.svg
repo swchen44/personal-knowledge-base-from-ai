@@ -1,0 +1,33 @@
+<svg width="760" height="216" viewBox="0 0 760 216" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#757575"/></marker></defs>
+<rect width="760" height="216" rx="6" fill="#F9F9F7"/>
+<text x="380" y="32" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#1E1E1E">What happens after you type /ship</text>
+<rect x="314" y="80" width="296" height="116" rx="8" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="1.5"/>
+<text x="155" y="66" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">Open and review</text>
+<text x="462" y="66" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">The watch</text>
+<text x="687" y="66" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">You</text>
+<text x="82" y="104" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">1. Open</text>
+<rect x="18" y="119" width="128" height="56" rx="4" fill="#E8E8E4"/>
+<text x="82" y="143" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#1E1E1E">Pull request</text>
+<text x="82" y="161" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#757575">commit and push</text>
+<text x="231" y="104" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">2. Review</text>
+<rect x="170" y="119" width="122" height="56" rx="4" fill="#EDE8F4"/>
+<text x="231" y="143" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#1E1E1E">/code-review</text>
+<text x="231" y="161" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#757575">finds problems</text>
+<text x="392" y="104" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">3. Fix</text>
+<rect x="328" y="119" width="128" height="56" rx="4" fill="#FFF8E1"/>
+<text x="392" y="143" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#1E1E1E">Pushes fixes</text>
+<text x="392" y="161" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#757575">to your branch</text>
+<text x="538" y="104" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">4. Respond</text>
+<rect x="478" y="119" width="120" height="56" rx="4" fill="#FFF8E1"/>
+<text x="538" y="143" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#1E1E1E">Checks, comments,</text>
+<text x="538" y="161" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#757575">and conflicts</text>
+<text x="688" y="104" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#757575">5. Ready</text>
+<rect x="634" y="119" width="108" height="56" rx="4" fill="#D4E4D8"/>
+<text x="688" y="143" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#1E1E1E">You merge</text>
+<text x="688" y="161" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#757575">your branch rules</text>
+<path d="M146 147 L168 147" stroke="#757575" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M292 147 L326 147" stroke="#757575" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M456 147 L476 147" stroke="#757575" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M598 147 L632 147" stroke="#757575" stroke-width="1.5" marker-end="url(#a)"/>
+</svg>

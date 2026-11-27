@@ -167,6 +167,7 @@ Jerry 的影片於 2026-11-25 發布，片長 10:43，說明欄標示動畫與 A
 - [[2026-03-07-CLAUDE-SKILL-EVAL-FRAMEWORK-3-SKILLS-ONE-AFTERNOON-REAL-DATA]]，從少量技能開始建立一輪評估與改版基線。
 - [[2025-12-29-SKILLSBENCH-AGENT-SKILL-USE-BENCHMARK-CODE-ANALYSIS]]，研究有／無 skill 對照與獨立環境。
 - [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]]，共用入口、專案規則與宿主實際接入。
+- [[2026-11-23-INTRODUCING-CLAUDE-SHIP]] — 用歷史 PR 評估政策誤放行與每次有效修正的成本。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

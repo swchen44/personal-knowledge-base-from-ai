@@ -214,6 +214,7 @@ Anthropic 的 Managed Agents 虛擬化了三個元件：
 
 ---
 - [[2025-11-02-WHAT-IF-YOU-DONT-NEED-MCP-CLI-TOOLS-BROWSER-TOOLS]] — Tool Search／code-execution-with-MCP 等於官方承認的問題診斷——本文是社群先行版解法
+- [[2026-11-23-INTRODUCING-CLAUDE-SHIP]] — 以 PR 修正迴圈說明執行權、驗證與核准的分工。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

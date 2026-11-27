@@ -371,6 +371,7 @@ flowchart TD
 - [[2026-02-11-HARNESS-ENGINEERING-LEVERAGING-CODEX-IN-AN-AGENT-FIRST-WORLD]]：影片片尾的人機分工參照；可對讀環境、可執行規則及回饋機制。
 - [[2026-08-07-OPEN-CODE-REVIEW-ALIBABA-AI-CODE-REVIEW-CLI-CODE-ANALYSIS]]：比較專用 reviewer 的偵測與成本取捨，和完整交付防護之間的差異。
 - [[2026-10-26-GENERAL-CODE-REVIEW-WORKFLOWS-CODEX-CLAUDE-CODE]]：實作補篇，整理通用 prompt、subagent／fork 差異、內建 review、headless 與他人公開做法；方法未實測，Astra high 文稿 review 已取消並列為待辦。
+- [[2026-11-23-INTRODUCING-CLAUDE-SHIP]] — 對照三個產品角色與團隊原先的分層審查。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 
