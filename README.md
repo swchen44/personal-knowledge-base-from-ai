@@ -4,7 +4,7 @@
 ## 📌 Recent Notes
 - [Claude Ship 與 ARCP 的 PR 交接流程](./AI/2026-11-23-INTRODUCING-CLAUDE-SHIP.md) — Claude Ship 三個角色、本機操作與 ARCP 的逐版本 PR 交接計畫。
 - [《仁愛路宮鬥戲》：華語、英文配音與繁中字幕對照](./AI/2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES.md)：AI 宮廷短劇分鏡、Threads 華語與繁中字幕、YouTube 英文配音對照及雙語驗收方法。
-- [Uber 如何評估每月逾百萬次 Agent Skill 呼叫](./AI/2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH.md)：Uber skill 市集、規格與執行軌跡、有／無盲測、Code Mode 和 papercut 回報。 附專案導入檢查表、觀察與驗收 TODO。
+- [Uber 如何評估每月逾百萬次 Agent Skill 呼叫](./AI/2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH.md)：Uber skill 市集、規格與執行軌跡、有／無盲測、Code Mode 和 papercut 回報。 附封面與 16 張原圖導讀、12 項指標的 Codex／Claude Code 欄位與實作練習，以及 sys-assistant 驗收清單。
 - [什麼時候該把子代理併入主迴圈？](./AI/2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS.md)：Anthropic 遷移方法、20 支 Python 檔案索引、分析工具流程圖與客服比較和離線驗證。
 - [三套 AI 工作流程如何一起量測與擴展？](./AI/2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE.md)：從 Agent 概念、Google Cloud 退款案例及 Stanford 原講三課讀起，再看 V-model、人工覆核、時間與 token 量測。
 - [從人工種植到 AI 照顧植物：Sol 與學習歷程](./Education/2026-11-20-SOL-BIODOME-PLANT-LEARNING-JOURNEY.md)：Sol／Tal 實驗與架構經驗、Wall-e 程式與提示詞、預估 BOM、候選題及真實素材紀錄。

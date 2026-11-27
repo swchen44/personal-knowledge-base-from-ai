@@ -195,3 +195,4 @@
 | 2026-11-27 20:30 | update-research | 補導入檢查表及獨立盤點，列已有能力、缺口與驗收 TODO | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | AI | 0（既有連結） | 5 |
 | 2026-11-27 22:52 | ingest-research | Threads DgNg8oDozP5＋YouTube ZDdTdX9FHKQ，雙語摘要、畫面與音軌對照 | [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]] | AI | 3 | 4 |
 | 2026-11-28 06:06 | ingest | Introducing Claude Ship | [[2026-11-23-INTRODUCING-CLAUDE-SHIP]] | AI | 3 | 4 |
+| 2026-11-28 06:38 | update | Uber Engineering 講義、全圖與 session 指標 | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | AI | 0 | 5 |
