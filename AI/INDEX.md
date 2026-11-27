@@ -87,3 +87,4 @@
 | [[2026-11-18-AGENTIC-V-MODEL-OBSERVABILITY-HITL-AND-SHARED-KNOWLEDGE]] | 三課講義：退款架構、Stanford 原講與工具迴圈，延伸到 V-model、HITL、人時與 token 量測及 A／B／C 比較表。 | 2026-11-18 |
 | [[2026-10-22-BUILDING-AGENTS-WHEN-TO-FOLD-SUBAGENTS]] | Anthropic 子代理併入、Skill 與工具，附 repo 架構、20 支 Python 索引、遷移工具資料流與封存數據重算及本機離線測試。 | 2026-10-22 |
 | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | Uber skill 市集、規格與執行軌跡、有／無盲測、Code Mode 和 papercut 回報。 附專案導入檢查表、觀察與驗收 TODO。 | 2026-11-23 |
+| [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]] | AI 宮廷短劇分鏡、Threads 華語與繁中字幕、YouTube 英文配音對照及雙語驗收方法。 | 2026-11-26 |

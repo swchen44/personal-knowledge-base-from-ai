@@ -216,6 +216,7 @@ links:
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]]：同樣以影片 Agent 為例，說明技能、上下文保留與長任務可靠性。
 - [[2026-06-07-LOOP-ENGINEERING-THREE-SOURCE-EXPERT-SYNTHESIS]]：對照生成、審查、返工及停止條件，並思考人與 Agent 的責任分工。
 - [[2026-06-30-AI-DLC-CLAUDE-CODE-END-OF-VIBE-CODING-VS-OPENSPEC-SUPERPOWERS]]：將「先審便宜產物，再進昂貴階段」連到分階段驗收與重做成本。
+- [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]]，用已發布影片對照原音、英文音軌與燒錄字幕的驗收方式。
 
 ## 知識層次分析（Bloom's Taxonomy Analysis）
 

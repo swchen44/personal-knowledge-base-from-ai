@@ -519,6 +519,7 @@ nt pipeline "The future of MCP" --style essay --output-dir ./output/
 - [[2026-03-25-ENGINEERS-FUTURE-MULTI-AGENT-ERA-STEVE-YEGGE]] — Steve Yegge 對多代理人時代工程師角色的思考，呼應 newtype OS「Agent-for-Agents」的設計方向
 - [[2026-04-07-AI-AGENT-PAINFUL-LESSONS-TUTORIALS-TO-REALITY]] — AI Agent 從教學到實戰的痛苦教訓，可對照 newtype OS 的信心路由設計
 - [[2026-04-07-GSTACK-DESIGN-PHILOSOPHY-AND-INTEGRATION]] — 另一個 AI 工具整合框架的設計哲學比較
+- [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]]，延伸到素材版本、字幕校對及發佈可追溯性。
 
 ## References
 

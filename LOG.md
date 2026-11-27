@@ -193,3 +193,4 @@
 | 2026-11-25 06:44 | update-research | kwhlEbhhGHg：加 01Coder 的 Antigravity 跨 repo 案例、skill 載入判讀與留言 | [[2026-11-12-THE-HOME-REPO-PATTERN-MULTI-REPO-AGENT-WORKFLOW]] | AI | 0（既有連結保留） | 6 |
 | 2026-11-27 19:16 | ingest-research | Uber Engineering 原文＋K_ixtIBNQbw，含 7 張原圖與最小導入建議 | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | AI | 3 | 5 |
 | 2026-11-27 20:30 | update-research | 補導入檢查表及獨立盤點，列已有能力、缺口與驗收 TODO | [[2026-11-23-HOW-UBER-EVALS-1-MILLION-AGENT-SKILL-INVOCATIONS-A-MONTH]] | AI | 0（既有連結） | 5 |
+| 2026-11-27 22:52 | ingest-research | Threads DgNg8oDozP5＋YouTube ZDdTdX9FHKQ，雙語摘要、畫面與音軌對照 | [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]] | AI | 3 | 4 |

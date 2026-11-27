@@ -143,6 +143,7 @@ links:
 - [[AI-VIDEO-GENERATION]] — AI 視頻生成的通用技術框架
 - [[AI-PROMPT-ENGINEERING]] — 提示工程（Prompt Engineering）的基礎概念與最佳實踐
 - [[2026-04-09-AI-ONE-PERSON-COMPANY-KARPATHY-OBSIDIAN-KB-OPENCLI]] — 多 AI 角色分工需要精確的提示詞設計，與本文結構化提示詞方法論相通
+- [[2026-11-26-RENAI-AVENUE-PALACE-DRAMA-BILINGUAL-VIDEO-NOTES]]，從實際畫面看分鏡如何用地圖和街頭兩個視角交代因果。
 
 ---
 
